@@ -1,0 +1,8 @@
+{
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true
+	},
+	"registration": {
+		"minPostcodeSize": 3
+	}
+}

@@ -1,0 +1,17 @@
+{
+  "name": "caritas-online-beratung-consultingtypeservice",
+  "version": "1.0.0",
+  "scripts": {
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtualidentityag/diakonie-onlineBeratung-consultingTypeService.git"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "standard-version": "^9.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: will be replaced
+  description: This information will be replaced by the SpringFox config information
+  version: 0.0.1
+servers:
+  - url: /
+paths:
+  /consultingtypes:
+    get:
+      tags:
+        - example
+      summary: 'Example API endpoint'
+      operationId: example
+      responses:
+        200:
+          description: OK - successfull operation
+      security:
+        - Bearer: [ ]
+
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
