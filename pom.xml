@@ -149,7 +149,22 @@
       <version>4.3.0</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Json schema validator -->
+    <dependency>
+      <groupId>com.github.everit-org.json-schema</groupId>
+      <artifactId>org.everit.json.schema</artifactId>
+      <version>1.12.2</version>
+    </dependency>
+
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
 
   <build>
     <finalName>${project.name}</finalName>
@@ -163,6 +178,28 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- json-schema.org pojo generation -->
+      <plugin>
+        <groupId>org.jsonschema2pojo</groupId>
+        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+        <version>0.4.34</version>
+        <configuration>
+          <sourceDirectory>${basedir}/src/main/resources/schemas</sourceDirectory>
+          <targetPackage>de.caritas.cob.consultingtypeservice.schemas.model</targetPackage>
+          <useCommonsLang3>true</useCommonsLang3>
+          <generateBuilders>true</generateBuilders>
+          <includeAdditionalProperties>false</includeAdditionalProperties>
+          <includeConstructors>true</includeConstructors>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- OpenApi codegen maven plugin: generates api stubs -->

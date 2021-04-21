@@ -2,7 +2,9 @@ package de.caritas.cob.consultingtypeservice.api.service;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
+import com.github.jknack.handlebars.internal.text.TextStringBuilder;
 import javax.ws.rs.BadRequestException;
+import org.everit.json.schema.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,11 @@ import org.springframework.http.HttpStatus;
 public class LogService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogService.class);
+  private static final String MESSAGE_CONSULTING_TYPE_SERVICE_API = "ConsultingTypeService API: ";
+  private static final String MESSAGE_DATABASE_ERROR = "Database error: ";
+  private static final String MESSAGE_BAD_REQUEST = "Bad Request: ";
+  private static final String MESSAGE_FORMATTING_NUMBER_ERROR = "Error while formatting number: ";
+  private static final String MESSAGE_SERVER_ERROR = "500 Internal Server Error: ";
 
   private LogService() {
   }
@@ -23,7 +30,7 @@ public class LogService {
    * @param exception the exception to be logged
    */
   public static void logDatabaseError(Exception exception) {
-    LOGGER.error("Database error: {}", getStackTrace(exception));
+    LOGGER.error("{}{}", MESSAGE_DATABASE_ERROR, getStackTrace(exception));
   }
 
   /**
@@ -32,7 +39,7 @@ public class LogService {
    * @param exception the exception to be logged
    */
   public static void logBadRequestException(BadRequestException exception) {
-    LOGGER.warn("Bad Request: {}", getStackTrace(exception));
+    LOGGER.warn("{}{}", MESSAGE_BAD_REQUEST, getStackTrace(exception));
   }
 
   /**
@@ -41,7 +48,7 @@ public class LogService {
    * @param exception the exception to be logged
    */
   public static void logNumberFormatException(Exception exception) {
-    LOGGER.error("Error while formatting number: {}", getStackTrace(exception));
+    LOGGER.error("{}{}", MESSAGE_FORMATTING_NUMBER_ERROR, getStackTrace(exception));
   }
 
   /**
@@ -59,7 +66,16 @@ public class LogService {
    * @param exception the exception to be logged
    */
   public static void logWarning(Exception exception) {
-    LOGGER.warn("ConsultingTypeService API: {}", getStackTrace(exception));
+    LOGGER.warn("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, getStackTrace(exception));
+  }
+
+  /**
+   * Logs a warning.
+   *
+   * @param message the message to be logged
+   */
+  public static void logWarning(String message) {
+    LOGGER.warn("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
   }
 
   /**
@@ -69,7 +85,7 @@ public class LogService {
    * @param exception  the exception to be logged
    */
   public static void logWarning(HttpStatus httpStatus, Exception exception) {
-    LOGGER.warn("ConsultingTypeService API: {}: {}", httpStatus.getReasonPhrase(),
+    LOGGER.warn("{}{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, httpStatus.getReasonPhrase(),
         getStackTrace(exception));
   }
 
@@ -79,15 +95,46 @@ public class LogService {
    * @param exception the exception to be logged
    */
   public static void logInternalServerError(Exception exception) {
-    LOGGER.error("ConsultingTypeService API: 500 Internal Server Error: {}", getStackTrace(exception));
+    LOGGER.error("{}{}{}",
+        MESSAGE_CONSULTING_TYPE_SERVICE_API, MESSAGE_SERVER_ERROR, getStackTrace(exception));
   }
 
   /**
-   * Logs a error.
+   * Logs an error.
    *
-   * @param exception  the exception to be logged
+   * @param exception the exception to be logged
    */
   public static void logError(Exception exception) {
-    LOGGER.error("ConsultingTypeService API: {}", getStackTrace(exception));
+    LOGGER.error("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, getStackTrace(exception));
   }
+
+  /**
+   * Logs an error.
+   *
+   * @param message the    * @param message  the exception to be logged to be logged
+   */
+  public static void logError(String message) {
+    LOGGER.error("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
+  }
+
+  /**
+   * Logs an json schema {@link ValidationException} with all violations.
+   *
+   * @param message             an error message
+   * @param filename            the name of the invalid file
+   * @param validationException the {@link ValidationException}
+   */
+  public static void logJsonSchemaValidationException(String message, String filename,
+      ValidationException validationException) {
+    TextStringBuilder textStringBuilder = new TextStringBuilder();
+    textStringBuilder.appendNewLine();
+    textStringBuilder.appendln(message);
+    textStringBuilder
+        .appendln(String.format("%s in file %s", validationException.getMessage(), filename));
+    validationException.getCausingExceptions().stream()
+        .map(ValidationException::getMessage)
+        .forEach(textStringBuilder::appendln);
+    LOGGER.error("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, textStringBuilder);
+  }
+
 }

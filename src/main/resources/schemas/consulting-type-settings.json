@@ -1,0 +1,307 @@
+{
+  "schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Consulting type settings",
+  "description": "Settings for a consulting type",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for the consulting type",
+      "type": "integer",
+      "minimum": 0
+    },
+    "slug": {
+      "description": "The unique url slug for the consulting type",
+      "type": "string"
+    },
+    "excludeNonMainConsultantsFromTeamSessions": {
+      "description": "True, if only consultants with role main-consultant should be added to all team sessions",
+      "type": "boolean",
+      "default": false
+    },
+    "groupChat": {
+      "description": "Group chat settings",
+      "type": "object",
+      "properties": {
+        "isGroupChat": {
+          "description": "True, if group chats are provided for this consulting type",
+          "type": "boolean",
+          "default": false
+        },
+        "groupChatRules": {
+          "description": "Rules for the group chat which are displayed to the user",
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "consultantBoundedToConsultingType": {
+      "description": "True, if a consultant may only be assigned to agencies with this consulting type",
+      "type": "boolean",
+      "default": false
+    },
+    "welcomeMessage": {
+      "description": "Settings for the welcome message",
+      "type": "object",
+      "properties": {
+        "sendWelcomeMessage": {
+          "description": "Indicates whether if the system should send an automatic reply message to all enquiries for this consulting type or not",
+          "type": "boolean",
+          "default": false
+        },
+        "welcomeMessageText": {
+          "description": "The welcome message text for this consulting type -> null, if sendWelcomeMessage is false",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      }
+    },
+    "sendFurtherStepsMessage": {
+      "description": "Indicates whether if the system should send an automatic further steps message to all enquiries for this consulting type or not",
+      "type": "boolean",
+      "default": true
+    },
+    "sendSaveSessionDataMessage": {
+      "description": "Indicates whether if the system should send an automatic message with a prompt for the user to enter optional information to the session",
+      "type": "boolean",
+      "default": true
+    },
+    "sessionDataInitializing": {
+      "description": "Settings to control which optional fields for consultation should be initialized for this consultation type.",
+      "type": "object",
+      "properties": {
+        "addictiveDrugs": {
+          "description": "True, if the field addictiveDrugs should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "age": {
+          "description": "True, if the field age should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "gender": {
+          "description": "True, if the field gender should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "relation": {
+          "description": "True, if the field relation should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "state": {
+          "description": "True, if the field state should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        }
+      }
+    },
+    "monitoring": {
+      "description": "Settings for the initializing of the monitoring",
+      "type": "object",
+      "properties": {
+        "initializeMonitoring": {
+          "description": "Indicates whether the monitoring should be initialized for this consulting type",
+          "type": "boolean",
+          "default": false
+        },
+        "monitoringTemplateFile": {
+          "description": "The path to the template file for the initialization of the monitoring for this consulting type",
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "initializeFeedbackChat": {
+      "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
+      "type": "boolean",
+      "default": false
+    },
+    "languageFormal": {
+      "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
+      "type": "boolean",
+      "default": true
+    },
+    "roles": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "consultant": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "defaultRole": {
+              "description": "",
+              "type": "string"
+            }
+          },
+          "required": [
+            "defaultRole"
+          ]
+        }
+      },
+      "required": [
+        "consultant"
+      ]
+    },
+    "notifications": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "teamSessions": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "newMessage": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "allTeamConsultants": {
+                  "description": "",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "allTeamConsultants"
+              ]
+            }
+          },
+          "required": [
+            "newMessage"
+          ]
+        }
+      },
+      "required": [
+        "teamSessions"
+      ]
+    },
+    "registration": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "autoSelectAgency": {
+          "description": "For consulting types to which only one agency is assigned: if true the assigned agency is automatically selected",
+          "type": "boolean",
+          "default": false
+        },
+        "autoSelectPostcode": {
+          "description": "If true postcode is automatically taken over from agency in the registration form",
+          "type": "boolean",
+          "default": false
+        },
+        "notes": {
+          "description": "Additional info to display in agency selection and password accordion (optional)",
+          "type": "object",
+          "properties": {
+            "agencySelection": {
+              "description": "Additional info to display in agency selection",
+              "type": "string",
+              "default": null
+            },
+            "password": {
+              "description": "Additional info to display in password accordion",
+              "type": "string",
+              "default": null
+            }
+          }
+        },
+        "mandatoryFields": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "age": {
+              "description": "",
+              "type": "boolean"
+            },
+            "state": {
+              "description": "",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "age",
+            "state"
+          ]
+        }
+      },
+      "required": [
+        "mandatoryFields",
+        "notes"
+      ]
+    },
+    "titles": {
+      "description": "Titles for this consulting type, which are displayed to the user",
+      "type": "object",
+      "properties": {
+        "default": {
+          "description": "Title which is displayed in list items",
+          "type": "string"
+        },
+        "short": {
+          "description": "Title which is displayed in the session header",
+          "type": "string"
+        },
+        "long": {
+          "description": "Title which is displayed as overline and as title of the registration form",
+          "type": "string"
+        },
+        "welcome": {
+          "description": "Welcome message which is displayed on the pre-registration page",
+          "type": "string"
+        },
+        "registrationDropdown": {
+          "description": "Alternative title for the display of the topic for the registration dropdown in the advice seeker profile",
+          "type": "string",
+          "default": null
+        }
+      },
+      "required": [
+        "default",
+        "short",
+        "long",
+        "welcome"
+      ]
+    },
+    "urls": {
+      "description": "Forwarding urls",
+      "type": "object",
+      "properties": {
+        "requiredAidMissingRedirectUrl": {
+          "description": "If no `aid` query parameter (agency ID) is passed to the respective registration page as get parameter, the UI will redirect to this URL.",
+          "type": "string",
+          "default": null
+        },
+        "registrationPostcodeFallbackUrl": {
+          "description": "If no white spot agency provided for this consulting type a note is display with a link to this url, in case no matching agency for the given postcode was found",
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "showAskerProfile": {
+      "description": "True to show asker profile including monitoring for consultants. False, when asker profile and monitoring should not be viewable.",
+      "type": "boolean",
+      "default": true
+    },
+    "isSubsequentRegistrationAllowed": {
+      "description": "If true, askers can additionally register for this consulting type on their profile page at a later date.",
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "id",
+    "slug",
+    "welcomeMessage",
+    "sessionDataInitializing",
+    "monitoring",
+    "roles",
+    "notifications",
+    "registration",
+    "titles",
+    "urls"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": 0,
+  "slug": "suchtberatung",
+  "excludeNonMainConsultantsFromTeamSessions": false,
+  "consultantBoundedToConsultingType": false,
+  "welcomeMessage": {
+    "sendWelcomeMessage": false,
+    "welcomeMessageText": null
+  },
+  "sendFurtherStepsMessage": true,
+  "sendSaveSessionDataMessage": true,
+  "sessionDataInitializing": {
+    "addictiveDrugs": true,
+    "age": true,
+    "gender": true,
+    "relation": true,
+    "state": false
+  },
+  "monitoring": {
+    "initializeMonitoring": true,
+    "monitoringTemplateFile": "sucht.json"
+  },
+  "initializeFeedbackChat": false,
+  "languageFormal": true,
+  "roles": {
+    "consultant": {
+      "defaultRole": "consultant"
+    }
+  },
+  "notifications": {
+    "teamSessions": {
+      "newMessage": {
+        "allTeamConsultants": true
+      }
+    }
+  },
+  "registration": {
+    "mandatoryFields": {
+      "age": false,
+      "state": false
+    },
+    "notes": {
+
+    }
+  },
+  "titles": {
+    "default": "default",
+    "short": "short",
+    "long": "long",
+    "welcome": "weclome"
+  },
+  "urls": {
+
+  }
+}

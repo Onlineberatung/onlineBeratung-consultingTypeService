@@ -3,14 +3,19 @@ package de.caritas.cob.consultingtypeservice.api.exception.httpresponses;
 import static java.util.Objects.nonNull;
 
 import java.util.function.Consumer;
+import de.caritas.cob.consultingtypeservice.api.service.LogService;
 
 /**
  * Custom HTTP status exception.
  */
 public abstract class CustomHttpStatusException extends RuntimeException {
 
-  private static final long serialVersionUID = -3545035432045919306L;
   private final Consumer<Exception> loggingMethod;
+
+  CustomHttpStatusException() {
+    super();
+    this.loggingMethod = LogService::logWarning;
+  }
 
   CustomHttpStatusException(String message, Consumer<Exception> loggingMethod) {
     super(message);
