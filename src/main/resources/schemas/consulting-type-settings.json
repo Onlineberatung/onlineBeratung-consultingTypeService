@@ -25,6 +25,29 @@
           "description": "?",
           "type": "string",
           "const": "RadioButton"
+        },
+        "radioButtons": {
+          "description": "?",
+          "type": "array",
+          "items": {
+            "inputId": {
+              "description": "?",
+              "type": "string"
+            },
+            "label": {
+              "description": "?",
+              "type": "string"
+            },
+            "checked": {
+              "description": "?",
+              "checked": "boolean"
+            }
+          },
+          "required": [
+            "inputId",
+            "label",
+            "checked"
+          ]
         }
       },
       "extends": {
@@ -32,7 +55,8 @@
         "javaType": "de.caritas.cob.consultingtypeservice.schemas.model.Component"
       },
       "required": [
-        "componentType"
+        "componentType",
+        "radioButtons"
       ]
     },
     "TagSelect": {
@@ -42,12 +66,31 @@
         "componentType": {
           "description": "?",
           "type": "string",
-          "const": "RadioButton"
+          "const": "TagSelect"
+        },
+        "tagSelects": {
+          "description": "?",
+          "type": "array",
+          "items": {
+            "id": {
+              "description": "?",
+              "type": "string"
+            },
+            "label": {
+              "description": "?",
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "label"
+          ]
         }
       },
       "extends": "#/definitions/Component",
       "required": [
-        "componentType"
+        "componentType",
+        "tagSelects"
       ]
     },
     "SelectDropdown": {
@@ -57,12 +100,65 @@
         "componentType": {
           "description": "?",
           "type": "string",
-          "const": "RadioButton"
+          "const": "SelectDropdown"
+        },
+        "item": {
+          "description": "?",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "?",
+              "type": "string"
+            },
+            "selectedOptions": {
+              "description": "?",
+              "type": "array",
+              "items": {
+                "value": {
+                  "description": "?",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "?",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "label"
+              ]
+            },
+            "selectInputLabel": {
+              "description": "?",
+              "type": "string"
+            },
+            "useIconOption": {
+              "description": "?",
+              "type": "boolean"
+            },
+            "isSearchable": {
+              "description": "?",
+              "type": "boolean"
+            },
+            "menuPlacement": {
+              "description": "?",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "selectedOptions",
+            "selectInputLabel",
+            "useIconOption",
+            "isSearchable",
+            "menuPlacement"
+          ]
         }
       },
       "extends": "#/definitions/Component",
       "required": [
-        "componentType"
+        "componentType",
+        "item"
       ]
     }
   },
@@ -418,26 +514,22 @@
     "voluntaryComponents": {
       "description": "?",
       "type": "array",
-      "javaType": "java.util.List<Component>",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/RadioButton"
-        },
-        {
-          "$ref": "#/definitions/SelectDropdown"
-        },
-        {
-          "$ref": "#/definitions/TagSelect"
-        }
-      ]
-    },
-    "Component": {
-      "type": "object",
-      "$ref": "#/definitions/Component"
-    },
-    "RadioButton": {
-      "type": "object",
-      "$ref": "#/definitions/RadioButton"
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "$ref": "#/definitions/RadioButton"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/SelectDropdown"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/TagSelect"
+          }
+        ]
+      }
     }
   },
   "required": [
