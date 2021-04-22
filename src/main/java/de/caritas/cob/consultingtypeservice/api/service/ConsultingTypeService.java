@@ -20,11 +20,6 @@ public class ConsultingTypeService {
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
 
-  private <R> R mapConsultingType(ConsultingType consultingType,
-      Function<ConsultingType, R> mapper) {
-    return mapper.apply(consultingType);
-  }
-
   /**
    * Get compact list of all consulting types with only a few attributes.
    *
@@ -36,5 +31,10 @@ public class ConsultingTypeService {
         .stream()
         .map(c -> mapConsultingType(c, CompactConsultingTypeListMapper::mapConsultingType))
         .collect(Collectors.toList());
+  }
+
+  private <R> R mapConsultingType(ConsultingType consultingType,
+      Function<ConsultingType, R> mapper) {
+    return mapper.apply(consultingType);
   }
 }
