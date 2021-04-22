@@ -1,5 +1,71 @@
 {
-  "schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Component": {
+      "type": "object",
+      "properties": {
+        "headline": {
+          "description": "?",
+          "type": "string"
+        },
+        "name": {
+          "description": "?",
+          "type": "string"
+        }
+      },
+      "requires": [
+        "headline",
+        "description"
+      ]
+    },
+    "RadioButton": {
+      "type": "object",
+      "properties": {
+        "componentType": {
+          "description": "?",
+          "type": "string",
+          "const": "RadioButton"
+        }
+      },
+      "extends": {
+        "type": "object",
+        "javaType": "de.caritas.cob.consultingtypeservice.schemas.model.Component"
+      },
+      "required": [
+        "componentType"
+      ]
+    },
+    "TagSelect": {
+      "description": "?",
+      "type": "object",
+      "properties": {
+        "componentType": {
+          "description": "?",
+          "type": "string",
+          "const": "RadioButton"
+        }
+      },
+      "extends": "#/definitions/Component",
+      "required": [
+        "componentType"
+      ]
+    },
+    "SelectDropdown": {
+      "description": "?",
+      "type": "object",
+      "properties": {
+        "componentType": {
+          "description": "?",
+          "type": "string",
+          "const": "RadioButton"
+        }
+      },
+      "extends": "#/definitions/Component",
+      "required": [
+        "componentType"
+      ]
+    }
+  },
   "title": "Consulting type settings",
   "description": "Settings for a consulting type",
   "type": "object",
@@ -290,6 +356,88 @@
       "description": "If true, askers can additionally register for this consulting type on their profile page at a later date.",
       "type": "boolean",
       "default": true
+    },
+    "requiredComponents": {
+      "description:": "?",
+      "type": "object",
+      "properties": {
+        "age": {
+          "description": "?",
+          "type": "object",
+          "properties": {
+            "isEnabled": {
+              "description": "?",
+              "type": "boolean",
+              "default": true
+            },
+            "options": {
+              "description": "?",
+              "type": "array",
+              "items": {
+                "description": "?",
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "?",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "?",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "value",
+                  "label"
+                ]
+              }
+            }
+          },
+          "required": [
+            "options",
+            "isEnabled"
+          ]
+        },
+        "state": {
+          "description": "?",
+          "type": "object",
+          "properties": {
+            "isEnabled": {
+              "description": "?",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      "required": [
+        "age",
+        "state"
+      ]
+    },
+    "voluntaryComponents": {
+      "description": "?",
+      "type": "array",
+      "javaType": "java.util.List<Component>",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/RadioButton"
+        },
+        {
+          "$ref": "#/definitions/SelectDropdown"
+        },
+        {
+          "$ref": "#/definitions/TagSelect"
+        }
+      ]
+    },
+    "Component": {
+      "type": "object",
+      "$ref": "#/definitions/Component"
+    },
+    "RadioButton": {
+      "type": "object",
+      "$ref": "#/definitions/RadioButton"
     }
   },
   "required": [
@@ -302,6 +450,7 @@
     "notifications",
     "registration",
     "titles",
-    "urls"
+    "urls",
+    "requiredComponents"
   ]
 }
