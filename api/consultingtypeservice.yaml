@@ -9,16 +9,63 @@ paths:
   /consultingtypes:
     get:
       tags:
-        - example
-      summary: 'Example API endpoint'
-      operationId: example
+        - consulting-type-controller
+      summary: 'Returns a compact list of all consulting types with few attributes'
+      operationId: getCompactConsultingTypeList
       responses:
         200:
-          description: OK - successfull operation
-      security:
-        - Bearer: [ ]
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CompactConsultingTypeListResponseDTO'
+        204:
+          description: successful operation, but no content
+        403:
+          description: FORBIDDEN - no/invalid role/authorization or CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 
 components:
+  schemas:
+
+    CompactConsultingTypeListResponseDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/CompactConsultingTypeResponseDTO'
+
+    CompactConsultingTypeResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        titles:
+          allOf:
+            - $ref: '#/components/schemas/ConsultingTypeTitlesDTO'
+        isSubsequentAdditionAllowed:
+          type: boolean
+          example: true
+
+    ConsultingTypeTitlesDTO:
+      type: object
+      properties:
+        default:
+          type: string
+          example: Beratung xyz
+        short:
+          type: string
+          example: xyz
+        long:
+          type: string
+          example: Beratung xyz in Ort
+        welcome:
+          type: string
+          example: Herzlich Willkommen zu Beratung xyz
+        registrationDropdown:
+          type: string
+          example: Beratung xyz
+
   securitySchemes:
     Bearer:
       type: apiKey

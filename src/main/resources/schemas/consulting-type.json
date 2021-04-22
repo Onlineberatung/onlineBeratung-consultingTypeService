@@ -162,7 +162,7 @@
       ]
     }
   },
-  "title": "Consulting type settings",
+  "title": "Consulting type",
   "description": "Settings for a consulting type",
   "type": "object",
   "properties": {

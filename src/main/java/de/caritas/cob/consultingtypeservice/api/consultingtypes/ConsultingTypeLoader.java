@@ -3,7 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
-import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingTypeSettings;
+import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -19,44 +19,45 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Loader for the consulting type settings from the file system
+ * Loader for the consulting types from the file system
  */
 @Service
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
-  @Value("${consulting.types.settings.json.path}")
-  private String consultingTypeSettingsFilePath;
+  @Value("${consulting.types.json.path}")
+  private String consultingTypesFilePath;
 
-  private final @NonNull ConsultingTypeSettingsRepository consultingTypeSettingsRepository;
-  private final @NonNull ConsultingTypeSettingsValidator consultingTypeSettingsValidator;
+  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeValidator consultingTypeValidator;
+  private static final File[] NO_FILES = {};
 
   @PostConstruct
   private void init() {
-    Stream.of(ArrayUtils.nullToEmpty(determineConsultingTypeSettingConfigurationFiles()))
-        .forEach(f -> obtainInitializedConsultingTypeSetting((File) f));
+    Stream.of(ArrayUtils.nullToEmpty(determineConsultingTypeConfigurationFile()))
+        .forEach(f -> obtainInitializedConsultingType((File) f));
   }
 
-  private void obtainInitializedConsultingTypeSetting(File file) {
-    consultingTypeSettingsValidator.validateConsultingTypeSettingsConfigurationJsonFile(file);
+  private void obtainInitializedConsultingType(File file) {
+    consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(file);
     try {
-      consultingTypeSettingsRepository.addConsultingTypeSetting(new ObjectMapper().readValue(file, ConsultingTypeSettings.class));
+      consultingTypeRepository.addConsultingType(new ObjectMapper().readValue(file, ConsultingType.class));
     } catch (IOException ioException) {
       LogService.logError(ioException);
       ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
     }
   }
 
-  private File[] determineConsultingTypeSettingConfigurationFiles() {
+  private File[] determineConsultingTypeConfigurationFile() {
     try {
-      URL dirUrl = Paths.get(consultingTypeSettingsFilePath).toUri().toURL();
+      URL dirUrl = Paths.get(consultingTypesFilePath).toUri().toURL();
       return new File(dirUrl.toURI())
           .listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
     } catch (URISyntaxException | MalformedURLException exception) {
       LogService.logError(exception);
       ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
     }
-    return null;
+    return NO_FILES;
   }
 
 }

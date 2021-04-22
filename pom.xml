@@ -187,11 +187,16 @@
         <version>0.4.34</version>
         <configuration>
           <sourceDirectory>${basedir}/src/main/resources/schemas</sourceDirectory>
+          <outputDirectory>target/generated-sources</outputDirectory>
           <targetPackage>de.caritas.cob.consultingtypeservice.schemas.model</targetPackage>
           <useCommonsLang3>true</useCommonsLang3>
           <generateBuilders>true</generateBuilders>
-          <includeAdditionalProperties>false</includeAdditionalProperties>
+          <includeAdditionalProperties>true</includeAdditionalProperties>
           <includeConstructors>true</includeConstructors>
+          <initializeCollections>true</initializeCollections>
+          <removeOldOutput>true</removeOldOutput>
+          <annotationStyle>jackson2</annotationStyle>
+          <includeAdditionalProperties>false</includeAdditionalProperties>
         </configuration>
         <executions>
           <execution>

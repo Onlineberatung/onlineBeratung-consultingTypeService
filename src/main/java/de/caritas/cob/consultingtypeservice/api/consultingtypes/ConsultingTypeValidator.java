@@ -19,42 +19,42 @@ import org.springframework.stereotype.Service;
  * Validator for consulting type settings  files against the json schema for consulting type settings.
  */
 @Service
-public class ConsultingTypeSettingsValidator {
+public class ConsultingTypeValidator {
 
-  @Value("${consulting.types.settings.json.schema.file}")
-  private String consultingTypeSettingsJsonSchemaFile;
+  @Value("${consulting.types.json.schema.file}")
+  private String consultingTypeJsonSchemaFile;
 
   /**
    * Validate a consulting type settings file.
-   * @param consultingTypeSettingsJsonFile the {@link File} to be validated
+   * @param consultingTypeJsonFile the {@link File} to be validated
    */
-  public void validateConsultingTypeSettingsConfigurationJsonFile(
-      File consultingTypeSettingsJsonFile) {
+  public void validateConsultingTypeConfigurationJsonFile(
+      File consultingTypeJsonFile) {
 
     try {
-      JSONObject consultingTypeSettingsjsonObject = new JSONObject(
-          new JSONTokener(new FileInputStream(consultingTypeSettingsJsonFile)));
+      JSONObject consultingTypeJsonObject = new JSONObject(
+          new JSONTokener(new FileInputStream(consultingTypeJsonFile)));
       Schema schema = buildSchema();
-      schema.validate(consultingTypeSettingsjsonObject);
+      schema.validate(consultingTypeJsonObject);
     } catch (JSONException | FileNotFoundException exception) {
       LogService.logError(exception);
       ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
     } catch (ValidationException validationException) {
       LogService.logJsonSchemaValidationException(
-          "Found errors during validation of consulting type settings. Please fix and restart.",
-          consultingTypeSettingsJsonFile.getAbsolutePath(),
+          "Found errors during validation of consulting type. Please fix and restart.",
+          consultingTypeJsonFile.getAbsolutePath(),
           validationException);
       ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
     }
   }
 
   private Schema buildSchema() {
-    JSONObject consultingTypeSettingsJsonSchema = new JSONObject(new JSONTokener(
-        Objects.requireNonNull(ConsultingTypeSettingsValidator.class
-            .getResourceAsStream(consultingTypeSettingsJsonSchemaFile))));
+    JSONObject consultingTypeJsonSchema = new JSONObject(new JSONTokener(
+        Objects.requireNonNull(ConsultingTypeValidator.class
+            .getResourceAsStream(consultingTypeJsonSchemaFile))));
     return SchemaLoader.builder()
         .useDefaults(true)
-        .schemaJson(consultingTypeSettingsJsonSchema)
+        .schemaJson(consultingTypeJsonSchema)
         .draftV7Support()
         .build()
         .load()
