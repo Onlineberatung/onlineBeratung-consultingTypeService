@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice;
 
+import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -14,9 +15,8 @@ public class ConsultingTypeServiceApplication {
   /**
    * Exit the application with error code 1
    */
-  public static void exitServiceWithErrorStatus() {
-    System.err.println("Service exited with errors");
-    System.exit(1);
+  public static void exitService() {
+    throw new UnexpectedErrorException("Service exited with errors");
   }
 
 }

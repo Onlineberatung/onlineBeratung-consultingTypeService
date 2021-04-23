@@ -67,7 +67,7 @@ public class ConsultingTypeRepository {
       LogService.logError(String
           .format("Could not initialize consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
-      ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
+      ConsultingTypeServiceApplication.exitService();
     }
     this.consultingTypesMap.put(consultingType.getId(), consultingType);
   }

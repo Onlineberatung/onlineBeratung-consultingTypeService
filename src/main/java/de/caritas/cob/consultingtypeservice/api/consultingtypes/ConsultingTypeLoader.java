@@ -44,7 +44,7 @@ public class ConsultingTypeLoader {
       consultingTypeRepository.addConsultingType(new ObjectMapper().readValue(file, ConsultingType.class));
     } catch (IOException ioException) {
       LogService.logError(ioException);
-      ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
+      ConsultingTypeServiceApplication.exitService();
     }
   }
 
@@ -55,7 +55,7 @@ public class ConsultingTypeLoader {
           .listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
     } catch (URISyntaxException | MalformedURLException exception) {
       LogService.logError(exception);
-      ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
+      ConsultingTypeServiceApplication.exitService();
     }
     return NO_FILES;
   }

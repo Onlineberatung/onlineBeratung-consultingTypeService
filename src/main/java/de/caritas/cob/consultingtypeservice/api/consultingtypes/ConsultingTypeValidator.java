@@ -38,13 +38,13 @@ public class ConsultingTypeValidator {
       schema.validate(consultingTypeJsonObject);
     } catch (JSONException | FileNotFoundException exception) {
       LogService.logError(exception);
-      ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
+      ConsultingTypeServiceApplication.exitService();
     } catch (ValidationException validationException) {
       LogService.logJsonSchemaValidationException(
           "Found errors during validation of consulting type. Please fix and restart.",
           consultingTypeJsonFile.getAbsolutePath(),
           validationException);
-      ConsultingTypeServiceApplication.exitServiceWithErrorStatus();
+      ConsultingTypeServiceApplication.exitService();
     }
   }
 
