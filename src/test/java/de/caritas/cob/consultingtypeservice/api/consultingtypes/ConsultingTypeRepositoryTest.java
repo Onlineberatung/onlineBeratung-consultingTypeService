@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeRepositoryTest {
 
-  ConsultingTypeRepository consultingTypeRepository;
+  private ConsultingTypeRepository consultingTypeRepository;
 
   @Mock
   private Logger logger;

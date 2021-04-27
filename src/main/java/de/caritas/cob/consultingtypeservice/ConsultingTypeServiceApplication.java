@@ -16,7 +16,7 @@ public class ConsultingTypeServiceApplication {
    * Exit the application with error code 1
    */
   public static void exitService() {
-    throw new UnexpectedErrorException("Service exited with errors");
+    throw new UnexpectedErrorException();
   }
 
 }

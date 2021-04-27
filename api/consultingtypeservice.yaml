@@ -6,21 +6,73 @@ info:
 servers:
   - url: /
 paths:
-  /consultingtypes:
+  /consultingtypes/basic:
     get:
       tags:
         - consulting-type-controller
-      summary: 'Returns a compact list of all consulting types with few attributes'
-      operationId: getCompactConsultingTypeList
+      summary: 'Returns a list of all consulting types with basic properties '
+      operationId: getBasicConsultingTypeList
       responses:
         200:
           description: successful operation
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/CompactConsultingTypeListResponseDTO'
+                $ref: '#/components/schemas/BasicConsultingTypeListResponseDTO'
         204:
           description: successful operation, but no content
+        403:
+          description: FORBIDDEN - no/invalid role/authorization or CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /consultingtypes/{consultingTypeId}/full:
+    get:
+      tags:
+        - consulting-type-controller
+      summary: 'Returns the consulting type with all properties for a given consulting type id'
+      operationId: getFullConsultingTypeById
+      parameters:
+        - name: consultingTypeId
+          in: path
+          description: cnsulting type id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FullConsultingTypeResponseDTO'
+        404:
+          description: NOT FOUND - ConsultingType not found
+        403:
+          description: FORBIDDEN - no/invalid role/authorization or CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /consultingtypes/byslug/{slug}/full:
+    get:
+      tags:
+        - consulting-type-controller
+      summary: 'Returns the consulting type with all properties for a given consulting type slug'
+      operationId: getFullConsultingTypeBySlug
+      parameters:
+        - name: slug
+          in: path
+          description: cnsulting type slug
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FullConsultingTypeResponseDTO'
+        404:
+          description: NOT FOUND - ConsultingType not found
         403:
           description: FORBIDDEN - no/invalid role/authorization or CSRF token
         500:
@@ -29,12 +81,25 @@ paths:
 components:
   schemas:
 
-    CompactConsultingTypeListResponseDTO:
+    BasicConsultingTypeListResponseDTO:
       type: array
       items:
-        $ref: '#/components/schemas/CompactConsultingTypeResponseDTO'
+        $ref: '#/components/schemas/BasicConsultingTypeResponseDTO'
 
-    CompactConsultingTypeResponseDTO:
+    BasicConsultingTypeResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        titles:
+          allOf:
+            - $ref: '#/components/schemas/ConsultingTypeTitlesDTO'
+        isSubsequentAdditionAllowed:
+          type: boolean
+          example: true
+
+    FullConsultingTypeResponseDTO:
       type: object
       properties:
         id:
@@ -65,9 +130,3 @@ components:
         registrationDropdown:
           type: string
           example: Beratung xyz
-
-  securitySchemes:
-    Bearer:
-      type: apiKey
-      name: Authorization
-      in: header

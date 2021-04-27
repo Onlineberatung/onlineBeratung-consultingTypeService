@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,8 +29,7 @@ public class ConsultingTypeValidator {
    * Validate a consulting type settings file.
    * @param consultingTypeJsonFile the {@link File} to be validated
    */
-  public void validateConsultingTypeConfigurationJsonFile(
-      File consultingTypeJsonFile) {
+  public void validateConsultingTypeConfigurationJsonFile(File consultingTypeJsonFile) {
 
     try {
       JSONObject consultingTypeJsonObject = new JSONObject(
@@ -44,7 +44,7 @@ public class ConsultingTypeValidator {
           "Found errors during validation of consulting type. Please fix and restart.",
           consultingTypeJsonFile.getAbsolutePath(),
           validationException);
-      ConsultingTypeServiceApplication.exitService();
+      throw new UnexpectedErrorException();
     }
   }
 

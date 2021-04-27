@@ -1,8 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.service.securityheader;
 
-import de.caritas.cob.consultingtypeservice.api.helper.AuthenticatedUser;
 import java.util.UUID;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SecurityHeaderSupplier {
-
-  private final @NonNull AuthenticatedUser authenticatedUser;
 
   @Value("${csrf.header.property}")
   private String csrfHeaderProperty;
@@ -27,10 +23,7 @@ public class SecurityHeaderSupplier {
    * @return the created {@link HttpHeaders}
    */
   public HttpHeaders getKeycloakAndCsrfHttpHeaders() {
-    HttpHeaders header = getCsrfHttpHeaders();
-    this.addKeycloakAuthorizationHeader(header);
-
-    return header;
+    return getCsrfHttpHeaders();
   }
 
   private HttpHeaders getCsrfHttpHeaders() {
@@ -47,9 +40,5 @@ public class SecurityHeaderSupplier {
     httpHeaders.add(csrfHeaderProperty, csrfToken);
 
     return httpHeaders;
-  }
-
-  private void addKeycloakAuthorizationHeader(HttpHeaders httpHeaders) {
-    httpHeaders.add("Authorization", "Bearer " + authenticatedUser.getAccessToken());
   }
 }

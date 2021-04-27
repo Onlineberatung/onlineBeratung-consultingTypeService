@@ -1,7 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
 import javax.annotation.PostConstruct;

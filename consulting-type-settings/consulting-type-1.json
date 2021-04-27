@@ -1,6 +1,6 @@
 {
   "id": 1,
-  "slug": "u25",
+  "slug": "consultingtype1",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "welcomeMessage": {
@@ -17,10 +17,9 @@
     "state": false
   },
   "monitoring": {
-    "initializeMonitoring": true,
-    "monitoringTemplateFile": "sucht.json"
+    "initializeMonitoring": false
   },
-  "initializeFeedbackChat": false,
+  "initializeFeedbackChat": true,
   "languageFormal": true,
   "roles": {
     "consultant": {
@@ -47,7 +46,7 @@
     "default": "default",
     "short": "short",
     "long": "long",
-    "welcome": "weclome"
+    "welcome": "welcome"
   },
   "urls": {
   },

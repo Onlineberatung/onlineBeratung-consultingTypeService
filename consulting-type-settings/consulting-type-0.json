@@ -1,6 +1,6 @@
 {
   "id": 0,
-  "slug": "suchtberatung",
+  "slug": "consultingtype0",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "welcomeMessage": {
@@ -18,7 +18,7 @@
   },
   "monitoring": {
     "initializeMonitoring": true,
-    "monitoringTemplateFile": "sucht.json"
+    "monitoringTemplateFile": "consultingtype0.json"
   },
   "initializeFeedbackChat": false,
   "languageFormal": true,

@@ -180,6 +180,25 @@
       "type": "boolean",
       "default": false
     },
+    "lockedAgencies": {
+      "description":  "If true, no agency with this consulting type can be deleted or set offline via the admin api",
+      "type":"boolean",
+      "default": false
+    },
+    "whiteSpot": {
+      "description": "Behavior regarding the white spots agencies",
+      "type": "object",
+      "properties": {
+        "whiteSpotAgencyAssigned": {
+          "description": "If true, agency with id in property 'whiteSpotAgencyId' will be proposed if no agency was found via given postcode in registration form",
+          "type": "boolean"
+        },
+        "whiteSpotAgencyId": {
+          "description": "The id the of the white spot agency",
+          "type": "integer"
+        }
+      }
+    },
     "groupChat": {
       "description": "Group chat settings",
       "type": "object",
@@ -344,6 +363,11 @@
       "description": "",
       "type": "object",
       "properties": {
+        "minPostcodeSize": {
+          "description": "The minimum number of digits for the postal code that must be entered during registration.",
+          "type": "integer",
+          "default": 5
+        },
         "autoSelectAgency": {
           "description": "For consulting types to which only one agency is assigned: if true the assigned agency is automatically selected",
           "type": "boolean",

@@ -34,7 +34,7 @@ public class ConsultingTypeLoader {
 
   @PostConstruct
   private void init() {
-    Stream.of(ArrayUtils.nullToEmpty(determineConsultingTypeConfigurationFile()))
+    Stream.of(ArrayUtils.nullToEmpty(determineConsultingTypeConfigurationFiles()))
         .forEach(f -> obtainInitializedConsultingType((File) f));
   }
 
@@ -48,7 +48,7 @@ public class ConsultingTypeLoader {
     }
   }
 
-  private File[] determineConsultingTypeConfigurationFile() {
+  private File[] determineConsultingTypeConfigurationFiles() {
     try {
       URL dirUrl = Paths.get(consultingTypesFilePath).toUri().toURL();
       return new File(dirUrl.toURI())

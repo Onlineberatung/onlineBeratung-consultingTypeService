@@ -6,11 +6,9 @@ public class UnexpectedErrorException extends RuntimeException {
 
   /**
    * Unexpected error exception
-   *
-   * @param message the error message
    */
-  public UnexpectedErrorException(String message) {
-    super(message);
+  public UnexpectedErrorException() {
+    super("Service exited with errors");
   }
 
 }

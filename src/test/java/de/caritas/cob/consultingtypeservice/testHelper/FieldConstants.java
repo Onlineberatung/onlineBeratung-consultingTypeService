@@ -10,5 +10,5 @@ public class FieldConstants {
   public static final String FIELD_NAME_CONSULTING_TYPES_SETTINGS_JSON_PATH =
       "consultingTypesSettingsJsonPath";
   public static final String FIELD_NAME_CONSULTING_TYPES_SETTINGS_JSON_PATH_VALUE =
-      "/consulting-type-settings";
+      "/invalid-consulting-type-settings";
 }

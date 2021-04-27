@@ -41,10 +41,6 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-hateoas</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>6.1.6.Final</version>
@@ -79,28 +75,6 @@
       <version>2.9.2</version>
     </dependency>
 
-    <!-- Keycloak dependencies -->
-    <dependency>
-      <groupId>org.keycloak</groupId>
-      <artifactId>keycloak-spring-security-adapter</artifactId>
-      <version>4.4.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.keycloak</groupId>
-      <artifactId>keycloak-spring-boot-starter</artifactId>
-      <version>4.4.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.keycloak</groupId>
-      <artifactId>keycloak-admin-client</artifactId>
-      <version>4.4.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
-    </dependency>
-
     <!-- Lombok dependencies -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -116,18 +90,21 @@
     </dependency>
 
     <!-- Test scope dependencies -->
-     <dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.vaadin.external.google</groupId>
+          <artifactId>android-json</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
-      <exclusions>
-      </exclusions>
-
     </dependency>
     <dependency>
       <artifactId>powermock-module-junit4</artifactId>
@@ -155,6 +132,17 @@
       <groupId>com.github.everit-org.json-schema</groupId>
       <artifactId>org.everit.json.schema</artifactId>
       <version>1.12.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20201115</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.1.1</version>
     </dependency>
 
   </dependencies>
@@ -232,27 +220,8 @@
               <output>target/generated-sources</output>
             </configuration>
           </execution>
-          <execution>
-            <id>consulting-type-admin-service</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <configOptions>
-                <interfaceOnly>true</interfaceOnly>
-                <sourceFolder>/</sourceFolder>
-              </configOptions>
-              <inputSpec>${project.basedir}/api/consultingtypeadminservice.yaml</inputSpec>
-              <generatorName>spring</generatorName>
-              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.admin.controller
-              </apiPackage>
-              <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
-              <generateSupportingFiles>true</generateSupportingFiles>
-              <output>target/generated-sources</output>
-            </configuration>
-          </execution>
           <!-- Generate admin API markdown files -->
-          <execution>
+          <!--execution>
             <id>consulting-type-admin-service-markdown</id>
             <goals>
               <goal>generate</goal>
@@ -260,7 +229,7 @@
             <configuration>
               <configOptions>
               </configOptions>
-              <inputSpec>${project.basedir}/api/consultingtypeadminservice.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/consultingtypeservice.yaml</inputSpec>
               <generatorName>markdown</generatorName>
               <output>target/generated-sources/markdown/consultingtypeservice</output>
               <apiPackage>./</apiPackage>
@@ -269,7 +238,7 @@
               <generateModelTests>false</generateModelTests>
               <generateSupportingFiles>false</generateSupportingFiles>
             </configuration>
-          </execution>
+          </execution-->
         </executions>
       </plugin>
       <!-- Code style check -->
