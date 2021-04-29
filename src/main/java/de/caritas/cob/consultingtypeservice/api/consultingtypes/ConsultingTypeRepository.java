@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ConsultingTypeRepository {
 
-  private Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
+  private final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
 
   /**
    * Get a complete list of all {@link ConsultingType}

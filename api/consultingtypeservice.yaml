@@ -94,39 +94,253 @@ components:
           example: 100
         titles:
           allOf:
-            - $ref: '#/components/schemas/ConsultingTypeTitlesDTO'
+            - $ref: '#/components/schemas/TitlesDTO'
+        urls:
+          allOf:
+            - $ref: '#/components/schemas/UrlsDTO'
+        registration:
+          allOf:
+            - $ref: '#/components/schemas/RegistrationDTO'
         isSubsequentAdditionAllowed:
           type: boolean
           example: true
+        isSetEmailAllowed:
+          type: boolean
+          example: true
+
+    ExtendedConsultingTypeResponseDTO:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BasicConsultingTypeResponseDTO'
+        - type: object
+          properties:
+            slug:
+              type: string
+              example: part-of-url
+            languageFormal:
+              type: boolean
+              example: true
+            lockedAgencies:
+              type: boolean
+              example: false
+            excludeNonMainConsultantsFromTeamSessions:
+              type: boolean
+              example: true
+            whiteSpot:
+              allOf:
+                - $ref: '#/components/schemas/WhiteSpotDTO'
+            groupChat:
+              allOf:
+                - $ref: '#/components/schemas/GroupChatDTO'
+            consultantBoundedToConsultingType:
+              type: boolean
+              example: false
+            welcomeMessage:
+              allOf:
+                - $ref: '#/components/schemas/WelcomeMessageDTO'
+            sendFurtherStepsMessage:
+              type: boolean
+              example: true
+            sendSaveSessionDataMessage:
+              type: boolean
+              example: false
+            sessionDataInitializing:
+              allOf:
+                - $ref: '#/components/schemas/SessionDataInitializingDTO'
+            monitoring:
+              allOf:
+                - $ref: '#/components/schemas/MonitoringDTO'
+            initializeFeedbackChat:
+              type: boolean
+              example: true
+            roles:
+              $ref: '#/components/schemas/RolesDTO'
+            notifications:
+              allOf:
+                - $ref: '#/components/schemas/NotificationsDTO'
 
     FullConsultingTypeResponseDTO:
       type: object
-      properties:
-        id:
-          type: integer
-          example: 100
-        titles:
-          allOf:
-            - $ref: '#/components/schemas/ConsultingTypeTitlesDTO'
-        isSubsequentAdditionAllowed:
-          type: boolean
-          example: true
+      allOf:
+        - $ref: '#/components/schemas/ExtendedConsultingTypeResponseDTO'
+        - type: object
+          properties:
+            showAskerProfile:
+              type: boolean
+              example: true
+            voluntaryComponents:
+              type: array
+              items:
+                type: object
+            requiredComponents:
+              type: object
 
-    ConsultingTypeTitlesDTO:
+    TitlesDTO:
       type: object
       properties:
         default:
           type: string
-          example: Beratung xyz
+          example: "Beratung xyz"
         short:
           type: string
-          example: xyz
+          example: "xyz"
         long:
           type: string
-          example: Beratung xyz in Ort
+          example: "Beratung xyz in Ort"
         welcome:
           type: string
-          example: Herzlich Willkommen zu Beratung xyz
+          example: "Herzlich Willkommen zu Beratung xyz"
         registrationDropdown:
           type: string
-          example: Beratung xyz
+          example: "Beratung xyz"
+
+    UrlsDTO:
+      type: object
+      properties:
+        requiredAidMissingRedirectUrl:
+          type: string
+          example: "https://www.domain.tld/path"
+        registrationPostcodeFallbackUrl:
+          type: string
+          example: "https://www.domain.tld/path"
+
+    RegistrationDTO:
+      type: object
+      properties:
+        minPostcodeSize:
+          type: integer
+          example: 5
+        autoSelectAgency:
+          type: boolean
+          example: false
+        autoSelectPostcode:
+          type: boolean
+          example: true
+        notes:
+          allOf:
+            - $ref: '#/components/schema/RegistrationNotesDTO'
+        mandatoryFields:
+          allOf:
+            - $ref: '#/components/schema/RegistrationMandatoryFieldsDTO'
+
+    RegistrationNotesDTO:
+      type: object
+      properties:
+        agencySelection:
+          type: string
+          example: "Lorem ipsum"
+        password:
+          type: string
+          example: "Lorem impsum"
+
+    RegistrationMandatoryFieldsDTO:
+      type: object
+      properties:
+        age:
+          type: boolean
+          example: true
+        state:
+          type: boolean
+          example: false
+
+    WhiteSpotDTO:
+      type: object
+      properties:
+        whiteSpotAgencyAssigned:
+          type: boolean
+          example: true
+        whiteSpotAgencyId:
+          type: integer
+          example: 4567
+
+    GroupChatDTO:
+      type: object
+      properties:
+        isGroupChat:
+          type: boolean
+          example: true
+        groupChatRules:
+          type: string
+          example: "Lorem ipsum"
+
+    WelcomeMessageDTO:
+      type: object
+      properties:
+        sendWelcomeMessage:
+          type: boolean
+          example: true
+        welcomeMessageText:
+          type: string
+          example: Lorem ipsum
+
+    SessionDataInitializingDTO:
+      type: object
+      properties:
+        addictiveDrugs:
+          type: boolean
+          example: true
+        age:
+          type: boolean
+          example: false
+        gender:
+          type: boolean
+          example: true
+        relation:
+          type: boolean
+          example: false
+        state:
+          type: boolean
+          example: true
+
+    MonitoringDTO:
+      type: object
+      properties:
+        initializeMonitoring:
+          type: boolean
+          example: true
+        monitoringTemplateFile:
+          type: string
+          example: file.json
+
+    RolesDTO:
+      type: object
+      properties:
+        consultant:
+          $ref: '#/components/schemas/RoleConsultantDTO'
+
+    RoleConsultantDTO:
+      type: object
+      properties:
+        roleNames:
+          type: array
+          items:
+            type: string
+
+    NotificationsDTO:
+      type: object
+      properties:
+        teamSessions:
+          allOf:
+            - $ref: '#/components/schemas/TeamSessionsDTO'
+
+    TeamSessionsDTO:
+      type: object
+      properties:
+        newMessage:
+          allOf:
+            - $ref: '#/components/schemas/NewMessageDTO'
+
+    NewMessageDTO:
+      type: object
+      properties:
+        allTeamConsultants:
+          type: "boolean"
+          example: true
+
+    VoluntaryComponentsDTO:
+      type: object
+      properties:
+        requiredComponents:
+          type: array
+          items:
+            type: object

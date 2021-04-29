@@ -181,8 +181,8 @@
       "default": false
     },
     "lockedAgencies": {
-      "description":  "If true, no agency with this consulting type can be deleted or set offline via the admin api",
-      "type":"boolean",
+      "description": "If true, no agency with this consulting type can be deleted or set offline via the admin api",
+      "type": "boolean",
       "default": false
     },
     "whiteSpot": {
@@ -197,7 +197,10 @@
           "description": "The id the of the white spot agency",
           "type": "integer"
         }
-      }
+      },
+      "required": [
+        "whiteSpotAgencyAssigned"
+      ]
     },
     "groupChat": {
       "description": "Group chat settings",
@@ -213,7 +216,11 @@
           "type": "string",
           "default": null
         }
-      }
+      },
+      "required": [
+        "isGroupChat",
+        "groupChatRules"
+      ]
     },
     "consultantBoundedToConsultingType": {
       "description": "True, if a consultant may only be assigned to agencies with this consulting type",
@@ -234,10 +241,13 @@
           "type": [
             "string",
             "null"
-          ],
-          "default": null
+          ]
         }
-      }
+      },
+      "required": [
+        "sendWelcomeMessage",
+        "welcomeMessageText"
+      ]
     },
     "sendFurtherStepsMessage": {
       "description": "Indicates whether if the system should send an automatic further steps message to all enquiries for this consulting type or not",
@@ -246,6 +256,11 @@
     },
     "sendSaveSessionDataMessage": {
       "description": "Indicates whether if the system should send an automatic message with a prompt for the user to enter optional information to the session",
+      "type": "boolean",
+      "default": true
+    },
+    "isSetEmailAllowed": {
+      "description": "Asker is allowed to set his email when he is registered for at least one consultingType with this setting 'true'",
       "type": "boolean",
       "default": true
     },
@@ -294,7 +309,10 @@
           "type": "string",
           "default": null
         }
-      }
+      },
+      "required": [
+        "initializeMonitoring"
+      ]
     },
     "initializeFeedbackChat": {
       "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
@@ -313,20 +331,12 @@
         "consultant": {
           "description": "",
           "type": "object",
-          "properties": {
-            "defaultRole": {
-              "description": "",
-              "type": "string"
-            }
+          "additionalProperties": {
+            "type": "array"
           },
-          "required": [
-            "defaultRole"
-          ]
+          "javaType": "java.util.Map<String, java.util.List<String>>"
         }
-      },
-      "required": [
-        "consultant"
-      ]
+      }
     },
     "notifications": {
       "description": "",
@@ -477,6 +487,26 @@
       "type": "boolean",
       "default": true
     },
+    "voluntaryComponents": {
+      "description": "?",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "$ref": "#/definitions/RadioButton"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/SelectDropdown"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/TagSelect"
+          }
+        ]
+      }
+    },
     "requiredComponents": {
       "description:": "?",
       "type": "object",
@@ -534,39 +564,14 @@
         "age",
         "state"
       ]
-    },
-    "voluntaryComponents": {
-      "description": "?",
-      "type": "array",
-      "items": {
-        "anyOf": [
-          {
-            "type": "object",
-            "$ref": "#/definitions/RadioButton"
-          },
-          {
-            "type": "object",
-            "$ref": "#/definitions/SelectDropdown"
-          },
-          {
-            "type": "object",
-            "$ref": "#/definitions/TagSelect"
-          }
-        ]
-      }
     }
   },
   "required": [
     "id",
     "slug",
-    "welcomeMessage",
-    "sessionDataInitializing",
-    "monitoring",
     "roles",
-    "notifications",
     "registration",
     "titles",
-    "urls",
-    "requiredComponents"
+    "urls"
   ]
 }

@@ -185,6 +185,7 @@
           <removeOldOutput>true</removeOldOutput>
           <annotationStyle>jackson2</annotationStyle>
           <includeAdditionalProperties>false</includeAdditionalProperties>
+          <initializeCollections>true</initializeCollections>
         </configuration>
         <executions>
           <execution>
@@ -218,6 +219,11 @@
               <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
               <generateSupportingFiles>true</generateSupportingFiles>
               <output>target/generated-sources</output>
+              <typeMappings>
+                <typeMapping>
+                  RoleConsultantDTO=${project.groupId}.${project.artifactId}.api.consultingtypes.roles.Consultant
+                </typeMapping>
+              </typeMappings>
             </configuration>
           </execution>
           <!-- Generate admin API markdown files -->

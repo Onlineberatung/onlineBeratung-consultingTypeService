@@ -1,8 +1,8 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
-import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeListMapper;
-import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeListMapper;
+import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
+import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
@@ -31,7 +31,7 @@ public class ConsultingTypeService {
 
     return consultingTypeRepository.getListOfConsultingTypes()
         .stream()
-        .map(c -> mapConsultingType(c, BasicConsultingTypeListMapper::mapConsultingType))
+        .map(c -> mapConsultingType(c, BasicConsultingTypeMapper::mapConsultingType))
         .collect(Collectors.toList());
   }
 
@@ -44,7 +44,7 @@ public class ConsultingTypeService {
   public FullConsultingTypeResponseDTO getConsultingTypeWithAllPropertiesById(
       Integer consultingTypeId) {
     return mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
-        FullConsultingTypeListMapper::mapConsultingType);
+        FullConsultingTypeMapper::mapConsultingType);
   }
 
   /**
@@ -55,7 +55,7 @@ public class ConsultingTypeService {
    */
   public FullConsultingTypeResponseDTO getConsultingTypeWithAllPropertiesBySlug(String slug) {
     return mapConsultingType(consultingTypeRepository.getConsultingTypeBySlug(slug),
-        FullConsultingTypeListMapper::mapConsultingType);
+        FullConsultingTypeMapper::mapConsultingType);
   }
 
   private <R> R mapConsultingType(ConsultingType consultingType,

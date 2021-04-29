@@ -1,16 +1,12 @@
 package de.caritas.cob.consultingtypeservice.api.mapper;
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
-import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeTitlesDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
-import de.caritas.cob.consultingtypeservice.schemas.model.Titles;
 
 /**
  * Mapping from {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}.
  */
-public class BasicConsultingTypeListMapper {
-
-  private BasicConsultingTypeListMapper() {}
+public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
 
   /**
    * Mapper for {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}
@@ -22,16 +18,10 @@ public class BasicConsultingTypeListMapper {
     return new BasicConsultingTypeResponseDTO()
         .id(consultingType.getId())
         .isSubsequentAdditionAllowed(consultingType.getIsSubsequentRegistrationAllowed())
-        .titles(mapTitles(consultingType.getTitles()));
-  }
-
-  private static ConsultingTypeTitlesDTO mapTitles(Titles titles) {
-    return new ConsultingTypeTitlesDTO()
-        ._default(titles.getDefault())
-        ._long(titles.getLong())
-        ._short(titles.getShort())
-        .registrationDropdown(titles.getRegistrationDropdown())
-        .welcome(titles.getWelcome());
+        .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())
+        .titles(mapTitles(consultingType.getTitles()))
+        .urls(mapUrls(consultingType.getUrls()))
+        .registration(mapRegistration(consultingType.getRegistration()));
   }
 
 }
