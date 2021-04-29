@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
 import de.caritas.cob.consultingtypeservice.generated.api.controller.ConsultingtypesApi;
@@ -50,7 +51,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<FullConsultingTypeResponseDTO> getFullConsultingTypeById(
       @PathVariable Integer consultingTypeId) {
     return new ResponseEntity<>(
-        consultingTypeService.getConsultingTypeWithAllPropertiesById(consultingTypeId),
+        consultingTypeService.fetchFullConsultingTypeSettingsById(consultingTypeId),
         HttpStatus.OK);
   }
 
@@ -64,6 +65,13 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<FullConsultingTypeResponseDTO> getFullConsultingTypeBySlug(
       @PathVariable String slug) {
     return new ResponseEntity<>(
-        consultingTypeService.getConsultingTypeWithAllPropertiesBySlug(slug), HttpStatus.OK);
+        consultingTypeService.fetchFullConsultingTypeSettingsBySlug(slug), HttpStatus.OK);
+  }
+
+  @Override
+  public ResponseEntity<ExtendedConsultingTypeResponseDTO> getExtendedConsultingTypeById(
+      @PathVariable Integer consultingTypeId) {
+    return new ResponseEntity<>(
+        consultingTypeService.fetchExtendedConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
   }
 }

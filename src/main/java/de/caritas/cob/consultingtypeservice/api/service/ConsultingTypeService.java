@@ -2,8 +2,10 @@ package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
+import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
@@ -41,7 +43,7 @@ public class ConsultingTypeService {
    * @param consultingTypeId the consulting type id
    * @return a {@link FullConsultingTypeResponseDTO} instance
    */
-  public FullConsultingTypeResponseDTO getConsultingTypeWithAllPropertiesById(
+  public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsById(
       Integer consultingTypeId) {
     return mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
         FullConsultingTypeMapper::mapConsultingType);
@@ -53,9 +55,21 @@ public class ConsultingTypeService {
    * @param slug the consulting type slug
    * @return a {@link FullConsultingTypeResponseDTO} instance
    */
-  public FullConsultingTypeResponseDTO getConsultingTypeWithAllPropertiesBySlug(String slug) {
+  public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsBySlug(String slug) {
     return mapConsultingType(consultingTypeRepository.getConsultingTypeBySlug(slug),
         FullConsultingTypeMapper::mapConsultingType);
+  }
+
+  /**
+   * Fetch a consulting type with extended set of properties by id.
+   *
+   * @param consultingTypeId the consulting type id
+   * @return a {@link FullConsultingTypeResponseDTO} instance
+   */
+  public ExtendedConsultingTypeResponseDTO fetchExtendedConsultingTypeSettingsById(
+      Integer consultingTypeId) {
+    return mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
+        ExtendedConsultingTypeMapper::mapConsultingType);
   }
 
   private <R> R mapConsultingType(ConsultingType consultingType,
