@@ -1,6 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
@@ -67,7 +67,7 @@ public class ConsultingTypeRepository {
       LogService.logError(String
           .format("Could not initialize consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
-      ConsultingTypeServiceApplication.exitService();
+      throw new UnexpectedErrorException();
     }
     this.consultingTypesMap.put(consultingType.getId(), consultingType);
   }

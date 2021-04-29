@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import java.io.File;
@@ -32,13 +31,13 @@ public class ConsultingTypeValidator {
   public void validateConsultingTypeConfigurationJsonFile(File consultingTypeJsonFile) {
 
     try {
-      JSONObject consultingTypeJsonObject = new JSONObject(
+      var consultingTypeJsonObject = new JSONObject(
           new JSONTokener(new FileInputStream(consultingTypeJsonFile)));
-      Schema schema = buildSchema();
+      var schema = buildSchema();
       schema.validate(consultingTypeJsonObject);
     } catch (JSONException | FileNotFoundException exception) {
       LogService.logError(exception);
-      ConsultingTypeServiceApplication.exitService();
+      throw new UnexpectedErrorException();
     } catch (ValidationException validationException) {
       LogService.logJsonSchemaValidationException(
           "Found errors during validation of consulting type. Please fix and restart.",
@@ -49,7 +48,7 @@ public class ConsultingTypeValidator {
   }
 
   private Schema buildSchema() {
-    JSONObject consultingTypeJsonSchema = new JSONObject(new JSONTokener(
+    var consultingTypeJsonSchema = new JSONObject(new JSONTokener(
         Objects.requireNonNull(ConsultingTypeValidator.class
             .getResourceAsStream(consultingTypeJsonSchemaFile))));
     return SchemaLoader.builder()
