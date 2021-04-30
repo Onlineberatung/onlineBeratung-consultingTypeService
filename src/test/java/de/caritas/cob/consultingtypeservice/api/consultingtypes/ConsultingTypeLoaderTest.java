@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
+import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.BROKEN_FILE_PATH;
 import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.SRC_TEST_RESOURCES_BROKEN_CONSULTING_TYPE_SETTINGS;
 import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS;
 import static org.junit.Assert.assertNotNull;
@@ -63,7 +64,7 @@ public class ConsultingTypeLoaderTest {
   public void init_Should_ThrowUnexpectedErrorException_WhenInvalidConsultingTypeSettingsPath()
       throws NoSuchMethodException {
 
-    setConsultingTypesFilePath(" ");
+    setConsultingTypesFilePath(BROKEN_FILE_PATH);
     Method initMethod = getInitMethodFromConsultingTypeLoader();
     assertThrows(UnexpectedErrorException.class, () ->
         ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader)
