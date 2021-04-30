@@ -1,5 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
+import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.SRC_TEST_RESOURCES_BROKEN_CONSULTING_TYPE_SETTINGS;
+import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
@@ -27,10 +29,9 @@ import org.springframework.util.ReflectionUtils;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeLoaderTest {
 
-  public static final String SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS = "src/test/resources/consulting-type-settings";
-  public static final String SRC_TEST_RESOURCES_BROKEN_CONSULTING_TYPE_SETTINGS = "src/test/resources/broken-consulting-type-settings";
   private final static String INIT_METHOD_NAME = "init";
   private final static String CONSULTING_TYPES_FILE_PATH_NAME = "consultingTypesFilePath";
+
   @InjectMocks
   ConsultingTypeLoader consultingTypeLoader;
   @Mock
