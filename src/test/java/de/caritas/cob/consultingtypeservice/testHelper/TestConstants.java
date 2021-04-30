@@ -7,6 +7,6 @@ public class TestConstants {
   public static final String FILE_INVALID_CONSULTING_TYPE = "/invalid-consulting-type-settings/invalid-consulting-type.json";
   public static final String FILE_BROKEN_CONSULTING_TYPE = "/broken-consulting-type-settings/broken-consulting-type.json";
   public static final String FILE_CONSULTING_TYPE_JSON_SCHEMA = "/schemas/consulting-type.json";
-  public static final String BROKEN_FILE_PATH = "c/:/test";
+  public static final String BROKEN_FILE_PATH = "c/:/test?";
 
 }
