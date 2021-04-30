@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
@@ -29,7 +30,6 @@ public class ConsultingTypeLoader {
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
   private final @NonNull ConsultingTypeValidator consultingTypeValidator;
-  private static final File[] NO_FILES = {};
 
   @PostConstruct
   private void init() {
@@ -52,7 +52,7 @@ public class ConsultingTypeLoader {
       var dirUrl = Paths.get(consultingTypesFilePath).toUri().toURL();
       return new File(dirUrl.toURI())
           .listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
-    } catch (URISyntaxException | MalformedURLException exception) {
+    } catch (URISyntaxException | MalformedURLException | InvalidPathException exception) {
       LogService.logError(exception);
       throw new UnexpectedErrorException();
     }

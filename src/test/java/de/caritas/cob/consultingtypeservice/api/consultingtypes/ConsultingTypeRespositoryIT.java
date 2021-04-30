@@ -1,7 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
