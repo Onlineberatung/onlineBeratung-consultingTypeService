@@ -91,7 +91,7 @@
         },
         {
           "inputId": "relative",
-          "label": "Angehörig",
+          "label": "Angehoerig",
           "checked": false
         },
         {
@@ -128,7 +128,7 @@
         },
         {
           "id": "gambling",
-          "label": "Glücksspiel"
+          "label": "Gluecksspiel"
         },
         {
           "id": "internetUse",
@@ -136,8 +136,7 @@
         },
         {
           "id": "eatingDisorder",
-          "label": "Essstörungen"
-        },
+          "label": "Essstoerungen"        },
         {
           "id": "otherDrug",
           "label": "Andere"
@@ -176,7 +175,7 @@
             "label": "60+"
           }
         ],
-        "selectInputLabel": "Alter auswählen",
+        "selectInputLabel": "Alter auswaehlen",
         "useIconOption": false,
         "isSearchable": false,
         "menuPlacement": "bottom"
@@ -194,7 +193,7 @@
         },
         {
           "inputId": "male",
-          "label": "Männlich",
+          "label": "Maennlich",
           "checked": false
         },
         {
