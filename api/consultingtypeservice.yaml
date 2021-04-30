@@ -127,7 +127,7 @@ components:
         registration:
           allOf:
             - $ref: '#/components/schemas/RegistrationDTO'
-        isSubsequentAdditionAllowed:
+        isSubsequentRegistrationAllowed:
           type: boolean
           example: true
         isSetEmailAllowed:

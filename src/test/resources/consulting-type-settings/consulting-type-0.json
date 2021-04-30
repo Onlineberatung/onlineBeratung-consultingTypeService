@@ -3,6 +3,9 @@
   "slug": "consultingtype0",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
+  "isSubsequentRegistrationAllowed": true,
+  "lockedAgencies": true,
+  "showAskerProfile": false,
   "welcomeMessage": {
     "sendWelcomeMessage": true,
     "welcomeMessageText": "Lorem ipsum"
@@ -52,6 +55,9 @@
     }
   },
   "registration": {
+    "minPostcodeSize": 3,
+    "autoSelectAgency": true,
+    "autoSelectPostcode": true,
     "mandatoryFields": {
       "age": false,
       "state": false

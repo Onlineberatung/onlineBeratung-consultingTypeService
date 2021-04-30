@@ -30,7 +30,7 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
         .welcomeMessage(mapWelcomeMessage(consultingType.getWelcomeMessage()))
         .sendFurtherStepsMessage(consultingType.getSendFurtherStepsMessage())
         .sendSaveSessionDataMessage(consultingType.getSendSaveSessionDataMessage())
-        .isSubsequentAdditionAllowed(consultingType.getIsSubsequentRegistrationAllowed())
+        .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
         .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())
         .sessionDataInitializing(
             mapSessionDataInitializing(consultingType.getSessionDataInitializing()))
