@@ -63,7 +63,7 @@ public class ConsultingTypeLoaderTest {
   public void init_Should_ThrowUnexpectedErrorException_WhenInvalidConsultingTypeSettingsPath()
       throws NoSuchMethodException {
 
-    setConsultingTypesFilePath(StringUtils.SPACE);
+    setConsultingTypesFilePath(" ");
     Method initMethod = getInitMethodFromConsultingTypeLoader();
     assertThrows(UnexpectedErrorException.class, () ->
         ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader)
