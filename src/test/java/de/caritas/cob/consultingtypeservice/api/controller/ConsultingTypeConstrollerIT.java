@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
+import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
@@ -56,15 +57,20 @@ public class ConsultingTypeConstrollerIT {
   public void getBasicConsultingTypeList_Should_ReturnConsultingTypeBasicList()
       throws Exception {
 
+    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO = BasicConsultingTypeMapper
+        .mapConsultingType(HelperMethods.getConsultingType());
+    BasicConsultingTypeResponseDTO[] basicConsultingTypeResponseDTOArray = { basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO };
+    String basicConsultingTypeResponseDTOJson = new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTOArray);
+
     when(consultingTypeService.fetchBasicConsultingTypesList())
-        .thenReturn(Arrays.asList(new BasicConsultingTypeResponseDTO().id(0),
-            new BasicConsultingTypeResponseDTO().id(1),
-            new BasicConsultingTypeResponseDTO().id(3)));
+        .thenReturn(Arrays.asList(basicConsultingTypeResponseDTO,
+            basicConsultingTypeResponseDTO));
 
     mvc.perform(
         get(PATH_GET_BASIC_CONSULTING_TYPE_LIST)
             .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(json().isEqualTo(basicConsultingTypeResponseDTOJson));
   }
 
   @Test
