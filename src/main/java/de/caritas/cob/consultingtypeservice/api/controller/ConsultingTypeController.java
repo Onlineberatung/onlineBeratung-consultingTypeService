@@ -44,7 +44,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   /**
    * Returns the consulting type with all properties for a given consulting type id
    *
-   * @param consultingTypeId cnsulting type id (required)
+   * @param consultingTypeId consulting type id (required)
    * @return {@link ResponseEntity} containing {@link FullConsultingTypeResponseDTO}
    */
   @Override
@@ -68,6 +68,11 @@ public class ConsultingTypeController implements ConsultingtypesApi {
         consultingTypeService.fetchFullConsultingTypeSettingsBySlug(slug), HttpStatus.OK);
   }
 
+  /**
+   *
+   * @param consultingTypeId cnsulting type id (required)
+   * @return {@link ResponseEntity} containing {@link ExtendedConsultingTypeResponseDTO}
+   */
   @Override
   public ResponseEntity<ExtendedConsultingTypeResponseDTO> getExtendedConsultingTypeById(
       @PathVariable Integer consultingTypeId) {

@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api;
 
-import de.caritas.cob.consultingtypeservice.api.exception.KeycloakException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.BadRequestException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
@@ -130,8 +129,8 @@ public class ApiResponseEntityExceptionHandler extends ResponseEntityExceptionHa
    * @return response entity
    */
   @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class,
-      IllegalStateException.class, KeycloakException.class,
-      UnknownHostException.class, DataAccessException.class})
+      IllegalStateException.class, UnknownHostException.class,
+      DataAccessException.class})
   public ResponseEntity<Object> handleInternal(
       final RuntimeException ex, final WebRequest request) {
     LogService.logInternalServerError(ex);
