@@ -517,7 +517,7 @@
           "type": "object",
           "properties": {
             "isEnabled": {
-              "description": "?",
+              "description": "If this is true, the age selection will be displayed.",
               "type": "boolean",
               "default": true
             },
@@ -553,7 +553,7 @@
           "type": "object",
           "properties": {
             "isEnabled": {
-              "description": "?",
+              "description": "If this is true, the state selection will be displayed.",
               "type": "boolean",
               "default": true
             }
