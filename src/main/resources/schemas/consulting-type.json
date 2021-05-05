@@ -5,11 +5,11 @@
       "type": "object",
       "properties": {
         "headline": {
-          "description": "?",
+          "description": "Human readable label that will be printed along the component.",
           "type": "string"
         },
         "name": {
-          "description": "?",
+          "description": "Identifier for the component.",
           "type": "string"
         }
       },
@@ -20,26 +20,27 @@
     },
     "RadioButton": {
       "type": "object",
+      "description": "A group of values where only one can be selected.",
       "properties": {
         "componentType": {
-          "description": "?",
+          "description": "Identifier for the component.",
           "type": "string",
           "const": "RadioButton"
         },
         "radioButtons": {
-          "description": "?",
+          "description": "Individual values that can be selected.",
           "type": "array",
           "items": {
             "inputId": {
-              "description": "?",
+              "description": "Identifier for the value.",
               "type": "string"
             },
             "label": {
-              "description": "?",
+              "description": "Human readable label.",
               "type": "string"
             },
             "checked": {
-              "description": "?",
+              "description": "If true, this value will be selected by default.",
               "checked": "boolean"
             }
           },
@@ -60,24 +61,24 @@
       ]
     },
     "TagSelect": {
-      "description": "?",
+      "description": "A group of values where multiple can be selected.",
       "type": "object",
       "properties": {
         "componentType": {
-          "description": "?",
+          "description": "Identifier for the component.",
           "type": "string",
           "const": "TagSelect"
         },
         "tagSelects": {
-          "description": "?",
+          "description": "Individual values that can be selected.",
           "type": "array",
           "items": {
             "id": {
-              "description": "?",
+              "description": "Identifier of the value.",
               "type": "string"
             },
             "label": {
-              "description": "?",
+              "description": "Human readable label.",
               "type": "string"
             }
           },
@@ -94,32 +95,32 @@
       ]
     },
     "SelectDropdown": {
-      "description": "?",
+      "description": "A group of values where only one can be selected and is rendered at a time.",
       "type": "object",
       "properties": {
         "componentType": {
-          "description": "?",
+          "description": "Identifier for the component.",
           "type": "string",
           "const": "SelectDropdown"
         },
         "item": {
-          "description": "?",
+          "description": "An individual item that can be selected.",
           "type": "object",
           "properties": {
             "id": {
-              "description": "?",
+              "description": "Identifier of the component.",
               "type": "string"
             },
             "selectedOptions": {
-              "description": "?",
+              "description": "Individual values that can be selected.",
               "type": "array",
               "items": {
                 "value": {
-                  "description": "?",
+                  "description": "Identifier of the value.",
                   "type": "string"
                 },
                 "label": {
-                  "description": "?",
+                  "description": "Human readable label.",
                   "type": "string"
                 }
               },
@@ -129,19 +130,19 @@
               ]
             },
             "selectInputLabel": {
-              "description": "?",
+              "description": "Human readable label for the component.",
               "type": "string"
             },
             "useIconOption": {
-              "description": "?",
+              "description": "Can be enabled to show an icon beside individual options.",
               "type": "boolean"
             },
             "isSearchable": {
-              "description": "?",
+              "description": "Allow the user to search for options by their label.",
               "type": "boolean"
             },
             "menuPlacement": {
-              "description": "?",
+              "description": "Eiter 'top' or 'bottom' (default: 'bottom').",
               "type": "string"
             }
           },
@@ -488,7 +489,7 @@
       "default": true
     },
     "voluntaryComponents": {
-      "description": "?",
+      "description": "Can be provided to display additional fields in the asker profile.",
       "type": "array",
       "items": {
         "anyOf": [
@@ -508,11 +509,11 @@
       }
     },
     "requiredComponents": {
-      "description:": "?",
+      "description:": "Can be provided if additional data is required for registration.",
       "type": "object",
       "properties": {
         "age": {
-          "description": "?",
+          "description": "Age of the asker.",
           "type": "object",
           "properties": {
             "isEnabled": {
@@ -521,18 +522,17 @@
               "default": true
             },
             "options": {
-              "description": "?",
+              "description": "Individual values that can be selected.",
               "type": "array",
               "items": {
-                "description": "?",
                 "type": "object",
                 "properties": {
                   "value": {
-                    "description": "?",
+                    "description": "Identifier for the option.",
                     "type": "string"
                   },
                   "label": {
-                    "description": "?",
+                    "description": "Human readable label for the option.",
                     "type": "string"
                   }
                 },
@@ -549,7 +549,7 @@
           ]
         },
         "state": {
-          "description": "?",
+          "description": "Selection for the federal state of the asker.",
           "type": "object",
           "properties": {
             "isEnabled": {
