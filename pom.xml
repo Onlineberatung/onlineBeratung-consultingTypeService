@@ -268,7 +268,7 @@
             </configuration>
           </execution>
           <!-- Generate admin API markdown files -->
-          <!--execution>
+          <execution>
             <id>consulting-type-admin-service-markdown</id>
             <goals>
               <goal>generate</goal>
@@ -276,7 +276,7 @@
             <configuration>
               <configOptions>
               </configOptions>
-              <inputSpec>${project.basedir}/api/consultingtypeservice.yml</inputSpec>
+              <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
               <generatorName>markdown</generatorName>
               <output>target/generated-sources/markdown/consultingtypeservice</output>
               <apiPackage>./</apiPackage>
@@ -285,7 +285,7 @@
               <generateModelTests>false</generateModelTests>
               <generateSupportingFiles>false</generateSupportingFiles>
             </configuration>
-          </execution-->
+          </execution>
         </executions>
       </plugin>
       <!-- Code style check -->
