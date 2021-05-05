@@ -327,11 +327,11 @@
       "default": true
     },
     "roles": {
-      "description": "",
+      "description": "Role definitions",
       "type": "object",
       "properties": {
         "consultant": {
-          "description": "",
+          "description": "Role definitions for consultants",
           "type": "object",
           "additionalProperties": {
             "type": "array"
@@ -341,19 +341,19 @@
       }
     },
     "notifications": {
-      "description": "",
+      "description": "Settings for the mail notifications",
       "type": "object",
       "properties": {
         "teamSessions": {
-          "description": "",
+          "description": "Special mail notification settings for team sessions",
           "type": "object",
           "properties": {
             "newMessage": {
-              "description": "",
+              "description": "Special mail notification settings for new messages",
               "type": "object",
               "properties": {
                 "allTeamConsultants": {
-                  "description": "",
+                  "description": "If true, all consultants will be informed by email",
                   "type": "boolean"
                 }
               },
@@ -372,7 +372,7 @@
       ]
     },
     "registration": {
-      "description": "",
+      "description": "Settings for the registration process",
       "type": "object",
       "properties": {
         "minPostcodeSize": {
