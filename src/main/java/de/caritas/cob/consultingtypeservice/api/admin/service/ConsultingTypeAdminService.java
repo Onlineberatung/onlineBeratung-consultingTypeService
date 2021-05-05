@@ -69,6 +69,4 @@ public class ConsultingTypeAdminService {
         .withPagedListHolder(pagedListHolder)
         .buildPaginationLinks();
   }
-
-
 }

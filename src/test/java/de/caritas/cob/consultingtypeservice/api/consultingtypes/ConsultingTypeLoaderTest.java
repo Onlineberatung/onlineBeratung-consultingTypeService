@@ -93,7 +93,7 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeRepository, times(2)).addConsultingType(Mockito.any(ConsultingType.class));
+    verify(consultingTypeRepository, times(4)).addConsultingType(Mockito.any(ConsultingType.class));
   }
 
   @Test
@@ -101,7 +101,7 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeValidator, times(2))
+    verify(consultingTypeValidator, times(4))
         .validateConsultingTypeConfigurationJsonFile(Mockito.any(
             File.class));
   }
