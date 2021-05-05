@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "consulting-type-schema",
+  "$id": "http://onlineberatung/consultingtype",
   "definitions": {
     "Component": {
       "type": "object",
