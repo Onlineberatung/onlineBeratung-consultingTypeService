@@ -41,6 +41,10 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-hateoas</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>6.1.6.Final</version>
@@ -226,10 +230,33 @@
                 <interfaceOnly>true</interfaceOnly>
                 <sourceFolder>/</sourceFolder>
               </configOptions>
-              <inputSpec>${project.basedir}/api/consultingtypeservice.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/consultingtypeservice.yml</inputSpec>
               <generatorName>spring</generatorName>
               <apiPackage>${project.groupId}.${project.artifactId}.generated.api.controller
               </apiPackage>
+              <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <output>target/generated-sources</output>
+              <typeMappings>
+                <typeMapping>
+                  RoleConsultantDTO=${project.groupId}.${project.artifactId}.api.consultingtypes.roles.Consultant
+                </typeMapping>
+              </typeMappings>
+            </configuration>
+          </execution>
+          <execution>
+            <id>consulting-type-admin-service</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+                <sourceFolder>/</sourceFolder>
+              </configOptions>
+              <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.admin.controller</apiPackage>
               <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
               <generateSupportingFiles>true</generateSupportingFiles>
               <output>target/generated-sources</output>
@@ -249,7 +276,7 @@
             <configuration>
               <configOptions>
               </configOptions>
-              <inputSpec>${project.basedir}/api/consultingtypeservice.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/consultingtypeservice.yml</inputSpec>
               <generatorName>markdown</generatorName>
               <output>target/generated-sources/markdown/consultingtypeservice</output>
               <apiPackage>./</apiPackage>

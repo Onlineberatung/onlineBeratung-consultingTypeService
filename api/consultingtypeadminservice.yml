@@ -1,0 +1,112 @@
+openapi: 3.0.1
+info:
+  title: will be replaced
+  description: This information will be replaced by the SpringFox config information
+  version: 0.0.1
+servers:
+  - url: /
+paths:
+  /consultingtypeadmin:
+    get:
+      tags:
+        - root-controller
+      summary: 'Returns the hal root entry point.'
+      operationId: getRoot
+      responses:
+        200:
+          description: OK - successfull operation
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RootDTO'
+  /consultingtypeadmin/consultingtypes:
+    get:
+      tags:
+        - consulting-type-admin-controller
+      summary: 'Returns the full list of consulting types'
+      operationId: getConsultingTypes
+      parameters:
+        - name: page
+          in: query
+          description: Number of page where to start in the query (1 = first page)
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: perPage
+          in: query
+          description: Number of items which are being returned per page
+          required: true
+          schema:
+            type: integer
+            example: 20
+      responses:
+        200:
+          description: OK - successfull operation
+          content:
+            'application/hal+json':
+              schema:
+                $ref: '#/components/schemas/ConsultingTypeAdminResultDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid role/authorization
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+
+components:
+  schemas:
+    RootDTO:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          $ref: '#/components/schemas/RootLinks'
+
+    RootLinks:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          $ref: '#/components/schemas/HalLink'
+        consultingtypes:
+          $ref: '#/components/schemas/HalLink'
+
+    HalLink:
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          enum: [ GET, POST, DELETE, PUT ]
+        templated:
+          type: boolean
+
+    PaginationLinks:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          $ref: '#/components/schemas/HalLink'
+        next:
+          $ref: '#/components/schemas/HalLink'
+        previous:
+          $ref: '#/components/schemas/HalLink'
+
+    ConsultingTypeAdminResultDTO:
+      type: object
+      properties:
+        _embedded:
+          type: array
+          items:
+            $ref: 'consultingtypeservice.yml#/components/schemas/ExtendedConsultingTypeResponseDTO'
+        _links:
+          $ref: '#/components/schemas/PaginationLinks'
+        total:
+          type: integer
