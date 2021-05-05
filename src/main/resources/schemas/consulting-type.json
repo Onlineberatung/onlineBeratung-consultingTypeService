@@ -407,15 +407,15 @@
           }
         },
         "mandatoryFields": {
-          "description": "",
+          "description": "Control of mandatory fields for registration",
           "type": "object",
           "properties": {
             "age": {
-              "description": "",
+              "description": "If true, this field is mandatory for the registration",
               "type": "boolean"
             },
             "state": {
-              "description": "",
+              "description": "If true, this field is mandatory for the registration",
               "type": "boolean"
             }
           },
