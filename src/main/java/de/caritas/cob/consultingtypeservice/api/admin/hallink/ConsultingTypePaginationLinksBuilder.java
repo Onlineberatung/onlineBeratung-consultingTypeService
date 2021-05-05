@@ -12,6 +12,9 @@ import de.caritas.cob.consultingtypeservice.api.model.PaginationLinks;
 import de.caritas.cob.consultingtypeservice.generated.api.admin.controller.ConsultingtypeadminApi;
 import org.springframework.beans.support.PagedListHolder;
 
+/**
+ * Pagination link builder for consulting types.
+ */
 public class ConsultingTypePaginationLinksBuilder implements HalLinkBuilder {
 
   private Integer page;
