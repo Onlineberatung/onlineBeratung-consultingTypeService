@@ -31,7 +31,7 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
           src_path: ../target/generated-sources/markdown/schemas
-          dst_path: docs/backend/admin/consultingtypeservice
+          dst_path: docs/backend/admin/consultingtypeservice/schemas
           dst_owner: ${{ github.repository_owner }}
           dst_repo_name: ${{ secrets.DOCUMENTATION_REPO }}
           dst_branch: adminapi
