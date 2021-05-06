@@ -37,4 +37,3 @@ jobs:
           dst_branch: adminapi
           clean: true
           commit_message: 'docs: updated consulting type service schema documentation'
-  C:\Data\Projects\Caritas-Online-Beratung\Entwicklung\Diakonie\diakonie-onlineBeratung-consultingTypeService\target\generated-sources\markdown\consultingtypeservice\schemas
