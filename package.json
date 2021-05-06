@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "release": "standard-version",
-    "generate-schema-documentation": "jsonschema2md -o target/generated-sources/markdown/schemas -d src/main/resources/schemas -e json -v 07"
+    "generate-schema-documentation": "jsonschema2md -o target/generated-sources/markdown/schemas -d src/main/resources/schemas -x target/generated-sources/markdown/schemas -e json -v 07"
   },
   "repository": {
     "type": "git",
