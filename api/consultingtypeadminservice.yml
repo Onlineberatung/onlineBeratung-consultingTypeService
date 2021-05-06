@@ -10,7 +10,7 @@ paths:
     get:
       tags:
         - root-controller
-      summary: 'Returns the hal root entry point'
+      summary: 'Returns the hal root entry point.'
       operationId: getRoot
       responses:
         200:
