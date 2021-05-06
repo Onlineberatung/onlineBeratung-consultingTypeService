@@ -485,7 +485,7 @@
       "default": true
     },
     "isSubsequentRegistrationAllowed": {
-      "description": "If true, askers can additionally register for this consulting type on their profile page at a later date.",
+      "description": "If true, askers additionally can register for this consulting type on their profile page at a later date.",
       "type": "boolean",
       "default": true
     },
