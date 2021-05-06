@@ -278,7 +278,7 @@
               </configOptions>
               <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
               <generatorName>markdown</generatorName>
-              <output>target/generated-sources/markdown/consultingtypeservice</output>
+              <output>target/generated-sources/markdown/adminapi</output>
               <apiPackage>./</apiPackage>
               <modelPackage>model</modelPackage>
               <generateApiTests>false</generateApiTests>
