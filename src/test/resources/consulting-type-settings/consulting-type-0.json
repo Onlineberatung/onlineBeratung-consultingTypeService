@@ -26,7 +26,10 @@
   },
   "groupChat": {
     "isGroupChat": true,
-    "groupChatRules": "Lorem ipsum"
+    "groupChatRules": [
+      "Lorem ipsum",
+      "Lorem ipsum"
+    ]
   },
   "monitoring": {
     "initializeMonitoring": true,

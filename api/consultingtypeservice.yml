@@ -286,8 +286,9 @@ components:
           type: boolean
           example: true
         groupChatRules:
-          type: string
-          example: "Lorem ipsum"
+          type: array
+          items:
+            type: string
 
     WelcomeMessageDTO:
       type: object

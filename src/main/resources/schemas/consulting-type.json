@@ -213,15 +213,16 @@
           "type": "boolean",
           "default": false
         },
-        "groupChatRules": {
+        "groupChatRules" : {
           "description": "Rules for the group chat which are displayed to the user",
-          "type": "string",
-          "default": null
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "required": [
-        "isGroupChat",
-        "groupChatRules"
+        "isGroupChat"
       ]
     },
     "consultantBoundedToConsultingType": {
