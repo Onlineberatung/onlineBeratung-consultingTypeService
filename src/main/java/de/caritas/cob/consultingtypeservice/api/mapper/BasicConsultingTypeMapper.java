@@ -21,7 +21,8 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
         .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())
         .titles(mapTitles(consultingType.getTitles()))
         .urls(mapUrls(consultingType.getUrls()))
-        .registration(mapRegistration(consultingType.getRegistration()));
+        .registration(mapRegistration(consultingType.getRegistration()))
+        .groupChat(mapGroupChat(consultingType.getGroupChat()));
   }
 
 }

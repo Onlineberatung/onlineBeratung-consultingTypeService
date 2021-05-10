@@ -127,6 +127,9 @@ components:
         registration:
           allOf:
             - $ref: '#/components/schemas/RegistrationDTO'
+        groupChat:
+          allOf:
+            - $ref: '#/components/schemas/GroupChatDTO'
         isSubsequentRegistrationAllowed:
           type: boolean
           example: true
@@ -155,9 +158,6 @@ components:
             whiteSpot:
               allOf:
                 - $ref: '#/components/schemas/WhiteSpotDTO'
-            groupChat:
-              allOf:
-                - $ref: '#/components/schemas/GroupChatDTO'
             consultantBoundedToConsultingType:
               type: boolean
               example: false

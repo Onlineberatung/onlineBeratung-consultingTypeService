@@ -33,7 +33,6 @@ public class BasicConsultingTypeMapperTest {
                 "sendSaveSessionDataMessage",
                 "sessionDataInitializing",
                 "whiteSpot",
-                "groupChat",
                 "monitoring",
                 "initializeFeedbackChat",
                 "languageFormal",
