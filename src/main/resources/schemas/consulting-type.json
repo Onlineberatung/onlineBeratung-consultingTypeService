@@ -1,0 +1,577 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Component": {
+      "type": "object",
+      "properties": {
+        "headline": {
+          "description": "Human readable label that will be printed along the component.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Identifier for the component.",
+          "type": "string"
+        }
+      },
+      "requires": [
+        "headline",
+        "description"
+      ]
+    },
+    "RadioButton": {
+      "type": "object",
+      "description": "A group of values where only one can be selected.",
+      "properties": {
+        "componentType": {
+          "description": "Identifier for the component.",
+          "type": "string",
+          "const": "RadioButton"
+        },
+        "radioButtons": {
+          "description": "Individual values that can be selected.",
+          "type": "array",
+          "items": {
+            "inputId": {
+              "description": "Identifier for the value.",
+              "type": "string"
+            },
+            "label": {
+              "description": "Human readable label.",
+              "type": "string"
+            },
+            "checked": {
+              "description": "If true, this value will be selected by default.",
+              "checked": "boolean"
+            }
+          },
+          "required": [
+            "inputId",
+            "label",
+            "checked"
+          ]
+        }
+      },
+      "extends": {
+        "type": "object",
+        "javaType": "de.caritas.cob.consultingtypeservice.schemas.model.Component"
+      },
+      "required": [
+        "componentType",
+        "radioButtons"
+      ]
+    },
+    "TagSelect": {
+      "description": "A group of values where multiple can be selected.",
+      "type": "object",
+      "properties": {
+        "componentType": {
+          "description": "Identifier for the component.",
+          "type": "string",
+          "const": "TagSelect"
+        },
+        "tagSelects": {
+          "description": "Individual values that can be selected.",
+          "type": "array",
+          "items": {
+            "id": {
+              "description": "Identifier of the value.",
+              "type": "string"
+            },
+            "label": {
+              "description": "Human readable label.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "label"
+          ]
+        }
+      },
+      "extends": "#/definitions/Component",
+      "required": [
+        "componentType",
+        "tagSelects"
+      ]
+    },
+    "SelectDropdown": {
+      "description": "A group of values where only one can be selected and is rendered at a time.",
+      "type": "object",
+      "properties": {
+        "componentType": {
+          "description": "Identifier for the component.",
+          "type": "string",
+          "const": "SelectDropdown"
+        },
+        "item": {
+          "description": "An individual item that can be selected.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Identifier of the component.",
+              "type": "string"
+            },
+            "selectedOptions": {
+              "description": "Individual values that can be selected.",
+              "type": "array",
+              "items": {
+                "value": {
+                  "description": "Identifier of the value.",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "Human readable label.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "label"
+              ]
+            },
+            "selectInputLabel": {
+              "description": "Human readable label for the component.",
+              "type": "string"
+            },
+            "useIconOption": {
+              "description": "Can be enabled to show an icon beside individual options.",
+              "type": "boolean"
+            },
+            "isSearchable": {
+              "description": "Allow the user to search for options by their label.",
+              "type": "boolean"
+            },
+            "menuPlacement": {
+              "description": "Eiter 'top' or 'bottom' (default: 'bottom').",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "selectedOptions",
+            "selectInputLabel",
+            "useIconOption",
+            "isSearchable",
+            "menuPlacement"
+          ]
+        }
+      },
+      "extends": "#/definitions/Component",
+      "required": [
+        "componentType",
+        "item"
+      ]
+    }
+  },
+  "title": "Consulting type",
+  "description": "Settings for a consulting type",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for the consulting type",
+      "type": "integer",
+      "minimum": 0
+    },
+    "slug": {
+      "description": "The unique url slug for the consulting type",
+      "type": "string"
+    },
+    "excludeNonMainConsultantsFromTeamSessions": {
+      "description": "True, if only consultants with role main-consultant should be added to all team sessions",
+      "type": "boolean",
+      "default": false
+    },
+    "lockedAgencies": {
+      "description": "If true, no agency with this consulting type can be deleted or set offline via the admin api",
+      "type": "boolean",
+      "default": false
+    },
+    "whiteSpot": {
+      "description": "Behavior regarding the white spots agencies",
+      "type": "object",
+      "properties": {
+        "whiteSpotAgencyAssigned": {
+          "description": "If true, agency with id in property 'whiteSpotAgencyId' will be proposed if no agency was found via given postcode in registration form",
+          "type": "boolean"
+        },
+        "whiteSpotAgencyId": {
+          "description": "The id the of the white spot agency",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "whiteSpotAgencyAssigned"
+      ]
+    },
+    "groupChat": {
+      "description": "Group chat settings",
+      "type": "object",
+      "properties": {
+        "isGroupChat": {
+          "description": "True, if group chats are provided for this consulting type",
+          "type": "boolean",
+          "default": false
+        },
+        "groupChatRules": {
+          "description": "Rules for the group chat which are displayed to the user",
+          "type": "string",
+          "default": null
+        }
+      },
+      "required": [
+        "isGroupChat",
+        "groupChatRules"
+      ]
+    },
+    "consultantBoundedToConsultingType": {
+      "description": "True, if a consultant may only be assigned to agencies with this consulting type",
+      "type": "boolean",
+      "default": false
+    },
+    "welcomeMessage": {
+      "description": "Settings for the welcome message",
+      "type": "object",
+      "properties": {
+        "sendWelcomeMessage": {
+          "description": "Indicates whether if the system should send an automatic reply message to all enquiries for this consulting type or not",
+          "type": "boolean",
+          "default": false
+        },
+        "welcomeMessageText": {
+          "description": "The welcome message text for this consulting type -> null, if sendWelcomeMessage is false",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "sendWelcomeMessage",
+        "welcomeMessageText"
+      ]
+    },
+    "sendFurtherStepsMessage": {
+      "description": "Indicates whether if the system should send an automatic further steps message to all enquiries for this consulting type or not",
+      "type": "boolean",
+      "default": true
+    },
+    "sendSaveSessionDataMessage": {
+      "description": "Indicates whether if the system should send an automatic message with a prompt for the user to enter optional information to the session",
+      "type": "boolean",
+      "default": true
+    },
+    "isSetEmailAllowed": {
+      "description": "Asker is allowed to set his email when he is registered for at least one consultingType with this setting 'true'",
+      "type": "boolean",
+      "default": true
+    },
+    "sessionDataInitializing": {
+      "description": "Settings to control which optional fields for consultation should be initialized for this consultation type.",
+      "type": "object",
+      "properties": {
+        "addictiveDrugs": {
+          "description": "True, if the field addictiveDrugs should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "age": {
+          "description": "True, if the field age should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "gender": {
+          "description": "True, if the field gender should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "relation": {
+          "description": "True, if the field relation should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        },
+        "state": {
+          "description": "True, if the field state should be initialized for this consulting type",
+          "type": "boolean",
+          "default": "false"
+        }
+      }
+    },
+    "monitoring": {
+      "description": "Settings for the initializing of the monitoring",
+      "type": "object",
+      "properties": {
+        "initializeMonitoring": {
+          "description": "Indicates whether the monitoring should be initialized for this consulting type",
+          "type": "boolean",
+          "default": false
+        },
+        "monitoringTemplateFile": {
+          "description": "The path to the template file for the initialization of the monitoring for this consulting type",
+          "type": "string",
+          "default": null
+        }
+      },
+      "required": [
+        "initializeMonitoring"
+      ]
+    },
+    "initializeFeedbackChat": {
+      "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
+      "type": "boolean",
+      "default": false
+    },
+    "languageFormal": {
+      "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
+      "type": "boolean",
+      "default": true
+    },
+    "roles": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "consultant": {
+          "description": "",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array"
+          },
+          "javaType": "java.util.Map<String, java.util.List<String>>"
+        }
+      }
+    },
+    "notifications": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "teamSessions": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "newMessage": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "allTeamConsultants": {
+                  "description": "",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "allTeamConsultants"
+              ]
+            }
+          },
+          "required": [
+            "newMessage"
+          ]
+        }
+      },
+      "required": [
+        "teamSessions"
+      ]
+    },
+    "registration": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "minPostcodeSize": {
+          "description": "The minimum number of digits for the postal code that must be entered during registration.",
+          "type": "integer",
+          "default": 5
+        },
+        "autoSelectAgency": {
+          "description": "For consulting types to which only one agency is assigned: if true the assigned agency is automatically selected",
+          "type": "boolean",
+          "default": false
+        },
+        "autoSelectPostcode": {
+          "description": "If true postcode is automatically taken over from agency in the registration form",
+          "type": "boolean",
+          "default": false
+        },
+        "notes": {
+          "description": "Additional info to display in agency selection and password accordion (optional)",
+          "type": "object",
+          "properties": {
+            "agencySelection": {
+              "description": "Additional info to display in agency selection",
+              "type": "string",
+              "default": null
+            },
+            "password": {
+              "description": "Additional info to display in password accordion",
+              "type": "string",
+              "default": null
+            }
+          }
+        },
+        "mandatoryFields": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "age": {
+              "description": "",
+              "type": "boolean"
+            },
+            "state": {
+              "description": "",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "age",
+            "state"
+          ]
+        }
+      },
+      "required": [
+        "mandatoryFields",
+        "notes"
+      ]
+    },
+    "titles": {
+      "description": "Titles for this consulting type, which are displayed to the user",
+      "type": "object",
+      "properties": {
+        "default": {
+          "description": "Title which is displayed in list items",
+          "type": "string"
+        },
+        "short": {
+          "description": "Title which is displayed in the session header",
+          "type": "string"
+        },
+        "long": {
+          "description": "Title which is displayed as overline and as title of the registration form",
+          "type": "string"
+        },
+        "welcome": {
+          "description": "Welcome message which is displayed on the pre-registration page",
+          "type": "string"
+        },
+        "registrationDropdown": {
+          "description": "Alternative title for the display of the topic for the registration dropdown in the advice seeker profile",
+          "type": "string",
+          "default": null
+        }
+      },
+      "required": [
+        "default",
+        "short",
+        "long",
+        "welcome"
+      ]
+    },
+    "urls": {
+      "description": "Forwarding urls",
+      "type": "object",
+      "properties": {
+        "requiredAidMissingRedirectUrl": {
+          "description": "If no `aid` query parameter (agency ID) is passed to the respective registration page as get parameter, the UI will redirect to this URL.",
+          "type": "string",
+          "default": null
+        },
+        "registrationPostcodeFallbackUrl": {
+          "description": "If no white spot agency provided for this consulting type a note is display with a link to this url, in case no matching agency for the given postcode was found",
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "showAskerProfile": {
+      "description": "True to show asker profile including monitoring for consultants. False, when asker profile and monitoring should not be viewable.",
+      "type": "boolean",
+      "default": true
+    },
+    "isSubsequentRegistrationAllowed": {
+      "description": "If true, askers can additionally register for this consulting type on their profile page at a later date.",
+      "type": "boolean",
+      "default": true
+    },
+    "voluntaryComponents": {
+      "description": "Can be provided to display additional fields in the asker profile.",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "$ref": "#/definitions/RadioButton"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/SelectDropdown"
+          },
+          {
+            "type": "object",
+            "$ref": "#/definitions/TagSelect"
+          }
+        ]
+      }
+    },
+    "requiredComponents": {
+      "description:": "Can be provided if additional data is required for registration.",
+      "type": "object",
+      "properties": {
+        "age": {
+          "description": "Age of the asker.",
+          "type": "object",
+          "properties": {
+            "isEnabled": {
+              "description": "If this is true, the age selection will be displayed.",
+              "type": "boolean",
+              "default": true
+            },
+            "options": {
+              "description": "Individual values that can be selected.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "Identifier for the option.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Human readable label for the option.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "value",
+                  "label"
+                ]
+              }
+            }
+          },
+          "required": [
+            "options",
+            "isEnabled"
+          ]
+        },
+        "state": {
+          "description": "Selection for the federal state of the asker.",
+          "type": "object",
+          "properties": {
+            "isEnabled": {
+              "description": "If this is true, the state selection will be displayed.",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      "required": [
+        "age",
+        "state"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "slug",
+    "roles",
+    "registration",
+    "titles",
+    "urls"
+  ]
+}
