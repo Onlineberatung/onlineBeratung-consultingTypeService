@@ -17,6 +17,7 @@ import de.caritas.cob.consultingtypeservice.api.model.TitlesDTO;
 import de.caritas.cob.consultingtypeservice.api.model.UrlsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeMessageDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WhiteSpotDTO;
+import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import de.caritas.cob.consultingtypeservice.schemas.model.GroupChat;
 import de.caritas.cob.consultingtypeservice.schemas.model.Monitoring;
 import de.caritas.cob.consultingtypeservice.schemas.model.NewMessage;
@@ -30,6 +31,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.Urls;
 import de.caritas.cob.consultingtypeservice.schemas.model.WelcomeMessage;
 import de.caritas.cob.consultingtypeservice.schemas.model.WhiteSpot;
 import java.util.LinkedHashMap;
+import java.util.function.Function;
 
 public class ConsultingTypeMapper {
 
@@ -161,6 +163,11 @@ public class ConsultingTypeMapper {
   protected static NewMessageDTO mapNewMessage(NewMessage newMessage) {
     return new NewMessageDTO()
         .allTeamConsultants(newMessage.getAllTeamConsultants());
+  }
+
+  public static <R> R mapConsultingType(ConsultingType consultingType,
+      Function<ConsultingType, R> mapper) {
+    return mapper.apply(consultingType);
   }
 
 }

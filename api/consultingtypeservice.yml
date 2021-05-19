@@ -244,10 +244,10 @@ components:
           example: true
         notes:
           allOf:
-            - $ref: '#/components/schema/RegistrationNotesDTO'
+            - $ref: '#/components/schemas/RegistrationNotesDTO'
         mandatoryFields:
           allOf:
-            - $ref: '#/components/schema/RegistrationMandatoryFieldsDTO'
+            - $ref: '#/components/schemas/RegistrationMandatoryFieldsDTO'
 
     RegistrationNotesDTO:
       type: object
@@ -286,8 +286,9 @@ components:
           type: boolean
           example: true
         groupChatRules:
-          type: string
-          example: "Lorem ipsum"
+          type: array
+          items:
+            type: string
 
     WelcomeMessageDTO:
       type: object

@@ -1,12 +1,18 @@
 package de.caritas.cob.consultingtypeservice.config;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.client.LinkDiscoverer;
+import org.springframework.hateoas.client.LinkDiscoverers;
+import org.springframework.hateoas.mediatype.collectionjson.CollectionJsonLinkDiscoverer;
+import org.springframework.plugin.core.SimplePluginRegistry;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -88,6 +94,18 @@ public class SpringFoxConfig {
     return new ApiInfo(docuTitle, docuDescription, docuVersion, docuTermsUrl,
         new Contact(docuContactName, docuContactUrl, docuContactEmail), docuLicense, docuLicenseUrl,
         Collections.emptyList());
+  }
+
+  /**
+   * Provides {@link LinkDiscoverers} instance for hateoas configuration.
+   *
+   * @return {@link LinkDiscoverers} instance
+   */
+  @Bean
+  public LinkDiscoverers discoverers() {
+    List<LinkDiscoverer> plugins = new ArrayList<>();
+    plugins.add(new CollectionJsonLinkDiscoverer());
+    return new LinkDiscoverers(SimplePluginRegistry.create(plugins));
   }
 
 }

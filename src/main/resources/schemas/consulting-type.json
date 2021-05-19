@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://onlineberatung/consultingtype",
   "definitions": {
     "Component": {
       "type": "object",
@@ -173,7 +174,7 @@
       "minimum": 0
     },
     "slug": {
-      "description": "The unique url slug for the consulting type",
+      "description": "The unique slug for the consulting type",
       "type": "string"
     },
     "excludeNonMainConsultantsFromTeamSessions": {
@@ -212,15 +213,16 @@
           "type": "boolean",
           "default": false
         },
-        "groupChatRules": {
+        "groupChatRules" : {
           "description": "Rules for the group chat which are displayed to the user",
-          "type": "string",
-          "default": null
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "required": [
-        "isGroupChat",
-        "groupChatRules"
+        "isGroupChat"
       ]
     },
     "consultantBoundedToConsultingType": {
@@ -326,11 +328,11 @@
       "default": true
     },
     "roles": {
-      "description": "",
+      "description": "Role definitions",
       "type": "object",
       "properties": {
         "consultant": {
-          "description": "",
+          "description": "Role definitions for consultants",
           "type": "object",
           "additionalProperties": {
             "type": "array"
@@ -340,19 +342,19 @@
       }
     },
     "notifications": {
-      "description": "",
+      "description": "Settings for the mail notifications",
       "type": "object",
       "properties": {
         "teamSessions": {
-          "description": "",
+          "description": "Special mail notification settings for team sessions",
           "type": "object",
           "properties": {
             "newMessage": {
-              "description": "",
+              "description": "Special mail notification settings for new messages",
               "type": "object",
               "properties": {
                 "allTeamConsultants": {
-                  "description": "",
+                  "description": "If true, all consultants will be informed by email",
                   "type": "boolean"
                 }
               },
@@ -371,7 +373,7 @@
       ]
     },
     "registration": {
-      "description": "",
+      "description": "Settings for the registration process",
       "type": "object",
       "properties": {
         "minPostcodeSize": {
@@ -406,15 +408,15 @@
           }
         },
         "mandatoryFields": {
-          "description": "",
+          "description": "Control of mandatory fields for registration",
           "type": "object",
           "properties": {
             "age": {
-              "description": "",
+              "description": "If true, this field is mandatory for the registration",
               "type": "boolean"
             },
             "state": {
-              "description": "",
+              "description": "If true, this field is mandatory for the registration",
               "type": "boolean"
             }
           },
@@ -484,7 +486,7 @@
       "default": true
     },
     "isSubsequentRegistrationAllowed": {
-      "description": "If true, askers can additionally register for this consulting type on their profile page at a later date.",
+      "description": "If true, askers additionally can register for this consulting type on their profile page at a later date.",
       "type": "boolean",
       "default": true
     },
