@@ -30,5 +30,6 @@
   },
   "urls": {
   } ,
+  "showAskerProfile": false,
   "isSubsequentRegistrationAllowed": false
 }

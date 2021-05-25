@@ -23,7 +23,6 @@ public class BasicConsultingTypeMapperTest {
     assertThat(resultJson,
         jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
             .whenIgnoringPaths(
-                "showAskerProfile",
                 "lockedAgencies",
                 "consultantBoundedToConsultingType",
                 "slug",
