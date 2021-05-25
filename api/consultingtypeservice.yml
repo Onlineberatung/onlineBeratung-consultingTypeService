@@ -136,6 +136,9 @@ components:
         isSetEmailAllowed:
           type: boolean
           example: true
+        showAskerProfile:
+          type: boolean
+          example: true
 
     ExtendedConsultingTypeResponseDTO:
       type: object
@@ -191,9 +194,6 @@ components:
         - $ref: '#/components/schemas/ExtendedConsultingTypeResponseDTO'
         - type: object
           properties:
-            showAskerProfile:
-              type: boolean
-              example: true
             voluntaryComponents:
               type: array
               items:

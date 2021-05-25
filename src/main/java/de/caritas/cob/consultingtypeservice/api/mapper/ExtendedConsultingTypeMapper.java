@@ -38,6 +38,7 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
         .languageFormal(consultingType.getLanguageFormal())
         .monitoring(mapMonitoring(consultingType.getMonitoring()))
         .roles(mapRoles(consultingType.getRoles()))
-        .notifications(mapNotifications(consultingType.getNotifications()));
+        .notifications(mapNotifications(consultingType.getNotifications()))
+        .showAskerProfile(consultingType.getShowAskerProfile());
   }
 }

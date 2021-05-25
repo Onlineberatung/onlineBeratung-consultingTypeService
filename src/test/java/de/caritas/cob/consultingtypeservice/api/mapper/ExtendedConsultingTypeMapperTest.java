@@ -23,7 +23,6 @@ public class ExtendedConsultingTypeMapperTest {
     assertThat(resultJson,
         jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
             .whenIgnoringPaths(
-                "showAskerProfile",
                 "voluntaryComponents",
                 "requiredComponents"
             )
