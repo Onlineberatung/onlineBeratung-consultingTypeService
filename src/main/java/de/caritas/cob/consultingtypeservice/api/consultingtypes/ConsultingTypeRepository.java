@@ -11,7 +11,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for {@link ConsultingType}
+ * Repository for {@link ConsultingType}.
  */
 @Repository
 public class ConsultingTypeRepository {
@@ -19,7 +19,7 @@ public class ConsultingTypeRepository {
   private final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
 
   /**
-   * Get a complete list of all {@link ConsultingType}
+   * Get a complete list of all {@link ConsultingType}.
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
@@ -27,7 +27,7 @@ public class ConsultingTypeRepository {
   }
 
   /**
-   * Get a consulting type by it's id
+   * Get a consulting type by its id.
    *
    * @param consultingTypeId the id of the consulting type
    * @return the {@link ConsultingType} instance
@@ -41,7 +41,7 @@ public class ConsultingTypeRepository {
   }
 
   /**
-   * Get a consulting type by it's slug
+   * Get a consulting type by its slug.
    *
    * @param slug the slug of the consulting type
    * @return the {@link ConsultingType} instance
@@ -72,13 +72,11 @@ public class ConsultingTypeRepository {
     this.consultingTypesMap.put(consultingType.getId(), consultingType);
   }
 
-  private boolean isConsultingTypeWithGivenIdPresent(
-      ConsultingType consultingType) {
+  private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
     return this.consultingTypesMap.containsKey(consultingType.getId());
   }
 
-  private boolean isConsultingTypeWithGivenSlugIsPresent(
-      ConsultingType consultingType) {
+  private boolean isConsultingTypeWithGivenSlugIsPresent(ConsultingType consultingType) {
     return consultingTypesMap
         .entrySet()
         .stream()

@@ -9,7 +9,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
 
   /**
-   * Mapper for {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}
+   * Mapper for {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}.
    *
    * @param consultingType the {@link ConsultingType}
    * @return a instance of an {@link BasicConsultingTypeResponseDTO}

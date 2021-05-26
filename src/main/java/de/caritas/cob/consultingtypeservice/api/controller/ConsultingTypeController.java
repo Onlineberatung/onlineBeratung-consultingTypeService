@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for consulting type API requests
+ * Controller for consulting type API requests.
  */
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +42,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   /**
-   * Returns the consulting type with all properties for a given consulting type id
+   * Returns the consulting type with all properties for a given consulting type id.
    *
    * @param consultingTypeId consulting type id (required)
    * @return {@link ResponseEntity} containing {@link FullConsultingTypeResponseDTO}
@@ -56,7 +56,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   /**
-   * Returns the consulting type with all properties for a given consulting type slug
+   * Returns the consulting type with all properties for a given consulting type slug.
    *
    * @param slug cnsulting type slug (required)
    * @return {@link ResponseEntity} containing {@link FullConsultingTypeResponseDTO}
@@ -69,14 +69,16 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   /**
+   * Returns the consulting type with extended properties for a given consulting type id.
    *
-   * @param consultingTypeId cnsulting type id (required)
+   * @param consultingTypeId consulting type id (required)
    * @return {@link ResponseEntity} containing {@link ExtendedConsultingTypeResponseDTO}
    */
   @Override
   public ResponseEntity<ExtendedConsultingTypeResponseDTO> getExtendedConsultingTypeById(
       @PathVariable Integer consultingTypeId) {
     return new ResponseEntity<>(
-        consultingTypeService.fetchExtendedConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
+        consultingTypeService
+            .fetchExtendedConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
   }
 }

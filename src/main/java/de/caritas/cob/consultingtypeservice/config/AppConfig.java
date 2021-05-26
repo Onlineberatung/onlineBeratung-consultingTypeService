@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
- * Contains some general spring boot application configurations
+ * Contains some general spring boot application configurations.
  */
 @Configuration
 @EnableCaching
@@ -16,7 +16,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class AppConfig {
 
   /**
-   * Activate the messages.properties for validation messages
+   * Activate the messages.properties for validation messages.
    */
   @Bean
   public LocalValidatorFactoryBean validator(MessageSource messageSource) {

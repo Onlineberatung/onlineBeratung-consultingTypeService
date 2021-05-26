@@ -3,7 +3,6 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
 import com.github.jknack.handlebars.internal.text.TextStringBuilder;
-import javax.ws.rs.BadRequestException;
 import org.everit.json.schema.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,48 +15,9 @@ public class LogService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogService.class);
   private static final String MESSAGE_CONSULTING_TYPE_SERVICE_API = "ConsultingTypeService API: ";
-  private static final String MESSAGE_DATABASE_ERROR = "Database error: ";
-  private static final String MESSAGE_BAD_REQUEST = "Bad Request: ";
-  private static final String MESSAGE_FORMATTING_NUMBER_ERROR = "Error while formatting number: ";
   private static final String MESSAGE_SERVER_ERROR = "500 Internal Server Error: ";
 
   private LogService() {
-  }
-
-  /**
-   * Logs a database error.
-   *
-   * @param exception the exception to be logged
-   */
-  public static void logDatabaseError(Exception exception) {
-    LOGGER.error("{}{}", MESSAGE_DATABASE_ERROR, getStackTrace(exception));
-  }
-
-  /**
-   * javax Bad Request Exception.
-   *
-   * @param exception the exception to be logged
-   */
-  public static void logBadRequestException(BadRequestException exception) {
-    LOGGER.warn("{}{}", MESSAGE_BAD_REQUEST, getStackTrace(exception));
-  }
-
-  /**
-   * Logs a {@link NumberFormatException}.
-   *
-   * @param exception the exception to be logged
-   */
-  public static void logNumberFormatException(Exception exception) {
-    LOGGER.error("{}{}", MESSAGE_FORMATTING_NUMBER_ERROR, getStackTrace(exception));
-  }
-
-  /**
-   * Logs a info message.
-   *
-   * @param message the message to be logged
-   */
-  public static void logInfo(String message) {
-    LOGGER.info(message);
   }
 
   /**
@@ -67,15 +27,6 @@ public class LogService {
    */
   public static void logWarning(Exception exception) {
     LOGGER.warn("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, getStackTrace(exception));
-  }
-
-  /**
-   * Logs a warning.
-   *
-   * @param message the message to be logged
-   */
-  public static void logWarning(String message) {
-    LOGGER.warn("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
   }
 
   /**
@@ -126,7 +77,7 @@ public class LogService {
    */
   public static void logJsonSchemaValidationException(String message, String filename,
       ValidationException validationException) {
-    TextStringBuilder textStringBuilder = new TextStringBuilder();
+    var textStringBuilder = new TextStringBuilder();
     textStringBuilder.appendNewLine();
     textStringBuilder.appendln(message);
     textStringBuilder

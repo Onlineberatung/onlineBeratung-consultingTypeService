@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Loader for the consulting types from the file system
+ * Loader for the consulting types from the file system.
  */
 @Service
 @RequiredArgsConstructor
@@ -40,7 +40,8 @@ public class ConsultingTypeLoader {
   private void obtainInitializedConsultingType(File file) {
     consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(file);
     try {
-      consultingTypeRepository.addConsultingType(new ObjectMapper().readValue(file, ConsultingType.class));
+      consultingTypeRepository
+          .addConsultingType(new ObjectMapper().readValue(file, ConsultingType.class));
     } catch (IOException ioException) {
       LogService.logError(ioException);
       throw new UnexpectedErrorException();

@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/virtualidentityag/diakonie-onlineBeratung-consultingTypeService.git"
+    "url": "git+https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService.git"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
