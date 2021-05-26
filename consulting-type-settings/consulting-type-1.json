@@ -1,0 +1,35 @@
+{
+  "id": 1,
+  "slug": "consultingtype1",
+  "excludeNonMainConsultantsFromTeamSessions": false,
+  "consultantBoundedToConsultingType": false,
+  "sendSaveSessionDataMessage": true,
+  "initializeFeedbackChat": true,
+  "languageFormal": true,
+  "roles": {
+    "consultant": {
+      "defaultRole": [
+        "consultant"
+      ]
+    }
+  },
+  "registration": {
+    "mandatoryFields": {
+      "age": false,
+      "state": false
+    },
+    "notes": {
+
+    }
+  },
+  "titles": {
+    "default": "default",
+    "short": "short",
+    "long": "long",
+    "welcome": "welcome"
+  },
+  "urls": {
+  } ,
+  "showAskerProfile": false,
+  "isSubsequentRegistrationAllowed": false
+}
