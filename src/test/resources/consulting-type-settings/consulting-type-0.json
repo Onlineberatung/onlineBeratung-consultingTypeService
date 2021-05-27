@@ -4,6 +4,7 @@
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "isSubsequentRegistrationAllowed": true,
+  "isAnonymousConversationAllowed": false,
   "lockedAgencies": true,
   "showAskerProfile": false,
   "welcomeMessage": {
