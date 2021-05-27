@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://onlineberatung/consultingtype",
+  "$id": "https://onlineberatung/consultingtype",
   "definitions": {
     "Component": {
       "type": "object",
@@ -489,6 +489,11 @@
       "description": "If true, askers additionally can register for this consulting type on their profile page at a later date.",
       "type": "boolean",
       "default": true
+    },
+    "isAnonymousConversationAllowed": {
+      "description": "Indicates whether anonymous 1:1 chats can be performed.",
+      "type": "boolean",
+      "default": false
     },
     "voluntaryComponents": {
       "description": "Can be provided to display additional fields in the asker profile.",
