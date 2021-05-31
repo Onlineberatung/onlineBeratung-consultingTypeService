@@ -197,7 +197,7 @@
         },
         "whiteSpotAgencyId": {
           "description": "The id the of the white spot agency",
-          "type": "integer"
+          "type": ["integer", "null"]
         }
       },
       "required": [
@@ -309,7 +309,7 @@
         },
         "monitoringTemplateFile": {
           "description": "The path to the template file for the initialization of the monitoring for this consulting type",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       },
