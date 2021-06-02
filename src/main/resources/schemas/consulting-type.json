@@ -215,7 +215,7 @@
         },
         "groupChatRules" : {
           "description": "Rules for the group chat which are displayed to the user",
-          "type" : "array",
+          "type" : ["array", "null"],
           "items" : {
             "type" : "string"
           }
@@ -397,12 +397,12 @@
           "properties": {
             "agencySelection": {
               "description": "Additional info to display in agency selection",
-              "type": "string",
+              "type": ["string", "null"],
               "default": null
             },
             "password": {
               "description": "Additional info to display in password accordion",
-              "type": "string",
+              "type": ["string", "null"],
               "default": null
             }
           }
@@ -453,7 +453,7 @@
         },
         "registrationDropdown": {
           "description": "Alternative title for the display of the topic for the registration dropdown in the advice seeker profile",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       },
@@ -470,12 +470,12 @@
       "properties": {
         "requiredAidMissingRedirectUrl": {
           "description": "If no `aid` query parameter (agency ID) is passed to the respective registration page as get parameter, the UI will redirect to this URL.",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         },
         "registrationPostcodeFallbackUrl": {
           "description": "If no white spot agency provided for this consulting type a note is display with a link to this url, in case no matching agency for the given postcode was found",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       }

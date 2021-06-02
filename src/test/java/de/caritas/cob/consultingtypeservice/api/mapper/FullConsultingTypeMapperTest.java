@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.mapper;
 
-import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.FILE_VALID_COMPLETE_CONSULTING_TYPE;
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;

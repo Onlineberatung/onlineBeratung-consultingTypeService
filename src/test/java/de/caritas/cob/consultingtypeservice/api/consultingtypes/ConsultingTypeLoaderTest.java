@@ -16,7 +16,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,9 +49,6 @@ public class ConsultingTypeLoaderTest {
   @Test
   public void test_Should_Fail_WhenMethodInitDoesNotHavePostConstructAnnotation()
       throws NoSuchMethodException, SecurityException {
-
-    ConsultingTypeLoader consultingTypeLoader = new ConsultingTypeLoader(consultingTypeRepository,
-        consultingTypeValidator);
 
     PostConstruct annotation = getInitMethodFromConsultingTypeLoader()
         .getAnnotation(PostConstruct.class);
@@ -93,7 +89,7 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeRepository, times(4)).addConsultingType(Mockito.any(ConsultingType.class));
+    verify(consultingTypeRepository, times(5)).addConsultingType(Mockito.any(ConsultingType.class));
   }
 
   @Test
@@ -101,7 +97,7 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeValidator, times(4))
+    verify(consultingTypeValidator, times(5))
         .validateConsultingTypeConfigurationJsonFile(Mockito.any(
             File.class));
   }
