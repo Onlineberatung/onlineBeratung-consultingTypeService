@@ -3,9 +3,11 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.FILE_BROKEN_CONSULTING_TYPE;
 import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.FILE_CONSULTING_TYPE_JSON_SCHEMA;
 import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.FILE_INVALID_CONSULTING_TYPE;
+import static de.caritas.cob.consultingtypeservice.testHelper.TestConstants.FILE_NULL_VALUE_CONSULTING_TYPE;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.powermock.reflect.Whitebox.setInternalState;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -71,5 +73,15 @@ public class ConsultingTypeValidatorTest {
 
   }
 
+  @Test
+  public void validateConsultingTypeConfigurationJsonFile_ShouldNot_ThrowException_For_NullValues() {
 
+    File invalidConsultingSettingsFile = new File(Objects.requireNonNull(
+        ConsultingTypeValidatorTest.class.getResource(FILE_NULL_VALUE_CONSULTING_TYPE)).getFile());
+
+    consultingTypeValidator
+        .validateConsultingTypeConfigurationJsonFile(invalidConsultingSettingsFile);
+
+    verifyNoInteractions(logger);
+  }
 }
