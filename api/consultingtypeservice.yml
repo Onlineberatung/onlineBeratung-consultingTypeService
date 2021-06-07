@@ -131,6 +131,9 @@ components:
         isSubsequentRegistrationAllowed:
           type: boolean
           example: true
+        isAnonymousConversationAllowed:
+          type: boolean
+          example: false
         isSetEmailAllowed:
           type: boolean
           example: true

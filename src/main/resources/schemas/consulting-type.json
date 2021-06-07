@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://onlineberatung/consultingtype",
+  "$id": "https://onlineberatung/consultingtype",
   "definitions": {
     "Component": {
       "type": "object",
@@ -197,7 +197,7 @@
         },
         "whiteSpotAgencyId": {
           "description": "The id the of the white spot agency",
-          "type": "integer"
+          "type": ["integer", "null"]
         }
       },
       "required": [
@@ -215,7 +215,7 @@
         },
         "groupChatRules" : {
           "description": "Rules for the group chat which are displayed to the user",
-          "type" : "array",
+          "type" : ["array", "null"],
           "items" : {
             "type" : "string"
           }
@@ -309,7 +309,7 @@
         },
         "monitoringTemplateFile": {
           "description": "The path to the template file for the initialization of the monitoring for this consulting type",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       },
@@ -397,12 +397,12 @@
           "properties": {
             "agencySelection": {
               "description": "Additional info to display in agency selection",
-              "type": "string",
+              "type": ["string", "null"],
               "default": null
             },
             "password": {
               "description": "Additional info to display in password accordion",
-              "type": "string",
+              "type": ["string", "null"],
               "default": null
             }
           }
@@ -453,7 +453,7 @@
         },
         "registrationDropdown": {
           "description": "Alternative title for the display of the topic for the registration dropdown in the advice seeker profile",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       },
@@ -470,12 +470,12 @@
       "properties": {
         "requiredAidMissingRedirectUrl": {
           "description": "If no `aid` query parameter (agency ID) is passed to the respective registration page as get parameter, the UI will redirect to this URL.",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         },
         "registrationPostcodeFallbackUrl": {
           "description": "If no white spot agency provided for this consulting type a note is display with a link to this url, in case no matching agency for the given postcode was found",
-          "type": "string",
+          "type": ["string", "null"],
           "default": null
         }
       }
@@ -490,9 +490,14 @@
       "type": "boolean",
       "default": true
     },
+    "isAnonymousConversationAllowed": {
+      "description": "Indicates whether anonymous 1:1 chats can be performed.",
+      "type": "boolean",
+      "default": false
+    },
     "voluntaryComponents": {
       "description": "Can be provided to display additional fields in the asker profile.",
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "anyOf": [
           {
@@ -512,7 +517,7 @@
     },
     "requiredComponents": {
       "description:": "Can be provided if additional data is required for registration.",
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "age": {
           "description": "Age of the asker.",
