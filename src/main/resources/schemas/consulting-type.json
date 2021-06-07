@@ -497,7 +497,7 @@
     },
     "voluntaryComponents": {
       "description": "Can be provided to display additional fields in the asker profile.",
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "anyOf": [
           {
@@ -517,7 +517,7 @@
     },
     "requiredComponents": {
       "description:": "Can be provided if additional data is required for registration.",
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "age": {
           "description": "Age of the asker.",

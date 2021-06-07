@@ -70,5 +70,7 @@
   "urls": {
     "requiredAidMissingRedirectUrl": null,
     "registrationPostcodeFallbackUrl": null
-  }
+  },
+  "voluntaryComponents": null,
+  "requiredComponents": null
 }
