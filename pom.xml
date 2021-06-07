@@ -58,11 +58,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.java-json-tools</groupId>
-      <artifactId>jackson-coreutils</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>jackson-databind-nullable</artifactId>
       <version>0.2.1</version>
@@ -172,6 +167,17 @@
 
   <repositories>
     <repository>
+      <id>1_maven.apache.org</id>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <layout>default</layout>
+    </repository>
+    <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
@@ -261,7 +267,8 @@
               </configOptions>
               <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
               <generatorName>spring</generatorName>
-              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.admin.controller</apiPackage>
+              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.admin.controller
+              </apiPackage>
               <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
               <generateSupportingFiles>true</generateSupportingFiles>
               <output>target/generated-sources</output>
