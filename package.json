@@ -10,10 +10,10 @@
     "url": "git+https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "cz-conventional-changelog": "^3.2.0",
-    "standard-version": "^9.0.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.3.0",
     "@adobe/jsonschema2md": "^6.0.3"
   }
 }
