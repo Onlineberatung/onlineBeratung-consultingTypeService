@@ -17,6 +17,8 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
   public static BasicConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new BasicConsultingTypeResponseDTO()
         .id(consultingType.getId())
+        .description(consultingType.getDescription())
+        .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
         .isAnonymousConversationAllowed(consultingType.getIsAnonymousConversationAllowed())
         .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())

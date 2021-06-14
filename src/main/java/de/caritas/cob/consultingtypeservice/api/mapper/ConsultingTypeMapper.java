@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import static java.util.Objects.nonNull;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.roles.Consultant;
+import de.caritas.cob.consultingtypeservice.api.model.FurtherInformationDTO;
 import de.caritas.cob.consultingtypeservice.api.model.GroupChatDTO;
 import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NewMessageDTO;
@@ -18,6 +19,7 @@ import de.caritas.cob.consultingtypeservice.api.model.UrlsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeMessageDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WhiteSpotDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
+import de.caritas.cob.consultingtypeservice.schemas.model.FurtherInformation;
 import de.caritas.cob.consultingtypeservice.schemas.model.GroupChat;
 import de.caritas.cob.consultingtypeservice.schemas.model.Monitoring;
 import de.caritas.cob.consultingtypeservice.schemas.model.NewMessage;
@@ -36,6 +38,14 @@ import java.util.function.Function;
 public class ConsultingTypeMapper {
 
   protected ConsultingTypeMapper() {
+  }
+
+  protected static FurtherInformationDTO mapFurtherInformation(
+      FurtherInformation furtherInformation) {
+    return nonNull(furtherInformation) ? new FurtherInformationDTO()
+        .label(furtherInformation.getLabel())
+        .url(furtherInformation.getUrl())
+        : null;
   }
 
   protected static TitlesDTO mapTitles(Titles titles) {
