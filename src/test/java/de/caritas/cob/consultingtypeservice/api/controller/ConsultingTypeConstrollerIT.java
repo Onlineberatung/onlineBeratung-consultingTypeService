@@ -17,6 +17,7 @@ import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMap
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
 import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.util.Arrays;
@@ -41,6 +42,8 @@ public class ConsultingTypeConstrollerIT {
   private MockMvc mvc;
   @MockBean
   private ConsultingTypeService consultingTypeService;
+  @MockBean
+  private ConsultingTypeGroupService consultingTypeGroupService;
   @MockBean
   private LinkDiscoverers linkDiscoverers;
 

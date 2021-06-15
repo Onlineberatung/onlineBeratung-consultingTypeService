@@ -1,5 +1,6 @@
 {
   "id": 0,
+  "group": "group1",
   "description": "Lorem ipsum",
   "furtherInformation": {
     "label": "Lorem impsum",
