@@ -1,5 +1,6 @@
 {
   "id": 2,
+  "group": "group",
   "furtherInformation": {
     "label": "Lorem Impsum",
     "url": "https://www.domain.com"

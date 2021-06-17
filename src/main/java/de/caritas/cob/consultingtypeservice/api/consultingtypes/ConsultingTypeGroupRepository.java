@@ -18,22 +18,35 @@ public class ConsultingTypeGroupRepository {
   private final Map<String, List<ConsultingType>> consultingTypesGroupMap = new HashMap<>();
 
   /**
+   * Get a map with all grouped consulting types.
+   *
+   * @return a {@link Map} with with the grouped {@link ConsultingType} instances.
+   */
+  public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
+    return this.consultingTypesGroupMap;
+  }
+
+  /**
    * Add a consulting type to the group repository.
    *
    * @param consultingType the {@link ConsultingType} to add
    */
   protected void addConsultingType(ConsultingType consultingType) {
     if (nonNull(consultingType.getGroup())) {
-      this.consultingTypesGroupMap.computeIfAbsent(
-          consultingType.getGroup(),
-          group -> new ArrayList<>());
-      this.consultingTypesGroupMap
-          .get(consultingType.getGroup()).add(consultingType);
+      initializeGroupInMapIfNotExists(consultingType);
+      addConsultingTypeToMap(consultingType);
     }
   }
 
-  public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
-    return this.consultingTypesGroupMap;
+  private void addConsultingTypeToMap(ConsultingType consultingType) {
+    this.consultingTypesGroupMap
+        .get(consultingType.getGroup()).add(consultingType);
+  }
+
+  private void initializeGroupInMapIfNotExists(ConsultingType consultingType) {
+    this.consultingTypesGroupMap.computeIfAbsent(
+        consultingType.getGroup(),
+        group -> new ArrayList<>());
   }
 
 }

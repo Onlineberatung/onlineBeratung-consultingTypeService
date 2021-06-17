@@ -1,5 +1,6 @@
 {
   "id": 0,
+  "group": "${json-unit.ignore-element}",
   "description": "Lorem ipsum",
   "furtherInformation": {
     "label": "Lorem Impsum",
