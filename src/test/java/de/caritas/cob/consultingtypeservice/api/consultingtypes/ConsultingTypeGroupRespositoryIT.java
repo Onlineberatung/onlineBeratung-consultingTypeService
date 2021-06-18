@@ -1,7 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -50,7 +50,7 @@ public class ConsultingTypeGroupRespositoryIT {
     assertThat(result, IsMapContaining.hasKey(GROUP));
     assertThat(result, IsMapContaining.hasKey(IGNORE_PLACEHOLDER_GROUP));
     assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_0));
-    assertThat(result.get(GROUP), contains(
+    assertThat(result.get(GROUP), containsInAnyOrder(
         hasProperty("id", is(CONSULTING_TYPE_ID_1)),
         hasProperty("id", is(CONSULTING_TYPE_ID_2))));
   }
