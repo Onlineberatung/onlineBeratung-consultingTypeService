@@ -142,8 +142,6 @@ paths:
                 $ref: '#/components/schemas/ConsultingTypeGroupsResponseDTO'
         204:
           description: NO CONTENT - no groups defined
-        404:
-          description: NOT FOUND - ConsultingType not found
         403:
           description: FORBIDDEN - no/invalid role/authorization or CSRF token
         500:

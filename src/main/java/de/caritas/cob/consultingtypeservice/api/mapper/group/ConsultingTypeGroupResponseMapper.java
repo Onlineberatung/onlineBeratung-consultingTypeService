@@ -11,7 +11,7 @@ public class ConsultingTypeGroupResponseMapper extends ConsultingTypeGroupMapper
 
   /**
    * Mapper for a {@link List} of {@link ConsultingType} to {@link ConsultingTypeGroupResponseDTO}.
-consultingTypeList the {@link List} of {@link ConsultingType}
+   *
    * @return a instance of an {@link ConsultingTypeGroupResponseDTO}
    */
   public static ConsultingTypeGroupResponseDTO mapConsultingType(
