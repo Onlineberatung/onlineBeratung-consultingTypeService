@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Map;
+import org.hamcrest.collection.IsMapContaining;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,22 +35,19 @@ public class ConsultingTypeGroupRespositoryIT {
     Map<String, List<ConsultingType>> result = consultingTypeGroupRepository.getConsultingTypesGroupMap();
 
     assertThat(result, notNullValue());
-
     final String IGNORE_PLACEHOLDER_GROUP = "${json-unit.ignore-element}";
     final int CONSULTING_TYPE_ID_0 = 0;
     assertThat(result.get(IGNORE_PLACEHOLDER_GROUP), hasSize(1));
     assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_0));
     assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getGroup(), is(IGNORE_PLACEHOLDER_GROUP));
-
     final String GROUP = "group";
     final int CONSULTING_TYPE_ID_1 = 1;
     final int CONSULTING_TYPE_ID_2 = 2;
     assertThat(result.get(GROUP), hasSize(2));
+    assertThat(result, IsMapContaining.hasKey(GROUP));
+    assertThat(result, IsMapContaining.hasKey(IGNORE_PLACEHOLDER_GROUP));
+    assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_0));
     assertThat(result.get(GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_1));
-    assertThat(result.get(GROUP).get(0).getGroup(), is(GROUP));
     assertThat(result.get(GROUP).get(1).getId(), is(CONSULTING_TYPE_ID_2));
-    assertThat(result.get(GROUP).get(1).getGroup(), is(GROUP));
-
   }
-
 }
