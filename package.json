@@ -1,6 +1,6 @@
 {
   "name": "caritas-online-beratung-consultingtypeservice",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "release": "standard-version",
     "generate-schema-documentation": "jsonschema2md -o target/generated-sources/markdown/schemas -d src/main/resources/schemas -x target/generated-sources/markdown/schemas -e json -v 07"
@@ -10,10 +10,10 @@
     "url": "git+https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "cz-conventional-changelog": "^3.2.0",
-    "standard-version": "^9.0.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.3.0",
     "@adobe/jsonschema2md": "^6.0.3"
   }
 }

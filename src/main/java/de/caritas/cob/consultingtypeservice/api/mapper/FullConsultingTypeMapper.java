@@ -31,6 +31,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .sendFurtherStepsMessage(consultingType.getSendFurtherStepsMessage())
         .sendSaveSessionDataMessage(consultingType.getSendSaveSessionDataMessage())
         .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
+        .isAnonymousConversationAllowed(consultingType.getIsAnonymousConversationAllowed())
         .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())
         .sessionDataInitializing(
             mapSessionDataInitializing(consultingType.getSessionDataInitializing()))

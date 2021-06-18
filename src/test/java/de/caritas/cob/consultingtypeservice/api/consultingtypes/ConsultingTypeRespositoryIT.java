@@ -47,7 +47,7 @@ public class ConsultingTypeRespositoryIT {
   public void getListOfConsultingTypes_Should_ReturnCompleteListOfConsultingTypes() {
 
     List<ConsultingType> result = consultingTypeRepository.getListOfConsultingTypes();
-    assertEquals(4, result.size());
+    assertEquals(5, result.size());
 
   }
 

@@ -62,7 +62,7 @@ public class LogService {
   /**
    * Logs an error.
    *
-   * @param message the    * @param message  the exception to be logged to be logged
+   * @param message  the exception to be logged to be logged
    */
   public static void logError(String message) {
     LOGGER.error("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
