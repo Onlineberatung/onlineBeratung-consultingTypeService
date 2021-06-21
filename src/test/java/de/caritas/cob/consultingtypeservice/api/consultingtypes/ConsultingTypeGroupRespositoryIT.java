@@ -37,21 +37,25 @@ public class ConsultingTypeGroupRespositoryIT {
         .getConsultingTypesGroupMap();
 
     assertThat(result, notNullValue());
-    final String IGNORE_PLACEHOLDER_GROUP = "${json-unit.ignore-element}";
+    final String GROUP_1 = "group1";
     final int CONSULTING_TYPE_ID_0 = 0;
-    assertThat(result.get(IGNORE_PLACEHOLDER_GROUP), hasSize(1));
-    assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_0));
-    assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getGroup(),
-        is(IGNORE_PLACEHOLDER_GROUP));
-    final String GROUP = "group";
+    assertThat(result.get(GROUP_1), hasSize(1));
+    assertThat(result.get(GROUP_1).get(0).getId(), is(CONSULTING_TYPE_ID_0));
+    assertThat(
+        result.get(GROUP_1).get(0).getGroups().contains(GROUP_1),
+        is(true));
+    final String GROUP_2 = "group2";
+    final String GROUP_3 = "group3";
     final int CONSULTING_TYPE_ID_1 = 1;
     final int CONSULTING_TYPE_ID_2 = 2;
-    assertThat(result.get(GROUP), hasSize(2));
-    assertThat(result, IsMapContaining.hasKey(GROUP));
-    assertThat(result, IsMapContaining.hasKey(IGNORE_PLACEHOLDER_GROUP));
-    assertThat(result.get(IGNORE_PLACEHOLDER_GROUP).get(0).getId(), is(CONSULTING_TYPE_ID_0));
-    assertThat(result.get(GROUP), containsInAnyOrder(
+    assertThat(result.get(GROUP_2), hasSize(2));
+    assertThat(result, IsMapContaining.hasKey(GROUP_2));
+    assertThat(result, IsMapContaining.hasKey(GROUP_3));
+    assertThat(result, IsMapContaining.hasKey(GROUP_1));
+    assertThat(result.get(GROUP_1).get(0).getId(), is(CONSULTING_TYPE_ID_0));
+    assertThat(result.get(GROUP_2), containsInAnyOrder(
         hasProperty("id", is(CONSULTING_TYPE_ID_1)),
         hasProperty("id", is(CONSULTING_TYPE_ID_2))));
+    assertThat(result.get(GROUP_3).get(0).getId(), is(CONSULTING_TYPE_ID_1));
   }
 }

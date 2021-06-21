@@ -17,23 +17,6 @@ import org.junit.Test;
 public class ConsultingTypeGroupMapperTest {
 
   @Test
-  public void determineGroupTitle_Should_determineGroupTitle() throws IOException {
-
-    ConsultingType consultingType = HelperMethods.getConsultingType();
-    List<ConsultingType> consultingTypeList = Collections
-        .singletonList(consultingType);
-    String result = ConsultingTypeGroupMapper.determineGroupTitle(consultingTypeList);
-    assertThat(result, is(consultingType.getGroup()));
-  }
-
-  @Test(expected = UnexpectedErrorException.class)
-  public void determineGroupTitle_Should_throwUnexpectedErrorException_WhenConsultingTypeListIsEmpty() {
-
-    ConsultingTypeGroupMapper.determineGroupTitle(new ArrayList<>());
-
-  }
-
-  @Test
   public void mapConsultingTypeCoreDtoList_Should_MapIdAndDefaultTitle() throws IOException {
 
     ConsultingType consultingType = HelperMethods.getConsultingType();

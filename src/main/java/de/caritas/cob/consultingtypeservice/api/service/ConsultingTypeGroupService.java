@@ -4,10 +4,13 @@ import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeGr
 import de.caritas.cob.consultingtypeservice.api.mapper.group.ConsultingTypeGroupMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.group.ConsultingTypeGroupResponseMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
+import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,12 +31,17 @@ public class ConsultingTypeGroupService {
 
     return consultingTypeGroupRepository
         .getConsultingTypesGroupMap()
-        .values()
+        .entrySet()
         .stream()
-        .map(consultingTypes -> ConsultingTypeGroupMapper
-            .mapConsultingType(consultingTypes,
+        .map(mapEntry -> ConsultingTypeGroupMapper
+            .mapConsultingType(mapEntryToPair(mapEntry),
                 ConsultingTypeGroupResponseMapper::mapConsultingType))
         .collect(Collectors.toList());
+  }
+
+  private ImmutablePair<String, List<ConsultingType>> mapEntryToPair(
+      Entry<String, List<ConsultingType>> mapEntry) {
+    return new ImmutablePair<>(mapEntry.getKey(), mapEntry.getValue());
   }
 
 }

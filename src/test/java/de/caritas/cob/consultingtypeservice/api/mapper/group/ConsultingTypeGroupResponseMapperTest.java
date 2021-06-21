@@ -10,6 +10,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.io.IOException;
 import java.util.List;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Test;
 
 public class ConsultingTypeGroupResponseMapperTest {
@@ -19,7 +20,7 @@ public class ConsultingTypeGroupResponseMapperTest {
 
     List<ConsultingType> consultingTypeList = HelperMethods.getConsultingTypeList();
     ConsultingTypeGroupResponseDTO result = ConsultingTypeGroupResponseMapper
-        .mapConsultingType(consultingTypeList);
+        .mapConsultingType(ImmutablePair.of("group", consultingTypeList));
 
     assertThat(result, notNullValue());
     assertThat(result.getConsultingTypes(), notNullValue());

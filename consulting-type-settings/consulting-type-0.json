@@ -1,6 +1,10 @@
 {
   "id": 0,
   "description": "Lorem ipsum",
+  "groups": [
+    "group1",
+    "group2"
+  ],
   "furtherInformation": {
     "label": "Lorem impsum",
     "url": "https://www.domain.com"

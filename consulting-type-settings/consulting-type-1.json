@@ -1,5 +1,8 @@
 {
   "id": 1,
+  "groups": [
+    "group2"
+  ],
   "slug": "consultingtype1",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,

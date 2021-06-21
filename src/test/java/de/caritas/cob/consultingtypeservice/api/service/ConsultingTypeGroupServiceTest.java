@@ -36,16 +36,16 @@ public class ConsultingTypeGroupServiceTest {
     final String GROUP_1 = "group1";
     final String GROUP_2 = "group2";
     var consultingType1 = easyRandom.nextObject(ConsultingType.class);
-    consultingType1.setGroup(GROUP_1);
+    consultingType1.setGroups(Arrays.asList(GROUP_1, GROUP_2));
     var consultingType2 = easyRandom.nextObject(ConsultingType.class);
-    consultingType2.setGroup(GROUP_1);
+    consultingType2.setGroups(Collections.singletonList(GROUP_1));
     consultingType2.setId(consultingType1.getId() + 1);
     var consultingType3 = easyRandom.nextObject(ConsultingType.class);
-    consultingType3.setGroup(GROUP_2);
+    consultingType3.setGroups(Collections.singletonList(GROUP_2));
     consultingType3.setId(consultingType2.getId() + 1);
     Map<String, List<ConsultingType>> consultingTypeGroupMap = new LinkedHashMap<>();
     consultingTypeGroupMap.put(GROUP_1, Arrays.asList(consultingType1, consultingType2));
-    consultingTypeGroupMap.put(GROUP_2, Collections.singletonList(consultingType3));
+    consultingTypeGroupMap.put(GROUP_2, Arrays.asList(consultingType1, consultingType3));
     when(consultingTypeGroupRepository.getConsultingTypesGroupMap())
         .thenReturn(consultingTypeGroupMap);
 
@@ -61,8 +61,10 @@ public class ConsultingTypeGroupServiceTest {
     assertThat(result.get(0).getConsultingTypes().get(1).getTitles().getDefault(), is(consultingType2.getTitles().getDefault()));
     assertThat(result.get(0).getConsultingTypes().get(1).getId(), is(consultingType2.getId()));
     assertThat(result.get(1).getTitle(), is(GROUP_2));
-    assertThat(result.get(1).getConsultingTypes(), hasSize(1));
-    assertThat(result.get(1).getConsultingTypes().get(0).getTitles().getDefault(), is(consultingType3.getTitles().getDefault()));
-    assertThat(result.get(1).getConsultingTypes().get(0).getId(), is(consultingType3.getId()));
+    assertThat(result.get(1).getConsultingTypes(), hasSize(2));
+    assertThat(result.get(1).getConsultingTypes().get(0).getTitles().getDefault(), is(consultingType1.getTitles().getDefault()));
+    assertThat(result.get(1).getConsultingTypes().get(0).getId(), is(consultingType1.getId()));
+    assertThat(result.get(1).getConsultingTypes().get(1).getTitles().getDefault(), is(consultingType3.getTitles().getDefault()));
+    assertThat(result.get(1).getConsultingTypes().get(1).getId(), is(consultingType3.getId()));
   }
 }

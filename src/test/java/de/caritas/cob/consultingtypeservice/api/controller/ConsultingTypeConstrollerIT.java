@@ -25,6 +25,7 @@ import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.util.Arrays;
 import java.util.Collections;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +98,8 @@ public class ConsultingTypeConstrollerIT {
         get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json().isEqualTo(HelperMethods.getConsultingTypeSettingsAsJsonString()));
+        .andExpect(json()
+            .isEqualTo(removeNode("groups",HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -127,7 +129,8 @@ public class ConsultingTypeConstrollerIT {
         get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json().isEqualTo(HelperMethods.getConsultingTypeSettingsAsJsonString()));
+        .andExpect(json()
+            .isEqualTo(removeNode("groups", HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -254,6 +257,13 @@ public class ConsultingTypeConstrollerIT {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isInternalServerError());
 
+  }
+
+  private String removeNode(String node, String consultingTypeSettingsAsJsonString)
+  {
+    JSONObject jsonObject = new JSONObject(consultingTypeSettingsAsJsonString);
+    jsonObject.remove(node);
+    return jsonObject.toString();
   }
 
 }

@@ -1,6 +1,8 @@
 {
   "id": 0,
-  "group": "${json-unit.ignore-element}",
+  "groups": [
+    "group1"
+  ],
   "description": "Lorem ipsum",
   "furtherInformation": {
     "label": "Lorem Impsum",

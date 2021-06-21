@@ -32,21 +32,25 @@ public class ConsultingTypeGroupRepository {
    * @param consultingType the {@link ConsultingType} to add
    */
   protected void addConsultingType(ConsultingType consultingType) {
-    if (nonNull(consultingType.getGroup())) {
-      initializeGroupInMapIfNotExists(consultingType);
-      addConsultingTypeToMap(consultingType);
+    if (nonNull(consultingType.getGroups())) {
+      consultingType
+          .getGroups()
+          .forEach(group -> {
+            initializeGroupInMapIfNotExists(group);
+            addConsultingTypeToMap(consultingType, group);
+          });
     }
   }
 
-  private void addConsultingTypeToMap(ConsultingType consultingType) {
+  private void addConsultingTypeToMap(ConsultingType consultingType, String group) {
     this.consultingTypesGroupMap
-        .get(consultingType.getGroup()).add(consultingType);
+        .get(group).add(consultingType);
   }
 
-  private void initializeGroupInMapIfNotExists(ConsultingType consultingType) {
+  private void initializeGroupInMapIfNotExists(String group) {
     this.consultingTypesGroupMap.computeIfAbsent(
-        consultingType.getGroup(),
-        group -> new ArrayList<>());
+        group,
+        newGroup -> new ArrayList<>());
   }
 
 }

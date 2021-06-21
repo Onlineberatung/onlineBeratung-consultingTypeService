@@ -1,6 +1,9 @@
 {
   "id": 1,
-  "group": "group",
+  "groups": [
+    "group2",
+    "group3"
+  ],
   "description": "Lorem ipsum",
   "slug": "consultingtype1",
   "excludeNonMainConsultantsFromTeamSessions": false,
