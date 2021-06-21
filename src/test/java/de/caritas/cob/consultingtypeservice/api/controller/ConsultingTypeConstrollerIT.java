@@ -99,7 +99,7 @@ public class ConsultingTypeConstrollerIT {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(json()
-            .isEqualTo(removeNode("groups",HelperMethods.getConsultingTypeSettingsAsJsonString())));
+            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -130,7 +130,7 @@ public class ConsultingTypeConstrollerIT {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(json()
-            .isEqualTo(removeNode("groups", HelperMethods.getConsultingTypeSettingsAsJsonString())));
+            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -259,10 +259,9 @@ public class ConsultingTypeConstrollerIT {
 
   }
 
-  private String removeNode(String node, String consultingTypeSettingsAsJsonString)
-  {
+  private String removeGroupsNode(String consultingTypeSettingsAsJsonString) {
     JSONObject jsonObject = new JSONObject(consultingTypeSettingsAsJsonString);
-    jsonObject.remove(node);
+    jsonObject.remove("groups");
     return jsonObject.toString();
   }
 
