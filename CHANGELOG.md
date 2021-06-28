@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.1.1...v1.2.0) (2021-06-28)
+
+
+### Features
+
+* added anonymous welcome screen item properties ([1a0f65e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/1a0f65e5f6fddfbb95b92cbcfb11cdd95b702124))
+
 ### [1.1.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.1.0...v1.1.1) (2021-06-18)
 
 ## 1.1.0 (2021-06-18)
