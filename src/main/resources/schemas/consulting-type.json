@@ -571,6 +571,30 @@
         "age",
         "state"
       ]
+    },
+    "welcomeScreen": {
+      "description": "Properties for registration welcome screen items",
+      "type": "object",
+      "default": null,
+      "properties": {
+        "anonymous": {
+          "description": "Item 'anonymous' on registration welcome screen",
+          "type": "object",
+          "default": null,
+          "properties": {
+            "title": {
+              "description": "Title for item 'anonymous'",
+              "type": ["string", "null"],
+              "default": null
+            },
+            "text": {
+              "description": "Text for item 'anonymous'",
+              "type": ["string", "null"],
+              "default": null
+            }
+          }
+        }
+      }
     }
   },
   "required": [
