@@ -582,12 +582,12 @@
           "type": "object",
           "default": null,
           "properties": {
-            "itemTitle": {
+            "title": {
               "description": "Title for item 'anonymous'",
               "type": ["string", "null"],
               "default": null
             },
-            "itemText": {
+            "text": {
               "description": "Text for item 'anonymous'",
               "type": ["string", "null"],
               "default": null

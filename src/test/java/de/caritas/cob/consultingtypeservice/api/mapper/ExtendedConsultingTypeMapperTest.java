@@ -24,7 +24,8 @@ public class ExtendedConsultingTypeMapperTest {
         jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
             .whenIgnoringPaths(
                 "voluntaryComponents",
-                "requiredComponents"
+                "requiredComponents",
+                "welcomeScreen"
             )
     );
   }

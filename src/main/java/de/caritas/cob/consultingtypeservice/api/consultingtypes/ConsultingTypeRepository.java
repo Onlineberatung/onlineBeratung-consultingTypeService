@@ -63,7 +63,7 @@ public class ConsultingTypeRepository {
    */
   protected void addConsultingType(ConsultingType consultingType) {
     if (isConsultingTypeWithGivenIdPresent(consultingType)
-        || isConsultingTypeWithGivenSlugIsPresent(consultingType)) {
+        || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logError(String
           .format("Could not initialize consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
@@ -76,7 +76,7 @@ public class ConsultingTypeRepository {
     return this.consultingTypesMap.containsKey(consultingType.getId());
   }
 
-  private boolean isConsultingTypeWithGivenSlugIsPresent(ConsultingType consultingType) {
+  private boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     return consultingTypesMap
         .entrySet()
         .stream()

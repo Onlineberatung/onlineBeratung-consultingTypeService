@@ -376,9 +376,9 @@ components:
     AnonymousScreenDTO:
       type: object
       properties:
-        itemTitle:
+        title:
           type: string
           example: Lorem ipsum
-        itemText:
+        text:
           type: string
           example: Lorem ipsum dolor sit amet, consetetur...

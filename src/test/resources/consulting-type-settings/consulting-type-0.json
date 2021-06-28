@@ -248,8 +248,8 @@
   },
   "welcomeScreen": {
     "anonymous": {
-      "itemTitle": "Lorem ipsum",
-      "itemText": "Lorem ipsum dolor sit amet, consetetur..."
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet, consetetur..."
     }
   }
 }

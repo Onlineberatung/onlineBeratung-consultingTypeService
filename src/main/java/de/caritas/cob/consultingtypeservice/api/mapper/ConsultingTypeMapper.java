@@ -178,8 +178,8 @@ public class ConsultingTypeMapper {
 
   protected static AnonymousScreenDTO mapAnonymousScreen(Anonymous anonymous) {
     return new AnonymousScreenDTO()
-        .itemTitle(anonymous.getItemTitle())
-        .itemText(anonymous.getItemText());
+        .title(anonymous.getTitle())
+        .text(anonymous.getText());
   }
 
   public static <R> R mapConsultingType(ConsultingType consultingType,
