@@ -66,7 +66,7 @@ public class StatelessCsrfFilter extends OncePerRequestFilter {
 
   public static final class DefaultRequiresCsrfMatcher implements RequestMatcher {
 
-    private final Pattern allowedMethods = Pattern.compile("^(HEAD|TRACE|OPTIONS)$");
+    private final Pattern allowedMethods = Pattern.compile("^(HEAD|TRACE|OPTIONS|GET)$");
 
     @Override
     public boolean matches(HttpServletRequest request) {
