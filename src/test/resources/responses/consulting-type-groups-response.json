@@ -1,0 +1,24 @@
+[
+  {
+    "title": "group2",
+    "consultingTypes": [
+      {
+        "id": 1,
+        "titles": {
+          "default": "default"
+        }
+      }
+    ]
+  },
+  {
+    "title": "group1",
+    "consultingTypes": [
+      {
+        "id": 0,
+        "titles": {
+          "default": "default"
+        }
+      }
+    ]
+  }
+]

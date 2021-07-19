@@ -2,6 +2,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_BASIC_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_BASIC_CONSULTING_TYPE_LIST;
+import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_CONSULTING_TYPE_GROUPS;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG;
@@ -11,16 +12,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
 import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.util.Arrays;
+import java.util.Collections;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +46,8 @@ public class ConsultingTypeConstrollerIT {
   private MockMvc mvc;
   @MockBean
   private ConsultingTypeService consultingTypeService;
+  @MockBean
+  private ConsultingTypeGroupService consultingTypeGroupService;
   @MockBean
   private LinkDiscoverers linkDiscoverers;
 
@@ -63,8 +70,10 @@ public class ConsultingTypeConstrollerIT {
 
     BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO = BasicConsultingTypeMapper
         .mapConsultingType(HelperMethods.getConsultingType());
-    BasicConsultingTypeResponseDTO[] basicConsultingTypeResponseDTOArray = { basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO };
-    String basicConsultingTypeResponseDTOJson = new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTOArray);
+    BasicConsultingTypeResponseDTO[] basicConsultingTypeResponseDTOArray = {
+        basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO};
+    String basicConsultingTypeResponseDTOJson = new ObjectMapper()
+        .writeValueAsString(basicConsultingTypeResponseDTOArray);
 
     when(consultingTypeService.fetchBasicConsultingTypesList())
         .thenReturn(Arrays.asList(basicConsultingTypeResponseDTO,
@@ -89,11 +98,13 @@ public class ConsultingTypeConstrollerIT {
         get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json().isEqualTo(HelperMethods.getConsultingTypeSettingsAsJsonString()));
+        .andExpect(json()
+            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
-  public void getFullConsultingTypeById_Should_ReturnNotFound_WhenConsultingTypeIsMissing() throws Exception {
+  public void getFullConsultingTypeById_Should_ReturnNotFound_WhenConsultingTypeIsMissing()
+      throws Exception {
 
     Integer consultingTypeId = 1;
     when(consultingTypeService.fetchFullConsultingTypeSettingsById(consultingTypeId))
@@ -118,11 +129,13 @@ public class ConsultingTypeConstrollerIT {
         get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json().isEqualTo(HelperMethods.getConsultingTypeSettingsAsJsonString()));
+        .andExpect(json()
+            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
-  public void getFullConsultingTypeBySlug_Should_ReturnNotFound_WhenConsultingTypeIsMissing() throws Exception {
+  public void getFullConsultingTypeBySlug_Should_ReturnNotFound_WhenConsultingTypeIsMissing()
+      throws Exception {
 
     String consultingTypeSlug = "consultingtype0";
     when(consultingTypeService.fetchFullConsultingTypeSettingsBySlug(consultingTypeSlug))
@@ -199,6 +212,57 @@ public class ConsultingTypeConstrollerIT {
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
 
+  }
+
+  @Test
+  public void getConsultingTypeGroups_Should_ReturnNoContent_WhenNoGroupsDefined()
+      throws Exception {
+
+    when(consultingTypeGroupService.fetchConsultingTypeGroupList())
+        .thenReturn(Collections.emptyList());
+
+    mvc.perform(
+        get(PATH_GET_CONSULTING_TYPE_GROUPS)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  public void getConsultingTypeGroups_Should_ReturnListOfConsultingTypeGroupResponseDTO()
+      throws Exception {
+
+    var consultingTypeGroupsReponseJson = HelperMethods
+        .loadConsultingTypeGroupResponseAsJsonString();
+    var consultingTypeGroupsResponse = HelperMethods.loadConsultingTypeGroupResponse();
+    when(consultingTypeGroupService.fetchConsultingTypeGroupList())
+        .thenReturn(consultingTypeGroupsResponse);
+
+    mvc.perform(
+        get(PATH_GET_CONSULTING_TYPE_GROUPS)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(json().isEqualTo(consultingTypeGroupsReponseJson));
+
+  }
+
+  @Test
+  public void getConsultingTypeGroups_Should_ReturnInternalServerError_WhenUnexpectedErrorOccurs()
+      throws Exception {
+
+    when(consultingTypeGroupService.fetchConsultingTypeGroupList())
+        .thenThrow(new UnexpectedErrorException());
+
+    mvc.perform(
+        get(PATH_GET_CONSULTING_TYPE_GROUPS)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isInternalServerError());
+
+  }
+
+  private String removeGroupsNode(String consultingTypeSettingsAsJsonString) {
+    JSONObject jsonObject = new JSONObject(consultingTypeSettingsAsJsonString);
+    jsonObject.remove("groups");
+    return jsonObject.toString();
   }
 
 }

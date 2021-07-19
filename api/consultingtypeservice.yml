@@ -127,6 +127,25 @@ paths:
           description: FORBIDDEN - no/invalid role/authorization or CSRF token
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /consultingtypes/groups:
+    get:
+      tags:
+        - consulting-type-controller
+      summary: 'Returns the group structure of all consulting types'
+      operationId: getConsultingTypeGroups
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ConsultingTypeGroupsResponseDTO'
+        204:
+          description: NO CONTENT - no groups defined
+        403:
+          description: FORBIDDEN - no/invalid role/authorization or CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 
 components:
   schemas:
@@ -424,3 +443,32 @@ components:
         text:
           type: string
           example: Lorem ipsum dolor sit amet, consetetur...
+
+    ConsultingTypeGroupsResponseDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsultingTypeGroupResponseDTO'
+
+    ConsultingTypeGroupResponseDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Lorem ipsum'
+        consultingTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsultingTypeCoreDTO'
+
+    ConsultingTypeCoreDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12345
+        titles:
+          type: object
+          properties:
+            default:
+              type: string
+              example: "Lorem ipsum"

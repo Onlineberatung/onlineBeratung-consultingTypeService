@@ -37,6 +37,8 @@ public class ConsultingTypeLoaderTest {
   @Mock
   ConsultingTypeRepository consultingTypeRepository;
   @Mock
+  ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  @Mock
   ConsultingTypeValidator consultingTypeValidator;
   @Mock
   private Logger logger;
