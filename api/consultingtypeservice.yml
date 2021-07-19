@@ -246,7 +246,7 @@ components:
         - $ref: '#/components/schemas/ExtendedConsultingTypeResponseDTO'
         - type: object
           properties:
-           taryComponents:
+            voluntaryComponents:
               type: array
               items:
                 type: object
@@ -427,7 +427,7 @@ components:
         allTeamConsultants:
           type: "boolean"
           example: true
-          
+
     WelcomeScreenDTO:
       type: object
       properties:
@@ -443,7 +443,7 @@ components:
         text:
           type: string
           example: Lorem ipsum dolor sit amet, consetetur...
-    
+
     ConsultingTypeGroupsResponseDTO:
       type: array
       items:
