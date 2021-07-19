@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
+import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_BASIC_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_BASIC_CONSULTING_TYPE_LIST;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_ID;
@@ -161,6 +162,39 @@ public class ConsultingTypeConstrollerIT {
 
     mvc.perform(
         get(String.format(PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID, consultingTypeId))
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
+
+  }
+
+  @Test
+  public void getBasicConsultingTypeById_Should_ReturnBasicConsultingTypeDTO() throws Exception {
+
+    Integer consultingTypeId = 1;
+    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO = BasicConsultingTypeMapper
+        .mapConsultingType(HelperMethods.getConsultingType());
+    when(consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingTypeId))
+        .thenReturn(basicConsultingTypeResponseDTO);
+
+    mvc.perform(
+        get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(json()
+            .isEqualTo(new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTO)));
+  }
+
+  @Test
+  public void getBasicConsultingTypeById_Should_ReturnNotFound_WhenConsultingTypeIsMissing()
+      throws Exception {
+
+    Integer consultingTypeId = 1;
+    when(consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingTypeId))
+        .thenThrow(new NotFoundException("Not found"));
+
+    mvc.perform(
+        get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));

@@ -1,5 +1,9 @@
 {
   "id": 2,
+  "furtherInformation": {
+    "label": "Lorem Impsum",
+    "url": "https://www.domain.com"
+  },
   "slug": "consultingtype2",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
@@ -19,7 +23,6 @@
       "state": false
     },
     "notes": {
-
     }
   },
   "titles": {
@@ -29,6 +32,6 @@
     "welcome": "welcome"
   },
   "urls": {
-  } ,
+  },
   "isSubsequentRegistrationAllowed": false
 }

@@ -23,6 +23,32 @@ paths:
           description: FORBIDDEN - no/invalid role/authorization or CSRF token
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /consultingtypes/{consultingTypeId}/basic:
+    get:
+      tags:
+        - consulting-type-controller
+      summary: 'Returns the consulting type with basic set of properties for a given consulting type id'
+      operationId: getBasicConsultingTypeById
+      parameters:
+        - name: consultingTypeId
+          in: path
+          description: cnsulting type id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BasicConsultingTypeResponseDTO'
+        404:
+          description: NOT FOUND - ConsultingType not found
+        403:
+          description: FORBIDDEN - no/invalid role/authorization or CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
   /consultingtypes/{consultingTypeId}/extended:
     get:
       tags:
@@ -116,6 +142,12 @@ components:
         id:
           type: integer
           example: 100
+        description:
+          type: string
+          example: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
+        furtherInformation:
+          allOf:
+            - $ref: '#/components/schemas/FurtherInformationDTO'
         titles:
           allOf:
             - $ref: '#/components/schemas/TitlesDTO'
@@ -203,6 +235,16 @@ components:
               type: object
             welcomeScreen:
               $ref: '#/components/schemas/WelcomeScreenDTO'
+
+    FurtherInformationDTO:
+      type: object
+      properties:
+        label:
+          type: string
+          example: "Lorem ipsum"
+        url:
+          type: string
+          example: "https://www.domain.com"
 
     TitlesDTO:
       type: object

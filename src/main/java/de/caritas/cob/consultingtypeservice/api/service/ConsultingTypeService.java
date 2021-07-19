@@ -71,4 +71,14 @@ public class ConsultingTypeService {
         ExtendedConsultingTypeMapper::mapConsultingType);
   }
 
+  /**
+   * Fetch a consulting type with basic set of properties by id.
+   *
+   * @param consultingTypeId the consulting type id
+   * @return a {@link BasicConsultingTypeResponseDTO} instance
+   */
+  public BasicConsultingTypeResponseDTO fetchBasicConsultingTypeSettingsById(Integer consultingTypeId) {
+    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
+        BasicConsultingTypeMapper::mapConsultingType);
+  }
 }
