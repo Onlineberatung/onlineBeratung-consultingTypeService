@@ -233,6 +233,8 @@ components:
                 type: object
             requiredComponents:
               type: object
+            welcomeScreen:
+              $ref: '#/components/schemas/WelcomeScreenDTO'
 
     FurtherInformationDTO:
       type: object
@@ -407,10 +409,18 @@ components:
           type: "boolean"
           example: true
 
-    VoluntaryComponentsDTO:
+    WelcomeScreenDTO:
       type: object
       properties:
-        requiredComponents:
-          type: array
-          items:
-            type: object
+        anonymous:
+          $ref: '#/components/schemas/AnonymousScreenDTO'
+
+    AnonymousScreenDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Lorem ipsum
+        text:
+          type: string
+          example: Lorem ipsum dolor sit amet, consetetur...
