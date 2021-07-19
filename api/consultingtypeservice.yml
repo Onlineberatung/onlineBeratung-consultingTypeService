@@ -246,12 +246,14 @@ components:
         - $ref: '#/components/schemas/ExtendedConsultingTypeResponseDTO'
         - type: object
           properties:
-            voluntaryComponents:
+           taryComponents:
               type: array
               items:
                 type: object
             requiredComponents:
               type: object
+            welcomeScreen:
+              $ref: '#/components/schemas/WelcomeScreenDTO'
 
     FurtherInformationDTO:
       type: object
@@ -425,15 +427,23 @@ components:
         allTeamConsultants:
           type: "boolean"
           example: true
-
-    VoluntaryComponentsDTO:
+          
+    WelcomeScreenDTO:
       type: object
       properties:
-        requiredComponents:
-          type: array
-          items:
-            type: object
+        anonymous:
+          $ref: '#/components/schemas/AnonymousScreenDTO'
 
+    AnonymousScreenDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Lorem ipsum
+        text:
+          type: string
+          example: Lorem ipsum dolor sit amet, consetetur...
+    
     ConsultingTypeGroupsResponseDTO:
       type: array
       items:
@@ -462,6 +472,3 @@ components:
             default:
               type: string
               example: "Lorem ipsum"
-
-
-

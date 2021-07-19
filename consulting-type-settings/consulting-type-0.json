@@ -248,5 +248,11 @@
     "state": {
       "isEnabled": true
     }
+  },
+  "welcomeScreen": {
+    "anonymous": {
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet, consetetur..."
+    }
   }
 }

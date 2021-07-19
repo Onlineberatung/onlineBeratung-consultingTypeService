@@ -25,7 +25,8 @@ public class ExtendedConsultingTypeMapperTest {
             .whenIgnoringPaths(
                 "voluntaryComponents",
                 "requiredComponents",
-                "groups"
+                "groups",
+                "welcomeScreen"
             )
     );
   }
