@@ -13,7 +13,7 @@ import org.junit.Test;
 public class ExtendedConsultingTypeMapperTest {
 
   @Test
-  public void mapConsultingType_Should_MapAllBasicProperties() throws IOException {
+  public void mapConsultingType_Should_MapAllExtendedProperties() throws IOException {
 
     ExtendedConsultingTypeResponseDTO result = ExtendedConsultingTypeMapper
         .mapConsultingType(HelperMethods.getConsultingType());
