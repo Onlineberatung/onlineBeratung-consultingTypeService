@@ -178,6 +178,14 @@
       "type": "string",
       "default": null
     },
+    "groups": {
+      "description": "Group names - the same group names are combined in the consulting type structure",
+      "type": "array",
+      "items": {
+          "type": "string",
+          "minLength": 1
+      }
+    },
     "furtherInformation": {
       "description": "Label and link for further information of the consulting type",
       "type": "object",

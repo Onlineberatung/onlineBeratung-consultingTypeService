@@ -40,6 +40,7 @@ public class BasicConsultingTypeMapperTest {
                 "registration",
                 "voluntaryComponents",
                 "requiredComponents",
+                "groups",
                 "welcomeScreen"
             )
     );

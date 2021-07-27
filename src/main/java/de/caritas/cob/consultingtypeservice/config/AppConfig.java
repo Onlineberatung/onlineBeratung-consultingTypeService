@@ -20,7 +20,7 @@ public class AppConfig {
    */
   @Bean
   public LocalValidatorFactoryBean validator(MessageSource messageSource) {
-    LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
+    var validatorFactoryBean = new LocalValidatorFactoryBean();
     validatorFactoryBean.setValidationMessageSource(messageSource);
     return validatorFactoryBean;
   }

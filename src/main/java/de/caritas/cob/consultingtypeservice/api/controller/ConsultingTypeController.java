@@ -1,8 +1,10 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
 import de.caritas.cob.consultingtypeservice.generated.api.controller.ConsultingtypesApi;
 import io.swagger.annotations.Api;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConsultingTypeController implements ConsultingtypesApi {
 
   private final @NonNull ConsultingTypeService consultingTypeService;
+  private final @NonNull ConsultingTypeGroupService consultingTypeGroupService;
 
   /**
    * Returns a list of all consulting types with basic properties.
@@ -94,5 +97,22 @@ public class ConsultingTypeController implements ConsultingtypesApi {
     return new ResponseEntity<>(
         consultingTypeService
             .fetchBasicConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
+  }
+
+  /**
+   * Returns the consulting type groups with the assigned consulting types.
+   *
+   * @return {@link ResponseEntity} containing a {@link List} of {@link ConsultingTypeGroupResponseDTO}
+   */
+  @Override
+  public ResponseEntity<List<ConsultingTypeGroupResponseDTO>> getConsultingTypeGroups() {
+
+    List<ConsultingTypeGroupResponseDTO> consultingTypeGroupResponseDtoList =
+        consultingTypeGroupService.fetchConsultingTypeGroupList();
+
+    return !CollectionUtils.isEmpty(consultingTypeGroupResponseDtoList)
+        ? new ResponseEntity<>(consultingTypeGroupResponseDtoList, HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
   }
 }
