@@ -5,6 +5,7 @@
   "consultantBoundedToConsultingType": false,
   "sendSaveSessionDataMessage": true,
   "initializeFeedbackChat": true,
+  "isPeerChat": true,
   "languageFormal": true,
   "roles": {
     "consultant": {

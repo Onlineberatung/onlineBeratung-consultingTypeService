@@ -34,6 +34,7 @@ public class BasicConsultingTypeMapperTest {
                 "whiteSpot",
                 "monitoring",
                 "initializeFeedbackChat",
+                "isPeerChat",
                 "languageFormal",
                 "roles",
                 "notifications",
