@@ -42,6 +42,7 @@
     "monitoringTemplateFile": "consultingtype0.json"
   },
   "initializeFeedbackChat": false,
+  "isPeerChat": false,
   "languageFormal": true,
   "roles": {
     "consultant": {

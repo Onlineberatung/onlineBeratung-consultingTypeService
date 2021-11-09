@@ -38,6 +38,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .sessionDataInitializing(
             mapSessionDataInitializing(consultingType.getSessionDataInitializing()))
         .initializeFeedbackChat(consultingType.getInitializeFeedbackChat())
+        .isPeerChat(consultingType.getIsPeerChat())
         .languageFormal(consultingType.getLanguageFormal())
         .showAskerProfile(consultingType.getShowAskerProfile())
         .monitoring(mapMonitoring(consultingType.getMonitoring()))

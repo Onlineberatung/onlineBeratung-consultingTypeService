@@ -354,6 +354,11 @@
       "type": "boolean",
       "default": false
     },
+    "isPeerChat": {
+      "description": "Indicates whether the chat should be initialized as peer chat for every session of this consulting type",
+      "type": "boolean",
+      "default": false
+    },
     "languageFormal": {
       "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
       "type": "boolean",
