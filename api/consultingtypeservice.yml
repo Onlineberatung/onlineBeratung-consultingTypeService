@@ -140,6 +140,9 @@ components:
         showAskerProfile:
           type: boolean
           example: true
+        isVideoCallAllowed:
+          type: boolean
+          example: true
 
     ExtendedConsultingTypeResponseDTO:
       type: object

@@ -10,6 +10,7 @@
   "sendFurtherStepsMessage": true,
   "sendSaveSessionDataMessage": true,
   "isSetEmailAllowed": false,
+  "isVideoCallAllowed": false,
   "sessionDataInitializing": {
     "addictiveDrugs": true,
     "age": true,
