@@ -522,6 +522,11 @@
       "type": "boolean",
       "default": true
     },
+    "isVideoCallAllowed": {
+      "description": "True to enable video call buttons for consultants. False, when video call should be deactivated for consulting type.",
+      "type": "boolean",
+      "default": false
+    },
     "isSubsequentRegistrationAllowed": {
       "description": "If true, askers additionally can register for this consulting type on their profile page at a later date.",
       "type": "boolean",

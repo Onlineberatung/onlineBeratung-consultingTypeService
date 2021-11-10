@@ -15,6 +15,7 @@
   "isAnonymousConversationAllowed": false,
   "lockedAgencies": true,
   "showAskerProfile": false,
+  "isVideoCallAllowed": false,
   "welcomeMessage": {
     "sendWelcomeMessage": true,
     "welcomeMessageText": "Lorem ipsum"
