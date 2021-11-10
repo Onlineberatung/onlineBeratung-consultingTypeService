@@ -3,6 +3,8 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import static java.util.Objects.nonNull;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.roles.Consultant;
+import de.caritas.cob.consultingtypeservice.api.model.AnonymousScreenDTO;
+import de.caritas.cob.consultingtypeservice.api.model.FurtherInformationDTO;
 import de.caritas.cob.consultingtypeservice.api.model.GroupChatDTO;
 import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NewMessageDTO;
@@ -16,8 +18,11 @@ import de.caritas.cob.consultingtypeservice.api.model.TeamSessionsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TitlesDTO;
 import de.caritas.cob.consultingtypeservice.api.model.UrlsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeMessageDTO;
+import de.caritas.cob.consultingtypeservice.api.model.WelcomeScreenDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WhiteSpotDTO;
+import de.caritas.cob.consultingtypeservice.schemas.model.Anonymous;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
+import de.caritas.cob.consultingtypeservice.schemas.model.FurtherInformation;
 import de.caritas.cob.consultingtypeservice.schemas.model.GroupChat;
 import de.caritas.cob.consultingtypeservice.schemas.model.Monitoring;
 import de.caritas.cob.consultingtypeservice.schemas.model.NewMessage;
@@ -29,6 +34,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.TeamSessions;
 import de.caritas.cob.consultingtypeservice.schemas.model.Titles;
 import de.caritas.cob.consultingtypeservice.schemas.model.Urls;
 import de.caritas.cob.consultingtypeservice.schemas.model.WelcomeMessage;
+import de.caritas.cob.consultingtypeservice.schemas.model.WelcomeScreen;
 import de.caritas.cob.consultingtypeservice.schemas.model.WhiteSpot;
 import java.util.LinkedHashMap;
 import java.util.function.Function;
@@ -36,6 +42,14 @@ import java.util.function.Function;
 public class ConsultingTypeMapper {
 
   protected ConsultingTypeMapper() {
+  }
+
+  protected static FurtherInformationDTO mapFurtherInformation(
+      FurtherInformation furtherInformation) {
+    return nonNull(furtherInformation) ? new FurtherInformationDTO()
+        .label(furtherInformation.getLabel())
+        .url(furtherInformation.getUrl())
+        : null;
   }
 
   protected static TitlesDTO mapTitles(Titles titles) {
@@ -163,6 +177,19 @@ public class ConsultingTypeMapper {
   protected static NewMessageDTO mapNewMessage(NewMessage newMessage) {
     return new NewMessageDTO()
         .allTeamConsultants(newMessage.getAllTeamConsultants());
+  }
+
+  protected static WelcomeScreenDTO mapWelcomeScreen(WelcomeScreen welcomeScreen) {
+    return nonNull(welcomeScreen)
+        ? new WelcomeScreenDTO()
+        .anonymous(mapAnonymousScreen(welcomeScreen.getAnonymous()))
+        : null;
+  }
+
+  protected static AnonymousScreenDTO mapAnonymousScreen(Anonymous anonymous) {
+    return new AnonymousScreenDTO()
+        .title(anonymous.getTitle())
+        .text(anonymous.getText());
   }
 
   public static <R> R mapConsultingType(ConsultingType consultingType,

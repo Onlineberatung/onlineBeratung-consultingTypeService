@@ -173,6 +173,30 @@
       "type": "integer",
       "minimum": 0
     },
+    "description": {
+      "description": "Description for the consulting type",
+      "type": "string",
+      "default": null
+    },
+    "furtherInformation": {
+      "description": "Label and link for further information of the consulting type",
+      "type": "object",
+      "default": null,
+      "properties": {
+        "label": {
+          "description": "The label for the link",
+          "type": "string"
+        },
+        "url": {
+          "description": "The link",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "url"
+      ]
+    },
     "slug": {
       "description": "The unique slug for the consulting type",
       "type": "string"
@@ -576,6 +600,30 @@
         "age",
         "state"
       ]
+    },
+    "welcomeScreen": {
+      "description": "Properties for registration welcome screen items",
+      "type": "object",
+      "default": null,
+      "properties": {
+        "anonymous": {
+          "description": "Item 'anonymous' on registration welcome screen",
+          "type": "object",
+          "default": null,
+          "properties": {
+            "title": {
+              "description": "Title for item 'anonymous'",
+              "type": ["string", "null"],
+              "default": null
+            },
+            "text": {
+              "description": "Text for item 'anonymous'",
+              "type": ["string", "null"],
+              "default": null
+            }
+          }
+        }
+      }
     }
   },
   "required": [

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.3.0...v1.3.1) (2021-11-10)
+
+## [1.3.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.2.0...v1.3.0) (2021-07-26)
+
+
+### Features
+
+* added new api endpoint for consulting type with basic properties by id ([a7ad3b1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/a7ad3b14e2a1f33e36e53e9bccb3950b6833d783))
+* extension of consulting type settings by attributes description and furtherInformation ([b2ae36e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/b2ae36eab3e406c30d2839cf45d0548d3596344c))
+
+## [1.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.1.1...v1.2.0) (2021-06-28)
+
+
+### Features
+
+* added anonymous welcome screen item properties ([1a0f65e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/1a0f65e5f6fddfbb95b92cbcfb11cdd95b702124))
+
 ### [1.1.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.1.0...v1.1.1) (2021-06-18)
 
 ## 1.1.0 (2021-06-18)

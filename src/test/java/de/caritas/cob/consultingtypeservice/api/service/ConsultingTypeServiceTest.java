@@ -86,4 +86,12 @@ public class ConsultingTypeServiceTest {
     assertThat(result.getId(), is(consultingType2.getId()));
   }
 
+  @Test
+  public void fetchBasicConsultingTypeSettingsById_Should_ReturnWantedBasicConsultingTypeResponseDTO() {
+
+    BasicConsultingTypeResponseDTO result = consultingTypeService
+        .fetchBasicConsultingTypeSettingsById(consultingType2.getId());
+    assertThat(result, notNullValue());
+    assertThat(result.getId(), is(consultingType2.getId()));
+  }
 }

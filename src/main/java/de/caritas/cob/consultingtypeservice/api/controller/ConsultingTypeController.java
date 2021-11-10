@@ -81,4 +81,18 @@ public class ConsultingTypeController implements ConsultingtypesApi {
         consultingTypeService
             .fetchExtendedConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
   }
+
+  /**
+   * Returns the consulting type with basic properties for a given consulting type id.
+   *
+   * @param consultingTypeId consulting type id (required)
+   * @return {@link ResponseEntity} containing {@link BasicConsultingTypeResponseDTO}
+   */
+  @Override
+  public ResponseEntity<BasicConsultingTypeResponseDTO> getBasicConsultingTypeById(
+      @PathVariable Integer consultingTypeId) {
+    return new ResponseEntity<>(
+        consultingTypeService
+            .fetchBasicConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
+  }
 }

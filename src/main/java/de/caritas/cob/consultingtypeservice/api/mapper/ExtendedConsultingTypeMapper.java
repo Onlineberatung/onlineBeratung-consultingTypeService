@@ -17,6 +17,8 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
   public static ExtendedConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new ExtendedConsultingTypeResponseDTO()
         .id(consultingType.getId())
+        .description(consultingType.getDescription())
+        .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .slug(consultingType.getSlug())
         .titles(mapTitles(consultingType.getTitles()))
         .urls(mapUrls(consultingType.getUrls()))

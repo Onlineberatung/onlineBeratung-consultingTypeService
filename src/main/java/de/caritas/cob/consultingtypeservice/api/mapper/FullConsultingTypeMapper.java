@@ -17,6 +17,8 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
   public static FullConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new FullConsultingTypeResponseDTO()
         .id(consultingType.getId())
+        .description(consultingType.getDescription())
+        .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .slug(consultingType.getSlug())
         .titles(mapTitles(consultingType.getTitles()))
         .urls(mapUrls(consultingType.getUrls()))
@@ -43,6 +45,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .notifications(mapNotifications(consultingType.getNotifications()))
         .voluntaryComponents(consultingType.getVoluntaryComponents())
         .requiredComponents(consultingType.getRequiredComponents())
-        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
+        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed())
+        .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()));
   }
 }

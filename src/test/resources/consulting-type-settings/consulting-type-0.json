@@ -1,5 +1,10 @@
 {
   "id": 0,
+  "description": "Lorem ipsum",
+  "furtherInformation": {
+    "label": "Lorem Impsum",
+    "url": "https://www.domain.com"
+  },
   "slug": "consultingtype0",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
@@ -245,6 +250,12 @@
     },
     "state": {
       "isEnabled": true
+    }
+  },
+  "welcomeScreen": {
+    "anonymous": {
+      "title": "Lorem ipsum",
+      "text": "Lorem ipsum dolor sit amet, consetetur..."
     }
   }
 }
