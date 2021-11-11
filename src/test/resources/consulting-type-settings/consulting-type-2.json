@@ -13,6 +13,7 @@
   "sendSaveSessionDataMessage": true,
   "initializeFeedbackChat": true,
   "isPeerChat": true,
+  "isVideoCallAllowed": false,
   "languageFormal": true,
   "roles": {
     "consultant": {

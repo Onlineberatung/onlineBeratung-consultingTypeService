@@ -46,6 +46,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .notifications(mapNotifications(consultingType.getNotifications()))
         .voluntaryComponents(consultingType.getVoluntaryComponents())
         .requiredComponents(consultingType.getRequiredComponents())
-        .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()));
+        .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()))
+        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
   }
 }
