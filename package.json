@@ -1,6 +1,6 @@
 {
   "name": "caritas-online-beratung-consultingtypeservice",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "scripts": {
     "release": "standard-version",
     "generate-schema-documentation": "jsonschema2md -o target/generated-sources/markdown/schemas -d src/main/resources/schemas -x target/generated-sources/markdown/schemas -e json -v 07"

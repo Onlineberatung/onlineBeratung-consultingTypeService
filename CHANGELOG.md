@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.3.0...v1.4.0) (2021-11-15)
+
+
+### Features
+
+* added property for is peer chat ([5e20056](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/5e200568b15d889ca94c785aabe09a5ba15172b3))
+* added property to configure video call ([0969aac](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/0969aac9bb80228446bf630c6d074d9916c899d3))
+* implemenation of 1 - n relation of consulting type to group ([087f5f0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/087f5f042551719458bc3fb2e0a74ad9e262ec9c))
+* implemenation of new api endpoint for consulting type groups ([478f372](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/478f372347b5c7a8dbfc7aa564e7ada31b23de19))
+* implementation of unit and integration tests ([161d0d2](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/161d0d2f8aaa6b55dc34936de7cacaddb971d847))
+
+
+### Bug Fixes
+
+* Checkstyle violation and sonar issue ([de701ed](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/de701ed475fe1ff3611080ea51fb9eb1de14371e))
+* fixed unit test ([862f61c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/862f61c714cf44cab59ac1eef6de1ef485292254))
+* fixed unit test ([f5a937e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/f5a937e15fdfb246527289e1b47a7b4fa3483127))
+* fixed unit test ([75496f1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/75496f1524e507e32a48e4fc675c5f49bf30fe49))
+* wrong api yaml ([0f465fa](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/commit/0f465fa3ecf2a47c3e35d5626e33cebf6fda634e))
+
 ## [1.3.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-consultingTypeService/compare/v1.2.0...v1.3.0) (2021-07-26)
 
 
