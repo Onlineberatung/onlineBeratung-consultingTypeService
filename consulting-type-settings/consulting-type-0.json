@@ -1,6 +1,10 @@
 {
   "id": 0,
   "description": "Lorem ipsum",
+  "groups": [
+    "group1",
+    "group2"
+  ],
   "furtherInformation": {
     "label": "Lorem impsum",
     "url": "https://www.domain.com"
@@ -15,6 +19,7 @@
   "sendFurtherStepsMessage": true,
   "sendSaveSessionDataMessage": true,
   "isSetEmailAllowed": false,
+  "isVideoCallAllowed": false,
   "sessionDataInitializing": {
     "addictiveDrugs": true,
     "age": true,
@@ -38,6 +43,7 @@
     "monitoringTemplateFile": "consultingtype0.json"
   },
   "initializeFeedbackChat": false,
+  "isPeerChat": false,
   "languageFormal": true,
   "roles": {
     "consultant": {

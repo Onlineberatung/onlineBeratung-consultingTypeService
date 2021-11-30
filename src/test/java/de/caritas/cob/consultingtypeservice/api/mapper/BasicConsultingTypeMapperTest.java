@@ -34,12 +34,14 @@ public class BasicConsultingTypeMapperTest {
                 "whiteSpot",
                 "monitoring",
                 "initializeFeedbackChat",
+                "isPeerChat",
                 "languageFormal",
                 "roles",
                 "notifications",
                 "registration",
                 "voluntaryComponents",
                 "requiredComponents",
+                "groups",
                 "welcomeScreen"
             )
     );

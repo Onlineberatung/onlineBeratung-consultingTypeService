@@ -12,6 +12,7 @@
   "sendSaveSessionDataMessage": false,
   "isSetEmailAllowed": true,
   "showAskerProfile": true,
+  "isVideoCallAllowed": true,
   "isSubsequentRegistrationAllowed": true,
   "isAnonymousConversationAllowed": true,
   "sessionDataInitializing": {
@@ -34,6 +35,7 @@
     "monitoringTemplateFile": null
   },
   "initializeFeedbackChat": false,
+  "isPeerChat": false,
   "languageFormal": true,
   "roles": {
     "consultant": {

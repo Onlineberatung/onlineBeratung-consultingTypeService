@@ -178,6 +178,14 @@
       "type": "string",
       "default": null
     },
+    "groups": {
+      "description": "Group names - the same group names are combined in the consulting type structure",
+      "type": "array",
+      "items": {
+          "type": "string",
+          "minLength": 1
+      }
+    },
     "furtherInformation": {
       "description": "Label and link for further information of the consulting type",
       "type": "object",
@@ -346,6 +354,11 @@
       "type": "boolean",
       "default": false
     },
+    "isPeerChat": {
+      "description": "Indicates whether the chat should be initialized as peer chat for every session of this consulting type",
+      "type": "boolean",
+      "default": false
+    },
     "languageFormal": {
       "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
       "type": "boolean",
@@ -508,6 +521,11 @@
       "description": "True to show asker profile including monitoring for consultants. False, when asker profile and monitoring should not be viewable.",
       "type": "boolean",
       "default": true
+    },
+    "isVideoCallAllowed": {
+      "description": "True to enable video call buttons for consultants. False, when video call should be deactivated for consulting type.",
+      "type": "boolean",
+      "default": false
     },
     "isSubsequentRegistrationAllowed": {
       "description": "If true, askers additionally can register for this consulting type on their profile page at a later date.",

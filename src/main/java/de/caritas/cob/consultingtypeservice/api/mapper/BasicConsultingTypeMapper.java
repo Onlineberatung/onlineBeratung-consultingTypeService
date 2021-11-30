@@ -26,7 +26,8 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
         .urls(mapUrls(consultingType.getUrls()))
         .registration(mapRegistration(consultingType.getRegistration()))
         .groupChat(mapGroupChat(consultingType.getGroupChat()))
-        .showAskerProfile(consultingType.getShowAskerProfile());
+        .showAskerProfile(consultingType.getShowAskerProfile())
+        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
   }
 
 }

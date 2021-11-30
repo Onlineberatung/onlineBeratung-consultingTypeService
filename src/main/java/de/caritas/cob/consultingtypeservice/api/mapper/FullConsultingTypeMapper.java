@@ -38,6 +38,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .sessionDataInitializing(
             mapSessionDataInitializing(consultingType.getSessionDataInitializing()))
         .initializeFeedbackChat(consultingType.getInitializeFeedbackChat())
+        .isPeerChat(consultingType.getIsPeerChat())
         .languageFormal(consultingType.getLanguageFormal())
         .showAskerProfile(consultingType.getShowAskerProfile())
         .monitoring(mapMonitoring(consultingType.getMonitoring()))
@@ -45,6 +46,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .notifications(mapNotifications(consultingType.getNotifications()))
         .voluntaryComponents(consultingType.getVoluntaryComponents())
         .requiredComponents(consultingType.getRequiredComponents())
-        .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()));
+        .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()))
+        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
   }
 }

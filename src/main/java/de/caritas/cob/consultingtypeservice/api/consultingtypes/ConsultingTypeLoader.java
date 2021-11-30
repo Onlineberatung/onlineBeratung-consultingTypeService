@@ -25,11 +25,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
+  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  private final @NonNull ConsultingTypeValidator consultingTypeValidator;
   @Value("${consulting.types.json.path}")
   private String consultingTypesFilePath;
-
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
-  private final @NonNull ConsultingTypeValidator consultingTypeValidator;
 
   @PostConstruct
   private void init() {
@@ -40,12 +40,18 @@ public class ConsultingTypeLoader {
   private void obtainInitializedConsultingType(File file) {
     consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(file);
     try {
-      consultingTypeRepository
-          .addConsultingType(new ObjectMapper().readValue(file, ConsultingType.class));
+      addConsultingTypeToRepositories(new ObjectMapper().readValue(file, ConsultingType.class));
     } catch (IOException ioException) {
       LogService.logError(ioException);
       throw new UnexpectedErrorException();
     }
+  }
+
+  private void addConsultingTypeToRepositories(ConsultingType consultingType) {
+    consultingTypeRepository
+        .addConsultingType(consultingType);
+    consultingTypeGroupRepository
+        .addConsultingType(consultingType);
   }
 
   private File[] determineConsultingTypeConfigurationFiles() {

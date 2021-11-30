@@ -1,5 +1,8 @@
 {
   "id": 0,
+  "groups": [
+    "group1"
+  ],
   "description": "Lorem ipsum",
   "furtherInformation": {
     "label": "Lorem Impsum",
@@ -12,6 +15,7 @@
   "isAnonymousConversationAllowed": false,
   "lockedAgencies": true,
   "showAskerProfile": false,
+  "isVideoCallAllowed": false,
   "welcomeMessage": {
     "sendWelcomeMessage": true,
     "welcomeMessageText": "Lorem ipsum"
@@ -42,6 +46,7 @@
     "monitoringTemplateFile": "consultingtype0.json"
   },
   "initializeFeedbackChat": false,
+  "isPeerChat": false,
   "languageFormal": true,
   "roles": {
     "consultant": {

@@ -21,7 +21,8 @@ public class FullConsultingTypeMapperTest {
 
     assertThat(result, notNullValue());
     assertThat(resultJson,
-        jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString()));
+        jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
+            .whenIgnoringPaths("groups"));
   }
 
 }

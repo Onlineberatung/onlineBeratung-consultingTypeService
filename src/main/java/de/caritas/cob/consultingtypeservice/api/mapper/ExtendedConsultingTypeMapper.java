@@ -38,10 +38,12 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
         .sessionDataInitializing(
             mapSessionDataInitializing(consultingType.getSessionDataInitializing()))
         .initializeFeedbackChat(consultingType.getInitializeFeedbackChat())
+        .isPeerChat(consultingType.getIsPeerChat())
         .languageFormal(consultingType.getLanguageFormal())
         .monitoring(mapMonitoring(consultingType.getMonitoring()))
         .roles(mapRoles(consultingType.getRoles()))
         .notifications(mapNotifications(consultingType.getNotifications()))
-        .showAskerProfile(consultingType.getShowAskerProfile());
+        .showAskerProfile(consultingType.getShowAskerProfile())
+        .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
   }
 }
