@@ -24,7 +24,8 @@ public class ConsultingTypeCoreMapper extends ConsultingTypeMapper {
 
   private static ConsultingTypeCoreDTOTitles mapConsultingTypeCoreDtoTitles(Titles titles) {
     return new ConsultingTypeCoreDTOTitles()
-        ._default(titles.getDefault());
+        ._default(titles.getDefault())
+        ._long(titles.getLong());
   }
 
 }
