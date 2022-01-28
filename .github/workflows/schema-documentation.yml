@@ -5,8 +5,7 @@ on:
     paths:
       - 'src/main/resources/schemas/**'
     branches-ignore:
-      - 'master'
-      - 'develop'
+      - '**'
 
 jobs:
   build:
