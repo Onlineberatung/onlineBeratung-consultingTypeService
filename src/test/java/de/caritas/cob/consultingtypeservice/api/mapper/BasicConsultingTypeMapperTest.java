@@ -42,7 +42,8 @@ public class BasicConsultingTypeMapperTest {
                 "voluntaryComponents",
                 "requiredComponents",
                 "groups",
-                "welcomeScreen"
+                "welcomeScreen",
+                "tenantId"
             )
     );
   }

@@ -1,5 +1,6 @@
 {
   "id": 1000,
+  "tenantId": null,
   "slug": "null-values",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "lockedAgencies": false,

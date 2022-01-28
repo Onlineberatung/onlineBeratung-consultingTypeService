@@ -1,5 +1,6 @@
 {
   "id": 3,
+  "tenantId": null,
   "slug": "consultingtype3",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,

@@ -161,6 +161,9 @@ components:
         id:
           type: integer
           example: 100
+        tenantId:
+          type: long
+          example: 100
         description:
           type: string
           example: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."

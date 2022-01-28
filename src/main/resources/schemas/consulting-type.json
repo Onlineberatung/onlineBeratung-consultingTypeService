@@ -173,6 +173,15 @@
       "type": "integer",
       "minimum": 0
     },
+    "tenantId": {
+      "description": "The unique identifier of the tenant that the consulting type belongs to.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "default": null
+    },
     "description": {
       "description": "Description for the consulting type",
       "type": "string",
