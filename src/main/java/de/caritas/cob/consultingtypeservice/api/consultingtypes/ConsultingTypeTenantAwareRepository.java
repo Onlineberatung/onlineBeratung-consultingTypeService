@@ -5,7 +5,6 @@ import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -19,15 +18,16 @@ public class ConsultingTypeTenantAwareRepository extends ConsultingTypeRepositor
 
   public Map<Integer, ConsultingType> getConsultingTypesMap() {
 
-    Map<Integer, ConsultingType> filteredMap = new HashMap<>();
+    Map<Integer, ConsultingType> filteredConsultingTypes = new HashMap<>();
 
-    super.getConsultingTypesMap().forEach((s, consultingType) -> {
-      if (Long.valueOf(consultingType.getTenantId()).equals(TenantContext.getCurrentTenant())) {
-        filteredMap.put(s, consultingType);
+    super.getConsultingTypesMap().forEach((consultingTypeId, consultingType) -> {
+      if (consultingType.getTenantId() != null && TenantContext.getCurrentTenant()
+          .equals(Long.valueOf(consultingType.getTenantId()))) {
+        filteredConsultingTypes.put(consultingTypeId, consultingType);
       }
     });
 
-    return filteredMap;
+    return filteredConsultingTypes;
   }
 
 }

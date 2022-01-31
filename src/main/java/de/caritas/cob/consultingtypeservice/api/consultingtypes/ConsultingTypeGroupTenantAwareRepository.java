@@ -27,10 +27,13 @@ public class ConsultingTypeGroupTenantAwareRepository extends ConsultingTypeGrou
 
     Map<String, List<ConsultingType>> filteredMap = new HashMap<>();
 
-    super.getConsultingTypesGroupMap().forEach((s, consultingTypes) -> {
-      filteredMap.put(s, consultingTypes.stream().filter(el -> el.getTenantId().equals(
-          TenantContext.getCurrentTenant()))
-          .collect(Collectors.toList()));
+    super.getConsultingTypesGroupMap().forEach((groupId, consultingTypes) -> {
+      List<ConsultingType> filteredConsultingTypes = consultingTypes.stream()
+          .filter(el -> {
+            return el.getTenantId() != null && Long.valueOf(el.getTenantId()).equals(
+                TenantContext.getCurrentTenant());
+          }).collect(Collectors.toList());
+      filteredMap.put(groupId, filteredConsultingTypes);
     });
 
     return filteredMap;
