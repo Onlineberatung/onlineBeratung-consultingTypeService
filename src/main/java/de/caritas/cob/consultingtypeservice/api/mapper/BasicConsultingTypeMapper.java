@@ -17,7 +17,7 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
   public static BasicConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new BasicConsultingTypeResponseDTO()
         .id(consultingType.getId())
-        .tenantId(consultingType.getTenantId() != null ? Long.valueOf(consultingType.getTenantId())
+        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId()
             : null)
         .description(consultingType.getDescription())
         .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))

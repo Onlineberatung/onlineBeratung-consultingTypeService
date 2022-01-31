@@ -162,7 +162,7 @@ components:
           type: integer
           example: 100
         tenantId:
-          type: long
+          type: integer
           example: 100
         description:
           type: string
