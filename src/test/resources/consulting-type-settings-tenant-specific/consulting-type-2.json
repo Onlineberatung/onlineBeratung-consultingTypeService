@@ -2,7 +2,6 @@
   "id": 12,
   "tenantId": 2,
   "groups": [
-    "group2",
     "group3"
   ],
   "description": "Lorem ipsum",

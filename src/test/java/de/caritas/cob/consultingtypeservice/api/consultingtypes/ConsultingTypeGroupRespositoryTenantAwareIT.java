@@ -46,13 +46,14 @@ public class ConsultingTypeGroupRespositoryTenantAwareIT {
     final String GROUP_3 = "group3";
     final int CONSULTING_TYPE_ID_1 = 11;
     final int CONSULTING_TYPE_ID_2 = 12;
-    assertThat(result.get(GROUP_2), hasSize(2));
+    assertThat(result.get(GROUP_2), hasSize(1));
+    assertThat(result.get(GROUP_3), hasSize(2));
     assertThat(result, IsMapContaining.hasKey(GROUP_2));
     assertThat(result, IsMapContaining.hasKey(GROUP_3));
-    assertThat(result.get(GROUP_2), containsInAnyOrder(
+    assertThat(result.get(GROUP_2).get(0).getId(), is(CONSULTING_TYPE_ID_1));
+    assertThat(result.get(GROUP_3), containsInAnyOrder(
         hasProperty("id", is(CONSULTING_TYPE_ID_1)),
         hasProperty("id", is(CONSULTING_TYPE_ID_2))));
-    assertThat(result.get(GROUP_3).get(0).getId(), is(CONSULTING_TYPE_ID_1));
     TenantContext.clear();
   }
 }
