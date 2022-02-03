@@ -21,13 +21,17 @@ public class ConsultingTypeTenantAwareRepository extends ConsultingTypeRepositor
     Map<Integer, ConsultingType> filteredConsultingTypes = new HashMap<>();
 
     super.getConsultingTypesMap().forEach((consultingTypeId, consultingType) -> {
-      if (consultingType.getTenantId() != null && TenantContext.getCurrentTenant()
-          .equals(Long.valueOf(consultingType.getTenantId()))) {
+      if (consultingTypeExists(consultingType)) {
         filteredConsultingTypes.put(consultingTypeId, consultingType);
       }
     });
 
     return filteredConsultingTypes;
+  }
+
+  private boolean consultingTypeExists(ConsultingType consultingType) {
+    return consultingType.getTenantId() != null && TenantContext.getCurrentTenant()
+        .equals(Long.valueOf(consultingType.getTenantId()));
   }
 
 }
