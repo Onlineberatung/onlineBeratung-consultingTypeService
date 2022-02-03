@@ -48,7 +48,8 @@ public class SubdomainExtractor {
     if (isUnderPublicDomain(domain)) {
       return getInternetDomainPrefix(domain);
     } else {
-      return nonInternetDomainSubdomainExtractor.resolveSubdomain(domain, getOriginHeaderValue(request));
+      return nonInternetDomainSubdomainExtractor
+          .resolveSubdomain(domain, getOriginHeaderValue(request));
     }
   }
 
@@ -64,12 +65,15 @@ public class SubdomainExtractor {
 
   private Optional<String> getInternetDomainPrefix(String site) {
     var domainName = InternetDomainName.from(site);
-    return domainName.hasParent() ? getInternetSubdomain(site, domainName) : empty();
+    return domainName.hasParent() ? getInternetSubdomain(domainName) : empty();
   }
 
-  private Optional<String> getInternetSubdomain(String site, InternetDomainName domainName) {
-    var subDomain = site.replaceAll(domainName.topPrivateDomain().toString(), "");
-    return of(subDomain.substring(0, subDomain.length() - 1));
+  private Optional<String> getInternetSubdomain(InternetDomainName domainName) {
+    if (domainName.parts().isEmpty()) {
+      return Optional.empty();
+    }
+    return of(domainName.parts().get(0));
   }
 }
+
 
