@@ -1,15 +1,16 @@
 {
-  "id": 0,
-  "tenantId": null,
+  "id": 10,
+  "tenantId": 1,
   "groups": [
-    "group1"
+    "group1",
+    "group2"
   ],
   "description": "Lorem ipsum",
   "furtherInformation": {
     "label": "Lorem Impsum",
     "url": "https://www.domain.com"
   },
-  "slug": "consultingtype0",
+  "slug": "consultingtype10",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "isSubsequentRegistrationAllowed": true,

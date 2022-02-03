@@ -1,22 +1,18 @@
 {
-  "id": 0,
-  "tenantId": null,
-  "groups": [
-    "group1"
-  ],
+  "id": 2,
+  "tenantId": 1,
   "description": "Lorem ipsum",
+  "groups": [
+    "group1",
+    "group2"
+  ],
   "furtherInformation": {
-    "label": "Lorem Impsum",
+    "label": "Lorem impsum",
     "url": "https://www.domain.com"
   },
-  "slug": "consultingtype0",
+  "slug": "consultingtype2",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
-  "isSubsequentRegistrationAllowed": true,
-  "isAnonymousConversationAllowed": false,
-  "lockedAgencies": true,
-  "showAskerProfile": false,
-  "isVideoCallAllowed": false,
   "welcomeMessage": {
     "sendWelcomeMessage": true,
     "welcomeMessageText": "Lorem ipsum"
@@ -24,6 +20,7 @@
   "sendFurtherStepsMessage": true,
   "sendSaveSessionDataMessage": true,
   "isSetEmailAllowed": false,
+  "isVideoCallAllowed": false,
   "sessionDataInitializing": {
     "addictiveDrugs": true,
     "age": true,
@@ -70,9 +67,6 @@
     }
   },
   "registration": {
-    "minPostcodeSize": 3,
-    "autoSelectAgency": true,
-    "autoSelectPostcode": true,
     "mandatoryFields": {
       "age": false,
       "state": false
@@ -106,7 +100,7 @@
         },
         {
           "inputId": "relative",
-          "label": "Angehoerig",
+          "label": "Angehörig",
           "checked": false
         },
         {
@@ -143,7 +137,7 @@
         },
         {
           "id": "gambling",
-          "label": "Gluecksspiel"
+          "label": "Glücksspiel"
         },
         {
           "id": "internetUse",
@@ -151,7 +145,8 @@
         },
         {
           "id": "eatingDisorder",
-          "label": "Essstoerungen"        },
+          "label": "Essstörungen"
+        },
         {
           "id": "otherDrug",
           "label": "Andere"
@@ -190,7 +185,7 @@
             "label": "60+"
           }
         ],
-        "selectInputLabel": "Alter auswaehlen",
+        "selectInputLabel": "Alter auswählen",
         "useIconOption": false,
         "isSearchable": false,
         "menuPlacement": "bottom"
@@ -208,7 +203,7 @@
         },
         {
           "inputId": "male",
-          "label": "Maennlich",
+          "label": "Männlich",
           "checked": false
         },
         {
