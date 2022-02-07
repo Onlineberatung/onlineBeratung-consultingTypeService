@@ -29,6 +29,14 @@ public class ConsultingTypeTenantAwareRepository extends ConsultingTypeRepositor
     return filteredConsultingTypes;
   }
 
+  protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
+    return consultingTypesMap
+        .entrySet()
+        .stream()
+        .anyMatch(e -> e.getValue().getSlug().equals(consultingType.getSlug()) && e.getValue()
+            .getTenantId().equals(consultingType.getTenantId()));
+  }
+
   private boolean consultingTypeExists(ConsultingType consultingType) {
     return consultingType.getTenantId() != null && TenantContext.getCurrentTenant()
         .equals(Long.valueOf(consultingType.getTenantId()));

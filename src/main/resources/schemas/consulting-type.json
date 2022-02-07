@@ -234,7 +234,7 @@
       "properties": {
         "whiteSpotAgencyAssigned": {
           "description": "If true, agency with id in property 'whiteSpotAgencyId' will be proposed if no agency was found via given postcode in registration form",
-          "type": "boolean"
+          "type": ["null","boolean"]
         },
         "whiteSpotAgencyId": {
           "description": "The id the of the white spot agency",

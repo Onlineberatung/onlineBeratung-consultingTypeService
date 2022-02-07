@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ConsultingTypeRepository {
 
-  private final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
+  protected final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
 
   /**
    * Get a complete list of all {@link ConsultingType}.
@@ -76,7 +76,7 @@ public class ConsultingTypeRepository {
     return this.consultingTypesMap.containsKey(consultingType.getId());
   }
 
-  private boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
+  protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     return consultingTypesMap
         .entrySet()
         .stream()
