@@ -20,7 +20,11 @@ public class NonInternetDomainSubdomainExtractor {
   @Value("${app.base.url}")
   private String applicationBaseUrl;
 
-  public Optional<String> resolveSubdomain(String domain, String originHeaderValue) throws URISyntaxException {
+  public Optional<String> resolveSubdomain(String domain, String originHeaderValue)
+      throws URISyntaxException {
+    log.info("Resolving subdomain: ", domain);
+    log.info("Origin header: ", originHeaderValue);
+
     if (isApplicationBaseUrl(domain)) {
       return of(resolveSubdomainFromApplicationBaseUrl(domain));
     } else if (hasOriginHeader(originHeaderValue)) {

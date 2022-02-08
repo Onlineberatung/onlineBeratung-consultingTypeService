@@ -60,6 +60,7 @@ public class SubdomainExtractor {
   }
 
   private boolean isUnderPublicDomain(String site) {
+    log.info("Site is under public domain. Site: " + site);
     return InternetDomainName.isValid(site) && InternetDomainName.from(site).hasPublicSuffix();
   }
 
