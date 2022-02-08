@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 public class ConsultingTypeTenantAwareRepository extends ConsultingTypeRepository {
 
+  private final Long TECHNICAL_TENANT_ID = 0L;
+
   public Map<Integer, ConsultingType> getConsultingTypesMap() {
 
     Map<Integer, ConsultingType> filteredConsultingTypes = new HashMap<>();
@@ -38,8 +40,9 @@ public class ConsultingTypeTenantAwareRepository extends ConsultingTypeRepositor
   }
 
   private boolean consultingTypeExists(ConsultingType consultingType) {
-    return consultingType.getTenantId() != null && TenantContext.getCurrentTenant()
-        .equals(Long.valueOf(consultingType.getTenantId()));
+    return consultingType.getTenantId() != null && (TenantContext.getCurrentTenant()
+        .equals(Long.valueOf(consultingType.getTenantId())) || TECHNICAL_TENANT_ID
+        .equals(TenantContext.getCurrentTenant()));
   }
 
 }
