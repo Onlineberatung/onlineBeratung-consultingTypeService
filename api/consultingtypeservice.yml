@@ -481,3 +481,6 @@ components:
             default:
               type: string
               example: "Lorem ipsum"
+            long:
+              type: string
+              example: "Lorem ipsum"
