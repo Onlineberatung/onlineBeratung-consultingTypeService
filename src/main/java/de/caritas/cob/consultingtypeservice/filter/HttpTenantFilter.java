@@ -25,7 +25,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 public class HttpTenantFilter extends OncePerRequestFilter {
 
-  private final @Nullable TenantResolver tenantResolver;
+  private final TenantResolver tenantResolver;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
