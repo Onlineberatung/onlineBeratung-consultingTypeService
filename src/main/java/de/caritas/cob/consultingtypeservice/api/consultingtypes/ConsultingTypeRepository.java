@@ -16,14 +16,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ConsultingTypeRepository {
 
-  private final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
+  protected final Map<Integer, ConsultingType> consultingTypesMap = new HashMap<>();
 
   /**
    * Get a complete list of all {@link ConsultingType}.
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
-    return new ArrayList<>(this.consultingTypesMap.values());
+    return new ArrayList<>(this.getConsultingTypesMap().values());
   }
 
   /**
@@ -33,7 +33,7 @@ public class ConsultingTypeRepository {
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
-    return consultingTypesMap.computeIfAbsent(consultingTypeId, i -> {
+    return this.getConsultingTypesMap().computeIfAbsent(consultingTypeId, i -> {
       throw new NotFoundException(
           String.format("Consulting type with id %s not found.", consultingTypeId)
       );
@@ -47,7 +47,7 @@ public class ConsultingTypeRepository {
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeBySlug(String slug) {
-    return consultingTypesMap
+    return this.getConsultingTypesMap()
         .entrySet()
         .stream()
         .filter(e -> e.getValue().getSlug().equals(slug))
@@ -76,11 +76,14 @@ public class ConsultingTypeRepository {
     return this.consultingTypesMap.containsKey(consultingType.getId());
   }
 
-  private boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
+  protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     return consultingTypesMap
         .entrySet()
         .stream()
         .anyMatch(e -> e.getValue().getSlug().equals(consultingType.getSlug()));
   }
 
+  protected Map<Integer, ConsultingType> getConsultingTypesMap() {
+    return this.consultingTypesMap;
+  }
 }

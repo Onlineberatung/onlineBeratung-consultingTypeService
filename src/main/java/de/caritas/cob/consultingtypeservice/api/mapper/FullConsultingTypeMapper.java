@@ -17,6 +17,8 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
   public static FullConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new FullConsultingTypeResponseDTO()
         .id(consultingType.getId())
+        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId()
+            : null)
         .description(consultingType.getDescription())
         .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .slug(consultingType.getSlug())
