@@ -197,6 +197,9 @@ components:
         isVideoCallAllowed:
           type: boolean
           example: true
+        languageFormal:
+          type: boolean
+          example: true
 
     ExtendedConsultingTypeResponseDTO:
       type: object
@@ -207,9 +210,6 @@ components:
             slug:
               type: string
               example: part-of-url
-            languageFormal:
-              type: boolean
-              example: true
             lockedAgencies:
               type: boolean
               example: false

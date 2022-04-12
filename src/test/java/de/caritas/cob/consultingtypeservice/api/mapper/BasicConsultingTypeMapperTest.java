@@ -35,7 +35,6 @@ public class BasicConsultingTypeMapperTest {
                 "monitoring",
                 "initializeFeedbackChat",
                 "isPeerChat",
-                "languageFormal",
                 "roles",
                 "notifications",
                 "registration",
