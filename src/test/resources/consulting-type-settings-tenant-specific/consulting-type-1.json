@@ -1,7 +1,12 @@
 {
-  "id": 3,
-  "tenantId": null,
-  "slug": "consultingtype3",
+  "id": 11,
+  "tenantId": 2,
+  "groups": [
+    "group2",
+    "group3"
+  ],
+  "description": "Lorem ipsum",
+  "slug": "consultingtype11",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "sendSaveSessionDataMessage": true,

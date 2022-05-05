@@ -35,14 +35,14 @@ public class BasicConsultingTypeMapperTest {
                 "monitoring",
                 "initializeFeedbackChat",
                 "isPeerChat",
-                "languageFormal",
                 "roles",
                 "notifications",
                 "registration",
                 "voluntaryComponents",
                 "requiredComponents",
                 "groups",
-                "welcomeScreen"
+                "welcomeScreen",
+                "tenantId"
             )
     );
   }

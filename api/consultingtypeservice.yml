@@ -161,6 +161,9 @@ components:
         id:
           type: integer
           example: 100
+        tenantId:
+          type: integer
+          example: 100
         description:
           type: string
           example: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
@@ -194,6 +197,9 @@ components:
         isVideoCallAllowed:
           type: boolean
           example: true
+        languageFormal:
+          type: boolean
+          example: true
 
     ExtendedConsultingTypeResponseDTO:
       type: object
@@ -204,9 +210,6 @@ components:
             slug:
               type: string
               example: part-of-url
-            languageFormal:
-              type: boolean
-              example: true
             lockedAgencies:
               type: boolean
               example: false
@@ -476,5 +479,8 @@ components:
           type: object
           properties:
             default:
+              type: string
+              example: "Lorem ipsum"
+            long:
               type: string
               example: "Lorem ipsum"

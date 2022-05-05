@@ -1,5 +1,6 @@
 {
   "id": 2,
+  "tenantId": null,
   "groups": [
     "group2"
   ],

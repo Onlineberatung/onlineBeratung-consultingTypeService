@@ -5,7 +5,8 @@
       {
         "id": 1,
         "titles": {
-          "default": "default"
+          "default": "default",
+          "long": "long"
         }
       }
     ]
@@ -16,7 +17,8 @@
       {
         "id": 0,
         "titles": {
-          "default": "default"
+          "default": "default",
+          "long": "long"
         }
       }
     ]

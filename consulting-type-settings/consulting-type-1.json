@@ -1,11 +1,12 @@
 {
   "id": 1,
+  "tenantId": null,
   "slug": "consultingtype1",
   "excludeNonMainConsultantsFromTeamSessions": false,
   "consultantBoundedToConsultingType": false,
   "sendSaveSessionDataMessage": true,
   "initializeFeedbackChat": true,
-  "isPeer": true,
+  "isPeerChat": true,
   "isVideoCallAllowed": false,
   "languageFormal": true,
   "roles": {
