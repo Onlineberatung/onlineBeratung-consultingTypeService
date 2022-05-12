@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryInterface;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class ConsultingTypeService {
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeRepositoryInterface consultingTypeRepositoryInterface;
 
   /**
    * Fetch a list of all consulting types with basic properties.
