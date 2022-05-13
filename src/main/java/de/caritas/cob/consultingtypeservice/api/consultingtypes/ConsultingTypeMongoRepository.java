@@ -1,14 +1,15 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-public interface ConsultingTypeMongoRepository extends MongoRepository<ConsultingType, String> {
+public interface ConsultingTypeMongoRepository extends
+    MongoRepository<ConsultingTypeEntity, String> {
 
-  List<ConsultingType> findBySlug(String slug);
+  List<ConsultingTypeEntity> findBySlug(String slug);
 
-  @Query(value = "{'id': ?0")
-  ConsultingType findByConsultingTypeId(Integer consultingtypeId);
+  @Query(value = "{'id': ?0 }")
+  ConsultingTypeEntity findByConsultingTypeId(Integer consultingtypeId);
 }

@@ -2,12 +2,14 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -18,21 +20,26 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
-public class ConsultingTypeMongoTenantAwareRepositoryService implements ConsultingTypeRepositoryInterface {
+public class ConsultingTypeMongoTenantAwareRepositoryService implements
+    ConsultingTypeRepositoryInterface {
 
   private static final Long TECHNICAL_TENANT_ID = 0L;
   private @NonNull ConsultingTypeMongoTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  private @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**
    * Get a complete list of all {@link ConsultingType}.
+   *
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
     if (isTechnicalTenantContext()) {
-      return consultingTypeMongoTenantAwareRepository.findAll();
+      List<ConsultingTypeEntity> consultingTypeEntities = consultingTypeMongoTenantAwareRepository.findAll();
+      return consultingTypeConverter.convertList(consultingTypeEntities);
     } else {
-      return consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
+      List<ConsultingTypeEntity> allHavingTenantId = consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
           TenantContext.getCurrentTenant());
+      return consultingTypeConverter.convertList(allHavingTenantId);
     }
   }
 
@@ -61,10 +68,12 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements Consulti
 
   private Optional<ConsultingType> getById(Integer consultingTypeId) {
     if (isTechnicalTenantContext()) {
-      return Optional.ofNullable(consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId));
+      return Optional.ofNullable(
+          consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId));
     }
-    return Optional.ofNullable(consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(
-        consultingTypeId, TenantContext.getCurrentTenant()));
+    return Optional.ofNullable(
+        consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(
+            consultingTypeId, TenantContext.getCurrentTenant()));
   }
 
   /**
@@ -81,9 +90,12 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements Consulti
 
   private List<ConsultingType> findBySlug(String slug) {
     if (isTechnicalTenantContext()) {
-      return consultingTypeMongoTenantAwareRepository.findBySlug(slug);
+      List<ConsultingTypeEntity> bySlug = consultingTypeMongoTenantAwareRepository.findBySlug(slug);
+      consultingTypeConverter.convertList(bySlug);
     }
-    return consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug, TenantContext.getCurrentTenant());
+    List<ConsultingTypeEntity> bySlugAndTenantId = consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug,
+        TenantContext.getCurrentTenant());
+    return consultingTypeConverter.convertList(bySlugAndTenantId);
   }
 
   /**
@@ -99,7 +111,9 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements Consulti
               consultingType.getId(), consultingType.getSlug()));
       throw new UnexpectedErrorException();
     }
-    this.consultingTypeMongoTenantAwareRepository.save(consultingType);
+    ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
+    BeanUtils.copyProperties(consultingType, consultingTypeEntity);
+    this.consultingTypeMongoTenantAwareRepository.save(consultingTypeEntity);
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
@@ -108,8 +122,10 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements Consulti
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlug(consultingType.getSlug()).isEmpty();
+      return !consultingTypeMongoTenantAwareRepository.findBySlug(consultingType.getSlug())
+          .isEmpty();
     }
-    return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(), TenantContext.getCurrentTenant()).isEmpty();
+    return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),
+        TenantContext.getCurrentTenant()).isEmpty();
   }
 }

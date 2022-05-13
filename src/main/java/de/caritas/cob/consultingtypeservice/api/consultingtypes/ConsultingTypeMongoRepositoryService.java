@@ -2,28 +2,33 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 /**
  * Repository for {@link ConsultingType}.
  */
 @Component
-//@ConditionalOnExpression("${multitenancy.enabled:false}")
+@RequiredArgsConstructor
 public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryInterface {
 
   private @NonNull ConsultingTypeMongoRepository consultingTypeMongoRepository;
+  private @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**
    * Get a complete list of all {@link ConsultingType}.
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
-    return consultingTypeMongoRepository.findAll();
+    List<ConsultingTypeEntity> consultingTypeEntities = consultingTypeMongoRepository.findAll();
+    return consultingTypeConverter.convertList(consultingTypeEntities);
   }
 
   /**
@@ -33,8 +38,8 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
-    Optional<ConsultingType> byId = consultingTypeMongoRepository.findById(
-        consultingTypeId.toString());
+    Optional<ConsultingTypeEntity> byId = Optional.ofNullable(consultingTypeMongoRepository.findByConsultingTypeId(
+        consultingTypeId));
 
     if (byId.isEmpty()) {
       throw new NotFoundException(
@@ -69,7 +74,9 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
               consultingType.getId(), consultingType.getSlug()));
       throw new UnexpectedErrorException();
     }
-    this.consultingTypeMongoRepository.save(consultingType);
+    ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
+    BeanUtils.copyProperties(consultingType, consultingTypeEntity);
+    this.consultingTypeMongoRepository.save(consultingTypeEntity);
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
