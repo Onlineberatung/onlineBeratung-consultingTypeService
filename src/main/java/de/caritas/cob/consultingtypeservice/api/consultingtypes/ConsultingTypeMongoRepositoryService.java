@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryInterface {
+public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryService {
 
   private @NonNull ConsultingTypeMongoRepository consultingTypeMongoRepository;
   private @NonNull ConsultingTypeConverter consultingTypeConverter;

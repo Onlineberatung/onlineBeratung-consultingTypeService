@@ -1,7 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryInterface;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
@@ -22,8 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeService {
 
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
-  private final @NonNull ConsultingTypeRepositoryInterface consultingTypeRepositoryInterface;
+  private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
 
   /**
    * Fetch a list of all consulting types with basic properties.
@@ -32,7 +30,7 @@ public class ConsultingTypeService {
    */
   public List<BasicConsultingTypeResponseDTO> fetchBasicConsultingTypesList() {
 
-    return consultingTypeRepository.getListOfConsultingTypes()
+    return consultingTypeRepositoryService.getListOfConsultingTypes()
         .stream()
         .map(c -> ConsultingTypeMapper.mapConsultingType(c, BasicConsultingTypeMapper::mapConsultingType))
         .collect(Collectors.toList());
@@ -46,7 +44,7 @@ public class ConsultingTypeService {
    */
   public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsById(
       Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
+    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         FullConsultingTypeMapper::mapConsultingType);
   }
 
@@ -57,7 +55,7 @@ public class ConsultingTypeService {
    * @return a {@link FullConsultingTypeResponseDTO} instance
    */
   public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsBySlug(String slug) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepository.getConsultingTypeBySlug(slug),
+    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeBySlug(slug),
         FullConsultingTypeMapper::mapConsultingType);
   }
 
@@ -69,7 +67,7 @@ public class ConsultingTypeService {
    */
   public ExtendedConsultingTypeResponseDTO fetchExtendedConsultingTypeSettingsById(
       Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
+    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         ExtendedConsultingTypeMapper::mapConsultingType);
   }
 
@@ -80,7 +78,7 @@ public class ConsultingTypeService {
    * @return a {@link BasicConsultingTypeResponseDTO} instance
    */
   public BasicConsultingTypeResponseDTO fetchBasicConsultingTypeSettingsById(Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepository.getConsultingTypeById(consultingTypeId),
+    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         BasicConsultingTypeMapper::mapConsultingType);
   }
 }

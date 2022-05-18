@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.admin.service.ConsultingTypeAdminService;
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeMongoRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.PaginationLinks;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ConsultingTypeAdminControllerIT {
   @Autowired
   private ConsultingTypeAdminService consultingTypeAdminService;
   @Autowired
-  private ConsultingTypeRepository consultingTypeRepository;
+  private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 
   @Test
   public void findConsultingTypes_Should_returnOneResult_When_perPageIsSetToOneAndPageIsSetToOne() {

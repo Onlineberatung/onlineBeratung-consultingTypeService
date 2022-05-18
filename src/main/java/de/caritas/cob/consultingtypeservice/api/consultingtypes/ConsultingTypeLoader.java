@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
   private final @NonNull ConsultingTypeValidator consultingTypeValidator;
   @Value("${consulting.types.json.path}")
@@ -48,7 +48,7 @@ public class ConsultingTypeLoader {
   }
 
   private void addConsultingTypeToRepositories(ConsultingType consultingType) {
-    consultingTypeRepository
+    consultingTypeRepositoryService
         .addConsultingType(consultingType);
     consultingTypeGroupRepository
         .addConsultingType(consultingType);

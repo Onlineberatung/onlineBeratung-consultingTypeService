@@ -6,8 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryInterface;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
@@ -28,9 +27,7 @@ public class ConsultingTypeServiceTest {
   @InjectMocks
   ConsultingTypeService consultingTypeService;
   @Mock
-  ConsultingTypeRepository consultingTypeRepository;
-  @Mock
-  ConsultingTypeRepositoryInterface consultingTypeRepositoryInterface;
+  ConsultingTypeRepositoryService consultingTypeRepository;
 
   private ConsultingType consultingType1;
   private ConsultingType consultingType2;
