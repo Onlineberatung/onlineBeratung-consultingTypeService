@@ -27,7 +27,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
-    List<ConsultingTypeEntity> consultingTypeEntities = consultingTypeMongoRepository.findAll();
+    var consultingTypeEntities = consultingTypeMongoRepository.findAll();
     return consultingTypeConverter.convertList(consultingTypeEntities);
   }
 
@@ -38,7 +38,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
-    Optional<ConsultingTypeEntity> byId = Optional.ofNullable(consultingTypeMongoRepository.findByConsultingTypeId(
+    var byId = Optional.ofNullable(consultingTypeMongoRepository.findByConsultingTypeId(
         consultingTypeId));
 
     if (byId.isEmpty()) {
@@ -74,7 +74,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
               consultingType.getId(), consultingType.getSlug()));
       throw new UnexpectedErrorException();
     }
-    ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
+    var consultingTypeEntity = new ConsultingTypeEntity();
     BeanUtils.copyProperties(consultingType, consultingTypeEntity);
     this.consultingTypeMongoRepository.save(consultingTypeEntity);
   }
