@@ -30,12 +30,12 @@ public class ConsultingTypeGroupTenantAwareRepositoryImpl implements ConsultingT
 
   private static final Long TECHNICAL_TENANT_ID = 0L;
   
-  private @NonNull ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  private final @NonNull ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
   /* it may not be cached, as the result is different for each tenant */
   public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
     var consultingTypesGroupMap = new HashMap<String, List<ConsultingType>>();
-    findAllConsultingTypes().stream().forEach(consultingTypeEntity ->
+    findAllConsultingTypes().forEach(consultingTypeEntity ->
         addConsultingType(consultingTypesGroupMap, consultingTypeEntity)
     );
     return consultingTypesGroupMap;

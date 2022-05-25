@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRepository {
 
-  private @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull  ConsultingTypeRepository consultingTypeRepository;
 
   /**
    * Get a map with all grouped consulting types.
@@ -31,7 +31,7 @@ public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRep
   public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
     var consultingTypeEntities = consultingTypeRepository.findAll();
     var consultingTypesGroupMap = new HashMap<String, List<ConsultingType>>();
-    consultingTypeEntities.stream().forEach(consultingTypeEntity ->
+    consultingTypeEntities.forEach(consultingTypeEntity ->
         addConsultingType(consultingTypesGroupMap, consultingTypeEntity)
     );
     return consultingTypesGroupMap;
@@ -53,7 +53,4 @@ public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRep
           });
     }
   }
-
-
-
 }
