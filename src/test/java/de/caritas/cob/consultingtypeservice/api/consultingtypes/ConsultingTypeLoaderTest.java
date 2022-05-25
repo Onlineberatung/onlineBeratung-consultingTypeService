@@ -34,7 +34,8 @@ public class ConsultingTypeLoaderTest {
 
   @InjectMocks
   ConsultingTypeLoader consultingTypeLoader;
-  @Mock
+
+  @Mock(name = "tenantUnaware")
   ConsultingTypeRepositoryService consultingTypeRepositoryService;
   @Mock
   ConsultingTypeGroupRepository consultingTypeGroupRepository;
@@ -46,6 +47,9 @@ public class ConsultingTypeLoaderTest {
   @Before
   public void setup() {
     setInternalState(LogService.class, "LOGGER", logger);
+    // we need this as mockito does not properly inject @Qualifier marked beans
+    setInternalState(consultingTypeLoader, "consultingTypeRepositoryService",
+        consultingTypeRepositoryService);
   }
 
   @Test

@@ -1,6 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeGroupRepository;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeGroupRepositoryImpl;
 import de.caritas.cob.consultingtypeservice.api.mapper.group.ConsultingTypeGroupMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.group.ConsultingTypeGroupResponseMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeGroupService {
 
-  private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  private final @NonNull ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
 
   /**
    * Fetch a list of all consulting type groups with the assigned consulting types.

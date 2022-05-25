@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-public interface ConsultingTypeMongoRepository extends
-    MongoRepository<ConsultingTypeEntity, String> {
+
+public interface ConsultingTypeRepository extends MongoRepository<ConsultingTypeEntity, String> {
 
   List<ConsultingTypeEntity> findBySlug(String slug);
 

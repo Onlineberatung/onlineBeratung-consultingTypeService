@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
-import java.util.Optional;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ConsultingTypeMongoRepositoryServiceTest {
+class ConsultingTypeRepositoryServiceTest {
 
   @Mock
-  private ConsultingTypeMongoRepository consultingTypeMongoRepository;
+  private ConsultingTypeRepository consultingTypeRepository;
 
   @Mock
   private ConsultingTypeConverter consultingTypeConverter;
@@ -38,18 +37,18 @@ class ConsultingTypeMongoRepositoryServiceTest {
     // given
     consultingTypeMongoRepositoryService.getListOfConsultingTypes();
     // then
-    verify(consultingTypeMongoRepository).findAll();
+    verify(consultingTypeRepository).findAll();
     verify(consultingTypeConverter).convertList(Mockito.anyList());
   }
 
   @Test
   void getConsultingTypeById_Should_getConsultingTypeById() {
     // given
-    Mockito.when(consultingTypeMongoRepository.findByConsultingTypeId(1)).thenReturn(new ConsultingTypeEntity());
+    Mockito.when(consultingTypeRepository.findByConsultingTypeId(1)).thenReturn(new ConsultingTypeEntity());
     // when
     consultingTypeMongoRepositoryService.getConsultingTypeById(1);
     // then
-    verify(consultingTypeMongoRepository).findByConsultingTypeId(1);
+    verify(consultingTypeRepository).findByConsultingTypeId(1);
   }
 
   @Test
@@ -61,9 +60,9 @@ class ConsultingTypeMongoRepositoryServiceTest {
   @Test
   void getConsultingTypeBySlug_Should_CallFindBySlugInTheRepository() {
     // given
-    Mockito.when(consultingTypeMongoRepository.findBySlug("slug")).thenReturn(Lists.newArrayList(new ConsultingTypeEntity()));
+    Mockito.when(consultingTypeRepository.findBySlug("slug")).thenReturn(Lists.newArrayList(new ConsultingTypeEntity()));
     consultingTypeMongoRepositoryService.getConsultingTypeBySlug("slug");
     // then
-    verify(consultingTypeMongoRepository).findBySlug("slug");
+    verify(consultingTypeRepository).findBySlug("slug");
   }
 }

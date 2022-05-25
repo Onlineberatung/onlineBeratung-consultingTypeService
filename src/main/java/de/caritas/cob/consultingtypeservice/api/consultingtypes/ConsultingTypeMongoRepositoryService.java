@@ -10,16 +10,16 @@ import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * Repository for {@link ConsultingType}.
  */
-@Component
+@Repository("tenantUnaware")
 @RequiredArgsConstructor
 public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryService {
 
-  private @NonNull ConsultingTypeMongoRepository consultingTypeMongoRepository;
+  private @NonNull ConsultingTypeRepository consultingTypeRepository;
   private @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**
@@ -27,7 +27,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
-    var consultingTypeEntities = consultingTypeMongoRepository.findAll();
+    var consultingTypeEntities = consultingTypeRepository.findAll();
     return consultingTypeConverter.convertList(consultingTypeEntities);
   }
 
@@ -38,7 +38,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
-    var byId = Optional.ofNullable(consultingTypeMongoRepository.findByConsultingTypeId(
+    var byId = Optional.ofNullable(consultingTypeRepository.findByConsultingTypeId(
         consultingTypeId));
 
     if (byId.isEmpty()) {
@@ -56,7 +56,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeBySlug(String slug) {
-    return consultingTypeMongoRepository.findBySlug(slug).stream().findFirst()
+    return consultingTypeRepository.findBySlug(slug).stream().findFirst()
         .orElseThrow(() -> new NotFoundException(
             String.format("Consulting type with slug %s not found.", slug)));
   }
@@ -76,14 +76,14 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
     }
     var consultingTypeEntity = new ConsultingTypeEntity();
     BeanUtils.copyProperties(consultingType, consultingTypeEntity);
-    this.consultingTypeMongoRepository.save(consultingTypeEntity);
+    this.consultingTypeRepository.save(consultingTypeEntity);
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
-    return consultingTypeMongoRepository.findById(consultingType.getId().toString()).isPresent();
+    return consultingTypeRepository.findById(consultingType.getId().toString()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
-    return !consultingTypeMongoRepository.findBySlug(consultingType.getSlug()).isEmpty();
+    return !consultingTypeRepository.findBySlug(consultingType.getSlug()).isEmpty();
   }
 }

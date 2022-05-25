@@ -23,10 +23,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = "spring.profiles.active=testing")
-public class ConsultingTypeGroupRespositoryIT {
+public class ConsultingTypeGroupRepositoryIT {
 
   @Autowired
   private ConsultingTypeLoader consultingTypeLoader;
+
   @Autowired
   private ConsultingTypeGroupRepository consultingTypeGroupRepository;
 

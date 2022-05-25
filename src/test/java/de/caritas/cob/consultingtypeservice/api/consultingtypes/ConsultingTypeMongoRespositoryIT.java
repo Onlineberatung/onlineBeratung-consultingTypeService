@@ -10,7 +10,6 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,7 @@ public class ConsultingTypeMongoRespositoryIT {
   private final String MONGO_COLLECTION_NAME = "consulting_types";
 
   @Autowired
-  private ConsultingTypeMongoRepository consultingTypeMongoRepository;
+  private ConsultingTypeRepository consultingTypeRepository;
 
   @Autowired
   MongoTemplate mongoTemplate;
@@ -64,7 +63,7 @@ public class ConsultingTypeMongoRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    ConsultingType result = consultingTypeMongoRepository.findByConsultingTypeId(consultingTypeId);
+    ConsultingType result = consultingTypeRepository.findByConsultingTypeId(consultingTypeId);
 
     // then
     assertThat(consultingTypeId).isEqualTo(result.getId());
@@ -78,7 +77,7 @@ public class ConsultingTypeMongoRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    List<ConsultingTypeEntity> result = consultingTypeMongoRepository.findBySlug(slug);
+    List<ConsultingTypeEntity> result = consultingTypeRepository.findBySlug(slug);
 
     // then
     assertThat(consultingTypeId).isEqualTo(result.get(0).getId());
@@ -88,7 +87,7 @@ public class ConsultingTypeMongoRespositoryIT {
   @Test
   public void findAll_Should_ReturnAllConsultingTypes() {
     // when
-    List<ConsultingTypeEntity> result = consultingTypeMongoRepository.findAll();
+    List<ConsultingTypeEntity> result = consultingTypeRepository.findAll();
     // then
     assertThat(result).hasSize(3);
   }

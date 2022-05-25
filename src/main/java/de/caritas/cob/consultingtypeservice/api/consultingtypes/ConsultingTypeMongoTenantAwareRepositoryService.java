@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Repository for {@link ConsultingType}.
  */
-@Repository
+@Repository("tenantAware")
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     ConsultingTypeRepositoryService {
 
   private static final Long TECHNICAL_TENANT_ID = 0L;
-  private @NonNull ConsultingTypeMongoTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  private @NonNull ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
   private @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**

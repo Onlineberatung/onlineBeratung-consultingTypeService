@@ -10,7 +10,6 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.io.IOException;
 import java.util.List;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +34,7 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
   private final String MONGO_COLLECTION_NAME = "consulting_types";
 
   @Autowired
-  private ConsultingTypeMongoTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
   @Autowired
   MongoTemplate mongoTemplate;

@@ -21,7 +21,7 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
   private static final long NON_TECHNICAL_TENANT_CONTEXT = 1L;
 
   @Mock
-  private ConsultingTypeMongoTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
   @Mock
   private ConsultingTypeConverter consultingTypeConverter;
