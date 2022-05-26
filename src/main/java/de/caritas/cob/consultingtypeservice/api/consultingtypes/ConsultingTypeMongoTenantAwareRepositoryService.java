@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
@@ -108,14 +107,14 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   public void addConsultingType(ConsultingType consultingType) {
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
-      LogService.logError(String
-          .format("Could not initialize consulting type. id %s or slug %s is not unique",
+      LogService.logWarning(String
+          .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
-      throw new UnexpectedErrorException();
+    } else {
+      ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
+      BeanUtils.copyProperties(consultingType, consultingTypeEntity);
+      this.consultingTypeMongoTenantAwareRepository.save(consultingTypeEntity);
     }
-    ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
-    BeanUtils.copyProperties(consultingType, consultingTypeEntity);
-    this.consultingTypeMongoTenantAwareRepository.save(consultingTypeEntity);
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {

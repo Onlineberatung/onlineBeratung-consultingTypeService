@@ -53,8 +53,7 @@ public class ConsultingTypeLoader {
   }
 
   private void addConsultingTypeToRepositories(ConsultingType consultingType) {
-    consultingTypeRepositoryService
-        .addConsultingType(consultingType);
+    consultingTypeRepositoryService.addConsultingType(consultingType);
   }
 
   private File[] determineConsultingTypeConfigurationFiles() {
