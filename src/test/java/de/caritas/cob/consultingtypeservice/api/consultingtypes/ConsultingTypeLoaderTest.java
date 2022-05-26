@@ -34,8 +34,9 @@ public class ConsultingTypeLoaderTest {
 
   @InjectMocks
   ConsultingTypeLoader consultingTypeLoader;
-  @Mock
-  ConsultingTypeRepository consultingTypeRepository;
+
+  @Mock(name = "tenantUnaware")
+  ConsultingTypeRepositoryService consultingTypeRepositoryService;
   @Mock
   ConsultingTypeGroupRepository consultingTypeGroupRepository;
   @Mock
@@ -46,6 +47,9 @@ public class ConsultingTypeLoaderTest {
   @Before
   public void setup() {
     setInternalState(LogService.class, "LOGGER", logger);
+    // we need this as mockito does not properly inject @Qualifier marked beans
+    setInternalState(consultingTypeLoader, "consultingTypeRepositoryService",
+        consultingTypeRepositoryService);
   }
 
   @Test
@@ -91,7 +95,7 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeRepository, times(5)).addConsultingType(Mockito.any(ConsultingType.class));
+    verify(consultingTypeRepositoryService, times(5)).addConsultingType(Mockito.any(ConsultingType.class));
   }
 
   @Test

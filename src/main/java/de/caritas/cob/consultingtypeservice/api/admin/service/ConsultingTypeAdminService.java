@@ -1,7 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.admin.service;
 
 import de.caritas.cob.consultingtypeservice.api.admin.hallink.ConsultingTypePaginationLinksBuilder;
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeAdminResultDTO;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeAdminService {
 
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
 
   /**
    * Returns all dioceses within the given page and perPage offsets.
@@ -48,7 +48,7 @@ public class ConsultingTypeAdminService {
 
   private List<ExtendedConsultingTypeResponseDTO> fullSortedExtendedConsultingTypeResponseList() {
 
-    return consultingTypeRepository.getListOfConsultingTypes()
+    return consultingTypeRepositoryService.getListOfConsultingTypes()
         .stream()
         .sorted(Comparator.comparing(ConsultingType::getSlug))
         .map(ct -> ConsultingTypeMapper.mapConsultingType(ct, ExtendedConsultingTypeMapper::mapConsultingType))

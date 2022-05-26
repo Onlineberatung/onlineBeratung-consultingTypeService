@@ -41,6 +41,15 @@ public class LogService {
   }
 
   /**
+   * Logs an warning.
+   *
+   * @param message  the exception to be logged to be logged
+   */
+  public static void logWarning(String message) {
+    LOGGER.warn("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
+  }
+
+  /**
    * Logs a internal server error.
    *
    * @param exception the exception to be logged

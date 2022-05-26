@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  @Qualifier("tenantUnaware")
+  @Autowired
+  private ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
   private final @NonNull ConsultingTypeValidator consultingTypeValidator;
+
   @Value("${consulting.types.json.path}")
   private String consultingTypesFilePath;
 
@@ -48,10 +53,7 @@ public class ConsultingTypeLoader {
   }
 
   private void addConsultingTypeToRepositories(ConsultingType consultingType) {
-    consultingTypeRepository
-        .addConsultingType(consultingType);
-    consultingTypeGroupRepository
-        .addConsultingType(consultingType);
+    consultingTypeRepositoryService.addConsultingType(consultingType);
   }
 
   private File[] determineConsultingTypeConfigurationFiles() {
