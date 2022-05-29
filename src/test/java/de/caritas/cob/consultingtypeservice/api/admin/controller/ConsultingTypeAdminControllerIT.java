@@ -26,6 +26,7 @@ public class ConsultingTypeAdminControllerIT {
 
   @Autowired
   private ConsultingTypeAdminService consultingTypeAdminService;
+
   @Autowired
   private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 

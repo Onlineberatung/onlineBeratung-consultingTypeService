@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
@@ -19,8 +18,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryService {
 
-  private @NonNull ConsultingTypeRepository consultingTypeRepository;
-  private @NonNull ConsultingTypeConverter consultingTypeConverter;
+  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**
    * Get a complete list of all {@link ConsultingType}.
@@ -69,14 +68,14 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
   public void addConsultingType(ConsultingType consultingType) {
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
-      LogService.logError(String
-          .format("Could not initialize consulting type. id %s or slug %s is not unique",
+      LogService.logWarning(String
+          .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
-      throw new UnexpectedErrorException();
+    } else {
+      var consultingTypeEntity = new ConsultingTypeEntity();
+      BeanUtils.copyProperties(consultingType, consultingTypeEntity);
+      this.consultingTypeRepository.save(consultingTypeEntity);
     }
-    var consultingTypeEntity = new ConsultingTypeEntity();
-    BeanUtils.copyProperties(consultingType, consultingTypeEntity);
-    this.consultingTypeRepository.save(consultingTypeEntity);
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
