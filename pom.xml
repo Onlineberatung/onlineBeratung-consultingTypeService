@@ -207,6 +207,13 @@
       <artifactId>mariadb-java-client</artifactId>
     </dependency>
 
+    <!-- Test scope dependencies -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <repositories>
