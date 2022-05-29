@@ -4,9 +4,12 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
 import java.util.Collection;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class TopicService {
 
   private @NonNull TopicRepository topicRepository;

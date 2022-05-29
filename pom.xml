@@ -194,6 +194,19 @@
       <version>${log4j.version}</version>
     </dependency>
 
+    <!-- Liquibase -->
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-maven-plugin</artifactId>
+      <version>4.1.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+    </dependency>
+
   </dependencies>
 
   <repositories>
@@ -436,6 +449,15 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Liquibase Maven plugin -->
+<!--      <plugin>-->
+<!--        <groupId>org.liquibase</groupId>-->
+<!--        <artifactId>liquibase-maven-plugin</artifactId>-->
+<!--        <version>4.1.1</version>-->
+<!--        <configuration>-->
+<!--          <propertyFile>src/main/resources/liquibase.properties</propertyFile>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </build>
   <profiles>
