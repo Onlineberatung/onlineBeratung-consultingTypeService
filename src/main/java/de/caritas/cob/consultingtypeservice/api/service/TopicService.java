@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TopicService {
 
   private @NonNull TopicRepository topicRepository;
@@ -28,7 +29,6 @@ public class TopicService {
     }
   }
 
-  @Transactional
   public TopicEntity saveTopic(TopicDTO topicDTO) {
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setName(topicDTO.getName());
