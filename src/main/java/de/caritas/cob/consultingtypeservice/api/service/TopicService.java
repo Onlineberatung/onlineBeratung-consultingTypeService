@@ -4,6 +4,7 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
+import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -19,7 +20,12 @@ public class TopicService {
   private @NonNull TopicRepository topicRepository;
 
   public Collection<TopicEntity> getAllTopics() {
-    return topicRepository.findAll();
+
+    if(TenantContext.getCurrentTenant()==null){
+      return topicRepository.findAll();
+    }else{
+      return topicRepository.findAllForTenant(TenantContext.getCurrentTenant());
+    }
   }
 
   @Transactional
