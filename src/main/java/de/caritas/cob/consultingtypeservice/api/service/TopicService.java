@@ -21,9 +21,9 @@ public class TopicService {
 
   public Collection<TopicEntity> getAllTopics() {
 
-    if(TenantContext.getCurrentTenant()==null){
+    if (TenantContext.getCurrentTenant() == null) {
       return topicRepository.findAll();
-    }else{
+    } else {
       return topicRepository.findAllForTenant(TenantContext.getCurrentTenant());
     }
   }
