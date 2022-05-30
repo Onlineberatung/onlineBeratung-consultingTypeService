@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.model;
 
+import de.caritas.cob.consultingtypeservice.api.repository.TenantAware;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class TopicEntity {
+public class TopicEntity implements TenantAware {
 
   @Id
   @SequenceGenerator(name = "id_seq", allocationSize = 1, sequenceName = "SEQUENCE_TOPIC")
@@ -40,6 +41,9 @@ public class TopicEntity {
   @Column(name = "status",  length = 11)
   @Enumerated(EnumType.STRING)
   private TopicStatus status;
+
+  @Column(name = "tenant_id")
+  private Long tenantId;
 
   @Column(name = "create_date", nullable = false)
   private LocalDateTime createDate;
