@@ -9,8 +9,8 @@ import java.time.ZoneOffset;
 import java.util.Collection;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +22,7 @@ public class TopicService {
     return topicRepository.findAll();
   }
 
+  @Transactional
   public TopicEntity saveTopic(TopicDTO topicDTO) {
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setName(topicDTO.getName());
