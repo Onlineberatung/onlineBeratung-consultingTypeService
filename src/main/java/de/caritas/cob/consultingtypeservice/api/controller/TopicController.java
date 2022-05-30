@@ -6,6 +6,7 @@ import de.caritas.cob.consultingtypeservice.generated.api.controller.TopicApi;
 import io.swagger.annotations.Api;
 import java.util.Collection;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,4 +40,9 @@ public class TopicController implements TopicApi {
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
+  @Override
+  public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
+    TopicDTO savedTopic = topicService.saveTopic(topicDTO);
+    return new ResponseEntity(savedTopic, HttpStatus.OK);
+  }
 }

@@ -12,7 +12,7 @@ public class TopicConverter {
         .id(topic.getId())
         .name(topic.getName())
         .description(topic.getDescription())
-        .status(topic.getStatus());
+        .status(topic.getStatus().name());
     if (topic.getCreateDate() != null) {
       topicDTO.setCreateDate(topic.getCreateDate().toString());
     }

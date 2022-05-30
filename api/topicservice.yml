@@ -11,7 +11,7 @@ paths:
       tags:
         - topic-controller
       summary: 'Creates a new topic [Authorization: Role: topic-admin]'
-      operationId: createTenant
+      operationId: createTopic
       requestBody:
         content:
           'application/json':
@@ -119,7 +119,6 @@ components:
     TopicDTO:
       type: object
       required:
-        - id
         - name
         - description
       properties:
