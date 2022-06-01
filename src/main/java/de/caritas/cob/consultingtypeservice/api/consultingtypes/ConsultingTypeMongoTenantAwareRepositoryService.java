@@ -3,7 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;

@@ -3,8 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import static java.util.Objects.nonNull;
 
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
-import de.caritas.cob.consultingtypeservice.config.CacheManagerConfig;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

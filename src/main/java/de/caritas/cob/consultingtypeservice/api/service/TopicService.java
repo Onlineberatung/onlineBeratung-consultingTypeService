@@ -4,7 +4,7 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;

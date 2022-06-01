@@ -20,7 +20,6 @@ public class TopicServiceFacade {
     var topicEntities = topicService.getAllTopics();
     return topicEntities.stream().map(topicConverter::toDTO).collect(
         Collectors.toList());
-
   }
 
   public TopicDTO saveTopic(TopicDTO topicDTO) {

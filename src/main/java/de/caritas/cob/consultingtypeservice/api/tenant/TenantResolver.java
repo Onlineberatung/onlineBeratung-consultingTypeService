@@ -1,4 +1,4 @@
-package de.caritas.cob.consultingtypeservice.api.service.tenant;
+package de.caritas.cob.consultingtypeservice.api.tenant;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantResolver {
 
+  public static final Long TECHNICAL_TENANT_ID = 0L;
   private final @NonNull TenantHeaderSupplier tenantHeaderSupplier;
   private @NonNull SubdomainExtractor subdomainExtractor;
   private @NonNull TenantService tenantService;

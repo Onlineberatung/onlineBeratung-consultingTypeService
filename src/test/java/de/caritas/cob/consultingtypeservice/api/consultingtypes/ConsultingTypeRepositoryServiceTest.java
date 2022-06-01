@@ -5,7 +5,7 @@ import static org.mockito.Mockito.verify;
 
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

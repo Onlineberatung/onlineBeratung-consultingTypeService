@@ -1,7 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.repository.TenantAware;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
@@ -13,7 +13,7 @@ import org.hibernate.EmptyInterceptor;
 @Slf4j
 public class TenantHibernateInterceptor extends EmptyInterceptor {
 
-  private final Long TECHNICAL_TENANT_ID = 0L;
+  private static final Long TECHNICAL_TENANT_ID = 0L;
 
   private static Boolean multiTenancyEnabled;
 
@@ -30,7 +30,7 @@ public class TenantHibernateInterceptor extends EmptyInterceptor {
         entity = entities.next();
         if (entity instanceof TenantAware) {
           var tenantAware = (TenantAware) entity;
-          if (tenantAware.getTenantId() == null && !Long.valueOf(TECHNICAL_TENANT_ID)
+          if (tenantAware.getTenantId() == null && !TECHNICAL_TENANT_ID
               .equals(TenantContext.getCurrentTenant())) {
             ((TenantAware) entity).setTenantId(TenantContext.getCurrentTenant());
           }

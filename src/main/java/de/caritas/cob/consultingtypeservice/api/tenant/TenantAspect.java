@@ -1,11 +1,13 @@
-package de.caritas.cob.consultingtypeservice.api.service.tenant;
+package de.caritas.cob.consultingtypeservice.api.tenant;
+
+import static de.caritas.cob.consultingtypeservice.api.tenant.TenantResolver.TECHNICAL_TENANT_ID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
@@ -16,19 +18,18 @@ import org.springframework.stereotype.Component;
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 public class TenantAspect {
 
-  private final Long TECHNICAL_TENANT_ID = 0L;
-
   @PersistenceContext
-  public EntityManager entityManager;
+  private final @NonNull EntityManager entityManager;
 
-  @Before("execution(* de.caritas.cob.consultingtypeservice.api.repository..*(..)))")
+  //TODO refactor this package when the service name will be refactored
+  @Before("execution(* de.caritas.cob.consultingtypeservice.api.port..*(..)))")
   public void beforeQueryAspect() {
 
-    if (Long.valueOf(TECHNICAL_TENANT_ID).equals(TenantContext.getCurrentTenant())) {
+    if (TECHNICAL_TENANT_ID.equals(TenantContext.getCurrentTenant())) {
       return;
     }
 
-    Filter filter = entityManager.unwrap(Session.class)
+    var filter = entityManager.unwrap(Session.class)
         .enableFilter("tenantFilter");
     filter.setParameter("tenantId", TenantContext.getCurrentTenant());
     filter.validate();
