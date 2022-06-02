@@ -9,6 +9,7 @@ import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,8 +22,12 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
 
+  @Value("${multitenancy.enabled}")
+  private boolean multitenancy;
+
   /**
    * Get a complete list of all {@link ConsultingType}.
+   *
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
@@ -78,11 +83,24 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
     }
   }
 
+
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
     return consultingTypeRepository.findById(consultingType.getId().toString()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
-    return !consultingTypeRepository.findBySlug(consultingType.getSlug()).isEmpty();
+
+    List<ConsultingTypeEntity> consultingTypesWithSameSlug = consultingTypeRepository.findBySlug(
+        consultingType.getSlug());
+    if (multitenancy) {
+      return anyMatchHavingSameTenantId(consultingType, consultingTypesWithSameSlug);
+    } else {
+      return !consultingTypesWithSameSlug.isEmpty();
+    }
+  }
+
+  private boolean anyMatchHavingSameTenantId(ConsultingType consultingType, List<ConsultingTypeEntity> bySlug) {
+    return bySlug.stream().anyMatch(consultingTypeWithSameSlug -> consultingType.getTenantId()
+        .equals(consultingTypeWithSameSlug.getTenantId()));
   }
 }

@@ -21,6 +21,7 @@ import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeRespons
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantResolver;
 import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,7 +41,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @WebMvcTest(ConsultingTypeController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ConsultingTypeConstrollerIT {
+public class ConsultingTypeControllerIT {
 
   @Autowired
   private MockMvc mvc;
@@ -50,6 +51,8 @@ public class ConsultingTypeConstrollerIT {
   private ConsultingTypeGroupService consultingTypeGroupService;
   @MockBean
   private LinkDiscoverers linkDiscoverers;
+  @MockBean
+  private TenantResolver tenantResolver;
 
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()

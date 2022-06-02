@@ -33,16 +33,15 @@ public class TopicController implements TopicApi {
   @Override
   @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<List<TopicDTO>> getAllTopics() {
-
     Collection<TopicDTO> topics = topicService.getAllTopics();
-
     return !CollectionUtils.isEmpty(topics) ? new ResponseEntity(topics, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @Override
+  @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
     TopicDTO savedTopic = topicService.saveTopic(topicDTO);
-    return new ResponseEntity(savedTopic, HttpStatus.OK);
+    return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 }
