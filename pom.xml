@@ -108,6 +108,29 @@
       <version>3.11</version>
     </dependency>
 
+    <!-- Keycloak dependencies -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-spring-security-adapter</artifactId>
+      <version>15.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-spring-boot-starter</artifactId>
+      <version>15.0.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-admin-client</artifactId>
+      <version>16.0.0</version>
+    </dependency>
+
     <!-- Test scope dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

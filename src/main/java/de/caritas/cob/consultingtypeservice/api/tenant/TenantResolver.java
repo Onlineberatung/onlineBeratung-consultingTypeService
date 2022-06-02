@@ -26,13 +26,14 @@ public class TenantResolver {
   private @NonNull SubdomainExtractor subdomainExtractor;
   private @NonNull TenantService tenantService;
 
-  public Long resolve(HttpServletRequest request) {
+  public Long resolve() {
     return resolveForNonAuthenticatedUser();
   }
 
   private Long resolveForNonAuthenticatedUser() {
     Optional<Long> tenantId = resolveTenantFromHttpRequest();
     if (tenantId.isEmpty()) {
+      log.warn("Tenant id could not be resolved for request");
       throw new AccessDeniedException("Tenant id could not be resolved");
     }
     return tenantId.get();
