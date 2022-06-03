@@ -1,10 +1,10 @@
 package de.caritas.cob.consultingtypeservice.api.repository;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
+import java.time.LocalDateTime;
 import java.util.Optional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@Disabled
 class TopicRepositoryTest {
-  private static final long EXISTING_ID = 1L;
+
+  public static final String NEW_TOPIC_NAME = "a new topic";
 
   @Autowired
   private TopicRepository topicRepository;
@@ -31,4 +31,25 @@ class TopicRepositoryTest {
     // then
     assertThat(topicEntity).isPresent();
   }
+
+  @Test
+  void findAll_Should_findAllTopics() {
+    // given, when
+    var all = topicRepository.findAll();
+    // then
+    assertThat(all).hasSize(2);
+  }
+
+  @Test
+  void save_Should_saveNewTopic() {
+    // given
+    TopicEntity topicEntity = TopicEntity.builder().name(NEW_TOPIC_NAME).description("desc").createDate(
+        LocalDateTime.now()).build();
+    var savedTopicEntity = topicRepository.save(topicEntity);
+    // then
+    assertThat(savedTopicEntity).isNotNull();
+    assertThat(topicRepository.findByName(NEW_TOPIC_NAME)).isPresent();
+    assertThat(topicRepository.findAll()).hasSize(3);
+  }
+
 }

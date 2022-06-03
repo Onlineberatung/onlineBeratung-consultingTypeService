@@ -4,7 +4,6 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.service.TopicServiceFacade;
 import de.caritas.cob.consultingtypeservice.generated.api.controller.TopicApi;
 import io.swagger.annotations.Api;
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.NonNull;
@@ -31,17 +30,16 @@ public class TopicController implements TopicApi {
    * @return {@link ResponseEntity} containing {@link List} of {@link TopicDTO}
    */
   @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<List<TopicDTO>> getAllTopics() {
-    Collection<TopicDTO> topics = topicService.getAllTopics();
-    return !CollectionUtils.isEmpty(topics) ? new ResponseEntity(topics, HttpStatus.OK)
+    var topics = topicService.getAllTopics();
+    return !CollectionUtils.isEmpty(topics) ? new ResponseEntity<>(topics, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @Override
   @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
-    TopicDTO savedTopic = topicService.saveTopic(topicDTO);
+    TopicDTO savedTopic = topicService.createTopic(topicDTO);
     return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 }
