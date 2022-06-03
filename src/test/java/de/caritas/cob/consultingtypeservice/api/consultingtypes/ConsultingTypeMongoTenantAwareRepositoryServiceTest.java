@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,5 +95,26 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
     // when, then
     assertThrows(NotFoundException.class, () -> this.consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1));
+  }
+
+  @Test
+  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdTakeFromConsultingTypeForTechnicalTenantContext() {
+    // given
+    TenantContext.setCurrentTenant(TECHNICAL_TENANT_CONTEXT);
+    // when
+    consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
+    // then
+    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug", 1L);
+  }
+
+  @Test
+  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdFromCurrentContextForNonTechnicalTenantContext() {
+    // given
+    TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
+    // when
+    consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
+    // then
+    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug",
+        TenantContext.getCurrentTenant());
   }
 }
