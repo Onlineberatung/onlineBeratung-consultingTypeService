@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,17 +17,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("tenantUnaware")
 @RequiredArgsConstructor
+@Slf4j
 public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryService {
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
 
-  @Value("${multitenancy.enabled}")
-  private boolean multitenancy;
-
   /**
    * Get a complete list of all {@link ConsultingType}.
-   *
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
@@ -71,6 +68,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
+    log.info("Using tenant unaware repository service to try to add a consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String
@@ -83,24 +81,11 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
     }
   }
 
-
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
     return consultingTypeRepository.findById(consultingType.getId().toString()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
-
-    List<ConsultingTypeEntity> consultingTypesWithSameSlug = consultingTypeRepository.findBySlug(
-        consultingType.getSlug());
-    if (multitenancy) {
-      return anyMatchHavingSameTenantId(consultingType, consultingTypesWithSameSlug);
-    } else {
-      return !consultingTypesWithSameSlug.isEmpty();
-    }
-  }
-
-  private boolean anyMatchHavingSameTenantId(ConsultingType consultingType, List<ConsultingTypeEntity> bySlug) {
-    return bySlug.stream().anyMatch(consultingTypeWithSameSlug -> consultingType.getTenantId()
-        .equals(consultingTypeWithSameSlug.getTenantId()));
+    return !consultingTypeRepository.findBySlug(consultingType.getSlug()).isEmpty();
   }
 }

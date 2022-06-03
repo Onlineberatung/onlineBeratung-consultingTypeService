@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Repository;
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 @AllArgsConstructor
+@Slf4j
 public class ConsultingTypeMongoTenantAwareRepositoryService implements
     ConsultingTypeRepositoryService {
 
@@ -105,6 +107,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
+    log.info("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String
