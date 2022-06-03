@@ -59,7 +59,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
 
-    Optional<ConsultingType> byId = getById(consultingTypeId);
+    Optional<ConsultingType> byId = findById(consultingTypeId);
 
     if (byId.isEmpty()) {
       throw new NotFoundException(
@@ -69,7 +69,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     return byId.get();
   }
 
-  private Optional<ConsultingType> getById(Integer consultingTypeId) {
+  private Optional<ConsultingType> findById(Integer consultingTypeId) {
     if (isTechnicalTenantContext()) {
       return Optional.ofNullable(
           consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId));
@@ -121,12 +121,12 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
-    return getById(consultingType.getId()).isPresent();
+    return findById(consultingType.getId()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlug(consultingType.getSlug())
+      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
           .isEmpty();
     }
     return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),
