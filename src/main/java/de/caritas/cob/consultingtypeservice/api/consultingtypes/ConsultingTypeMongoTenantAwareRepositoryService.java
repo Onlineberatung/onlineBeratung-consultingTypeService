@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Repository;
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 @AllArgsConstructor
+@Slf4j
 public class ConsultingTypeMongoTenantAwareRepositoryService implements
     ConsultingTypeRepositoryService {
 
@@ -57,7 +59,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
 
-    Optional<ConsultingType> byId = getById(consultingTypeId);
+    Optional<ConsultingType> byId = findById(consultingTypeId);
 
     if (byId.isEmpty()) {
       throw new NotFoundException(
@@ -67,7 +69,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     return byId.get();
   }
 
-  private Optional<ConsultingType> getById(Integer consultingTypeId) {
+  private Optional<ConsultingType> findById(Integer consultingTypeId) {
     if (isTechnicalTenantContext()) {
       return Optional.ofNullable(
           consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId));
@@ -105,6 +107,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
+    log.info("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String
@@ -118,12 +121,12 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
-    return getById(consultingType.getId()).isPresent();
+    return findById(consultingType.getId()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlug(consultingType.getSlug())
+      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
           .isEmpty();
     }
     return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),
