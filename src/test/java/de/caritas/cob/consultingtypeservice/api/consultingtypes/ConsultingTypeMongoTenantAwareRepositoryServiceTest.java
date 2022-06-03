@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
@@ -105,7 +104,7 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
     // when
     consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
     // then
-    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug",1L);
+    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug", 1L);
   }
 
   @Test
@@ -115,6 +114,7 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
     // when
     consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
     // then
-    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug",TenantContext.getCurrentTenant());
+    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug",
+        TenantContext.getCurrentTenant());
   }
 }
