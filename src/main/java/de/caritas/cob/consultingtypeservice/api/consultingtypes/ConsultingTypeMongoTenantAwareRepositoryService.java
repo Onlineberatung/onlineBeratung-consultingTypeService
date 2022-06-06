@@ -3,7 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;
@@ -107,7 +107,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
-    log.info("Using tenant aware repository service to try to add consulting type");
+    log.debug("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String

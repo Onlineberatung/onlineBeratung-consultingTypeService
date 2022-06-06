@@ -2,7 +2,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Map;

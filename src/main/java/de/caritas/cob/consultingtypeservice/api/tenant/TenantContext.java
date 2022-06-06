@@ -1,4 +1,4 @@
-package de.caritas.cob.consultingtypeservice.api.service.tenant;
+package de.caritas.cob.consultingtypeservice.api.tenant;
 
 /**
  * Holds the tenant_id variable for ongoing thread assigned for HTTP request.
