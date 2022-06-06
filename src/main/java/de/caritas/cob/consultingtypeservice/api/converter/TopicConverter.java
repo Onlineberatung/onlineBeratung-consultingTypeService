@@ -14,7 +14,8 @@ public class TopicConverter {
         .id(topic.getId())
         .name(topic.getName())
         .description(topic.getDescription())
-        .status(topic.getStatus().name());
+        .status(topic.getStatus().name())
+        .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicDTO.setCreateDate(topic.getCreateDate().toString());
     }
@@ -29,6 +30,7 @@ public class TopicConverter {
     topicEntity.setName(topicDTO.getName());
     topicEntity.setDescription(topicDTO.getDescription());
     topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
+    topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     return topicEntity;
   }
 }

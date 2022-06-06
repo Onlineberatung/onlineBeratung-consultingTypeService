@@ -47,6 +47,9 @@ public class TopicEntity implements TenantAware {
   @Enumerated(EnumType.STRING)
   private TopicStatus status;
 
+  @Column(name = "internal_identifier", nullable = false)
+  private String internalIdentifier;
+
   @Column(name = "tenant_id")
   private Long tenantId;
 
