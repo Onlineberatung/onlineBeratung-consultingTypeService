@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("tenantUnaware")
 @RequiredArgsConstructor
+@Slf4j
 public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepositoryService {
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
@@ -66,6 +68,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
+    log.debug("Using tenant unaware repository service to try to add a consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String

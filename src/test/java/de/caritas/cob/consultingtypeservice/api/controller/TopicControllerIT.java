@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.authorisation.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.util.JsonConverter;
 import de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants;
 import org.jeasy.random.EasyRandom;
@@ -40,6 +41,7 @@ class TopicControllerIT {
 
   @BeforeEach
   public void setup() {
+    TenantContext.clear();
     mockMvc = MockMvcBuilders
         .webAppContextSetup(context)
         .apply(springSecurity())
