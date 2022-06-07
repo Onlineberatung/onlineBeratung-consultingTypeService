@@ -58,7 +58,7 @@ paths:
     get:
       tags:
         - topic-controller
-      summary: 'Gets a topic by its id [Authorization: Role: topic-admin]'
+      summary: 'Gets a topic by its id [Not yet implemented]'
       operationId: getTopicById
       parameters:
         - name: id
@@ -86,7 +86,7 @@ paths:
     put:
       tags:
         - topic-controller
-      summary: 'Updates a topic [Authorization: Role: topic-admin]'
+      summary: 'Updates a topic [Authorization: Role: topic-admin] [Not yet implemented]'
       operationId: updateTopic
       parameters:
         - name: id
