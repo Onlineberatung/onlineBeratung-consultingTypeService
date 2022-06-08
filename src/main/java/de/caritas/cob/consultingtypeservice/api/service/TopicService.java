@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
+import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
@@ -32,5 +33,10 @@ public class TopicService {
     topicEntity.setStatus(TopicStatus.ACTIVE);
     topicEntity.setCreateDate(LocalDateTime.now(ZoneOffset.UTC));
     return topicRepository.save(topicEntity);
+  }
+
+  public TopicDTO updateTopic(Long id, TopicDTO topicDTO) {
+    // TODO tkuzynow implement
+    return topicDTO;
   }
 }

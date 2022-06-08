@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "topic-controller")
 public class TopicController implements TopicApi {
 
-  private final @NonNull TopicServiceFacade topicService;
+  private final @NonNull TopicServiceFacade topicServiceFacade;
 
   /**
    * Returns a list of all topics types with basic properties.
@@ -31,7 +31,7 @@ public class TopicController implements TopicApi {
    */
   @Override
   public ResponseEntity<List<TopicDTO>> getAllTopics() {
-    var topics = topicService.getAllTopics();
+    var topics = topicServiceFacade.getAllTopics();
     return !CollectionUtils.isEmpty(topics) ? new ResponseEntity<>(topics, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
@@ -39,7 +39,14 @@ public class TopicController implements TopicApi {
   @Override
   @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
-    TopicDTO savedTopic = topicService.createTopic(topicDTO);
+    TopicDTO savedTopic = topicServiceFacade.createTopic(topicDTO);
+    return new ResponseEntity<>(savedTopic, HttpStatus.OK);
+  }
+
+  @Override
+  @PreAuthorize("hasAuthority('topic-admin')")
+  public ResponseEntity<TopicDTO> updateTopic(Long id, @Valid TopicDTO topicDTO) {
+    TopicDTO savedTopic = topicServiceFacade.updateTopic(id, topicDTO);
     return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 }
