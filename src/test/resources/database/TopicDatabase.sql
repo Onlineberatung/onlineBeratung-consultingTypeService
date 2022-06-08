@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `topic`  (
   `status` varchar(20),
   `create_date` datetime NOT NULL,
   `update_date` datetime NULL,
+  `internal_identifier` varchar(50) NULL,
   PRIMARY KEY (`id`)
 );
 

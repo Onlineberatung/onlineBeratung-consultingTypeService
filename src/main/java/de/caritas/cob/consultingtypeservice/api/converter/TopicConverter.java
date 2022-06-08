@@ -2,6 +2,7 @@ package de.caritas.cob.consultingtypeservice.api.converter;
 
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
+import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,8 @@ public class TopicConverter {
         .id(topic.getId())
         .name(topic.getName())
         .description(topic.getDescription())
-        .status(topic.getStatus().name());
+        .status(topic.getStatus().name())
+        .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicDTO.setCreateDate(topic.getCreateDate().toString());
     }
@@ -27,8 +29,10 @@ public class TopicConverter {
   public TopicEntity toEntity(TopicDTO topicDTO) {
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setName(topicDTO.getName());
+    topicEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus()));
     topicEntity.setDescription(topicDTO.getDescription());
     topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
+    topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     return topicEntity;
   }
 }

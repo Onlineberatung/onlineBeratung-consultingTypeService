@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.authorisation.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.util.JsonConverter;
 import de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants;
@@ -69,7 +70,9 @@ class TopicControllerIT {
   void createTopic_Should_returnStatusOk_When_calledWithValidCreateParamsAndValidAuthority()
       throws Exception {
     EasyRandom easyRandom = new EasyRandom();
-    String payload = JsonConverter.convert(easyRandom.nextObject(TopicDTO.class));
+    TopicDTO topicDTO = easyRandom.nextObject(TopicDTO.class);
+    topicDTO.setStatus(TopicStatus.ACTIVE.toString());
+    String payload = JsonConverter.convert(topicDTO);
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
     mockMvc.perform(post(TopicPathConstants.ROOT_PATH)
             .with(authentication(builder.withAuthority(UserRole.TOPIC_ADMIN.getValue()).build()))
@@ -117,6 +120,7 @@ class TopicControllerIT {
       throws Exception {
     EasyRandom easyRandom = new EasyRandom();
     TopicDTO topicDTO = easyRandom.nextObject(TopicDTO.class);
+    topicDTO.setStatus(TopicStatus.ACTIVE.toString());
     String payload = JsonConverter.convert(topicDTO);
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
     mockMvc.perform(post(TopicPathConstants.ROOT_PATH)
