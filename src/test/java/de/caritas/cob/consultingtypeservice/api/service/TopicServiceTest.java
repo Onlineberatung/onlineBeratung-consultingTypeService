@@ -48,4 +48,14 @@ class TopicServiceTest {
     assertThat(topicEntity.getCreateDate()).isNotNull();
     assertThat(topicEntity.getStatus()).isEqualTo(TopicStatus.ACTIVE);
   }
+
+  @Test
+  void updateTopics_Should_UpdateUpdateDateAndCallRepository() {
+    // given, when
+    TopicEntity topicEntity = new TopicEntity();
+    topicService.updateTopic(topicEntity);
+    // then
+    verify(topicRepository).save(topicEntity);
+    assertThat(topicEntity.getUpdateDate()).isNotNull();
+  }
 }

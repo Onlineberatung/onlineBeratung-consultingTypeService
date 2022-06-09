@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
@@ -8,8 +7,10 @@ import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +21,22 @@ public class TopicService {
 
   private @NonNull TopicRepository topicRepository;
 
-  public Collection<TopicEntity> getAllTopics() {
+  @Value("${multitenancy.enabled}")
+  private boolean multitenancy;
 
-    if (TenantContext.getCurrentTenant() == null) {
-      return topicRepository.findAll();
-    } else {
+  public Collection<TopicEntity> getAllTopics() {
+    if (multitenancy) {
       return topicRepository.findAllForTenant(TenantContext.getCurrentTenant());
+    } else {
+      return topicRepository.findAll();
+    }
+  }
+
+  public Optional<TopicEntity> findTopicById(Long id) {
+    if (multitenancy) {
+      return topicRepository.findByIdForTenant(id, TenantContext.getCurrentTenant());
+    } else {
+      return topicRepository.findById(id);
     }
   }
 
@@ -35,8 +46,8 @@ public class TopicService {
     return topicRepository.save(topicEntity);
   }
 
-  public TopicDTO updateTopic(Long id, TopicDTO topicDTO) {
-    // TODO tkuzynow implement
-    return topicDTO;
+  public TopicEntity updateTopic(TopicEntity topicEntity) {
+    topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
+    return topicRepository.save(topicEntity);
   }
 }

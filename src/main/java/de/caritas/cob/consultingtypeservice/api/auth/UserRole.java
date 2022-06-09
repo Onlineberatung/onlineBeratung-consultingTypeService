@@ -1,4 +1,4 @@
-package de.caritas.cob.consultingtypeservice.api.authorisation;
+package de.caritas.cob.consultingtypeservice.api.auth;
 
 import java.util.Arrays;
 import java.util.Optional;

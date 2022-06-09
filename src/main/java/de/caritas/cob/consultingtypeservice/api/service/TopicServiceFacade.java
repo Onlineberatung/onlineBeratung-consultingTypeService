@@ -1,7 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.converter.TopicConverter;
+import de.caritas.cob.consultingtypeservice.api.exception.TopicNotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.validation.TopicInputSanitizer;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.NonNull;
@@ -16,6 +18,7 @@ public class TopicServiceFacade {
 
   private final @NonNull TopicService topicService;
   private final @NonNull TopicConverter topicConverter;
+  private final @NonNull TopicInputSanitizer topicInputSanitizer;
 
   public List<TopicDTO> getAllTopics() {
     var topicEntities = topicService.getAllTopics();
@@ -24,13 +27,22 @@ public class TopicServiceFacade {
   }
 
   public TopicDTO createTopic(TopicDTO topicDTO) {
-    var topicEntity = topicConverter.toEntity(topicDTO);
+    TopicDTO sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
+    var topicEntity = topicConverter.toEntity(sanitizedTopicDTO);
     var savedTopic = topicService.createTopic(topicEntity);
     return topicConverter.toDTO(savedTopic);
   }
 
   public TopicDTO updateTopic(Long id, TopicDTO topicDTO) {
-    log.info("Updating tenant with id {} ", id);
-    return topicService.updateTopic(id, topicDTO);
+    var topicById = topicService.findTopicById(id);
+    if (topicById.isPresent()) {
+      log.info("Found topic with id {}", topicById);
+      var sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
+      var topicEntity = topicConverter.toEntity(topicById.get(), sanitizedTopicDTO);
+      var updatedEntity = topicService.updateTopic(topicEntity);
+      return topicConverter.toDTO(updatedEntity);
+    } else {
+      throw new TopicNotFoundException("Topic with given id could not be found : " + id);
+    }
   }
 }

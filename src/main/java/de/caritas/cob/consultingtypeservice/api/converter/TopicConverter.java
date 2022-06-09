@@ -35,4 +35,13 @@ public class TopicConverter {
     topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     return topicEntity;
   }
+
+  public TopicEntity toEntity(TopicEntity targetEntity, TopicDTO topicDTO) {
+    targetEntity.setName(topicDTO.getName());
+    targetEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus()));
+    targetEntity.setDescription(topicDTO.getDescription());
+    targetEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
+    targetEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
+    return targetEntity;
+  }
 }
