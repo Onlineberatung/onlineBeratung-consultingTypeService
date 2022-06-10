@@ -29,10 +29,19 @@ public class TopicConverter {
   public TopicEntity toEntity(TopicDTO topicDTO) {
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setName(topicDTO.getName());
-    topicEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus()));
+    topicEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus().toUpperCase()));
     topicEntity.setDescription(topicDTO.getDescription());
     topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
     topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     return topicEntity;
+  }
+
+  public TopicEntity toEntity(TopicEntity targetEntity, TopicDTO topicDTO) {
+    targetEntity.setName(topicDTO.getName());
+    targetEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus()));
+    targetEntity.setDescription(topicDTO.getDescription());
+    targetEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
+    targetEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
+    return targetEntity;
   }
 }
