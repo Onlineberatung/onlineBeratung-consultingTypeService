@@ -29,7 +29,7 @@ public class TopicConverter {
   public TopicEntity toEntity(TopicDTO topicDTO) {
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setName(topicDTO.getName());
-    topicEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus()));
+    topicEntity.setStatus(TopicStatus.valueOf(topicDTO.getStatus().toUpperCase()));
     topicEntity.setDescription(topicDTO.getDescription());
     topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
     topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());

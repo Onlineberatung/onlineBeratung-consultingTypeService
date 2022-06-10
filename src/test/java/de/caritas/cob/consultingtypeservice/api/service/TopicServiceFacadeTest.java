@@ -8,6 +8,7 @@ import de.caritas.cob.consultingtypeservice.api.converter.TopicConverter;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicInputSanitizer;
+import de.caritas.cob.consultingtypeservice.api.validation.TopicValidationService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ class TopicServiceFacadeTest {
 
   @Mock
   TopicInputSanitizer topicInputSanitizer;
+
+  @Mock
+  TopicValidationService topicValidationService;
 
   @InjectMocks
   TopicServiceFacade topicServiceFacade;
@@ -64,6 +68,7 @@ class TopicServiceFacadeTest {
     topicServiceFacade.createTopic(topicDTO);
 
     // then
+    verify(topicValidationService).validate(topicDTO);
     verify(topicInputSanitizer).sanitize(topicDTO);
     verify(topicConverter).toEntity(topicDTO);
     verify(topicService).createTopic(topicEntity);
@@ -86,6 +91,7 @@ class TopicServiceFacadeTest {
     topicServiceFacade.updateTopic(TOPIC_ID, topicDTO);
 
     // then
+    verify(topicValidationService).validate(topicDTO);
     verify(topicInputSanitizer).sanitize(topicDTO);
     verify(topicService).findTopicById(TOPIC_ID);
     verify(topicConverter).toEntity(topicEntity, sanitizedDTO);

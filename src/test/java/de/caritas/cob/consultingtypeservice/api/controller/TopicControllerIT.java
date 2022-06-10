@@ -36,7 +36,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -101,6 +100,22 @@ class TopicControllerIT {
         .andExpect(jsonPath("$.status").exists())
         .andExpect(jsonPath("$.internalIdentifier").exists())
         .andExpect(jsonPath("$.createDate").exists());
+  }
+
+  @Test
+  void createTopic_Should_returnStatusBadRequest_When_calledWithInvalidCreateParamsButValidAuthority()
+      throws Exception {
+    EasyRandom easyRandom = new EasyRandom();
+    TopicDTO topicDTO = easyRandom.nextObject(TopicDTO.class);
+    topicDTO.setStatus("invalid status");
+    String payload = JsonConverter.convert(topicDTO);
+    Authentication authentication = givenMockAuthentication(UserRole.TOPIC_ADMIN);
+    mockMvc.perform(post(TopicPathConstants.ROOT_PATH)
+            .with(authentication(authentication))
+            .contentType(APPLICATION_JSON)
+            .content(payload)
+            .contentType(APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
