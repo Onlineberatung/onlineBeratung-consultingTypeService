@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-class TopicRepositoryTest {
+class TopicRepositoryIT {
 
   public static final String NEW_TOPIC_NAME = "a new topic";
 
@@ -37,6 +37,14 @@ class TopicRepositoryTest {
     // given, when
     var all = topicRepository.findAll();
     // then
+    assertThat(all).hasSize(3);
+  }
+
+  @Test
+  void findAllActive_Should_findAllActiveTopics() {
+    // given, when
+    var all = topicRepository.findAllActive();
+    // then
     assertThat(all).hasSize(2);
   }
 
@@ -49,7 +57,7 @@ class TopicRepositoryTest {
     // then
     assertThat(savedTopicEntity).isNotNull();
     assertThat(topicRepository.findByName(NEW_TOPIC_NAME)).isPresent();
-    assertThat(topicRepository.findAll()).hasSize(3);
+    assertThat(topicRepository.findAll()).hasSize(4);
   }
 
 }

@@ -2,6 +2,8 @@ package de.caritas.cob.consultingtypeservice.api.service;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import de.caritas.cob.consultingtypeservice.api.converter.TopicConverter;
@@ -39,8 +41,8 @@ class TopicServiceFacadeTest {
   @Test
   void getAllTopics_Should_CallServiceAndConvertResults() {
     // given
-    var topicEntity1 = TopicEntity.builder().name("a name").build();
-    var topicEntity2 = new TopicEntity();
+    var topicEntity1 = TopicEntity.builder().id(1L).name("a name").build();
+    var topicEntity2 = TopicEntity.builder().id(2L).name("a name 2").build();
 
     when(topicService.getAllTopics()).thenReturn(newArrayList(topicEntity1, topicEntity2));
     // when
@@ -50,6 +52,24 @@ class TopicServiceFacadeTest {
     verify(topicService).getAllTopics();
     verify(topicConverter).toDTO(topicEntity1);
     verify(topicConverter).toDTO(topicEntity2);
+    verifyNoMoreInteractions(topicConverter);
+  }
+
+  @Test
+  void getAllActiveTopics_Should_CallServiceAndConvertResults() {
+    // given
+    var topicEntity1 = TopicEntity.builder().id(1L).name("a name").build();
+    var topicEntity2 = TopicEntity.builder().id(2L).name("a name 2").build();
+
+    when(topicService.getAllActiveTopics()).thenReturn(newArrayList(topicEntity1, topicEntity2));
+    // when
+    topicServiceFacade.getAllActiveTopics();
+
+    // then
+    verify(topicService).getAllActiveTopics();
+    verify(topicConverter).toDTO(topicEntity1);
+    verify(topicConverter).toDTO(topicEntity2);
+    verifyNoMoreInteractions(topicConverter);
   }
 
   @Test

@@ -44,6 +44,13 @@ public class TopicController implements TopicApi {
   }
 
   @Override
+  public ResponseEntity<List<TopicDTO>> getAllActiveTopics() {
+    var topics = topicServiceFacade.getAllActiveTopics();
+    return !CollectionUtils.isEmpty(topics) ? new ResponseEntity<>(topics, HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @Override
   @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
     log.info("Creating topic by user {} ", authenticatedUser.getUsername());

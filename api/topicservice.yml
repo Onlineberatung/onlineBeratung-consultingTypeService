@@ -114,6 +114,28 @@ paths:
           description: CONFLICT - unique constraint validation fails
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /topic/public/:
+    summary: 'Represents the public allowed topic data'
+    get:
+      tags:
+        - topic-controller
+      summary: 'Get all public available (active) topics [Authorization: no-auth]'
+      operationId: getAllActiveTopics
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TopicDTO'
+        404:
+          description: Not found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 components:
   schemas:
     TopicDTO:

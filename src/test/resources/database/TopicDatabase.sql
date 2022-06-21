@@ -21,7 +21,10 @@ INCREMENT BY 1
 START WITH 100000;
 
 INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`,`create_date`)
-                  VALUES (1, '1', 'a topic', 'description', 'ACTIVE','2022-06-02');
+                  VALUES (1, '1', 'a active topic', 'description', 'ACTIVE','2022-06-02');
+
+INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`,`create_date`)
+                  VALUES (2, '1', 'a not active topic', 'description', 'INACTIVE','2022-06-02');
 
 INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`)
-                  VALUES (2, '2', 'another topic', 'description', 'ACTIVE', '2022-06-02');
+                  VALUES (3, '2', 'another topic', 'description', 'ACTIVE', '2022-06-02');

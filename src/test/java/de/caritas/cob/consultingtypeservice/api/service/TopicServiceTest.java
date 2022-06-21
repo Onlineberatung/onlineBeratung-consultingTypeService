@@ -39,6 +39,16 @@ class TopicServiceTest {
   }
 
   @Test
+  void getAllActiveTopics_Should_callRepository() {
+    // given, when
+    TenantContext.clear();
+    topicService.getAllActiveTopics();
+    // Then
+    verify(topicRepository).findAllActive();
+
+  }
+
+  @Test
   void createTopics_Should_SetDefaultTopicValuesAndCallRepository() {
     // given, when
     TopicEntity topicEntity = new TopicEntity();

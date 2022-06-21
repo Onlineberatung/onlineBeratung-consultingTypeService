@@ -3,8 +3,10 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import de.caritas.cob.consultingtypeservice.api.converter.TopicConverter;
 import de.caritas.cob.consultingtypeservice.api.exception.TopicNotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicInputSanitizer;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicValidationService;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.NonNull;
@@ -24,8 +26,18 @@ public class TopicServiceFacade {
 
   public List<TopicDTO> getAllTopics() {
     var topicEntities = topicService.getAllTopics();
-    return topicEntities.stream().map(topicConverter::toDTO).collect(
-        Collectors.toList());
+    return convert(topicEntities);
+  }
+
+  public List<TopicDTO> getAllActiveTopics() {
+    var topicEntities = topicService.getAllActiveTopics();
+    return convert(topicEntities);
+  }
+
+  private List<TopicDTO> convert(Collection<TopicEntity> topicEntities) {
+    return topicEntities.stream()
+        .map(topicConverter::toDTO)
+        .collect(Collectors.toList());
   }
 
   public TopicDTO createTopic(TopicDTO topicDTO) {

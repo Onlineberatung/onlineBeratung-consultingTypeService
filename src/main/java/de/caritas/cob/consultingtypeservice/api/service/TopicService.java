@@ -32,6 +32,14 @@ public class TopicService {
     }
   }
 
+  public Collection<TopicEntity> getAllActiveTopics() {
+    if (multitenancy) {
+      return topicRepository.findAllActiveForTenant(TenantContext.getCurrentTenant());
+    } else {
+      return topicRepository.findAllActive();
+    }
+  }
+
   public Optional<TopicEntity> findTopicById(Long id) {
     if (multitenancy) {
       return topicRepository.findByIdForTenant(id, TenantContext.getCurrentTenant());
