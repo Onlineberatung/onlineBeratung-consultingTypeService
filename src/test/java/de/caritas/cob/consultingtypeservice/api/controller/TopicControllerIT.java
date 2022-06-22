@@ -87,7 +87,7 @@ class TopicControllerIT {
     mockMvc.perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
-        .andExpect(jsonPath("$[0].id").value(3))
+        .andExpect(jsonPath("$[0].id").exists())
         .andExpect(jsonPath("$[0].name").exists())
         .andExpect(jsonPath("$[0].description").exists())
         .andExpect(jsonPath("$[0].status").exists())
@@ -140,7 +140,7 @@ class TopicControllerIT {
     topicDTO.setStatus(TopicStatus.INACTIVE.toString());
     String payload = JsonConverter.convert(topicDTO);
     Authentication authentication = givenMockAuthentication(UserRole.TOPIC_ADMIN);
-    mockMvc.perform(put(TopicPathConstants.ROOT_PATH + "1")
+    mockMvc.perform(put(String.format(TopicPathConstants.PATH_PUT_TOPIC_BY_ID, "1"))
             .with(authentication(authentication))
             .contentType(APPLICATION_JSON)
             .content(payload)

@@ -1,12 +1,12 @@
 package de.caritas.cob.consultingtypeservice.config;
 
+import de.caritas.cob.consultingtypeservice.filter.HttpTenantFilter;
+import de.caritas.cob.consultingtypeservice.filter.StatelessCsrfFilter;
+import javax.annotation.Nullable;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import de.caritas.cob.consultingtypeservice.filter.HttpTenantFilter;
-import de.caritas.cob.consultingtypeservice.filter.StatelessCsrfFilter;
-import javax.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 
 /**
  * Provides the Security configuration.
@@ -65,13 +64,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
         .and()
         .authorizeRequests()
+        .requestMatchers(new AntPathRequestMatcher("/topic/public")).permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/topic/public/*")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/topic")).authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topic/*")).authenticated()
-        .requestMatchers(new AntPathRequestMatcher("/topic/public/**")).permitAll()
-        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic")))
-        .permitAll()
-        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic/**")))
-        .permitAll()
         .anyRequest()
         .permitAll()
         .and()

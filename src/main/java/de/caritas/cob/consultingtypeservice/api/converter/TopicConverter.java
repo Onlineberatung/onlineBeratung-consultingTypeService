@@ -5,6 +5,9 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,6 +27,12 @@ public class TopicConverter {
       topicDTO.setUpdateDate(topic.getUpdateDate().toString());
     }
     return topicDTO;
+  }
+
+  public List<TopicDTO> toDTOList(Collection<TopicEntity> topicEntities) {
+    return topicEntities.stream()
+        .map(this::toDTO)
+        .collect(Collectors.toList());
   }
 
   public TopicEntity toEntity(TopicDTO topicDTO) {

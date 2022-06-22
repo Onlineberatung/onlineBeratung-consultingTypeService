@@ -2,7 +2,6 @@ package de.caritas.cob.consultingtypeservice.api.service;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +10,7 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicInputSanitizer;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicValidationService;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,8 +50,7 @@ class TopicServiceFacadeTest {
 
     // then
     verify(topicService).getAllTopics();
-    verify(topicConverter).toDTO(topicEntity1);
-    verify(topicConverter).toDTO(topicEntity2);
+    verify(topicConverter).toDTOList(List.of(topicEntity1, topicEntity2));
     verifyNoMoreInteractions(topicConverter);
   }
 
@@ -67,8 +66,7 @@ class TopicServiceFacadeTest {
 
     // then
     verify(topicService).getAllActiveTopics();
-    verify(topicConverter).toDTO(topicEntity1);
-    verify(topicConverter).toDTO(topicEntity2);
+    verify(topicConverter).toDTOList(List.of(topicEntity1, topicEntity2));
     verifyNoMoreInteractions(topicConverter);
   }
 
