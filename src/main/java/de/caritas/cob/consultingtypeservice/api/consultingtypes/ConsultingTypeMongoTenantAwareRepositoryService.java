@@ -107,7 +107,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
-    log.info("Using tenant aware repository service to try to add consulting type");
+    log.debug("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String

@@ -68,7 +68,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @param consultingType the {@link ConsultingType} to add
    */
   public void addConsultingType(ConsultingType consultingType) {
-    log.info("Using tenant unaware repository service to try to add a consulting type");
+    log.debug("Using tenant unaware repository service to try to add a consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String

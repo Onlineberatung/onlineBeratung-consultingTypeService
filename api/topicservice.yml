@@ -58,7 +58,7 @@ paths:
     get:
       tags:
         - topic-controller
-      summary: 'Gets a topic by its id [Authorization: Role: topic-admin]'
+      summary: 'Gets a topic by its id [Not yet implemented]'
       operationId: getTopicById
       parameters:
         - name: id
@@ -86,7 +86,7 @@ paths:
     put:
       tags:
         - topic-controller
-      summary: 'Updates a topic [Authorization: Role: topic-admin]'
+      summary: 'Updates a topic [Authorization: Role: topic-admin] [Not yet implemented]'
       operationId: updateTopic
       parameters:
         - name: id
@@ -114,6 +114,28 @@ paths:
           description: CONFLICT - unique constraint validation fails
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /topic/public:
+    summary: 'Represents the public allowed topic data'
+    get:
+      tags:
+        - topic-controller
+      summary: 'Get all public available (active) topics [Authorization: no-auth]'
+      operationId: getAllActiveTopics
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TopicDTO'
+        404:
+          description: Not found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 components:
   schemas:
     TopicDTO:
@@ -133,6 +155,10 @@ components:
           type: string
           example: "Description"
           maxLength: 100
+        internalIdentifier:
+          type: string
+          example: "identifier for data exports for example: alcohol"
+          maxLength: 50
         status:
           type: string
           example: "Active"

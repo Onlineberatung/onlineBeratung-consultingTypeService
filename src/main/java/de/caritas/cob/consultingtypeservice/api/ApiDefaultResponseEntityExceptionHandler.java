@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,7 +28,13 @@ public class ApiDefaultResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleInternal(final RuntimeException ex,
       final WebRequest request) {
     LogService.logInternalServerError(ex);
-
     return new ResponseEntity<>(EMPTY_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler({AccessDeniedException.class})
+  public ResponseEntity<Object> handleInternal(final AccessDeniedException ex,
+      final WebRequest request) {
+    LogService.logWarning(ex);
+    return new ResponseEntity<>(EMPTY_HEADERS, HttpStatus.FORBIDDEN);
   }
 }

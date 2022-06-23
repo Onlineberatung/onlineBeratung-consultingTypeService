@@ -216,12 +216,20 @@
       <artifactId>log4j-to-slf4j</artifactId>
       <version>${log4j.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+    </dependency>
     <!-- Liquibase -->
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-maven-plugin</artifactId>
       <version>4.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+      <artifactId>owasp-java-html-sanitizer</artifactId>
+      <version>20211018.2</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
@@ -237,18 +245,11 @@
       <scope>test</scope>
     </dependency>
 
-
-    <dependency>
-      <groupId>org.mariadb.jdbc</groupId>
-      <artifactId>mariadb-java-client</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <repositories>
@@ -516,5 +517,4 @@
       </properties>
     </profile>
   </profiles>
-
 </project>
