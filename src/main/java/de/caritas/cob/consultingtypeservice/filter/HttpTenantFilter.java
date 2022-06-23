@@ -1,7 +1,7 @@
 package de.caritas.cob.consultingtypeservice.filter;
 
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantResolver;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantResolver;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -31,7 +30,7 @@ public class HttpTenantFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     log.debug("Trying to resolve tenant for request coming from URI {}", request.getRequestURI());
-    Long tenantId = tenantResolver.resolve(request);
+    Long tenantId = tenantResolver.resolve();
     log.debug("Setting current tenant context to: " + tenantId);
     TenantContext.setCurrentTenant(tenantId);
     filterChain.doFilter(request, response);

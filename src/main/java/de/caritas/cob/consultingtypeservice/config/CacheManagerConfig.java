@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class CacheManagerConfig {
 
   public static final String TENANT_CACHE = "tenantCache";
+  public static final String CONSULTING_TYPE_GROUPS_CACHE = "consultingTypeGroupsCache";
 
   @Value("${cache.tenant.configuration.maxEntriesLocalHeap}")
   private long tenantMaxEntriesLocalHeap;
@@ -26,6 +27,18 @@ public class CacheManagerConfig {
   @Value("${cache.tenant.configuration.timeToLiveSeconds}")
   private long tenantTimeToLiveSeconds;
 
+  @Value("${cache.groups.configuration.maxEntriesLocalHeap}")
+  private long groupsMaxEntriesLocalHeap;
+
+  @Value("${cache.groups.configuration.eternal}")
+  private boolean groupsEternal;
+
+  @Value("${cache.groups.configuration.timeToIdleSeconds}")
+  private long groupsTimeToIdleSeconds;
+
+  @Value("${cache.groups.configuration.timeToLiveSeconds}")
+  private long groupsTimeToLiveSeconds;
+
   @Bean
   public CacheManager cacheManager() {
     return new EhCacheCacheManager(ehCacheManager());
@@ -35,7 +48,7 @@ public class CacheManagerConfig {
   public net.sf.ehcache.CacheManager ehCacheManager() {
     var config = new net.sf.ehcache.config.Configuration();
     config.addCache(buildTenantCacheConfiguration());
-
+    config.addCache(buildConsultingTypeGroupsCacheConfiguration());
     return net.sf.ehcache.CacheManager.newInstance(config);
   }
 
@@ -47,6 +60,16 @@ public class CacheManagerConfig {
     tenantCacheConfiguration.setEternal(tenantEternal);
     tenantCacheConfiguration.setTimeToIdleSeconds(tenantTimeToIdleSeconds);
     tenantCacheConfiguration.setTimeToLiveSeconds(tenantTimeToLiveSeconds);
+    return tenantCacheConfiguration;
+  }
+
+  private CacheConfiguration buildConsultingTypeGroupsCacheConfiguration() {
+    var tenantCacheConfiguration = new CacheConfiguration();
+    tenantCacheConfiguration.setName(CONSULTING_TYPE_GROUPS_CACHE);
+    tenantCacheConfiguration.setMaxEntriesLocalHeap(groupsMaxEntriesLocalHeap);
+    tenantCacheConfiguration.setEternal(groupsEternal);
+    tenantCacheConfiguration.setTimeToIdleSeconds(groupsTimeToIdleSeconds);
+    tenantCacheConfiguration.setTimeToLiveSeconds(groupsTimeToLiveSeconds);
     return tenantCacheConfiguration;
   }
 

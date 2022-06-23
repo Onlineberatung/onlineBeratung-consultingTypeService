@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
+import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
-  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
+  @Autowired
+  private ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
   private final @NonNull ConsultingTypeValidator consultingTypeValidator;
+
   @Value("${consulting.types.json.path}")
   private String consultingTypesFilePath;
 
@@ -48,10 +52,12 @@ public class ConsultingTypeLoader {
   }
 
   private void addConsultingTypeToRepositories(ConsultingType consultingType) {
-    consultingTypeRepository
-        .addConsultingType(consultingType);
-    consultingTypeGroupRepository
-        .addConsultingType(consultingType);
+    setTechnicalTenantContext();
+    consultingTypeRepositoryService.addConsultingType(consultingType);
+  }
+
+  private void setTechnicalTenantContext() {
+    TenantContext.setCurrentTenant(0L);
   }
 
   private File[] determineConsultingTypeConfigurationFiles() {

@@ -21,14 +21,14 @@ public class ConsultingTypeRespositoryIT {
   @Autowired
   private ConsultingTypeLoader consultingTypeLoader;
   @Autowired
-  private ConsultingTypeRepository consultingTypeRepository;
+  private ConsultingTypeRepositoryService consultingTypeRepositoryService;
 
   @Test
   public void getConsultingTypeById_Should_ReturnCorrectConsultingType() {
 
     Integer consultingTypeId = 0;
     String slug = "consultingtype0";
-    ConsultingType result = consultingTypeRepository.getConsultingTypeById(consultingTypeId);
+    ConsultingType result = consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
     assertEquals(consultingTypeId, result.getId());
     assertEquals(slug, result.getSlug());
   }
@@ -38,7 +38,7 @@ public class ConsultingTypeRespositoryIT {
 
     Integer consultingTypeId = 0;
     String slug = "consultingtype0";
-    ConsultingType result = consultingTypeRepository.getConsultingTypeBySlug(slug);
+    ConsultingType result = consultingTypeRepositoryService.getConsultingTypeBySlug(slug);
     assertEquals(consultingTypeId, result.getId());
     assertEquals(slug, result.getSlug());
   }
@@ -46,7 +46,7 @@ public class ConsultingTypeRespositoryIT {
   @Test
   public void getListOfConsultingTypes_Should_ReturnCompleteListOfConsultingTypes() {
 
-    List<ConsultingType> result = consultingTypeRepository.getListOfConsultingTypes();
+    List<ConsultingType> result = consultingTypeRepositoryService.getListOfConsultingTypes();
     assertEquals(5, result.size());
 
   }
