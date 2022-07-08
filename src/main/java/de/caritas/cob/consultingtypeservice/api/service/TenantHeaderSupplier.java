@@ -1,13 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-
-import de.caritas.cob.consultingtypeservice.api.service.tenant.TenantContext;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -16,15 +12,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 @Slf4j
 public class TenantHeaderSupplier {
-
-  @Value("${multitenancy.enabled}")
-  private boolean multitenancy;
-
-  public void addTenantHeader(HttpHeaders headers) {
-    if (multitenancy) {
-      headers.add("tenantId", TenantContext.getCurrentTenant().toString());
-    }
-  }
 
   public Optional<Long> getTenantFromHeader() {
     HttpServletRequest request =

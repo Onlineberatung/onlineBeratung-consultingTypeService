@@ -1,4 +1,4 @@
-package de.caritas.cob.consultingtypeservice.api.service.tenant;
+package de.caritas.cob.consultingtypeservice.api.tenant;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -21,17 +21,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantResolver {
 
+  public static final Long TECHNICAL_TENANT_ID = 0L;
   private final @NonNull TenantHeaderSupplier tenantHeaderSupplier;
   private @NonNull SubdomainExtractor subdomainExtractor;
   private @NonNull TenantService tenantService;
 
-  public Long resolve(HttpServletRequest request) {
+  public Long resolve() {
     return resolveForNonAuthenticatedUser();
   }
 
   private Long resolveForNonAuthenticatedUser() {
     Optional<Long> tenantId = resolveTenantFromHttpRequest();
     if (tenantId.isEmpty()) {
+      log.warn("Tenant id could not be resolved for request");
       throw new AccessDeniedException("Tenant id could not be resolved");
     }
     return tenantId.get();

@@ -36,6 +36,10 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-mongodb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
     <dependency>
@@ -104,6 +108,29 @@
       <version>3.11</version>
     </dependency>
 
+    <!-- Keycloak dependencies -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-spring-security-adapter</artifactId>
+      <version>15.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-spring-boot-starter</artifactId>
+      <version>15.0.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-admin-client</artifactId>
+      <version>16.0.0</version>
+    </dependency>
+
     <!-- Test scope dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -132,6 +159,11 @@
       <groupId>org.powermock</groupId>
       <scope>test</scope>
       <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>de.flapdoodle.embed</groupId>
+      <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <!-- EasyRandom -->
@@ -184,7 +216,40 @@
       <artifactId>log4j-to-slf4j</artifactId>
       <version>${log4j.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+    </dependency>
+    <!-- Liquibase -->
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-maven-plugin</artifactId>
+      <version>4.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+      <artifactId>owasp-java-html-sanitizer</artifactId>
+      <version>20211018.2</version>
+    </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+    </dependency>
+
+    <!-- Test scope dependencies -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <repositories>
@@ -299,6 +364,25 @@
                   RoleConsultantDTO=${project.groupId}.${project.artifactId}.api.consultingtypes.roles.Consultant
                 </typeMapping>
               </typeMappings>
+            </configuration>
+          </execution>
+          <execution>
+            <id>topic-service</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+                <sourceFolder>/</sourceFolder>
+              </configOptions>
+              <inputSpec>${project.basedir}/api/topicservice.yml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.controller
+              </apiPackage>
+              <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <output>target/generated-sources</output>
             </configuration>
           </execution>
           <!-- Generate admin API markdown files -->
@@ -433,5 +517,4 @@
       </properties>
     </profile>
   </profiles>
-
 </project>

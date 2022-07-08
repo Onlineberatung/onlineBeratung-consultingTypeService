@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 
-import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeGroupRepository;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeGroupRepositoryImpl;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class ConsultingTypeGroupServiceTest {
   @InjectMocks
   ConsultingTypeGroupService consultingTypeGroupService;
   @Mock
-  ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
 
   @Test
   public void fetchConsultingTypeGroupList_Should_ReturnListOfConsultingTypeGroupResponseDTO() {
