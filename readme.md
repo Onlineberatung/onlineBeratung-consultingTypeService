@@ -1,6 +1,5 @@
 # Caritas Online-Beratung ConsultingTypeService
-The ConsultingTypeService provides all settings for every single consulting type. Currently, it doesn't contain authorization within the public REST API calls.
-It also provides an admin API with which it is possible to retrieve the consulting type settings.
+The ConsultingTypeService provides all settings for every single consulting type. It also provides an admin API with which it is possible to retrieve the consulting type settings. Currently, it does not contain authorization within the public REST API calls.
 
 You can easily create new consulting type settings which are described [here](../backend/service-configuration.md#consultingtypeservice).
 
