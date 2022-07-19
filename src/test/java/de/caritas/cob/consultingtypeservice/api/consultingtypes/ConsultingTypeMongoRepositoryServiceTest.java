@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
@@ -26,7 +27,7 @@ class ConsultingTypeMongoRepositoryServiceTest {
 
 
   @Test
-  void addConsultingType_Should_Not_AddIfGivenSlugExists() {
+  void addConsultingType_Should_notAdd_When_givenSlugExists() {
     // given
     ConsultingTypeEntity consultingType = (ConsultingTypeEntity) new ConsultingTypeEntity().withId(1).withTenantId(2).withSlug("beratung");
 
@@ -34,13 +35,13 @@ class ConsultingTypeMongoRepositoryServiceTest {
     // when
     consultingTypeMongoRepositoryService.addConsultingType(new ConsultingTypeEntity().withId(2).withTenantId(2).withSlug("beratung"));
     // then
-    Mockito.verify(consultingTypeRepository, Mockito.never()).save(consultingType);
+    verify(consultingTypeRepository, Mockito.never()).save(consultingType);
   }
 
   @Test
-  void addConsultingType_Should_AddIfGivenSlugAndIdNotExist() {
+  void addConsultingType_Should_Add_When_GivenSlugAndIdNotExist() {
     // given
-    ConsultingTypeEntity consultingType = (ConsultingTypeEntity) new ConsultingTypeEntity().withId(1).withTenantId(2).withSlug("beratung");
+    var consultingType = (ConsultingTypeEntity) new ConsultingTypeEntity().withId(1).withTenantId(2).withSlug("beratung");
     when(consultingTypeRepository.findBySlug("beratung1")).thenReturn(Lists.newArrayList());
 
     // when
@@ -48,11 +49,11 @@ class ConsultingTypeMongoRepositoryServiceTest {
         .withSlug("beratung1");
     consultingTypeMongoRepositoryService.addConsultingType(newConsultingType);
     // then
-    Mockito.verify(consultingTypeRepository).save(newConsultingType);
+    verify(consultingTypeRepository).save(newConsultingType);
   }
 
   @Test
-  void addConsultingType_Should_AddIfGivenIdExists() {
+  void addConsultingType_Should_Add_When_GivenIdExists() {
     // given
     ConsultingTypeEntity consultingType = new ConsultingTypeEntity();
     consultingType.setId(1);
@@ -61,6 +62,6 @@ class ConsultingTypeMongoRepositoryServiceTest {
     // when
     consultingTypeMongoRepositoryService.addConsultingType(consultingType);
     // then
-    Mockito.verify(consultingTypeRepository, Mockito.never()).save(consultingType);
+    verify(consultingTypeRepository, Mockito.never()).save(consultingType);
   }
 }
