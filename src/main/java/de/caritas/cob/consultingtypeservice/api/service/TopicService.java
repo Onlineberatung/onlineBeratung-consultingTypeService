@@ -1,7 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
-import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import java.time.LocalDateTime;
@@ -49,7 +48,6 @@ public class TopicService {
   }
 
   public TopicEntity createTopic(TopicEntity topicEntity) {
-    topicEntity.setStatus(TopicStatus.ACTIVE);
     topicEntity.setCreateDate(LocalDateTime.now(ZoneOffset.UTC));
     return topicRepository.save(topicEntity);
   }
