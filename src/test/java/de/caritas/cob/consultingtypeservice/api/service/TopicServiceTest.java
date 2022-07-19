@@ -49,7 +49,7 @@ class TopicServiceTest {
   }
 
   @Test
-  void createTopics_Should_TakeTopicStatusFromRequestOnCreation() {
+  void createTopics_Should_TakeTopicStatusFromRequest() {
     // given, when
     TopicEntity topicEntity = new TopicEntity();
     topicEntity.setStatus(TopicStatus.INACTIVE);
