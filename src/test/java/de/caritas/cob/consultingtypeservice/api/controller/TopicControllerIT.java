@@ -86,7 +86,7 @@ class TopicControllerIT {
   void getAllActiveTopics_Should_returnActiveTopicsList() throws Exception {
     mockMvc.perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].id").exists())
         .andExpect(jsonPath("$[0].name").exists())
         .andExpect(jsonPath("$[0].description").exists())
@@ -99,7 +99,7 @@ class TopicControllerIT {
       throws Exception {
     EasyRandom easyRandom = new EasyRandom();
     TopicDTO topicDTO = easyRandom.nextObject(TopicDTO.class);
-    topicDTO.setStatus(TopicStatus.ACTIVE.toString());
+    topicDTO.setStatus(TopicStatus.INACTIVE.toString());
     String payload = JsonConverter.convert(topicDTO);
     Authentication authentication = givenMockAuthentication(UserRole.TOPIC_ADMIN);
     mockMvc.perform(post(TopicPathConstants.ROOT_PATH)
@@ -111,7 +111,7 @@ class TopicControllerIT {
         .andExpect(jsonPath("$.id").exists())
         .andExpect(jsonPath("$.name").exists())
         .andExpect(jsonPath("$.description").exists())
-        .andExpect(jsonPath("$.status").exists())
+        .andExpect(jsonPath("$.status").value("INACTIVE"))
         .andExpect(jsonPath("$.internalIdentifier").exists())
         .andExpect(jsonPath("$.createDate").exists());
   }

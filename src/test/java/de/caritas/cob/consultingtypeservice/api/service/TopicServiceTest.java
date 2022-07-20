@@ -49,14 +49,15 @@ class TopicServiceTest {
   }
 
   @Test
-  void createTopics_Should_SetDefaultTopicValuesAndCallRepository() {
+  void createTopics_Should_TakeTopicStatusFromRequest() {
     // given, when
     TopicEntity topicEntity = new TopicEntity();
+    topicEntity.setStatus(TopicStatus.INACTIVE);
     topicService.createTopic(topicEntity);
     // then
     verify(topicRepository).save(topicEntity);
     assertThat(topicEntity.getCreateDate()).isNotNull();
-    assertThat(topicEntity.getStatus()).isEqualTo(TopicStatus.ACTIVE);
+    assertThat(topicEntity.getStatus()).isEqualTo(TopicStatus.INACTIVE);
   }
 
   @Test
