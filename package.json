@@ -1,5 +1,5 @@
 {
-  "name": "caritas-online-beratung-consultingtypeservice",
+  "name": "online-beratung-consultingtypeservice",
   "version": "1.3.0",
   "scripts": {
     "release": "standard-version",
