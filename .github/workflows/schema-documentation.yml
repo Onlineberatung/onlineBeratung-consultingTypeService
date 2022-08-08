@@ -3,19 +3,18 @@ name: Push schema documentation
 on:
   push:
     paths:
-      - 'src/main/resources/schemas/**'
+      - "src/main/resources/schemas/**"
     branches-ignore:
-      - 'master'
-      - 'develop'
+      - "master"
+      - "develop"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version:  [14]
+        node-version: [14]
 
     steps:
       - uses: actions/checkout@v2
@@ -36,4 +35,4 @@ jobs:
           dst_repo_name: ${{ secrets.DOCUMENTATION_REPO }}
           dst_branch: adminapi
           clean: true
-          commit_message: 'docs: updated consulting type service schema documentation'
+          commit_message: "docs: updated consulting type service schema documentation"
