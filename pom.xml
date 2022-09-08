@@ -385,6 +385,25 @@
               <output>target/generated-sources</output>
             </configuration>
           </execution>
+          <execution>
+            <id>appsettings-service</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+                <sourceFolder>/</sourceFolder>
+              </configOptions>
+              <inputSpec>${project.basedir}/api/applicationsettingsservice.yml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>${project.groupId}.${project.artifactId}.generated.api.controller
+              </apiPackage>
+              <modelPackage>${project.groupId}.${project.artifactId}.api.model</modelPackage>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <output>target/generated-sources</output>
+            </configuration>
+          </execution>
           <!-- Generate admin API markdown files -->
           <execution>
             <id>consulting-type-admin-service-markdown</id>
