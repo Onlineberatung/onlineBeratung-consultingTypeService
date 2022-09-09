@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
+import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,10 @@ public class ApplicationSettingsServiceFacade {
   private final @NonNull ApplicationSettingsService applicationSettingsService;
   private final @NonNull ApplicationSettingsConverter applicationSettingsConverter;
 
-  public ApplicationSettingsDTO getApplicationSettings() {
+  public Optional<ApplicationSettingsDTO> getApplicationSettings() {
     var applicationSettings = applicationSettingsService.getApplicationSettings();
-    return applicationSettingsConverter.toDTO(applicationSettings);
+    return applicationSettings.isPresent()
+        ? Optional.of(applicationSettingsConverter.toDTO(applicationSettings.get()))
+        : Optional.empty();
   }
 }

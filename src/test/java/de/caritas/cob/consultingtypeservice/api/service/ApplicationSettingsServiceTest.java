@@ -32,14 +32,13 @@ class ApplicationSettingsServiceTest {
     // when
     var settings = applicationSettingsService.getApplicationSettings();
     // then
-    assertThat(settings).isEqualTo(applicationSettingsEntity);
+    assertThat(settings).contains(applicationSettingsEntity);
   }
 
   @Test
-  void getApplicationSettings_Should_ThrowException_When_NoSettingsFoundInDatabase() {
+  void getApplicationSettings_Should_ReturnOptionalEmpty_When_NoSettingsFoundInDatabase() {
     // when, then
-    assertThrows(IllegalStateException.class, () ->
-        applicationSettingsService.getApplicationSettings());
+    assertThat(applicationSettingsService.getApplicationSettings()).isEmpty();
   }
 
   @Test

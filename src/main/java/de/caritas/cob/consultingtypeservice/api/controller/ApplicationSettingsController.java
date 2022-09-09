@@ -30,6 +30,7 @@ public class ApplicationSettingsController implements SettingsApi {
   @Override
   public ResponseEntity<ApplicationSettingsDTO> getApplicationSettings() {
     var settings = applicationSettingsServiceFacade.getApplicationSettings();
-    return new ResponseEntity<>(settings, HttpStatus.OK);
+    return settings.isPresent() ? new ResponseEntity<>(settings.get(), HttpStatus.OK) :
+        new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }
