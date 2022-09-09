@@ -55,6 +55,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
+@TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 @AutoConfigureMockMvc(addFilters = false)
 class ApplicationSettingsControllerIT {
 
@@ -68,23 +69,11 @@ class ApplicationSettingsControllerIT {
 
   @BeforeEach
   public void setup() {
-    applicationSettingsRepository.save(giveApplicationSettings());
     TenantContext.clear();
     mockMvc = MockMvcBuilders
         .webAppContextSetup(context)
         .apply(springSecurity())
         .build();
-  }
-
-  private ApplicationSettingsEntity giveApplicationSettings() {
-    var settings = new ApplicationSettingsEntity();
-    settings.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true).withValue(true));
-    settings.setMultitenancyEnabled(new MultitenancyEnabled().withReadOnly(true).withValue(true));
-    settings.setEnableTenantTheming(new EnableTenantTheming().withReadOnly(false).withValue(false));
-    settings.setUseTenantService(new UseTenantService().withReadOnly(false).withValue(true));
-    settings.setEnableWalkthrough(new EnableWalkthrough().withReadOnly(false).withValue(true));
-    settings.setDisableVideoAppointments(new DisableVideoAppointments().withReadOnly(false).withValue(true));
-    return settings;
   }
 
   @Test
@@ -96,13 +85,13 @@ class ApplicationSettingsControllerIT {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.value").value(true))
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
-        .andExpect(jsonPath("$.multitenancyEnabled.value").value(true))
+        .andExpect(jsonPath("$.multitenancyEnabled.value").value(false))
         .andExpect(jsonPath("$.multitenancyEnabled.readOnly").value(true))
         .andExpect(jsonPath("$.enableTenantTheming.value").value(false))
         .andExpect(jsonPath("$.enableTenantTheming.readOnly").value(false))
-        .andExpect(jsonPath("$.useTenantService.value").value(true))
+        .andExpect(jsonPath("$.useTenantService.value").value(false))
         .andExpect(jsonPath("$.useTenantService.readOnly").value(false))
-        .andExpect(jsonPath("$.enableWalkthrough.value").value(true))
+        .andExpect(jsonPath("$.enableWalkthrough.value").value(false))
         .andExpect(jsonPath("$.enableWalkthrough.readOnly").value(false))
         .andExpect(jsonPath("$.disableVideoAppointments.value").value(true))
         .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false));
