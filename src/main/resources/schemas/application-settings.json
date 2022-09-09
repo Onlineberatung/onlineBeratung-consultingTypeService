@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://onlineberatung/consultingtype",
+  "definitions": {
+    "Setting": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Value of the setting.",
+          "type": "boolean"
+        },
+        "readOnly": {
+          "description": "Information if setting is read only.",
+          "type": "boolean"
+        }
+      },
+      "requires": [
+        "value",
+        "readOnly"
+      ]
+    }
+  },
+  "title": "Application settings",
+  "description": "Settings for application instance",
+  "type": "object",
+  "properties": {
+    "multitenancyWithSingleDomainEnabled": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "multitenancyEnabled": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "useTenantService": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "enableTenantTheming": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "enableWalkthrough": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "disableVideoAppointments": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    }
+  },
+  "required": [
+    "multitenancyWithSingleDomainEnabled",
+    "multitenancyEnabled"
+  ]
+}
