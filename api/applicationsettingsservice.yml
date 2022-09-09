@@ -55,6 +55,10 @@ components:
         disableVideoAppointments:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
+        mainTenantSubdomainForSingleDomainMultitenancy:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+
 
     FeatureToggleDTO:
       type: object
@@ -64,6 +68,18 @@ components:
       properties:
         value:
           type: boolean
+          example: true
+        readOnly:
+          type: boolean
+          example: false
+    SettingDTO:
+      type: object
+      required:
+        - value
+        - readOnly
+      properties:
+        value:
+          type: string
           example: true
         readOnly:
           type: boolean
