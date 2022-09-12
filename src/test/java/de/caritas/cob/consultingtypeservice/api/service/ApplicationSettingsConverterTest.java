@@ -7,6 +7,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableTenantTheming;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
+import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseTenantService;
@@ -52,6 +53,8 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getEnableWalkthrough().getReadOnly()).isFalse();
     assertThat(applicationSettingsDTO.getDisableVideoAppointments().getValue()).isTrue();
     assertThat(applicationSettingsDTO.getDisableVideoAppointments().getReadOnly()).isFalse();
+    assertThat(applicationSettingsDTO.getMainTenantSubdomainForSingleDomainMultitenancy().getValue()).isEqualTo("app");
+    assertThat(applicationSettingsDTO.getMainTenantSubdomainForSingleDomainMultitenancy().getReadOnly()).isFalse();
   }
 
   private ApplicationSettingsEntity giveApplicationSettings() {
@@ -62,6 +65,7 @@ class ApplicationSettingsConverterTest {
     settings.setUseTenantService(new UseTenantService().withReadOnly(false).withValue(true));
     settings.setEnableWalkthrough(new EnableWalkthrough().withReadOnly(false).withValue(true));
     settings.setDisableVideoAppointments(new DisableVideoAppointments().withReadOnly(false).withValue(true));
+    settings.setMainTenantSubdomainForSingleDomainMultitenancy(new MainTenantSubdomainForSingleDomainMultitenancy().withReadOnly(false).withValue("app"));
     return settings;
   }
 }
