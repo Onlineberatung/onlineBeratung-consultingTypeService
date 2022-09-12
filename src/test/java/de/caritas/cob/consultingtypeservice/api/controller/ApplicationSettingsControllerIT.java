@@ -46,8 +46,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -94,7 +92,10 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.enableWalkthrough.value").value(false))
         .andExpect(jsonPath("$.enableWalkthrough.readOnly").value(false))
         .andExpect(jsonPath("$.disableVideoAppointments.value").value(true))
-        .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false));
+        .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false))
+        .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.value").value("app"))
+        .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false));
+
   }
 
 }

@@ -3,6 +3,8 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.model.FeatureToggleDTO;
+import de.caritas.cob.consultingtypeservice.api.model.SettingDTO;
+import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import java.lang.reflect.Field;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,18 @@ public class ApplicationSettingsConverter {
         .disableVideoAppointments(
             toFeatureToggleDTO(applicationSettings.getDisableVideoAppointments()))
         .useTenantService(
-            toFeatureToggleDTO(applicationSettings.getUseTenantService()));
+            toFeatureToggleDTO(applicationSettings.getUseTenantService()))
+        .mainTenantSubdomainForSingleDomainMultitenancy(
+            toSettingDTO(applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()));
+  }
+
+  private SettingDTO toSettingDTO(MainTenantSubdomainForSingleDomainMultitenancy mainTenantSubdomainForSingleDomainMultitenancy) {
+    if (mainTenantSubdomainForSingleDomainMultitenancy == null) {
+      return null;
+    }
+    return new SettingDTO()
+        .value(mainTenantSubdomainForSingleDomainMultitenancy.getValue())
+        .readOnly(mainTenantSubdomainForSingleDomainMultitenancy.getReadOnly());
   }
 
   private FeatureToggleDTO toFeatureToggleDTO(
@@ -39,6 +52,7 @@ public class ApplicationSettingsConverter {
         .readOnly(readOnly)
         .value(value);
   }
+
 
   private <T> T getFieldValue(Object object, String fieldName, Class<T> fieldType) {
     Field field = ReflectionUtils.findField(object.getClass(), fieldName, fieldType);

@@ -5,6 +5,7 @@ import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRe
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableTenantTheming;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
+import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseTenantService;
@@ -32,6 +33,9 @@ public class DefaultApplicationSettingsInitializer {
   @Value("${feature.multitenancy.with.single.domain.enabled}")
   private boolean multitenancyWithSingleDomainEnabled;
 
+  @Value("${setting.main.tenant.subdomain.for.single.domain.multitenancy}")
+  private String mainTenantSubdomainForSingleDomainMultitenancy;
+
   @PostConstruct
   private void init() {
     if (applicationSettingsRepository.findAll().isEmpty()) {
@@ -47,7 +51,12 @@ public class DefaultApplicationSettingsInitializer {
     entity.setUseTenantService(new UseTenantService().withValue(multitenancy).withReadOnly(false));
     entity.setEnableTenantTheming(new EnableTenantTheming().withValue(multitenancy).withReadOnly(false));
     entity.setMultitenancyEnabled(new MultitenancyEnabled().withValue(multitenancy).withReadOnly(true));
-    entity.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true).withValue(multitenancyWithSingleDomainEnabled));
+    entity.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true)
+        .withValue(multitenancyWithSingleDomainEnabled));
+    entity.setMainTenantSubdomainForSingleDomainMultitenancy(
+        new MainTenantSubdomainForSingleDomainMultitenancy()
+        .withReadOnly(false)
+        .withValue(mainTenantSubdomainForSingleDomainMultitenancy));
     return entity;
   }
 }
