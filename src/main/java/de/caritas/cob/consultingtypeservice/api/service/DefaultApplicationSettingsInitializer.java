@@ -2,12 +2,13 @@ package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRepository;
+import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseSSO;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
-import de.caritas.cob.consultingtypeservice.schemas.model.EnableTenantTheming;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
+import de.caritas.cob.consultingtypeservice.schemas.model.UseOverviewPage;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseTenantService;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,6 @@ public class DefaultApplicationSettingsInitializer {
     entity.setDisableVideoAppointments(new DisableVideoAppointments().withValue(true).withReadOnly(false));
     entity.setEnableWalkthrough(new EnableWalkthrough().withValue(false).withReadOnly(false));
     entity.setUseTenantService(new UseTenantService().withValue(multitenancy).withReadOnly(false));
-    entity.setEnableTenantTheming(new EnableTenantTheming().withValue(multitenancy).withReadOnly(false));
     entity.setMultitenancyEnabled(new MultitenancyEnabled().withValue(multitenancy).withReadOnly(true));
     entity.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true)
         .withValue(multitenancyWithSingleDomainEnabled));
@@ -57,6 +57,8 @@ public class DefaultApplicationSettingsInitializer {
         new MainTenantSubdomainForSingleDomainMultitenancy()
         .withReadOnly(false)
         .withValue(mainTenantSubdomainForSingleDomainMultitenancy));
+    entity.setUseOverviewPage(new UseOverviewPage().withValue(false).withReadOnly(false));
+    entity.setBudibaseSSO(new BudibaseSSO().withValue(false).withReadOnly(false));
     return entity;
   }
 }

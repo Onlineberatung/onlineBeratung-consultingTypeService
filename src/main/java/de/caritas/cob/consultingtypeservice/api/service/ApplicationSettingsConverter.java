@@ -20,8 +20,6 @@ public class ApplicationSettingsConverter {
             toFeatureToggleDTO(applicationSettings.getMultitenancyWithSingleDomainEnabled()))
         .multitenancyEnabled(
             toFeatureToggleDTO(applicationSettings.getMultitenancyEnabled()))
-        .enableTenantTheming(
-            toFeatureToggleDTO(applicationSettings.getEnableTenantTheming()))
         .enableWalkthrough(
             toFeatureToggleDTO(applicationSettings.getEnableWalkthrough()))
         .disableVideoAppointments(
@@ -29,7 +27,9 @@ public class ApplicationSettingsConverter {
         .useTenantService(
             toFeatureToggleDTO(applicationSettings.getUseTenantService()))
         .mainTenantSubdomainForSingleDomainMultitenancy(
-            toSettingDTO(applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()));
+            toSettingDTO(applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()))
+        .budibaseSSO(toFeatureToggleDTO(applicationSettings.getBudibaseSSO()))
+        .useOverviewPage(toFeatureToggleDTO(applicationSettings.getUseOverviewPage()));
   }
 
   private SettingDTO toSettingDTO(MainTenantSubdomainForSingleDomainMultitenancy mainTenantSubdomainForSingleDomainMultitenancy) {
