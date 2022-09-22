@@ -65,6 +65,10 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.budibaseAuthClientId.readOnly").value(false))
         .andExpect(jsonPath("$.calcomUrl.value").value("calcomUrl"))
         .andExpect(jsonPath("$.calcomUrl.readOnly").value(false))
+        .andExpect(jsonPath("$.budibaseUrl.value").value("budibaseUrl"))
+        .andExpect(jsonPath("$.budibaseUrl.readOnly").value(false))
+        .andExpect(jsonPath("$.calendarAppUrl.value").value("calendarAppUrl"))
+        .andExpect(jsonPath("$.calendarAppUrl.readOnly").value(false))
         .andExpect(jsonPath("$.useOverviewPage.value").value(false))
         .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false));
   }

@@ -64,6 +64,12 @@ components:
         budibaseAuthClientId:
           allOf:
             - $ref: '#/components/schemas/SettingDTO'
+        budibaseUrl:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+        calendarAppUrl:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
 
     FeatureToggleDTO:
       type: object

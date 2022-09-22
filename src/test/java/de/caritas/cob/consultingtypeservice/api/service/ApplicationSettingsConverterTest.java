@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseAuthClientId;
+import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalcomUrl;
+import de.caritas.cob.consultingtypeservice.schemas.model.CalendarAppUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
@@ -60,6 +62,8 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getBudibaseAuthClientId().getReadOnly()).isEqualTo(false);
     assertThat(applicationSettingsDTO.getBudibaseAuthClientId().getValue()).isEqualTo("budibaseAuthClientId");
     assertThat(applicationSettingsDTO.getCalcomUrl().getValue()).isEqualTo("calcomUrl");
+    assertThat(applicationSettingsDTO.getBudibaseUrl().getValue()).isEqualTo("budibaseUrl");
+    assertThat(applicationSettingsDTO.getCalendarAppUrl().getValue()).isEqualTo("calendarAppUrl");
     assertThat(applicationSettingsDTO.getCalcomUrl().getReadOnly()).isEqualTo(false);
     assertThat(applicationSettingsDTO.getUseOverviewPage().getValue()).isFalse();
     assertThat(applicationSettingsDTO.getUseOverviewPage().getReadOnly()).isFalse();
@@ -75,6 +79,8 @@ class ApplicationSettingsConverterTest {
     settings.setMainTenantSubdomainForSingleDomainMultitenancy(new MainTenantSubdomainForSingleDomainMultitenancy().withReadOnly(false).withValue("app"));
     settings.setBudibaseAuthClientId(new BudibaseAuthClientId().withReadOnly(false).withValue("budibaseAuthClientId"));
     settings.setCalcomUrl(new CalcomUrl().withReadOnly(false).withValue("calcomUrl"));
+    settings.setBudibaseUrl(new BudibaseUrl().withReadOnly(false).withValue("budibaseUrl"));
+    settings.setCalendarAppUrl(new CalendarAppUrl().withReadOnly(false).withValue("calendarAppUrl"));
     settings.setUseOverviewPage(new UseOverviewPage().withReadOnly(false).withValue(false));
     return settings;
   }

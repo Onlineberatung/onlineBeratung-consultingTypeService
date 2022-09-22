@@ -3,7 +3,9 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRepository;
 import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseAuthClientId;
+import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalcomUrl;
+import de.caritas.cob.consultingtypeservice.schemas.model.CalendarAppUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
@@ -61,6 +63,8 @@ public class DefaultApplicationSettingsInitializer {
     entity.setUseOverviewPage(new UseOverviewPage().withValue(false).withReadOnly(false));
     entity.setCalcomUrl(new CalcomUrl().withValue("calcomUrl").withReadOnly(false));
     entity.setBudibaseAuthClientId(new BudibaseAuthClientId().withValue("budibaseAuthClientId").withReadOnly(false));
+    entity.setBudibaseUrl(new BudibaseUrl().withValue("budibaseUrl").withReadOnly(false));
+    entity.setCalendarAppUrl(new CalendarAppUrl().withValue("calendarAppUrl").withReadOnly(false));
     return entity;
   }
 }
