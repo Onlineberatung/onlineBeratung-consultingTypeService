@@ -114,7 +114,7 @@
         "readOnly"
       ]
     },
-    "budibaseSSO": {
+    "useOverviewPage": {
       "type": "object",
       "properties": {
         "value": {
@@ -129,11 +129,26 @@
         "readOnly"
       ]
     },
-    "useOverviewPage": {
+    "calcomUrl": {
       "type": "object",
       "properties": {
         "value": {
+          "type": "string"
+        },
+        "readOnly": {
           "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "budibaseAuthClientId": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
         },
         "readOnly": {
           "type": "boolean"
