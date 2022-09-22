@@ -30,7 +30,9 @@ public class ApplicationSettingsConverter {
             toSettingDTO(applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()))
         .useOverviewPage(toFeatureToggleDTO(applicationSettings.getUseOverviewPage()))
         .calcomUrl(toSettingDTO(applicationSettings.getCalcomUrl()))
-        .budibaseAuthClientId(toSettingDTO(applicationSettings.getBudibaseAuthClientId()));
+        .budibaseAuthClientId(toSettingDTO(applicationSettings.getBudibaseAuthClientId()))
+        .budibaseUrl(toSettingDTO(applicationSettings.getBudibaseUrl()))
+        .calendarAppUrl(toSettingDTO(applicationSettings.getCalendarAppUrl()));
   }
 
   private SettingDTO toSettingDTO(Object setting) {

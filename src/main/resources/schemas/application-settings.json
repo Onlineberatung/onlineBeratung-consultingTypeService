@@ -158,7 +158,37 @@
         "value",
         "readOnly"
       ]
-    }
+    },
+    "budibaseUrl": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "calendarAppUrl": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      }
+    },
+    "required": [
+      "value",
+      "readOnly"
+    ]
   },
   "required": [
     "multitenancyWithSingleDomainEnabled",
