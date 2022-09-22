@@ -61,8 +61,10 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false))
         .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.value").value("app"))
         .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false))
-        .andExpect(jsonPath("$.budibaseSSO.value").value(false))
-        .andExpect(jsonPath("$.budibaseSSO.readOnly").value(false))
+        .andExpect(jsonPath("$.budibaseAuthClientId.value").value("budibaseAuthClientId"))
+        .andExpect(jsonPath("$.budibaseAuthClientId.readOnly").value(false))
+        .andExpect(jsonPath("$.calcomUrl.value").value("calcomUrl"))
+        .andExpect(jsonPath("$.calcomUrl.readOnly").value(false))
         .andExpect(jsonPath("$.useOverviewPage.value").value(false))
         .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false));
   }
