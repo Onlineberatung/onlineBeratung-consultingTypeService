@@ -28,17 +28,22 @@ public class ApplicationSettingsConverter {
             toFeatureToggleDTO(applicationSettings.getUseTenantService()))
         .mainTenantSubdomainForSingleDomainMultitenancy(
             toSettingDTO(applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()))
-        .budibaseSSO(toFeatureToggleDTO(applicationSettings.getBudibaseSSO()))
-        .useOverviewPage(toFeatureToggleDTO(applicationSettings.getUseOverviewPage()));
+        .useOverviewPage(toFeatureToggleDTO(applicationSettings.getUseOverviewPage()))
+        .calcomUrl(toSettingDTO(applicationSettings.getCalcomUrl()))
+        .budibaseAuthClientId(toSettingDTO(applicationSettings.getBudibaseAuthClientId()))
+        .budibaseUrl(toSettingDTO(applicationSettings.getBudibaseUrl()))
+        .calendarAppUrl(toSettingDTO(applicationSettings.getCalendarAppUrl()));
   }
 
-  private SettingDTO toSettingDTO(MainTenantSubdomainForSingleDomainMultitenancy mainTenantSubdomainForSingleDomainMultitenancy) {
-    if (mainTenantSubdomainForSingleDomainMultitenancy == null) {
+  private SettingDTO toSettingDTO(Object setting) {
+    if (setting == null) {
       return null;
     }
+    Boolean readOnly = getFieldValue(setting, "readOnly", Boolean.class);
+    String value = getFieldValue(setting, "value", String.class);
     return new SettingDTO()
-        .value(mainTenantSubdomainForSingleDomainMultitenancy.getValue())
-        .readOnly(mainTenantSubdomainForSingleDomainMultitenancy.getReadOnly());
+        .readOnly(readOnly)
+        .value(value);
   }
 
   private FeatureToggleDTO toFeatureToggleDTO(

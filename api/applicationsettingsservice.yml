@@ -55,13 +55,21 @@ components:
         mainTenantSubdomainForSingleDomainMultitenancy:
           allOf:
             - $ref: '#/components/schemas/SettingDTO'
-        budibaseSSO:
-          allOf:
-            - $ref: '#/components/schemas/FeatureToggleDTO'
         useOverviewPage:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
-
+        calcomUrl:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+        budibaseAuthClientId:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+        budibaseUrl:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+        calendarAppUrl:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
 
     FeatureToggleDTO:
       type: object

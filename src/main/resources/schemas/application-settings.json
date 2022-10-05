@@ -114,21 +114,6 @@
         "readOnly"
       ]
     },
-    "budibaseSSO": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "type": "boolean"
-        },
-        "readOnly": {
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "value",
-        "readOnly"
-      ]
-    },
     "useOverviewPage": {
       "type": "object",
       "properties": {
@@ -143,7 +128,67 @@
         "value",
         "readOnly"
       ]
-    }
+    },
+    "calcomUrl": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "budibaseAuthClientId": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "budibaseUrl": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
+    "calendarAppUrl": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      }
+    },
+    "required": [
+      "value",
+      "readOnly"
+    ]
   },
   "required": [
     "multitenancyWithSingleDomainEnabled",
