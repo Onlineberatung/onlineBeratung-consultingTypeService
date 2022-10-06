@@ -1,7 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 import de.caritas.cob.consultingtypeservice.config.CacheManagerConfig;
-import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.TenantControllerApi;
+import de.caritas.cob.consultingtypeservice.config.apiclient.TenantServiceApiControllerFactory;
 import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.RestrictedTenantDTO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TenantService {
 
-  private final @NonNull TenantControllerApi tenantControllerApi;
+  private final @NonNull TenantServiceApiControllerFactory tenantServiceApiControllerFactory;
 
   @Cacheable(cacheNames = CacheManagerConfig.TENANT_CACHE, key = "#subdomain")
   public RestrictedTenantDTO getRestrictedTenantDataBySubdomain(String subdomain) {
-    return tenantControllerApi.getRestrictedTenantDataBySubdomainWithHttpInfo(subdomain).getBody();
+    return tenantServiceApiControllerFactory.createControllerApi()
+        .getRestrictedTenantDataBySubdomainWithHttpInfo(subdomain).getBody();
   }
 
 }
