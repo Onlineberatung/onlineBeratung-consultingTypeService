@@ -3,20 +3,21 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import static java.util.Objects.nonNull;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.roles.Consultant;
+
 import de.caritas.cob.consultingtypeservice.api.model.AnonymousScreenDTO;
-import de.caritas.cob.consultingtypeservice.api.model.FurtherInformationDTO;
-import de.caritas.cob.consultingtypeservice.api.model.GroupChatDTO;
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOFurtherInformation;
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOGroupChat;
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTORegistration;
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOTitles;
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOUrls;
 import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
-import de.caritas.cob.consultingtypeservice.api.model.NewMessageDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTO;
-import de.caritas.cob.consultingtypeservice.api.model.RegistrationDTO;
-import de.caritas.cob.consultingtypeservice.api.model.RegistrationMandatoryFieldsDTO;
-import de.caritas.cob.consultingtypeservice.api.model.RegistrationNotesDTO;
+import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTOTeamSessions;
+import de.caritas.cob.consultingtypeservice.api.model.RegistrationDTOMandatoryFields;
+import de.caritas.cob.consultingtypeservice.api.model.RegistrationDTONotes;
 import de.caritas.cob.consultingtypeservice.api.model.RolesDTO;
 import de.caritas.cob.consultingtypeservice.api.model.SessionDataInitializingDTO;
-import de.caritas.cob.consultingtypeservice.api.model.TeamSessionsDTO;
-import de.caritas.cob.consultingtypeservice.api.model.TitlesDTO;
-import de.caritas.cob.consultingtypeservice.api.model.UrlsDTO;
+import de.caritas.cob.consultingtypeservice.api.model.TeamSessionsDTONewMessage;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeMessageDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeScreenDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WhiteSpotDTO;
@@ -44,16 +45,16 @@ public class ConsultingTypeMapper {
   protected ConsultingTypeMapper() {
   }
 
-  protected static FurtherInformationDTO mapFurtherInformation(
+  protected static BasicConsultingTypeResponseDTOFurtherInformation mapFurtherInformation(
       FurtherInformation furtherInformation) {
-    return nonNull(furtherInformation) ? new FurtherInformationDTO()
+    return nonNull(furtherInformation) ? new BasicConsultingTypeResponseDTOFurtherInformation()
         .label(furtherInformation.getLabel())
         .url(furtherInformation.getUrl())
         : null;
   }
 
-  protected static TitlesDTO mapTitles(Titles titles) {
-    return new TitlesDTO()
+  protected static BasicConsultingTypeResponseDTOTitles mapTitles(Titles titles) {
+    return new BasicConsultingTypeResponseDTOTitles()
         ._default(titles.getDefault())
         ._long(titles.getLong())
         ._short(titles.getShort())
@@ -61,16 +62,16 @@ public class ConsultingTypeMapper {
         .welcome(titles.getWelcome());
   }
 
-  protected static UrlsDTO mapUrls(Urls urls) {
-    return new UrlsDTO()
+  protected static BasicConsultingTypeResponseDTOUrls mapUrls(Urls urls) {
+    return new BasicConsultingTypeResponseDTOUrls()
         .registrationPostcodeFallbackUrl(urls.getRegistrationPostcodeFallbackUrl())
         .requiredAidMissingRedirectUrl(urls.getRequiredAidMissingRedirectUrl());
 
 
   }
 
-  protected static RegistrationDTO mapRegistration(Registration registration) {
-    return new RegistrationDTO()
+  protected static BasicConsultingTypeResponseDTORegistration mapRegistration(Registration registration) {
+    return new BasicConsultingTypeResponseDTORegistration()
         .minPostcodeSize(registration.getMinPostcodeSize())
         .autoSelectAgency(registration.getAutoSelectAgency())
         .autoSelectPostcode(registration.getAutoSelectPostcode())
@@ -78,14 +79,14 @@ public class ConsultingTypeMapper {
         .mandatoryFields(mapMandatoryFields(registration));
   }
 
-  protected static RegistrationMandatoryFieldsDTO mapMandatoryFields(Registration registration) {
-    return new RegistrationMandatoryFieldsDTO()
+  protected static RegistrationDTOMandatoryFields mapMandatoryFields(Registration registration) {
+    return new RegistrationDTOMandatoryFields()
         .age(registration.getMandatoryFields().getAge())
         .state(registration.getMandatoryFields().getState());
   }
 
-  protected static RegistrationNotesDTO mapNotes(Registration registration) {
-    return new RegistrationNotesDTO()
+  protected static RegistrationDTONotes mapNotes(Registration registration) {
+    return new RegistrationDTONotes()
         .agencySelection(registration.getNotes().getAgencySelection())
         .password(registration.getNotes().getPassword());
   }
@@ -104,12 +105,12 @@ public class ConsultingTypeMapper {
         : null;
   }
 
-  protected static GroupChatDTO mapGroupChat(GroupChat groupChat) {
+  protected static BasicConsultingTypeResponseDTOGroupChat mapGroupChat(GroupChat groupChat) {
     return nonNull(groupChat)
-        ? new GroupChatDTO()
+        ? new BasicConsultingTypeResponseDTOGroupChat()
         .isGroupChat(groupChat.getIsGroupChat())
         .groupChatRules(groupChat.getGroupChatRules())
-        : new GroupChatDTO()
+        : new BasicConsultingTypeResponseDTOGroupChat()
             .isGroupChat(false);
   }
 
@@ -165,17 +166,17 @@ public class ConsultingTypeMapper {
 
   private static NotificationsDTO createDefaultNotifications() {
     return new NotificationsDTO()
-        .teamSessions(new TeamSessionsDTO()
-            .newMessage(new NewMessageDTO().allTeamConsultants(true)));
+        .teamSessions(new NotificationsDTOTeamSessions()
+            .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true)));
   }
 
-  protected static TeamSessionsDTO mapTeamSessions(TeamSessions teamSessions) {
-    return new TeamSessionsDTO()
+  protected static NotificationsDTOTeamSessions mapTeamSessions(TeamSessions teamSessions) {
+    return new NotificationsDTOTeamSessions()
         .newMessage(mapNewMessage(teamSessions.getNewMessage()));
   }
 
-  protected static NewMessageDTO mapNewMessage(NewMessage newMessage) {
-    return new NewMessageDTO()
+  protected static TeamSessionsDTONewMessage mapNewMessage(NewMessage newMessage) {
+    return new TeamSessionsDTONewMessage()
         .allTeamConsultants(newMessage.getAllTeamConsultants());
   }
 
