@@ -6,7 +6,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-import de.caritas.cob.consultingtypeservice.api.model.GroupChatDTO;
+
+import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOGroupChat;
 import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.SessionDataInitializingDTO;
@@ -28,7 +29,7 @@ public class ConsultingTypeMapperTest {
   @Test
   public void mapGroupChat_Should_InitializeDefaultObjectIfNull() {
 
-    GroupChatDTO result = ConsultingTypeMapper.mapGroupChat(null);
+    BasicConsultingTypeResponseDTOGroupChat result = ConsultingTypeMapper.mapGroupChat(null);
     assertThat(result, notNullValue());
     assertThat(result.getIsGroupChat(), is(false));
     assertThat(result.getGroupChatRules(), nullValue());
