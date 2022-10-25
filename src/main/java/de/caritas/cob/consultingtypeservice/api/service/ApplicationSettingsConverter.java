@@ -1,10 +1,10 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
+
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy;
+import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
-import de.caritas.cob.consultingtypeservice.api.model.FeatureToggleDTO;
-import de.caritas.cob.consultingtypeservice.api.model.SettingDTO;
-import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import java.lang.reflect.Field;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -35,25 +35,25 @@ public class ApplicationSettingsConverter {
         .calendarAppUrl(toSettingDTO(applicationSettings.getCalendarAppUrl()));
   }
 
-  private SettingDTO toSettingDTO(Object setting) {
+  private ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy toSettingDTO(Object setting) {
     if (setting == null) {
       return null;
     }
     Boolean readOnly = getFieldValue(setting, "readOnly", Boolean.class);
     String value = getFieldValue(setting, "value", String.class);
-    return new SettingDTO()
+    return new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy()
         .readOnly(readOnly)
         .value(value);
   }
 
-  private FeatureToggleDTO toFeatureToggleDTO(
+  private ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled toFeatureToggleDTO(
       Object setting) {
     if (setting == null) {
       return null;
     }
     Boolean readOnly = getFieldValue(setting, "readOnly", Boolean.class);
     Boolean value = getFieldValue(setting, "value", Boolean.class);
-    return new FeatureToggleDTO()
+    return new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled()
         .readOnly(readOnly)
         .value(value);
   }
