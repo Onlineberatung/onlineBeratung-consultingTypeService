@@ -44,7 +44,7 @@
     <json-unit.version>2.25.0</json-unit.version>
     <json-unit-spring.version>2.25.0</json-unit-spring.version>
     <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-    <liquibase-maven-plugin.version>4.17.0</liquibase-maven-plugin.version>
+    <liquibase-maven-plugin.version>4.1.1</liquibase-maven-plugin.version>
     <owasp-java-html-sanitizer.version>20211018.2</owasp-java-html-sanitizer.version>
     <liquibase-core.version>4.9.1</liquibase-core.version>
     <ehcache.version>2.10.6</ehcache.version>
