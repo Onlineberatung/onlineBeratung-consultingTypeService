@@ -27,7 +27,7 @@
     <!-- force at least version 2.16 due to https://logging.apache.org/log4j/2.x/security.html -->
 
     <log4j.version>2.16.0</log4j.version>
-    <openapi-generator-maven-plugin.version>6.0.0</openapi-generator-maven-plugin.version>
+    <openapi-generator-maven-plugin.version>6.2.0</openapi-generator-maven-plugin.version>
     <jackson-databind-nullable.version>0.2.3</jackson-databind-nullable.version>
     <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
     <springfox-bean-validators.version>3.0.0</springfox-bean-validators.version>
