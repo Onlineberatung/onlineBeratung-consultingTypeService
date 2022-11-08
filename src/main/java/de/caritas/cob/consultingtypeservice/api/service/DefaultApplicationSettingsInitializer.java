@@ -52,7 +52,7 @@ public class DefaultApplicationSettingsInitializer {
     ApplicationSettingsEntity entity = new ApplicationSettingsEntity();
     entity.setDisableVideoAppointments(new DisableVideoAppointments().withValue(true).withReadOnly(false));
     entity.setEnableWalkthrough(new EnableWalkthrough().withValue(false).withReadOnly(false));
-    entity.setUseTenantService(new UseTenantService().withValue(multitenancy).withReadOnly(false));
+    entity.setUseTenantService(new UseTenantService().withValue(multitenancyWithSingleDomainEnabled || multitenancy).withReadOnly(false));
     entity.setMultitenancyEnabled(new MultitenancyEnabled().withValue(multitenancy).withReadOnly(true));
     entity.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true)
         .withValue(multitenancyWithSingleDomainEnabled));
