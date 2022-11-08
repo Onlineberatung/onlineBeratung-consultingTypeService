@@ -53,7 +53,7 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
         .andExpect(jsonPath("$.multitenancyEnabled.value").value(false))
         .andExpect(jsonPath("$.multitenancyEnabled.readOnly").value(true))
-        .andExpect(jsonPath("$.useTenantService.value").value(false))
+        .andExpect(jsonPath("$.useTenantService.value").value(true))
         .andExpect(jsonPath("$.useTenantService.readOnly").value(false))
         .andExpect(jsonPath("$.enableWalkthrough.value").value(false))
         .andExpect(jsonPath("$.enableWalkthrough.readOnly").value(false))
