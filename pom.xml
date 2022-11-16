@@ -52,6 +52,7 @@
     <spring-boot-starter-data-mongodb.version>2.7.5</spring-boot-starter-data-mongodb.version>
     <spring-boot-starter.version>2.5.14</spring-boot-starter.version>
     <spring-data-mongodb.version>3.3.5</spring-data-mongodb.version>
+    <ehcache.version>2.10.9.2</ehcache.version>
   </properties>
 
   <dependencies>
@@ -84,6 +85,7 @@
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache</artifactId>
+      <version>${ehcache.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.core</groupId>
