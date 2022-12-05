@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import de.caritas.cob.consultingtypeservice.api.converter.TopicConverter;
 import de.caritas.cob.consultingtypeservice.api.exception.TopicNotFoundException;
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicInputSanitizer;
 import de.caritas.cob.consultingtypeservice.api.validation.TopicValidationService;
 import java.util.List;
@@ -31,9 +32,9 @@ public class TopicServiceFacade {
     return topicConverter.toDTOList(topicEntities);
   }
 
-  public TopicDTO createTopic(TopicDTO topicDTO) {
+  public TopicDTO createTopic(TopicMultilingualDTO topicDTO) {
     topicValidationService.validate(topicDTO);
-    TopicDTO sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
+    TopicMultilingualDTO sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
     var topicEntity = topicConverter.toEntity(sanitizedTopicDTO);
     var savedTopic = topicService.createTopic(topicEntity);
     return topicConverter.toDTO(savedTopic);

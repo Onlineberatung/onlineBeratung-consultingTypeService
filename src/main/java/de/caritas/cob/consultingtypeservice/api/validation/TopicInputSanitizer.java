@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.validation;
 
 import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
+import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +14,9 @@ public class TopicInputSanitizer {
 
   private final @NonNull InputSanitizer inputSanitizer;
 
-  public TopicDTO sanitize(TopicDTO input) {
+  public TopicDTO sanitize(TopicMultilingualDTO input) {
     log.info("Sanitizing input DTO");
-    TopicDTO output = copyNotSanitizedAttributes(input);
+    TopicMultilingualDTO output = copyNotSanitizedAttributes(input);
     output.setName(inputSanitizer.sanitize(input.getName()));
     output.setStatus(inputSanitizer.sanitize(input.getStatus()));
     output.setDescription(inputSanitizer.sanitize(input.getDescription()));
@@ -23,8 +24,8 @@ public class TopicInputSanitizer {
     return output;
   }
 
-  private TopicDTO copyNotSanitizedAttributes(TopicDTO input) {
-    TopicDTO output = new TopicDTO();
+  private TopicMultilingualDTO copyNotSanitizedAttributes(TopicMultilingualDTO input) {
+    TopicMultilingualDTO output = new TopicMultilingualDTO();
     output.setId(input.getId());
     output.setCreateDate(input.getCreateDate());
     output.setUpdateDate(input.getUpdateDate());

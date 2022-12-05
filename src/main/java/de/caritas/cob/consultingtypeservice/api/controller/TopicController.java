@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,21 +47,5 @@ public class TopicController implements TopicApi {
     var topics = topicServiceFacade.getAllActiveTopics();
     return !CollectionUtils.isEmpty(topics) ? new ResponseEntity<>(topics, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-
-  @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
-  public ResponseEntity<TopicDTO> createTopic(@Valid TopicDTO topicDTO) {
-    log.info("Creating topic by user {} ", authenticatedUser.getUsername());
-    TopicDTO savedTopic = topicServiceFacade.createTopic(topicDTO);
-    return new ResponseEntity<>(savedTopic, HttpStatus.OK);
-  }
-
-  @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
-  public ResponseEntity<TopicDTO> updateTopic(Long id, @Valid TopicDTO topicDTO) {
-    log.info("Updating topic with id {} by user {} ", id, authenticatedUser.getUsername());
-    TopicDTO savedTopic = topicServiceFacade.updateTopic(id, topicDTO);
-    return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 }
