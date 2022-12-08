@@ -7,29 +7,6 @@ info:
 
 paths:
   /topic:
-    post:
-      tags:
-        - topic-controller
-      summary: 'Creates a new topic [Authorization: Role: topic-admin]'
-      operationId: createTopic
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/TopicDTO'
-      responses:
-        200:
-          description: OK - successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TopicDTO'
-        400:
-          description: BAD REQUEST - invalid/incomplete request or body object
-        401:
-          description: UNAUTHORIZED - no/invalid Keycloak token
-        500:
-          description: INTERNAL SERVER ERROR - server encountered unexpected condition
     get:
       tags:
         - topic-controller
@@ -83,37 +60,6 @@ paths:
           description: Not found
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
-    put:
-      tags:
-        - topic-controller
-      summary: 'Updates a topic [Authorization: Role: topic-admin] [Not yet implemented]'
-      operationId: updateTopic
-      parameters:
-        - name: id
-          in: path
-          description: Topic ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/TopicDTO'
-      responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TopicDTO'
-        401:
-          description: UNAUTHORIZED - no/invalid Keycloak token
-        409:
-          description: CONFLICT - unique constraint validation fails
-        500:
-          description: INTERNAL SERVER ERROR - server encountered unexpected condition
   /topic/public:
     summary: 'Represents the public allowed topic data'
     get:
@@ -136,6 +82,117 @@ paths:
           description: BAD REQUEST - invalid/incomplete request or body object
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+
+  /topicadmin:
+    post:
+      tags:
+        - topic-controller
+      summary: 'Creates a new topic [Authorization: Role: topic-admin]'
+      operationId: createTopic
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/TopicMultilingualDTO'
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicMultilingualDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+    get:
+      tags:
+        - topic-controller
+      summary: 'Get all topics with translation'
+      operationId: getAllTopicsWithTranslation
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TopicMultilingualDTO'
+        204:
+          description: NO CONTENT - no content found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /topicadmin/{id}:
+    summary: Represents a topic
+    description: This resource represents an individual topic in a system.
+    get:
+      tags:
+        - topic-controller
+      summary: 'Gets a topic with translation by its id [Not yet implemented]'
+      operationId: getTopicWithTranslationById
+      parameters:
+        - name: id
+          in: path
+          description: Topic ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicMultilingualDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        404:
+          description: Not found
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+    put:
+      tags:
+        - topic-controller
+      summary: 'Updates a topic [Authorization: Role: topic-admin] [Not yet implemented]'
+      operationId: updateTopic
+      parameters:
+        - name: id
+          in: path
+          description: Topic ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/TopicMultilingualDTO'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicMultilingualDTO'
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        409:
+          description: CONFLICT - unique constraint validation fails
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+
+
 components:
   schemas:
     TopicDTO:
@@ -167,3 +224,46 @@ components:
           type: string
         updateDate:
           type: string
+
+    TopicMultilingualDTO:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        id:
+          type: long
+          example: 12132
+        name:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: object
+          additionalProperties:
+            type: string
+        internalIdentifier:
+          type: string
+          example: "identifier for data exports for example: alcohol"
+          maxLength: 50
+        status:
+          type: string
+          example: "Active"
+          maxLength: 10
+        createDate:
+          type: string
+        updateDate:
+          type: string
+
+    Translation:
+      type: object
+      required:
+        - lang
+      properties:
+        lang:
+          type: string
+          example: "en"
+        value:
+          type: string
+          maxLength: 100
+          example: "Lorem"
