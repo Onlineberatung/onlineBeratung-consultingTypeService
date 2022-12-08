@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,21 +34,12 @@ public class JsonConverter {
     return result;
   }
 
-  private static <T> T deserializeFromJsonString(final String jsonString, final Class<T> clazz) {
-    try {
-      final var objectMapper = new ObjectMapper().configure(
-          DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      return objectMapper.readValue(jsonString, clazz);
-    } catch (final JsonProcessingException e) {
-      throw new RuntimeJsonMappingException(e.getMessage());
-    }
-  }
-
   private static <T, Y> Map<T, Y> deserializeMapFromJsonString(final String jsonString,
       final TypeReference<Map<T, Y>> typeReference) {
     try {
-      final var objectMapper = new ObjectMapper().configure(
-          DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      final var objectMapper = new ObjectMapper()
+          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
       return objectMapper.readValue(jsonString, typeReference);
     } catch (final JsonProcessingException e) {
       throw new RuntimeJsonMappingException(e.getMessage());
