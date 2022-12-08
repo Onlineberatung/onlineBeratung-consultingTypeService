@@ -49,7 +49,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
    * Configure spring security filter chain
    */
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  protected void configure(final HttpSecurity http) throws Exception {
     var httpSecurity = http.csrf().disable()
         .addFilterBefore(new StatelessCsrfFilter(csrfCookieProperty, csrfHeaderProperty),
             CsrfFilter.class);
@@ -69,9 +69,15 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .requestMatchers(new AntPathRequestMatcher("/topic/public/*")).permitAll()
         .requestMatchers(new AntPathRequestMatcher("/topic")).authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topic/*")).authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topicadmin")).authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topicadmin/*")).authenticated()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic")))
         .permitAll()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic/*")))
+        .permitAll()
+        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topicadmin")))
+        .permitAll()
+        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topicadmin/*")))
         .permitAll()
         .anyRequest()
         .permitAll()
@@ -107,8 +113,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
   }
 
   @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) {
-    KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+  public void configureGlobal(final AuthenticationManagerBuilder auth) {
+    final KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
     keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
     auth.authenticationProvider(keycloakAuthenticationProvider);
   }
