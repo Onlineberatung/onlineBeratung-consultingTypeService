@@ -23,32 +23,46 @@ public class TopicServiceFacade {
   private final @NonNull TopicValidationService topicValidationService;
 
   public List<TopicDTO> getAllTopics() {
-    var topicEntities = topicService.getAllTopics();
+    final var topicEntities = topicService.getAllTopics();
     return topicConverter.toDTOList(topicEntities);
   }
 
   public List<TopicDTO> getAllActiveTopics() {
-    var topicEntities = topicService.getAllActiveTopics();
+    final var topicEntities = topicService.getAllActiveTopics();
     return topicConverter.toDTOList(topicEntities);
   }
 
-  public TopicDTO createTopic(TopicMultilingualDTO topicDTO) {
+  public TopicMultilingualDTO createTopic(final TopicMultilingualDTO topicDTO) {
     topicValidationService.validate(topicDTO);
-    TopicMultilingualDTO sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
-    var topicEntity = topicConverter.toEntity(sanitizedTopicDTO);
-    var savedTopic = topicService.createTopic(topicEntity);
-    return topicConverter.toDTO(savedTopic);
+    final TopicMultilingualDTO sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
+    final var topicEntity = topicConverter.toEntity(sanitizedTopicDTO);
+    final var savedTopic = topicService.createTopic(topicEntity);
+    return topicConverter.toMultilingualDTO(savedTopic);
   }
 
-  public TopicDTO updateTopic(Long id, TopicDTO topicDTO) {
+  public TopicMultilingualDTO updateTopic(final Long id, final TopicMultilingualDTO topicDTO) {
     topicValidationService.validate(topicDTO);
-    var topicById = topicService.findTopicById(id);
+    final var topicById = topicService.findTopicById(id);
     if (topicById.isPresent()) {
       log.info("Found topic with id {}", topicById);
-      var sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
-      var topicEntity = topicConverter.toEntity(topicById.get(), sanitizedTopicDTO);
-      var updatedEntity = topicService.updateTopic(topicEntity);
-      return topicConverter.toDTO(updatedEntity);
+      final var sanitizedTopicDTO = topicInputSanitizer.sanitize(topicDTO);
+      final var topicEntity = topicConverter.toEntity(topicById.get(), sanitizedTopicDTO);
+      final var updatedEntity = topicService.updateTopic(topicEntity);
+      return topicConverter.toMultilingualDTO(updatedEntity);
+    } else {
+      throw new TopicNotFoundException("Topic with given id could not be found : " + id);
+    }
+  }
+
+  public List<TopicMultilingualDTO> getAllTopicsMultilingual() {
+    final var topicEntities = topicService.getAllTopics();
+    return topicConverter.toMultilingualDTOList(topicEntities);
+  }
+
+  public TopicMultilingualDTO getTopicMultilingualById(final Long id) {
+    final var topicEntity = topicService.findTopicById(id);
+    if (topicEntity.isPresent()) {
+      return topicConverter.toMultilingualDTO(topicEntity.get());
     } else {
       throw new TopicNotFoundException("Topic with given id could not be found : " + id);
     }

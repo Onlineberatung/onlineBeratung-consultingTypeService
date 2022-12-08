@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,29 +27,38 @@ public class TopicAdminController implements TopicadminApi {
 
   @Autowired
   private AuthenticatedUser authenticatedUser;
+
   @Override
   @PreAuthorize("hasAuthority('topic-admin')")
-  public ResponseEntity<TopicMultilingualDTO> createTopic(@Valid TopicMultilingualDTO topicMultilingualDTO) {
+  public ResponseEntity<TopicMultilingualDTO> createTopic(
+      @Valid final TopicMultilingualDTO topicMultilingualDTO) {
     log.info("Creating topic by user {} ", authenticatedUser.getUsername());
-    TopicMultilingualDTO savedTopic = topicServiceFacade.createTopic(topicMultilingualDTO);
+    final TopicMultilingualDTO savedTopic = topicServiceFacade.createTopic(topicMultilingualDTO);
     return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 
   @Override
   @PreAuthorize("hasAuthority('topic-admin')")
-  public ResponseEntity<TopicMultilingualDTO> updateTopic(Long id, @Valid TopicMultilingualDTO topicMultilingualDTO) {
+  public ResponseEntity<TopicMultilingualDTO> updateTopic(
+      final Long id, @Valid final TopicMultilingualDTO topicMultilingualDTO) {
     log.info("Updating topic with id {} by user {} ", id, authenticatedUser.getUsername());
-    TopicMultilingualDTO savedTopic = topicServiceFacade.updateTopic(id, topicMultilingualDTO);
+    final TopicMultilingualDTO savedTopic = topicServiceFacade.updateTopic(id,
+        topicMultilingualDTO);
     return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 
   @Override
+  @PreAuthorize("hasAuthority('topic-admin')")
   public ResponseEntity<List<TopicMultilingualDTO>> getAllTopicsWithTranslation() {
-    return TopicadminApi.super.getAllTopicsWithTranslation();
+    final var topics = topicServiceFacade.getAllTopicsMultilingual();
+    return !CollectionUtils.isEmpty(topics)
+        ? new ResponseEntity<>(topics, HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @Override
-  public ResponseEntity<TopicMultilingualDTO> getTopicWithTranslationById(Long id) {
-    return TopicadminApi.super.getTopicWithTranslationById(id);
+  @PreAuthorize("hasAuthority('topic-admin')")
+  public ResponseEntity<TopicMultilingualDTO> getTopicWithTranslationById(final Long id) {
+    return new ResponseEntity<>(topicServiceFacade.getTopicMultilingualById(id), HttpStatus.OK);
   }
 }

@@ -235,13 +235,13 @@ components:
           type: long
           example: 12132
         name:
-          type: array
-          items:
-            $ref: '#/components/schemas/Translation'
+          type: object
+          additionalProperties:
+            type: string
         description:
-          type: array
-          items:
-            $ref: '#/components/schemas/Translation'
+          type: object
+          additionalProperties:
+            type: string
         internalIdentifier:
           type: string
           example: "identifier for data exports for example: alcohol"
