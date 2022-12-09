@@ -63,6 +63,7 @@ class TopicControllerIT {
 
   @Test
   void getAllActiveTopics_Should_returnActiveTopicsList() throws Exception {
+    TenantContext.clear();
     mockMvc.perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
