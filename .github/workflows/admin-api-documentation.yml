@@ -5,9 +5,9 @@ on:
     paths:
       - "api/consultingtypeadminservice.yml"
     branches-ignore:
-      - "master"
       - "develop"
-
+      - "staging"
+      - "release"
 jobs:
   documentation:
     name: Pushes changes to Admin API
