@@ -3,9 +3,9 @@ name: Feature Branch
 on:
   push:
     branches-ignore:
-      - "master"
       - "develop"
-
+      - "staging"
+      - "release"
 jobs:
   test:
     name: Build and run unit tests

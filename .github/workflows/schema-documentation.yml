@@ -5,9 +5,9 @@ on:
     paths:
       - "src/main/resources/schemas/**"
     branches-ignore:
-      - "master"
       - "develop"
-
+      - "staging"
+      - "release"
 jobs:
   build:
     runs-on: ubuntu-latest
