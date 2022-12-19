@@ -185,6 +185,21 @@
         }
       }
     },
+    "legalContentChangesBySingleTenantAdminsAllowed": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "readOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "readOnly"
+      ]
+    },
     "required": [
       "value",
       "readOnly"
