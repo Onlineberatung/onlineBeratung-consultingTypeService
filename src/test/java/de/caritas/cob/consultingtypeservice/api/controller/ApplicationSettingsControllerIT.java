@@ -70,7 +70,9 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.calendarAppUrl.value").value("calendarAppUrl"))
         .andExpect(jsonPath("$.calendarAppUrl.readOnly").value(false))
         .andExpect(jsonPath("$.useOverviewPage.value").value(false))
-        .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false));
+        .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false))
+            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(true))
+            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false));
   }
 
 }
