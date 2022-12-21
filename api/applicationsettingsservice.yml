@@ -70,6 +70,9 @@ components:
         calendarAppUrl:
           allOf:
             - $ref: '#/components/schemas/SettingDTO'
+        legalContentChangesBySingleTenantAdminsAllowed:
+          allOf:
+            - $ref: '#/components/schemas/FeatureToggleDTO'
 
     FeatureToggleDTO:
       type: object

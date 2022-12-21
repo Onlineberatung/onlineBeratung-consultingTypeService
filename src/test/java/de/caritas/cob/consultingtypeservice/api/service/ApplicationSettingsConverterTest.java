@@ -10,6 +10,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.CalcomUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalendarAppUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
+import de.caritas.cob.consultingtypeservice.schemas.model.LegalContentChangesBySingleTenantAdminsAllowed;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
@@ -35,6 +36,7 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getBudibaseAuthClientId()).isNull();
     assertThat(applicationSettingsDTO.getCalcomUrl()).isNull();
     assertThat(applicationSettingsDTO.getUseOverviewPage()).isNull();
+    assertThat(applicationSettingsDTO.getLegalContentChangesBySingleTenantAdminsAllowed()).isNull();
   }
 
   @Test
@@ -67,6 +69,8 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getCalcomUrl().getReadOnly()).isEqualTo(false);
     assertThat(applicationSettingsDTO.getUseOverviewPage().getValue()).isFalse();
     assertThat(applicationSettingsDTO.getUseOverviewPage().getReadOnly()).isFalse();
+    assertThat(applicationSettingsDTO.getLegalContentChangesBySingleTenantAdminsAllowed().getValue()).isTrue();
+    assertThat(applicationSettingsDTO.getLegalContentChangesBySingleTenantAdminsAllowed().getReadOnly()).isFalse();
   }
 
   private ApplicationSettingsEntity giveApplicationSettings() {
@@ -82,6 +86,7 @@ class ApplicationSettingsConverterTest {
     settings.setBudibaseUrl(new BudibaseUrl().withReadOnly(false).withValue("budibaseUrl"));
     settings.setCalendarAppUrl(new CalendarAppUrl().withReadOnly(false).withValue("calendarAppUrl"));
     settings.setUseOverviewPage(new UseOverviewPage().withReadOnly(false).withValue(false));
+    settings.setLegalContentChangesBySingleTenantAdminsAllowed(new LegalContentChangesBySingleTenantAdminsAllowed().withReadOnly(false).withValue(true));
     return settings;
   }
 }
