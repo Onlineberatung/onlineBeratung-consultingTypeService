@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum UserRole {
 
-  TOPIC_ADMIN("topic-admin");
+  TOPIC_ADMIN("topic-admin"),
+  TENANT_ADMIN("tenant-admin");
 
   private final String value;
 

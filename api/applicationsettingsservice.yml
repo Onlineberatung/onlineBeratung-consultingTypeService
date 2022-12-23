@@ -28,7 +28,33 @@ paths:
           description: UNAUTHORIZED - no/invalid Keycloak token
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /settingsadmin:
+    patch:
+      tags:
+        - applicationsettings-controller
+      summary: 'Patch application settings'
+      operationId: patchApplicationSettings
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ApplicationSettingsPatchDTO'
+      responses:
+        200:
+          description: OK - successful operation
 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationSettingsDTO'
+        204:
+          description: NO CONTENT - no content found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 components:
   schemas:
     ApplicationSettingsDTO:
@@ -70,6 +96,15 @@ components:
         calendarAppUrl:
           allOf:
             - $ref: '#/components/schemas/SettingDTO'
+        legalContentChangesBySingleTenantAdminsAllowed:
+          allOf:
+            - $ref: '#/components/schemas/FeatureToggleDTO'
+
+    ApplicationSettingsPatchDTO:
+      type: object
+      required:
+        - legalContentChangesBySingleTenantAdminsAllowed
+      properties:
         legalContentChangesBySingleTenantAdminsAllowed:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
