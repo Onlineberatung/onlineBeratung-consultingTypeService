@@ -20,6 +20,11 @@ public class ApplicationSettingsService {
     return settings.isEmpty() ? Optional.empty() : Optional.of(settings.get(0));
   }
 
+  public void saveApplicationSettings(ApplicationSettingsEntity entity) {
+    applicationSettingsRepository.deleteAll();
+    applicationSettingsRepository.save(entity);
+  }
+
   private void assertExactlyOneEntryFound(List<ApplicationSettingsEntity> settings) {
     if (settings.size() > 1) {
       throw new IllegalStateException("Non unique application settings found in Mongo");
