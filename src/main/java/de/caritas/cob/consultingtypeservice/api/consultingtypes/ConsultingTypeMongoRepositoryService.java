@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,6 +23,9 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
 
   private final @NonNull ConsultingTypeRepository consultingTypeRepository;
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
+
+  @Value("${feature.multitenancy.with.single.domain.enabled}")
+  private boolean multitenancyWithSingleDomainEnabled;
 
   /**
    * Get a complete list of all {@link ConsultingType}.
@@ -70,7 +74,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
   public void addConsultingType(ConsultingType consultingType) {
     log.debug("Using tenant unaware repository service to try to add a consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
-        || isConsultingTypeWithGivenSlugPresent(consultingType)) {
+        || slugIsNotValid(consultingType)) {
       LogService.logWarning(String
           .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
@@ -79,6 +83,14 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
       BeanUtils.copyProperties(consultingType, consultingTypeEntity);
       this.consultingTypeRepository.save(consultingTypeEntity);
     }
+  }
+
+  private boolean slugIsNotValid(ConsultingType consultingType) {
+    return nonSingleDomainMode() && isConsultingTypeWithGivenSlugPresent(consultingType);
+  }
+
+  private boolean nonSingleDomainMode() {
+    return !multitenancyWithSingleDomainEnabled;
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
