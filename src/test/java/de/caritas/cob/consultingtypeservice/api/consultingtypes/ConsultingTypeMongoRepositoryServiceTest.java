@@ -2,9 +2,12 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.never;
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +28,10 @@ class ConsultingTypeMongoRepositoryServiceTest {
   @InjectMocks
   ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 
+  @AfterEach
+  public void tearDown() {
+    setField(consultingTypeMongoRepositoryService, "multitenancyWithSingleDomainEnabled", false);
+  }
 
   @Test
   void addConsultingType_Should_notAdd_When_givenSlugExists() {
@@ -63,5 +70,34 @@ class ConsultingTypeMongoRepositoryServiceTest {
     consultingTypeMongoRepositoryService.addConsultingType(consultingType);
     // then
     verify(consultingTypeRepository, Mockito.never()).save(consultingType);
+  }
+
+
+  @Test
+  void addConsultingType_Should_Add_When_GivenIdNotExistsAndSlugExistsAndSingleDomainMultitenancy() {
+    // given
+    ConsultingTypeEntity consultingType = new ConsultingTypeEntity();
+    consultingType.setId(2);
+    consultingType.setSlug("beratung");
+    setField(consultingTypeMongoRepositoryService, "multitenancyWithSingleDomainEnabled", true);
+    // when
+    consultingTypeMongoRepositoryService.addConsultingType(consultingType);
+    // then
+    verify(consultingTypeRepository).save(consultingType);
+  }
+
+  @Test
+  void addConsultingType_Should_NotAdd_When_GivenIdNotExistsAndSlugExistsAndNotSingleDomainMultitenancy() {
+    // given
+    ConsultingTypeEntity consultingType = new ConsultingTypeEntity();
+    consultingType.setId(2);
+    consultingType.setSlug("beratung");
+    setField(consultingTypeMongoRepositoryService, "multitenancyWithSingleDomainEnabled", false);
+
+    when(consultingTypeRepository.findBySlug("beratung")).thenReturn(Lists.newArrayList(consultingType));
+    // when
+    consultingTypeMongoRepositoryService.addConsultingType(consultingType);
+    // then
+    verify(consultingTypeRepository, never()).save(consultingType);
   }
 }
