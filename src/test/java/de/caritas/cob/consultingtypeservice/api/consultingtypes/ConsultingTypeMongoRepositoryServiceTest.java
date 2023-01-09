@@ -1,8 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.never;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
@@ -50,7 +51,7 @@ class ConsultingTypeMongoRepositoryServiceTest {
     // given
     var consultingType = (ConsultingTypeEntity) new ConsultingTypeEntity().withId(1).withTenantId(2).withSlug("beratung");
     when(consultingTypeRepository.findBySlug("beratung1")).thenReturn(Lists.newArrayList());
-
+    when(consultingTypeRepository.save(any())).thenReturn(consultingType);
     // when
     ConsultingTypeEntity newConsultingType = (ConsultingTypeEntity) new ConsultingTypeEntity().withId(2).withTenantId(3)
         .withSlug("beratung1");
@@ -80,6 +81,8 @@ class ConsultingTypeMongoRepositoryServiceTest {
     consultingType.setId(2);
     consultingType.setSlug("beratung");
     setField(consultingTypeMongoRepositoryService, "multitenancyWithSingleDomainEnabled", true);
+    when(consultingTypeRepository.save(any())).thenReturn(consultingType);
+    
     // when
     consultingTypeMongoRepositoryService.addConsultingType(consultingType);
     // then

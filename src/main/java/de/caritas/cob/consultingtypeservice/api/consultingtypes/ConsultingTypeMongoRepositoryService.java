@@ -71,17 +71,18 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    *
    * @param consultingType the {@link ConsultingType} to add
    */
-  public void addConsultingType(ConsultingType consultingType) {
+  public Optional<ConsultingTypeEntity> addConsultingType(final ConsultingType consultingType) {
     log.debug("Using tenant unaware repository service to try to add a consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || slugIsNotValid(consultingType)) {
       LogService.logWarning(String
           .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
+      return Optional.empty();
     } else {
-      var consultingTypeEntity = new ConsultingTypeEntity();
+      final var consultingTypeEntity = new ConsultingTypeEntity();
       BeanUtils.copyProperties(consultingType, consultingTypeEntity);
-      this.consultingTypeRepository.save(consultingTypeEntity);
+      return Optional.of(this.consultingTypeRepository.save(consultingTypeEntity));
     }
   }
 

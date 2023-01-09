@@ -147,6 +147,34 @@ paths:
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
 
+  /consultingtypes:
+    post:
+      tags:
+        - consulting-type-controller
+      summary: 'Create a consulting type'
+      operationId: createConsultingType
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ConsultingTypeDTO'
+        required: true
+      responses:
+        201:
+          description: CREATED - consulting type was created successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FullConsultingTypeResponseDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        403:
+          description: FORBIDDEN - no/invalid CSRF token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+      security:
+        - Bearer: [ ]
+
 components:
   schemas:
 
@@ -263,6 +291,106 @@ components:
               type: object
             welcomeScreen:
               $ref: '#/components/schemas/WelcomeScreenDTO'
+
+    ConsultingTypeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tenantId:
+          type: integer
+          example: 100
+        description:
+          type: string
+          example: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
+        groups:
+          type: array
+          items:
+            type: string
+        slug:
+          type: string
+          example: part-of-url
+        excludeNonMainConsultantsFromTeamSessions:
+          type: boolean
+          example: true
+        isSubsequentRegistrationAllowed:
+          type: boolean
+          example: true
+        isAnonymousConversationAllowed:
+          type: boolean
+          example: false
+        isSetEmailAllowed:
+          type: boolean
+          example: true
+        showAskerProfile:
+          type: boolean
+          example: true
+        isVideoCallAllowed:
+          type: boolean
+          example: true
+        languageFormal:
+          type: boolean
+          example: true
+        lockedAgencies:
+          type: boolean
+          example: false
+        consultantBoundedToConsultingType:
+          type: boolean
+          example: false
+        sendFurtherStepsMessage:
+          type: boolean
+          example: true
+        sendSaveSessionDataMessage:
+          type: boolean
+          example: false
+        initializeFeedbackChat:
+          type: boolean
+          example: true
+        isPeerChat:
+          type: boolean
+          example: true
+        furtherInformation:
+          allOf:
+            - $ref: '#/components/schemas/FurtherInformationDTO'
+        titles:
+          allOf:
+            - $ref: '#/components/schemas/TitlesDTO'
+        urls:
+          allOf:
+            - $ref: '#/components/schemas/UrlsDTO'
+        registration:
+          allOf:
+            - $ref: '#/components/schemas/RegistrationDTO'
+        groupChat:
+          allOf:
+            - $ref: '#/components/schemas/GroupChatDTO'
+        whiteSpot:
+          allOf:
+            - $ref: '#/components/schemas/WhiteSpotDTO'
+        welcomeMessage:
+          allOf:
+            - $ref: '#/components/schemas/WelcomeMessageDTO'
+        sessionDataInitializing:
+          allOf:
+            - $ref: '#/components/schemas/SessionDataInitializingDTO'
+        monitoring:
+          allOf:
+            - $ref: '#/components/schemas/MonitoringDTO'
+        roles:
+          $ref: '#/components/schemas/RolesDTO'
+        notifications:
+          allOf:
+            - $ref: '#/components/schemas/NotificationsDTO'
+        voluntaryComponents:
+          type: array
+          items:
+            type: object
+        requiredComponents:
+          $ref: '#/components/schemas/RequiredComponentsDTO'
+        welcomeScreen:
+          $ref: '#/components/schemas/WelcomeScreenDTO'
+
 
     FurtherInformationDTO:
       type: object
@@ -452,6 +580,32 @@ components:
         text:
           type: string
           example: Lorem ipsum dolor sit amet, consetetur...
+
+    RequiredComponentsDTO:
+      type: object
+      properties:
+        age:
+          type: object
+          properties:
+            isEnabled:
+              type: boolean
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/OptionDTO'
+        state:
+          type: object
+          properties:
+            isEnabled:
+              type: boolean
+
+    OptionDTO:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: string
 
     ConsultingTypeGroupsResponseDTO:
       type: array
