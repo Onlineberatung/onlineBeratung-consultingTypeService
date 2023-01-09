@@ -1,14 +1,19 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
+import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class ConsultingTypeService {
 
   private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
+  private final @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   /**
    * Fetch a list of all consulting types with basic properties.
@@ -77,8 +83,25 @@ public class ConsultingTypeService {
    * @param consultingTypeId the consulting type id
    * @return a {@link BasicConsultingTypeResponseDTO} instance
    */
-  public BasicConsultingTypeResponseDTO fetchBasicConsultingTypeSettingsById(Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
+  public BasicConsultingTypeResponseDTO fetchBasicConsultingTypeSettingsById(
+      Integer consultingTypeId) {
+    return ConsultingTypeMapper.mapConsultingType(
+        consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         BasicConsultingTypeMapper::mapConsultingType);
+  }
+
+  public FullConsultingTypeResponseDTO createConsultingType(
+      final ConsultingTypeDTO consultingTypeDTO) {
+    final Optional<ConsultingTypeEntity> createdConsultingType =
+        consultingTypeRepositoryService.addConsultingType(
+            consultingTypeConverter.convert(consultingTypeDTO));
+    if (createdConsultingType.isPresent()) {
+      return ConsultingTypeMapper.mapConsultingType(createdConsultingType.get(),
+          FullConsultingTypeMapper::mapConsultingType);
+    } else {
+      throw new InternalServerErrorException(
+          String.format("Could not create a new consulting type with slug %s",
+              consultingTypeDTO.getSlug()));
+    }
   }
 }

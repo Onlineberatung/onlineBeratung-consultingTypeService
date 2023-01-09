@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
@@ -114,5 +115,11 @@ public class ConsultingTypeController implements ConsultingtypesApi {
         ? new ResponseEntity<>(consultingTypeGroupResponseDtoList, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+  }
+
+  @Override
+  public ResponseEntity<FullConsultingTypeResponseDTO> createConsultingType(
+      final ConsultingTypeDTO consultingTypeDTO) {
+    return ResponseEntity.ok(consultingTypeService.createConsultingType(consultingTypeDTO));
   }
 }
