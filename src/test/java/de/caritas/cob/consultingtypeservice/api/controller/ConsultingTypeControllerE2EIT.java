@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -46,11 +48,15 @@ public class ConsultingTypeControllerE2EIT {
 
 
   @Test
+  @WithMockUser(authorities = {"tenant-admin"})
   public void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom.nextObject(ConsultingTypeDTO.class)
+            .id(12345)
+            .tenantId(4)
+            .slug("test-slug")
             .voluntaryComponents(null);
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
@@ -66,7 +72,32 @@ public class ConsultingTypeControllerE2EIT {
                 .content(objectMapper.writeValueAsString(consultingTypeDTO)))
         // then
         .andExpect(status().isOk())
+        .andExpect(jsonPath("id").value(12345))
+        .andExpect(jsonPath("tenantId").value(4))
+        .andExpect(jsonPath("slug").value("test-slug"))
         .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
+
+  }
+
+  @Test
+  @WithMockUser(authorities = {"wrong-authority"})
+  public void createConsultingType_Should_return_forbidden_When_userNotHaveRequiredAuthority()
+      throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom.nextObject(ConsultingTypeDTO.class);
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    
+    // when
+    this.mvc
+        .perform(
+            post(ROOT_PATH)
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isForbidden());
   }
 
   private FullConsultingTypeResponseDTO createFrom(ConsultingTypeDTO consultingTypeDTO) {
