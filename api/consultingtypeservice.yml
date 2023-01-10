@@ -151,7 +151,7 @@ paths:
     post:
       tags:
         - consulting-type-controller
-      summary: 'Create a consulting type'
+      summary: 'Create a consulting type [Authorization: Role: tenant-admin]'
       operationId: createConsultingType
       requestBody:
         content:

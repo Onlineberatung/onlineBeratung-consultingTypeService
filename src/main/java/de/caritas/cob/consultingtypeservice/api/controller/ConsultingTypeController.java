@@ -14,6 +14,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -118,6 +119,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   @Override
+  @PreAuthorize("hasAuthority('tenant-admin')")
   public ResponseEntity<FullConsultingTypeResponseDTO> createConsultingType(
       final ConsultingTypeDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.createConsultingType(consultingTypeDTO));
