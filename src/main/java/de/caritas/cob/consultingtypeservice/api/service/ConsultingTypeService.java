@@ -12,6 +12,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,9 +93,10 @@ public class ConsultingTypeService {
 
   public FullConsultingTypeResponseDTO createConsultingType(
       final ConsultingTypeDTO consultingTypeDTO) {
+    ConsultingType consultingType = consultingTypeConverter.convert(consultingTypeDTO);
+    consultingType.setId(consultingTypeRepositoryService.getNextId());
     final Optional<ConsultingTypeEntity> createdConsultingType =
-        consultingTypeRepositoryService.addConsultingType(
-            consultingTypeConverter.convert(consultingTypeDTO));
+        consultingTypeRepositoryService.addConsultingType(consultingType);
     if (createdConsultingType.isPresent()) {
       return ConsultingTypeMapper.mapConsultingType(createdConsultingType.get(),
           FullConsultingTypeMapper::mapConsultingType);

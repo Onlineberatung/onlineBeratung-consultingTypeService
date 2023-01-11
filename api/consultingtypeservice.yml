@@ -295,9 +295,6 @@ components:
     ConsultingTypeDTO:
       type: object
       properties:
-        id:
-          type: integer
-          example: 1
         tenantId:
           type: integer
           example: 100

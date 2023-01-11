@@ -59,7 +59,6 @@ public class ConsultingTypeConverter {
 
   public ConsultingType convert(final ConsultingTypeDTO consultingTypeDTO) {
     return new ConsultingType()
-        .withId(consultingTypeDTO.getId())
         .withTenantId(consultingTypeDTO.getTenantId())
         .withDescription(consultingTypeDTO.getDescription())
         .withGroups(consultingTypeDTO.getGroups())
@@ -97,6 +96,9 @@ public class ConsultingTypeConverter {
   }
 
   private WelcomeScreen convert(WelcomeScreenDTO welcomeScreen) {
+    if (welcomeScreen == null) {
+      return null;
+    }
     return new WelcomeScreen()
         .withAnonymous(new Anonymous(welcomeScreen.getAnonymous().getTitle(),
             welcomeScreen.getAnonymous().getText()));
@@ -104,6 +106,9 @@ public class ConsultingTypeConverter {
 
 
   private Urls convert(BasicConsultingTypeResponseDTOUrls urls) {
+    if (urls == null) {
+      return null;
+    }
     return new Urls(urls.getRequiredAidMissingRedirectUrl(),
         urls.getRegistrationPostcodeFallbackUrl());
   }
@@ -118,6 +123,9 @@ public class ConsultingTypeConverter {
   }
 
   private Registration convert(BasicConsultingTypeResponseDTORegistration registration) {
+    if (registration == null) {
+      return null;
+    }
     return new Registration()
         .withAutoSelectAgency(registration.getAutoSelectAgency())
         .withAutoSelectPostcode(registration.getAutoSelectPostcode())
@@ -128,6 +136,9 @@ public class ConsultingTypeConverter {
   }
 
   private Notifications convert(ConsultingTypeDTONotifications notifications) {
+    if (notifications == null) {
+      return null;
+    }
     return new Notifications()
         .withTeamSessions(
             new TeamSessions().withNewMessage(
@@ -136,6 +147,9 @@ public class ConsultingTypeConverter {
   }
 
   private Roles convert(RolesDTO roles) {
+    if (roles == null) {
+      return null;
+    }
     return new Roles(roles.getConsultant().getRoleNames());
   }
 
@@ -146,6 +160,9 @@ public class ConsultingTypeConverter {
 
   private SessionDataInitializing convert(
       ConsultingTypeDTOSessionDataInitializing sessionDataInitializing) {
+    if (sessionDataInitializing == null) {
+      return null;
+    }
     return new SessionDataInitializing()
         .withAddictiveDrugs(sessionDataInitializing.getAddictiveDrugs())
         .withAge(sessionDataInitializing.getAge())
@@ -155,20 +172,32 @@ public class ConsultingTypeConverter {
   }
 
   private WelcomeMessage convert(ConsultingTypeDTOWelcomeMessage welcomeMessage) {
+    if (welcomeMessage == null) {
+      return null;
+    }
     return new WelcomeMessage(welcomeMessage.getSendWelcomeMessage(),
         welcomeMessage.getWelcomeMessageText());
 
   }
 
   private GroupChat convert(BasicConsultingTypeResponseDTOGroupChat groupChat) {
+    if (groupChat == null) {
+      return null;
+    }
     return new GroupChat(groupChat.getIsGroupChat(), groupChat.getGroupChatRules());
   }
 
   private WhiteSpot convert(ConsultingTypeDTOWhiteSpot whiteSpot) {
+    if (whiteSpot == null) {
+      return null;
+    }
     return new WhiteSpot(whiteSpot.getWhiteSpotAgencyAssigned(), whiteSpot.getWhiteSpotAgencyId());
   }
 
   private RequiredComponents convert(RequiredComponentsDTO requiredComponents) {
+    if (requiredComponents == null) {
+      return null;
+    }
     List<Option> options = new ArrayList<>();
     requiredComponents.getAge().getOptions()
         .forEach(optionDTO -> options.add(new Option(optionDTO.getValue(), optionDTO.getLabel())));
@@ -182,6 +211,9 @@ public class ConsultingTypeConverter {
 
   private FurtherInformation convert(
       BasicConsultingTypeResponseDTOFurtherInformation furtherInformation) {
+    if (furtherInformation == null) {
+      return null;
+    }
     return new FurtherInformation(furtherInformation.getLabel(), furtherInformation.getUrl());
   }
 }

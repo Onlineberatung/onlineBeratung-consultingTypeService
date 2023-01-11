@@ -121,13 +121,23 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     }
   }
 
+  @Override
+  public Integer getNextId() {
+    final ConsultingTypeEntity consultingType = consultingTypeMongoTenantAwareRepository.findFirstByOrderByIdDesc();
+    if (consultingType == null) {
+      return 0;
+    }
+    return consultingType.getId() + 1;
+  }
+
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
     return findById(consultingType.getId()).isPresent();
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
+      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
+              consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
           .isEmpty();
     }
     return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),

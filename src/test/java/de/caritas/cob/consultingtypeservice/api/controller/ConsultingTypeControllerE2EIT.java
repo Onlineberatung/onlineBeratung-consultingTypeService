@@ -54,7 +54,6 @@ public class ConsultingTypeControllerE2EIT {
     // given
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom.nextObject(ConsultingTypeDTO.class)
-            .id(12345)
             .tenantId(4)
             .slug("test-slug")
             .voluntaryComponents(null);
@@ -72,7 +71,7 @@ public class ConsultingTypeControllerE2EIT {
                 .content(objectMapper.writeValueAsString(consultingTypeDTO)))
         // then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("id").value(12345))
+        .andExpect(jsonPath("id").value(1001))
         .andExpect(jsonPath("tenantId").value(4))
         .andExpect(jsonPath("slug").value("test-slug"))
         .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
@@ -102,6 +101,7 @@ public class ConsultingTypeControllerE2EIT {
 
   private FullConsultingTypeResponseDTO createFrom(ConsultingTypeDTO consultingTypeDTO) {
     final ConsultingType consultingType = consultingTypeConverter.convert(consultingTypeDTO);
+    consultingType.setId(1001);
     return ConsultingTypeMapper.mapConsultingType(consultingType,
         FullConsultingTypeMapper::mapConsultingType);
   }
