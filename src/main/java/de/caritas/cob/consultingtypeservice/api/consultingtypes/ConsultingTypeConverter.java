@@ -59,7 +59,6 @@ public class ConsultingTypeConverter {
 
   public ConsultingType convert(final ConsultingTypeDTO consultingTypeDTO) {
     return new ConsultingType()
-        .withId(consultingTypeDTO.getId())
         .withTenantId(consultingTypeDTO.getTenantId())
         .withDescription(consultingTypeDTO.getDescription())
         .withGroups(consultingTypeDTO.getGroups())

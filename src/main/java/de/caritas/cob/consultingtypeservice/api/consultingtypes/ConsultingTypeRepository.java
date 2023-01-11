@@ -12,4 +12,6 @@ public interface ConsultingTypeRepository extends MongoRepository<ConsultingType
 
   @Query(value = "{'id': ?0 }")
   ConsultingTypeEntity findByConsultingTypeId(Integer consultingtypeId);
+
+  ConsultingTypeEntity findFirstByOrderByIdDesc();
 }

@@ -86,6 +86,15 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
     }
   }
 
+  @Override
+  public Integer getNextId() {
+    final ConsultingTypeEntity consultingType = consultingTypeRepository.findFirstByOrderByIdDesc();
+    if (consultingType == null) {
+      return 0;
+    }
+    return consultingType.getId() + 1;
+  }
+
   private boolean slugIsNotValid(ConsultingType consultingType) {
     return nonSingleDomainMode() && isConsultingTypeWithGivenSlugPresent(consultingType);
   }
