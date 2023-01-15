@@ -30,7 +30,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 @Configuration
 @EnableGlobalMethodSecurity(
     prePostEnabled = true)
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
   @Value("${csrf.cookie.property}")
