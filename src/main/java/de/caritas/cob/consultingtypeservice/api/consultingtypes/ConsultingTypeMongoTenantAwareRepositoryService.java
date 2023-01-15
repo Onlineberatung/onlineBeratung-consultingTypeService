@@ -108,8 +108,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    */
   public Optional<ConsultingTypeEntity> addConsultingType(final ConsultingType consultingType) {
     log.debug("Using tenant aware repository service to try to add consulting type");
-    if (isConsultingTypeWithGivenIdPresent(consultingType)
-        || isConsultingTypeWithGivenSlugPresent(consultingType)) {
+    if (isConsultingTypeWithGivenIdPresent(consultingType)) {
       LogService.logWarning(String
           .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
