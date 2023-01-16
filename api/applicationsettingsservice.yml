@@ -102,13 +102,14 @@ components:
 
     ApplicationSettingsPatchDTO:
       type: object
-      required:
-        - legalContentChangesBySingleTenantAdminsAllowed
       properties:
         legalContentChangesBySingleTenantAdminsAllowed:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
-
+        mainTenantSubdomainForSingleDomainMultitenancy:
+          allOf:
+            - $ref: '#/components/schemas/SettingDTO'
+    
     FeatureToggleDTO:
       type: object
       required:
