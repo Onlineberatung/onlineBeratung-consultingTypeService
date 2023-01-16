@@ -1,7 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
+import java.util.Optional;
 
 public interface ConsultingTypeRepositoryService {
 
@@ -11,6 +13,7 @@ public interface ConsultingTypeRepositoryService {
 
   ConsultingType getConsultingTypeBySlug(String slug);
 
-  void addConsultingType(ConsultingType consultingType);
+  Optional<ConsultingTypeEntity> addConsultingType(ConsultingType consultingType);
 
+  Integer getNextId();
 }

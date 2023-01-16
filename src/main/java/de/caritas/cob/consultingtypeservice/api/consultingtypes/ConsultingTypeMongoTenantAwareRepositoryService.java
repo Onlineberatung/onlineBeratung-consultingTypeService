@@ -106,18 +106,28 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    *
    * @param consultingType the {@link ConsultingType} to add
    */
-  public void addConsultingType(ConsultingType consultingType) {
+  public Optional<ConsultingTypeEntity> addConsultingType(final ConsultingType consultingType) {
     log.debug("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(String
           .format("Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
+      return Optional.empty();
     } else {
-      ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
+      final ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();
       BeanUtils.copyProperties(consultingType, consultingTypeEntity);
-      this.consultingTypeMongoTenantAwareRepository.save(consultingTypeEntity);
+      return Optional.of(this.consultingTypeMongoTenantAwareRepository.save(consultingTypeEntity));
     }
+  }
+
+  @Override
+  public Integer getNextId() {
+    final ConsultingTypeEntity consultingType = consultingTypeMongoTenantAwareRepository.findFirstByOrderByIdDesc();
+    if (consultingType == null) {
+      return 0;
+    }
+    return consultingType.getId() + 1;
   }
 
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
@@ -126,7 +136,8 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
     if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
+      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
+              consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
           .isEmpty();
     }
     return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),
