@@ -135,12 +135,8 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
-    if (isTechnicalTenantContext()) {
-      return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
-              consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
-          .isEmpty();
-    }
-    return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(consultingType.getSlug(),
-        TenantContext.getCurrentTenant()).isEmpty();
+    return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
+            consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
+        .isEmpty();
   }
 }

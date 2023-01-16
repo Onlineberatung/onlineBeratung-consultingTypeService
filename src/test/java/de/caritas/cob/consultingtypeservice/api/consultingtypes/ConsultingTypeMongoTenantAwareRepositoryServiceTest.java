@@ -98,23 +98,13 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
   }
 
   @Test
-  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdTakeFromConsultingTypeForTechnicalTenantContext() {
-    // given
-    TenantContext.setCurrentTenant(TECHNICAL_TENANT_CONTEXT);
-    // when
-    consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
-    // then
-    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug", 1L);
-  }
-
-  @Test
-  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdFromCurrentContextForNonTechnicalTenantContext() {
+  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdFromProvidedConsultingType() {
     // given
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
     // when
-    consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(new ConsultingType().withSlug("slug").withTenantId(1));
+    consultingTypeMongoTenantAwareRepositoryService.isConsultingTypeWithGivenSlugPresent(
+        new ConsultingType().withSlug("slug").withTenantId(1));
     // then
-    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug",
-        TenantContext.getCurrentTenant());
+    verify(consultingTypeMongoTenantAwareRepository).findBySlugAndTenantId("slug", 1L);
   }
 }
