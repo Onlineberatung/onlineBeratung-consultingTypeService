@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
+@TestPropertySource(properties = "multitenancy.enabled=false")
 @AutoConfigureMockMvc(addFilters = false)
 class TopicControllerIT {
 

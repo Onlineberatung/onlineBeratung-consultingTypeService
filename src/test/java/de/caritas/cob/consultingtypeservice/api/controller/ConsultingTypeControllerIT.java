@@ -6,18 +6,24 @@ import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_ID;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG;
+import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeService;
@@ -26,6 +32,7 @@ import de.caritas.cob.consultingtypeservice.testHelper.HelperMethods;
 import java.util.Arrays;
 import java.util.Collections;
 import org.apache.commons.lang3.StringUtils;
+import org.jeasy.random.EasyRandom;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +50,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc(addFilters = false)
 public class ConsultingTypeControllerIT {
 
+  private static final ObjectMapper objectMapper = new ObjectMapper();
   @Autowired
   private MockMvc mvc;
   @MockBean
@@ -53,6 +61,7 @@ public class ConsultingTypeControllerIT {
   private LinkDiscoverers linkDiscoverers;
   @MockBean
   private TenantResolver tenantResolver;
+  private final ConsultingTypeConverter consultingTypeConverter = new ConsultingTypeConverter();
 
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()
@@ -62,8 +71,8 @@ public class ConsultingTypeControllerIT {
         .thenReturn(null);
 
     mvc.perform(
-        get(PATH_GET_BASIC_CONSULTING_TYPE_LIST)
-            .accept(MediaType.APPLICATION_JSON))
+            get(PATH_GET_BASIC_CONSULTING_TYPE_LIST)
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
   }
 
@@ -256,10 +265,32 @@ public class ConsultingTypeControllerIT {
         .thenThrow(new UnexpectedErrorException());
 
     mvc.perform(
-        get(PATH_GET_CONSULTING_TYPE_GROUPS)
-            .accept(MediaType.APPLICATION_JSON))
+            get(PATH_GET_CONSULTING_TYPE_GROUPS)
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isInternalServerError());
 
+  }
+
+  @Test
+  public void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
+      throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        new EasyRandom().nextObject(ConsultingTypeDTO.class)
+            .voluntaryComponents(null)
+            .roles(null);
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    // when
+    this.mvc
+        .perform(
+            post(ROOT_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+
+    verify(consultingTypeService).createConsultingType(consultingTypeDTO);
   }
 
   private String removeGroupsNode(String consultingTypeSettingsAsJsonString) {
