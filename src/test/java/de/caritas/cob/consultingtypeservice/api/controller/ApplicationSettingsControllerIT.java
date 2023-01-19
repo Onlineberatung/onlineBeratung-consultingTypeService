@@ -14,12 +14,11 @@ import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled;
+import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsPatchDTO;
 import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRepository;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.util.JsonConverter;
-import java.util.Map;
-import javax.servlet.http.Cookie;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Maps;
 import org.assertj.core.util.Sets;
@@ -41,6 +40,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.servlet.http.Cookie;
+import java.util.Map;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
@@ -100,6 +102,8 @@ class ApplicationSettingsControllerIT {
   @Test
   void patchApplicationSettings_Should_ReturnUpdatedApplicationSettings_When_PatchOperationSuccessful()
           throws Exception {
+    // given
+    giveApplicationSettingEntityWithDynamicReleaseToggles();
     final Authentication authentication = givenMockAuthentication(UserRole.TENANT_ADMIN);
     ApplicationSettingsPatchDTO patchDTO = new ApplicationSettingsPatchDTO();
     patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
@@ -116,33 +120,32 @@ class ApplicationSettingsControllerIT {
             .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
             .content(jsonRequest)
             .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.value").value(true))
-        .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
-        .andExpect(jsonPath("$.multitenancyEnabled.value").value(false))
-        .andExpect(jsonPath("$.multitenancyEnabled.readOnly").value(true))
-        .andExpect(jsonPath("$.useTenantService.value").value(true))
-        .andExpect(jsonPath("$.useTenantService.readOnly").value(false))
-        .andExpect(jsonPath("$.enableWalkthrough.value").value(false))
-        .andExpect(jsonPath("$.enableWalkthrough.readOnly").value(false))
-        .andExpect(jsonPath("$.disableVideoAppointments.value").value(true))
-        .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false))
-        .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.value").value("app2"))
-        .andExpect(
-            jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false))
-        .andExpect(jsonPath("$.budibaseAuthClientId.value").value("budibaseAuthClientId"))
-        .andExpect(jsonPath("$.budibaseAuthClientId.readOnly").value(false))
-        .andExpect(jsonPath("$.calcomUrl.value").value("calcomUrl"))
-        .andExpect(jsonPath("$.calcomUrl.readOnly").value(false))
-        .andExpect(jsonPath("$.budibaseUrl.value").value("budibaseUrl"))
-        .andExpect(jsonPath("$.budibaseUrl.readOnly").value(false))
-        .andExpect(jsonPath("$.calendarAppUrl.value").value("calendarAppUrl"))
-        .andExpect(jsonPath("$.calendarAppUrl.readOnly").value(false))
-        .andExpect(jsonPath("$.useOverviewPage.value").value(false))
-        .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false))
-        .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(false))
-        .andExpect(
-            jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.value").value(true))
+            .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
+            .andExpect(jsonPath("$.multitenancyEnabled.value").value(false))
+            .andExpect(jsonPath("$.multitenancyEnabled.readOnly").value(true))
+            .andExpect(jsonPath("$.useTenantService.value").value(true))
+            .andExpect(jsonPath("$.useTenantService.readOnly").value(false))
+            .andExpect(jsonPath("$.enableWalkthrough.value").value(false))
+            .andExpect(jsonPath("$.enableWalkthrough.readOnly").value(false))
+            .andExpect(jsonPath("$.disableVideoAppointments.value").value(true))
+            .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false))
+            .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.value").value("app2"))
+            .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false))
+            .andExpect(jsonPath("$.budibaseAuthClientId.value").value("budibaseAuthClientId"))
+            .andExpect(jsonPath("$.budibaseAuthClientId.readOnly").value(false))
+            .andExpect(jsonPath("$.calcomUrl.value").value("calcomUrl"))
+            .andExpect(jsonPath("$.calcomUrl.readOnly").value(false))
+            .andExpect(jsonPath("$.budibaseUrl.value").value("budibaseUrl"))
+            .andExpect(jsonPath("$.budibaseUrl.readOnly").value(false))
+            .andExpect(jsonPath("$.calendarAppUrl.value").value("calendarAppUrl"))
+            .andExpect(jsonPath("$.calendarAppUrl.readOnly").value(false))
+            .andExpect(jsonPath("$.useOverviewPage.value").value(false))
+            .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false))
+            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(false))
+            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false))
+        .andExpect(jsonPath("$.releaseToggles.featureToggleTenantCreationEnabled").value(true));
 
     // clean up
     resetSettingsToPreviousState(authentication);
@@ -182,6 +185,13 @@ class ApplicationSettingsControllerIT {
                     .content(jsonRequest)
                     .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
             .andExpect(status().isForbidden());
+  }
+
+  private void giveApplicationSettingEntityWithDynamicReleaseToggles() {
+    ApplicationSettingsEntity entity = applicationSettingsRepository.findAll().get(0);
+    entity.setReleaseToggles("featureToggleTenantCreationEnabled", true);
+    applicationSettingsRepository.deleteAll();
+    applicationSettingsRepository.save(entity);
   }
 
   private Authentication givenMockAuthentication(final UserRole authority) {

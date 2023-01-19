@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
 
+import com.google.common.collect.Maps;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled;
@@ -15,7 +16,7 @@ import org.springframework.util.ReflectionUtils;
 public class ApplicationSettingsConverter {
 
   public ApplicationSettingsDTO toDTO(ApplicationSettingsEntity applicationSettings) {
-    return new ApplicationSettingsDTO()
+    var settingsDTO = new ApplicationSettingsDTO()
         .multitenancyWithSingleDomainEnabled(
             toFeatureToggleDTO(applicationSettings.getMultitenancyWithSingleDomainEnabled()))
         .multitenancyEnabled(
@@ -33,7 +34,11 @@ public class ApplicationSettingsConverter {
         .budibaseAuthClientId(toSettingDTO(applicationSettings.getBudibaseAuthClientId()))
         .budibaseUrl(toSettingDTO(applicationSettings.getBudibaseUrl()))
         .calendarAppUrl(toSettingDTO(applicationSettings.getCalendarAppUrl()))
-            .legalContentChangesBySingleTenantAdminsAllowed(toFeatureToggleDTO(applicationSettings.getLegalContentChangesBySingleTenantAdminsAllowed()));
+            .legalContentChangesBySingleTenantAdminsAllowed(toFeatureToggleDTO(applicationSettings.getLegalContentChangesBySingleTenantAdminsAllowed()))
+        .releaseToggles(Maps.newHashMap());
+
+    settingsDTO.getReleaseToggles().putAll(applicationSettings.getReleaseToggles());
+    return settingsDTO;
   }
 
   private ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy toSettingDTO(Object setting) {
