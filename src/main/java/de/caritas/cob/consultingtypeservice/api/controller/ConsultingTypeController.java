@@ -131,14 +131,14 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('tenant-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_CREATE_CONSULTING_TYPE')")
   public ResponseEntity<FullConsultingTypeResponseDTO> createConsultingType(
       final ConsultingTypeDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.createConsultingType(consultingTypeDTO));
   }
 
   @Override
-  @PreAuthorize("hasAuthority('tenant-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_PATCH_CONSULTING_TYPE')")
   public ResponseEntity<FullConsultingTypeResponseDTO> patchConsultingType(
       Integer consultingTypeId, final ConsultingTypePatchDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.updateConsultingType(consultingTypeId, consultingTypeDTO));

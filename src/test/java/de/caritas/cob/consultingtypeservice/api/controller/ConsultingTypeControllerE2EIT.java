@@ -1,11 +1,13 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
+import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TENANT_ADMIN;
+import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TOPIC_ADMIN;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +31,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -58,10 +60,11 @@ public class ConsultingTypeControllerE2EIT {
 
 
   @Test
-  @WithMockUser(authorities = {"tenant-admin"})
   public void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
+    AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
+
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom.nextObject(ConsultingTypeDTO.class)
             .tenantId(4)
@@ -76,6 +79,7 @@ public class ConsultingTypeControllerE2EIT {
     this.mvc
         .perform(
             post(ROOT_PATH)
+                .with(authentication(builder.withUserRole(TENANT_ADMIN.getValue()).build()))
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +93,6 @@ public class ConsultingTypeControllerE2EIT {
   }
 
   @Test
-  @WithMockUser(authorities = {"tenant-admin"})
   public void patchConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
@@ -97,13 +100,18 @@ public class ConsultingTypeControllerE2EIT {
         easyRandom.nextObject(ConsultingTypePatchDTO.class)
             .isVideoCallAllowed(true)
             .languageFormal(true)
-            .welcomeMessage(new ConsultingTypeDTOWelcomeMessage().sendWelcomeMessage(true).welcomeMessageText("welcome"));
+            .welcomeMessage(new ConsultingTypeDTOWelcomeMessage().sendWelcomeMessage(true)
+                .welcomeMessageText("welcome"));
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication = new AuthenticationMockBuilder()
+        .withUserRole(TENANT_ADMIN.getValue()).build();
+
     // when
     MvcResult mvcResult = this.mvc
         .perform(
             patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +127,6 @@ public class ConsultingTypeControllerE2EIT {
   }
 
   @Test
-  @WithMockUser(authorities = {"single-tenant-admin"})
   public void patchConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole()
       throws Exception {
     // given
@@ -131,10 +138,14 @@ public class ConsultingTypeControllerE2EIT {
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication = new AuthenticationMockBuilder()
+        .withUserRole(TOPIC_ADMIN.getValue()).build();
+
     // when
     this.mvc
         .perform(
             patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -145,34 +156,38 @@ public class ConsultingTypeControllerE2EIT {
 
 
   @Test
-  @WithMockUser(authorities = {"tenant-admin"})
   public void getConsultingTypeByTenantId_Should_returnNoContent_When_CalledAsTenantAdminButNoConsultingTypeIfFound()
       throws Exception {
     // given
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication = new AuthenticationMockBuilder()
+        .withUserRole(TENANT_ADMIN.getValue()).build();
     // when
 
     mvc.perform(
-        MockMvcRequestBuilders.get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT, 1))
-            .accept(MediaType.APPLICATION_JSON)
-            .cookie(CSRF_COOKIE)
-            .header(CSRF_HEADER, CSRF_VALUE))
+            MockMvcRequestBuilders.get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT, 1))
+                .with(authentication(authentication))
+                .accept(MediaType.APPLICATION_JSON)
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE))
         .andExpect(status().isNoContent());
   }
 
   @Test
-  @WithMockUser(authorities = {"wrong-authority"})
   public void createConsultingType_Should_return_forbidden_When_userNotHaveRequiredAuthority()
       throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom.nextObject(ConsultingTypeDTO.class);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-    
+
+    Authentication authentication = new AuthenticationMockBuilder()
+        .withUserRole(TOPIC_ADMIN.getValue()).build();
     // when
     this.mvc
         .perform(
             post(ROOT_PATH)
+                .with(authentication(authentication))
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)

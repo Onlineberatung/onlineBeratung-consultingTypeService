@@ -6,6 +6,7 @@ import de.caritas.cob.consultingtypeservice.api.service.ApplicationSettingsServi
 import de.caritas.cob.consultingtypeservice.generated.api.controller.SettingsApi;
 import de.caritas.cob.consultingtypeservice.generated.api.controller.SettingsadminApi;
 import io.swagger.annotations.Api;
+import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
-
-import java.util.Optional;
 
 /**
  * Controller for consulting type API requests.
@@ -46,7 +45,7 @@ public class ApplicationSettingsController implements SettingsApi, Settingsadmin
   }
 
   @Override
-  @PreAuthorize("hasAuthority('tenant-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_PATCH_APPLICATION_SETTINGS')")
   public ResponseEntity<ApplicationSettingsDTO> patchApplicationSettings(ApplicationSettingsPatchDTO settingsPatchDTO) {
     applicationSettingsServiceFacade.patchApplicationSettings(settingsPatchDTO);
     var settings = applicationSettingsServiceFacade.getApplicationSettings();
