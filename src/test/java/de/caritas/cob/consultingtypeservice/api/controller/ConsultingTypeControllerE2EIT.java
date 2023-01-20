@@ -1,7 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
+import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TENANT_ADMIN;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,10 +50,11 @@ public class ConsultingTypeControllerE2EIT {
 
 
   @Test
-  @WithMockUser(authorities = {"tenant-admin"})
   public void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
+    AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
+
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom.nextObject(ConsultingTypeDTO.class)
             .tenantId(4)
@@ -65,6 +68,7 @@ public class ConsultingTypeControllerE2EIT {
     this.mvc
         .perform(
             post(ROOT_PATH)
+                .with(authentication(builder.withUserRole(TENANT_ADMIN.getValue()).build()))
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)

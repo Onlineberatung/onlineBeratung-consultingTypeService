@@ -51,7 +51,7 @@ class TopicControllerIT {
     mockMvc.perform(
             get(TopicPathConstants.PATH_GET_TOPIC_LIST)
                 .with(
-                    authentication(builder.withAuthority(UserRole.TOPIC_ADMIN.getValue()).build()))
+                    authentication(builder.withUserRole(UserRole.TOPIC_ADMIN.getValue()).build()))
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(greaterThan(1))))

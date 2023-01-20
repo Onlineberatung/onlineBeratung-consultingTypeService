@@ -29,7 +29,7 @@ public class TopicAdminController implements TopicadminApi {
   private AuthenticatedUser authenticatedUser;
 
   @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_CREATE_TOPIC')")
   public ResponseEntity<TopicMultilingualDTO> createTopic(
       @Valid final TopicMultilingualDTO topicMultilingualDTO) {
     log.info("Creating topic by user {} ", authenticatedUser.getUsername());
@@ -38,7 +38,7 @@ public class TopicAdminController implements TopicadminApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_UPDATE_TOPIC')")
   public ResponseEntity<TopicMultilingualDTO> updateTopic(
       final Long id, @Valid final TopicMultilingualDTO topicMultilingualDTO) {
     log.info("Updating topic with id {} by user {} ", id, authenticatedUser.getUsername());
@@ -48,7 +48,7 @@ public class TopicAdminController implements TopicadminApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_GET_ALL_TOPICS_WITH_TRANSLATION')")
   public ResponseEntity<List<TopicMultilingualDTO>> getAllTopicsWithTranslation() {
     final var topics = topicServiceFacade.getAllTopicsMultilingual();
     return !CollectionUtils.isEmpty(topics)
@@ -57,7 +57,7 @@ public class TopicAdminController implements TopicadminApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('topic-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_GET_TOPICS_TRANSLATION_BY_ID')")
   public ResponseEntity<TopicMultilingualDTO> getTopicWithTranslationById(final Long id) {
     return new ResponseEntity<>(topicServiceFacade.getTopicMultilingualById(id), HttpStatus.OK);
   }
