@@ -130,6 +130,11 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     return consultingType.getId() + 1;
   }
 
+  @Override
+  public ConsultingType getConsultingTypeByTenantId(Integer tenantId) {
+    return consultingTypeMongoTenantAwareRepository.findByTenantId(tenantId);
+  }
+
   private boolean isConsultingTypeWithGivenIdPresent(ConsultingType consultingType) {
     return findById(consultingType.getId()).isPresent();
   }
