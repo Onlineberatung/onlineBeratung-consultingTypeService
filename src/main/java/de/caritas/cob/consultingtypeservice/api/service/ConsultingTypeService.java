@@ -66,6 +66,17 @@ public class ConsultingTypeService {
         FullConsultingTypeMapper::mapConsultingType);
   }
 
+  public Optional<FullConsultingTypeResponseDTO> fetchFullConsultingTypeSettingsByTenantId(Integer tenantId) {
+    ConsultingType consultingTypeByTenantId = consultingTypeRepositoryService.getConsultingTypeByTenantId(
+        tenantId);
+    if (consultingTypeByTenantId != null) {
+      return Optional.of(ConsultingTypeMapper.mapConsultingType(consultingTypeByTenantId,
+          FullConsultingTypeMapper::mapConsultingType));
+    } else {
+      return Optional.empty();
+    }
+  }
+
   /**
    * Fetch a consulting type with extended set of properties by id.
    *
