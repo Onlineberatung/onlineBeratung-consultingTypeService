@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
+import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @AutoConfigureMockMvc
@@ -75,7 +77,22 @@ public class ConsultingTypeControllerE2EIT {
         .andExpect(jsonPath("tenantId").value(4))
         .andExpect(jsonPath("slug").value("test-slug"))
         .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
+  }
 
+  @Test
+  @WithMockUser(authorities = {"tenant-admin"})
+  public void getConsultingTypeByTenantId_Should_returnNoContent_When_CalledAsTenantAdminButNoConsultingTypeIfFound()
+      throws Exception {
+    // given
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    // when
+
+    mvc.perform(
+        MockMvcRequestBuilders.get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT, 1))
+            .accept(MediaType.APPLICATION_JSON)
+            .cookie(CSRF_COOKIE)
+            .header(CSRF_HEADER, CSRF_VALUE))
+        .andExpect(status().isNoContent());
   }
 
   @Test

@@ -65,4 +65,13 @@ class ConsultingTypeRepositoryServiceTest {
     // then
     verify(consultingTypeRepository).findBySlug("slug");
   }
+
+  @Test
+  void getConsultingTypeByTenant_Should_CallFindByTenantIdInTheRepository() {
+    // given
+    Mockito.when(consultingTypeRepository.findByTenantId(1)).thenReturn(new ConsultingTypeEntity());
+    consultingTypeMongoRepositoryService.getConsultingTypeByTenantId(1);
+    // then
+    verify(consultingTypeRepository).findByTenantId(1);
+  }
 }

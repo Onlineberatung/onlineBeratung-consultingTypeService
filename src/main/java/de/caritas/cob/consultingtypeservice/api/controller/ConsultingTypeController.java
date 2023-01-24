@@ -73,6 +73,17 @@ public class ConsultingTypeController implements ConsultingtypesApi {
         consultingTypeService.fetchFullConsultingTypeSettingsBySlug(slug), HttpStatus.OK);
   }
 
+  @Override
+  public ResponseEntity<FullConsultingTypeResponseDTO> getFullConsultingTypeByTenantId(
+      @PathVariable Integer tenantId) {
+
+    var fullConsultingTypeResponseDTO = consultingTypeService.fetchFullConsultingTypeSettingsByTenantId(
+        tenantId);
+    return fullConsultingTypeResponseDTO.isPresent()
+        ? new ResponseEntity<>(fullConsultingTypeResponseDTO.get(), HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
   /**
    * Returns the consulting type with extended properties for a given consulting type id.
    *

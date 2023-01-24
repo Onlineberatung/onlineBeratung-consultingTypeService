@@ -66,6 +66,17 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
             String.format("Consulting type with slug %s not found.", slug)));
   }
 
+  @Override
+  /*
+   This method implementation is required for single-domain-mode.
+   In this mode only consultingTypeService is deployed with multitenancyEnabled=false,
+   and this functionality is needed for super-admins in admin console.
+   */
+  public ConsultingType getConsultingTypeByTenantId(Integer tenantId) {
+    return consultingTypeRepository.findByTenantId(tenantId);
+
+  }
+
   /**
    * Add a consulting type to the repository.
    *

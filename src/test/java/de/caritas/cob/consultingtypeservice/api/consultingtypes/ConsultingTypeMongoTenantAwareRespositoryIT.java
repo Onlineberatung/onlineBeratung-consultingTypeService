@@ -78,6 +78,24 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
   }
 
   @Test
+  public void findConsultingTypeByTenantId_Should_ReturnCorrectConsultingType() {
+    // given
+    Integer consultingTypeId = 10;
+    String slug = "consultingtype10";
+
+    // when
+    ConsultingTypeEntity result = consultingTypeMongoTenantAwareRepository.findByTenantId((int) FIRST_TENANT);
+    ConsultingTypeEntity resultForAnotherTenant = consultingTypeMongoTenantAwareRepository.findByTenantId(2);
+    // then
+    assertThat(consultingTypeId).isEqualTo(result.getId());
+    assertThat(slug).isEqualTo(result.getSlug());
+    assertThat(result.getTenantId()).isEqualTo(1);
+
+    assertThat(consultingTypeId).isNotEqualTo(resultForAnotherTenant.getId());
+    assertThat(resultForAnotherTenant.getTenantId()).isEqualTo(2);
+  }
+
+  @Test
   public void findByConsultingTypeId_Should_ReturnCorrectConsultingType() {
     // given
     Integer consultingTypeId = 10;
@@ -136,7 +154,7 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
         SECOND_TENANT);
 
     // then
-    assertThat(result2).hasSize(2);
+    assertThat(result2).hasSize(1);
   }
 
   @Test
