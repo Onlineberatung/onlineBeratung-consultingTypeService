@@ -15,7 +15,11 @@ public interface ConsultingTypeRepositoryService {
 
   Optional<ConsultingTypeEntity> addConsultingType(ConsultingType consultingType);
 
+  ConsultingTypeEntity update(ConsultingType consultingType);
+
   Integer getNextId();
 
   ConsultingType getConsultingTypeByTenantId(Integer tenantId);
+
+
 }

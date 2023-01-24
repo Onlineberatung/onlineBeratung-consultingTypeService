@@ -122,6 +122,11 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   }
 
   @Override
+  public ConsultingTypeEntity update(ConsultingType consultingType) {
+    return this.consultingTypeMongoTenantAwareRepository.save((ConsultingTypeEntity) consultingType);
+  }
+
+  @Override
   public Integer getNextId() {
     final ConsultingTypeEntity consultingType = consultingTypeMongoTenantAwareRepository.findFirstByOrderByIdDesc();
     if (consultingType == null) {

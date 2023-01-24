@@ -117,4 +117,12 @@ public class ConsultingTypeService {
               consultingTypeDTO.getSlug()));
     }
   }
+
+  public FullConsultingTypeResponseDTO updateConsultingType(Integer consultingTypeId,
+      ConsultingTypeDTO consultingTypeDTO) {
+    ConsultingType consultingType = consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
+    consultingType = consultingTypeConverter.convert(consultingType, consultingTypeDTO);
+    var updated = consultingTypeRepositoryService.update(consultingType);
+    return ConsultingTypeMapper.mapConsultingType(updated, FullConsultingTypeMapper::mapConsultingType);
+  }
 }
