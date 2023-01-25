@@ -12,6 +12,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOSessionDa
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWhiteSpot;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.RequiredComponentsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.RolesDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeScreenDTO;
@@ -97,7 +98,16 @@ public class ConsultingTypeConverter {
         .withVoluntaryComponents(consultingTypeDTO.getVoluntaryComponents())
         .withRequiredComponents(convert(consultingTypeDTO.getRequiredComponents()))
         .withWelcomeScreen(convert(consultingTypeDTO.getWelcomeScreen()));
+  }
 
+  public ConsultingType convert(ConsultingType consultingTypeEntity, final ConsultingTypePatchDTO consultingTypeDTO) {
+    return consultingTypeEntity
+        .withWelcomeMessage(convert(consultingTypeDTO.getWelcomeMessage()))
+        .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
+        .withSendSaveSessionDataMessage(consultingTypeDTO.getSendSaveSessionDataMessage())
+        .withLanguageFormal(consultingTypeDTO.getLanguageFormal())
+        .withNotifications(convert(consultingTypeDTO.getNotifications()))
+        .withIsVideoCallAllowed(consultingTypeDTO.getIsVideoCallAllowed());
   }
 
   private WelcomeScreen convert(WelcomeScreenDTO welcomeScreen) {
