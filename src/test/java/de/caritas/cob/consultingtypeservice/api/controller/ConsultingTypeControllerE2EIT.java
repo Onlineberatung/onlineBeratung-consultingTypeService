@@ -4,6 +4,7 @@ import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +41,9 @@ public class ConsultingTypeControllerE2EIT {
   private static final String CSRF_HEADER = "csrfHeader";
   private static final String CSRF_VALUE = "test";
   private static final Cookie CSRF_COOKIE = new Cookie("csrfCookie", CSRF_VALUE);
+  private static final Integer CREATE_ID = 1001;
+
+  private static final Integer EXISTING_ID = 1;
 
   @Autowired
   private MockMvc mvc;
@@ -61,7 +65,8 @@ public class ConsultingTypeControllerE2EIT {
             .voluntaryComponents(null);
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
-    FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO);
+
+    FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO, CREATE_ID);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     // when
     this.mvc
@@ -73,11 +78,67 @@ public class ConsultingTypeControllerE2EIT {
                 .content(objectMapper.writeValueAsString(consultingTypeDTO)))
         // then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("id").value(1001))
+        .andExpect(jsonPath("id").value(CREATE_ID))
         .andExpect(jsonPath("tenantId").value(4))
         .andExpect(jsonPath("slug").value("test-slug"))
         .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
   }
+
+  @Test
+  @WithMockUser(authorities = {"tenant-admin"})
+  public void updateConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
+      throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom.nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO, EXISTING_ID);
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    // when
+    this.mvc
+        .perform(
+            put(ROOT_PATH + "/" + EXISTING_ID)
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("id").value(EXISTING_ID))
+        .andExpect(jsonPath("tenantId").value(4))
+        .andExpect(jsonPath("slug").value("test-slug"))
+        .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
+  }
+
+  @Test
+  @WithMockUser(authorities = {"single-tenant-admin"})
+  public void updateConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole()
+      throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom.nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    // when
+    this.mvc
+        .perform(
+            put(ROOT_PATH + "/" + EXISTING_ID)
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isForbidden());
+  }
+
 
   @Test
   @WithMockUser(authorities = {"tenant-admin"})
@@ -116,9 +177,9 @@ public class ConsultingTypeControllerE2EIT {
         .andExpect(status().isForbidden());
   }
 
-  private FullConsultingTypeResponseDTO createFrom(ConsultingTypeDTO consultingTypeDTO) {
+  private FullConsultingTypeResponseDTO createFrom(ConsultingTypeDTO consultingTypeDTO, Integer expectedId) {
     final ConsultingType consultingType = consultingTypeConverter.convert(consultingTypeDTO);
-    consultingType.setId(1001);
+    consultingType.setId(expectedId);
     return ConsultingTypeMapper.mapConsultingType(consultingType,
         FullConsultingTypeMapper::mapConsultingType);
   }

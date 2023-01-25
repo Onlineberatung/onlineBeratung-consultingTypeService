@@ -106,6 +106,11 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
     return consultingType.getId() + 1;
   }
 
+  @Override
+  public ConsultingTypeEntity update(ConsultingType consultingType) {
+    return this.consultingTypeRepository.save((ConsultingTypeEntity) consultingType);
+  }
+
   private boolean slugIsNotValid(ConsultingType consultingType) {
     return nonSingleDomainMode() && isConsultingTypeWithGivenSlugPresent(consultingType);
   }

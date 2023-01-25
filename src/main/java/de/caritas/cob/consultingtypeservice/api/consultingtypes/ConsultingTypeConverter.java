@@ -58,7 +58,12 @@ public class ConsultingTypeConverter {
   }
 
   public ConsultingType convert(final ConsultingTypeDTO consultingTypeDTO) {
-    return new ConsultingType()
+
+    return this.convert(new ConsultingType(), consultingTypeDTO);
+  }
+
+  public ConsultingType convert(ConsultingType consultingTypeEntity, final ConsultingTypeDTO consultingTypeDTO) {
+    return consultingTypeEntity
         .withTenantId(consultingTypeDTO.getTenantId())
         .withDescription(consultingTypeDTO.getDescription())
         .withGroups(consultingTypeDTO.getGroups())
