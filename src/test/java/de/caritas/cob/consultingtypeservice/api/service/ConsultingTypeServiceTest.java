@@ -24,10 +24,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeServiceTest {
 
-  @InjectMocks
-  ConsultingTypeService consultingTypeService;
-  @Mock
-  ConsultingTypeRepositoryService consultingTypeRepository;
+  @InjectMocks ConsultingTypeService consultingTypeService;
+  @Mock ConsultingTypeRepositoryService consultingTypeRepository;
 
   private ConsultingType consultingType1;
   private ConsultingType consultingType2;
@@ -41,8 +39,8 @@ public class ConsultingTypeServiceTest {
     consultingType3 = easyRandom.nextObject(ConsultingType.class);
     consultingType2.setId(consultingType1.getId() + 1);
     consultingType3.setId(consultingType2.getId() + 1);
-    when(consultingTypeRepository.getListOfConsultingTypes()).thenReturn(
-        Arrays.asList(consultingType1, consultingType2, consultingType3));
+    when(consultingTypeRepository.getListOfConsultingTypes())
+        .thenReturn(Arrays.asList(consultingType1, consultingType2, consultingType3));
     when(consultingTypeRepository.getConsultingTypeById(consultingType2.getId()))
         .thenReturn(consultingType2);
     when(consultingTypeRepository.getConsultingTypeBySlug(consultingType3.getSlug()))
@@ -52,45 +50,49 @@ public class ConsultingTypeServiceTest {
   @Test
   public void fetchBasicConsultingTypesList_Should_ReturnListOfBasicConsultingTypeResponseDTO() {
 
-    List<BasicConsultingTypeResponseDTO> result = consultingTypeService
-        .fetchBasicConsultingTypesList();
+    List<BasicConsultingTypeResponseDTO> result =
+        consultingTypeService.fetchBasicConsultingTypesList();
     assertThat(result, notNullValue());
     assertThat(result, hasSize(3));
   }
 
   @Test
-  public void fetchFullConsultingTypeSettingsById_Should_ReturnWantedFullConsultingTypeResponseDTO() {
+  public void
+      fetchFullConsultingTypeSettingsById_Should_ReturnWantedFullConsultingTypeResponseDTO() {
 
-    FullConsultingTypeResponseDTO result = consultingTypeService
-        .fetchFullConsultingTypeSettingsById(consultingType2.getId());
+    FullConsultingTypeResponseDTO result =
+        consultingTypeService.fetchFullConsultingTypeSettingsById(consultingType2.getId());
     assertThat(result, notNullValue());
     assertThat(result.getId(), is(consultingType2.getId()));
   }
 
   @Test
-  public void fetchFullConsultingTypeSettingsBySlug_Should_ReturnWantedFullConsultingTypeResponseDTO() {
+  public void
+      fetchFullConsultingTypeSettingsBySlug_Should_ReturnWantedFullConsultingTypeResponseDTO() {
 
-    FullConsultingTypeResponseDTO result = consultingTypeService
-        .fetchFullConsultingTypeSettingsBySlug(consultingType3.getSlug());
+    FullConsultingTypeResponseDTO result =
+        consultingTypeService.fetchFullConsultingTypeSettingsBySlug(consultingType3.getSlug());
     assertThat(result, notNullValue());
     assertThat(result.getId(), is(consultingType3.getId()));
     assertThat(result.getSlug(), is(consultingType3.getSlug()));
   }
 
   @Test
-  public void fetchExtendedConsultingTypeSettingsById_Should_ReturnWantedExtendedConsultingTypeResponseDTO() {
+  public void
+      fetchExtendedConsultingTypeSettingsById_Should_ReturnWantedExtendedConsultingTypeResponseDTO() {
 
-    ExtendedConsultingTypeResponseDTO result = consultingTypeService
-        .fetchExtendedConsultingTypeSettingsById(consultingType2.getId());
+    ExtendedConsultingTypeResponseDTO result =
+        consultingTypeService.fetchExtendedConsultingTypeSettingsById(consultingType2.getId());
     assertThat(result, notNullValue());
     assertThat(result.getId(), is(consultingType2.getId()));
   }
 
   @Test
-  public void fetchBasicConsultingTypeSettingsById_Should_ReturnWantedBasicConsultingTypeResponseDTO() {
+  public void
+      fetchBasicConsultingTypeSettingsById_Should_ReturnWantedBasicConsultingTypeResponseDTO() {
 
-    BasicConsultingTypeResponseDTO result = consultingTypeService
-        .fetchBasicConsultingTypeSettingsById(consultingType2.getId());
+    BasicConsultingTypeResponseDTO result =
+        consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingType2.getId());
     assertThat(result, notNullValue());
     assertThat(result.getId(), is(consultingType2.getId()));
   }

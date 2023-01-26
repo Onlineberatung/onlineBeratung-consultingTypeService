@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Objects;
-import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Validator for consulting type settings  files against the json schema for consulting type settings.
+ * Validator for consulting type settings files against the json schema for consulting type
+ * settings.
  */
 @Service
 public class ConsultingTypeValidator {
@@ -26,13 +27,14 @@ public class ConsultingTypeValidator {
 
   /**
    * Validate a consulting type settings file.
+   *
    * @param consultingTypeJsonFile the {@link File} to be validated
    */
   public void validateConsultingTypeConfigurationJsonFile(File consultingTypeJsonFile) {
 
     try {
-      var consultingTypeJsonObject = new JSONObject(
-          new JSONTokener(new FileInputStream(consultingTypeJsonFile)));
+      var consultingTypeJsonObject =
+          new JSONObject(new JSONTokener(new FileInputStream(consultingTypeJsonFile)));
       var schema = buildSchema();
       schema.validate(consultingTypeJsonObject);
     } catch (JSONException | FileNotFoundException exception) {
@@ -48,9 +50,12 @@ public class ConsultingTypeValidator {
   }
 
   private Schema buildSchema() {
-    var consultingTypeJsonSchema = new JSONObject(new JSONTokener(
-        Objects.requireNonNull(ConsultingTypeValidator.class
-            .getResourceAsStream(consultingTypeJsonSchemaFile))));
+    var consultingTypeJsonSchema =
+        new JSONObject(
+            new JSONTokener(
+                Objects.requireNonNull(
+                    ConsultingTypeValidator.class.getResourceAsStream(
+                        consultingTypeJsonSchemaFile))));
     return SchemaLoader.builder()
         .useDefaults(true)
         .schemaJson(consultingTypeJsonSchema)
@@ -59,5 +64,4 @@ public class ConsultingTypeValidator {
         .load()
         .build();
   }
-
 }

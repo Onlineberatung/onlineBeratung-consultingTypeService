@@ -17,10 +17,8 @@ public class TestConstants {
       "/broken-consulting-type-settings/broken-consulting-type.json";
   public static final String FILE_NULL_VALUE_CONSULTING_TYPE =
       "/consulting-type-settings/null-value-consulting-type-settings.json";
-  public static final String FILE_CONSULTING_TYPE_JSON_SCHEMA =
-      "/schemas/consulting-type.json";
+  public static final String FILE_CONSULTING_TYPE_JSON_SCHEMA = "/schemas/consulting-type.json";
   public static final String BROKEN_FILE_PATH = "c/:/test?\0";
   public static final String FILE_CONSULTING_TYPE_GROUP_RESPONSE_JSON =
       RESOURCES_PATH + "/responses/consulting-type-groups-response.json";
-
 }

@@ -15,16 +15,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repository for {@link ConsultingType}.
- */
+/** Repository for {@link ConsultingType}. */
 @Repository("tenantAware")
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
 @AllArgsConstructor
 @Slf4j
-public class ConsultingTypeMongoTenantAwareRepositoryService implements
-    ConsultingTypeRepositoryService {
+public class ConsultingTypeMongoTenantAwareRepositoryService
+    implements ConsultingTypeRepositoryService {
 
   private static final Long TECHNICAL_TENANT_ID = 0L;
   private @NonNull ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
@@ -37,18 +35,19 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    */
   public List<ConsultingType> getListOfConsultingTypes() {
     if (isTechnicalTenantContext()) {
-      List<ConsultingTypeEntity> consultingTypeEntities = consultingTypeMongoTenantAwareRepository.findAll();
+      List<ConsultingTypeEntity> consultingTypeEntities =
+          consultingTypeMongoTenantAwareRepository.findAll();
       return consultingTypeConverter.convertList(consultingTypeEntities);
     } else {
-      List<ConsultingTypeEntity> allHavingTenantId = consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
-          TenantContext.getCurrentTenant());
+      List<ConsultingTypeEntity> allHavingTenantId =
+          consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
+              TenantContext.getCurrentTenant());
       return consultingTypeConverter.convertList(allHavingTenantId);
     }
   }
 
   private boolean isTechnicalTenantContext() {
-    return TECHNICAL_TENANT_ID
-        .equals(TenantContext.getCurrentTenant());
+    return TECHNICAL_TENANT_ID.equals(TenantContext.getCurrentTenant());
   }
 
   /**
@@ -63,8 +62,7 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
 
     if (byId.isEmpty()) {
       throw new NotFoundException(
-          String.format("Consulting type with id %s not found.", consultingTypeId)
-      );
+          String.format("Consulting type with id %s not found.", consultingTypeId));
     }
     return byId.get();
   }
@@ -86,9 +84,12 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeBySlug(String slug) {
-    return findBySlug(slug).stream().findFirst()
-        .orElseThrow(() -> new NotFoundException(
-            String.format("Consulting type with slug %s not found.", slug)));
+    return findBySlug(slug).stream()
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new NotFoundException(
+                    String.format("Consulting type with slug %s not found.", slug)));
   }
 
   private List<ConsultingType> findBySlug(String slug) {
@@ -96,8 +97,9 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
       List<ConsultingTypeEntity> bySlug = consultingTypeMongoTenantAwareRepository.findBySlug(slug);
       consultingTypeConverter.convertList(bySlug);
     }
-    List<ConsultingTypeEntity> bySlugAndTenantId = consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug,
-        TenantContext.getCurrentTenant());
+    List<ConsultingTypeEntity> bySlugAndTenantId =
+        consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
+            slug, TenantContext.getCurrentTenant());
     return consultingTypeConverter.convertList(bySlugAndTenantId);
   }
 
@@ -110,8 +112,9 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
     log.debug("Using tenant aware repository service to try to add consulting type");
     if (isConsultingTypeWithGivenIdPresent(consultingType)
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
-      LogService.logWarning(String
-          .format("Could not add consulting type. id %s or slug %s is not unique",
+      LogService.logWarning(
+          String.format(
+              "Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
       return Optional.empty();
     } else {
@@ -123,12 +126,14 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
 
   @Override
   public ConsultingTypeEntity update(ConsultingType consultingType) {
-    return this.consultingTypeMongoTenantAwareRepository.save((ConsultingTypeEntity) consultingType);
+    return this.consultingTypeMongoTenantAwareRepository.save(
+        (ConsultingTypeEntity) consultingType);
   }
 
   @Override
   public Integer getNextId() {
-    final ConsultingTypeEntity consultingType = consultingTypeMongoTenantAwareRepository.findFirstByOrderByIdDesc();
+    final ConsultingTypeEntity consultingType =
+        consultingTypeMongoTenantAwareRepository.findFirstByOrderByIdDesc();
     if (consultingType == null) {
       return 0;
     }
@@ -145,8 +150,8 @@ public class ConsultingTypeMongoTenantAwareRepositoryService implements
   }
 
   protected boolean isConsultingTypeWithGivenSlugPresent(ConsultingType consultingType) {
-    return !consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(
-            consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
+    return !consultingTypeMongoTenantAwareRepository
+        .findBySlugAndTenantId(consultingType.getSlug(), Long.valueOf(consultingType.getTenantId()))
         .isEmpty();
   }
 }

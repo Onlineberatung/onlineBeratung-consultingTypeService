@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for consulting type group operations.
- */
+/** Service for consulting type group operations. */
 @Service
 @RequiredArgsConstructor
 public class ConsultingTypeGroupService {
@@ -29,13 +27,11 @@ public class ConsultingTypeGroupService {
    */
   public List<ConsultingTypeGroupResponseDTO> fetchConsultingTypeGroupList() {
 
-    return consultingTypeGroupRepository
-        .getConsultingTypesGroupMap()
-        .entrySet()
-        .stream()
-        .map(mapEntry -> ConsultingTypeGroupMapper
-            .mapConsultingType(mapEntryToPair(mapEntry),
-                ConsultingTypeGroupResponseMapper::mapConsultingType))
+    return consultingTypeGroupRepository.getConsultingTypesGroupMap().entrySet().stream()
+        .map(
+            mapEntry ->
+                ConsultingTypeGroupMapper.mapConsultingType(
+                    mapEntryToPair(mapEntry), ConsultingTypeGroupResponseMapper::mapConsultingType))
         .collect(Collectors.toList());
   }
 
@@ -43,5 +39,4 @@ public class ConsultingTypeGroupService {
       Entry<String, List<ConsultingType>> mapEntry) {
     return new ImmutablePair<>(mapEntry.getKey(), mapEntry.getValue());
   }
-
 }

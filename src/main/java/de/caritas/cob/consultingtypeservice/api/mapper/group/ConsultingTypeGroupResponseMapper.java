@@ -6,7 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
- * Mapping from a {@link List} of {@link ConsultingType} to {@link ConsultingTypeGroupResponseMapper}.
+ * Mapping from a {@link List} of {@link ConsultingType} to {@link
+ * ConsultingTypeGroupResponseMapper}.
  */
 public class ConsultingTypeGroupResponseMapper extends ConsultingTypeGroupMapper {
 
@@ -22,5 +23,4 @@ public class ConsultingTypeGroupResponseMapper extends ConsultingTypeGroupMapper
         .title(groupConsultingTypeListPair.getLeft())
         .consultingTypes(mapConsultingTypeCoreDtoList(groupConsultingTypeListPair.getRight()));
   }
-
 }

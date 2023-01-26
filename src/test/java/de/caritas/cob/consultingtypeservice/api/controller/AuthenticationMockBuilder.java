@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import com.google.common.collect.Lists;
+import de.caritas.cob.consultingtypeservice.api.auth.RoleAuthorizationAuthorityMapper;
 import java.util.Collection;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
@@ -10,16 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class AuthenticationMockBuilder {
 
-  private String authority;
+  private String userRole;
   private String tenantId;
 
-  AuthenticationMockBuilder withAuthority(String authority) {
-    this.authority = authority;
-    return this;
-  }
-
-  AuthenticationMockBuilder withTenantIdAttribute(String tenantId) {
-    this.tenantId = tenantId;
+  AuthenticationMockBuilder withUserRole(String userRole) {
+    this.userRole = userRole;
     return this;
   }
 
@@ -27,7 +23,8 @@ public class AuthenticationMockBuilder {
     return new Authentication() {
       @Override
       public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Lists.newArrayList((GrantedAuthority) () -> authority);
+        return new RoleAuthorizationAuthorityMapper()
+            .mapAuthorities(Lists.newArrayList(() -> userRole));
       }
 
       @Override
@@ -44,8 +41,8 @@ public class AuthenticationMockBuilder {
       public Object getPrincipal() {
         AccessToken token = new AccessToken();
         token.setOtherClaims("tenantId", tenantId);
-        KeycloakSecurityContext keycloakSecurityContext = new KeycloakSecurityContext("", token,
-            null, null);
+        KeycloakSecurityContext keycloakSecurityContext =
+            new KeycloakSecurityContext("", token, null, null);
         return new KeycloakPrincipal<>("name", keycloakSecurityContext);
       }
 
@@ -55,9 +52,7 @@ public class AuthenticationMockBuilder {
       }
 
       @Override
-      public void setAuthenticated(boolean b) throws IllegalArgumentException {
-
-      }
+      public void setAuthenticated(boolean b) throws IllegalArgumentException {}
 
       @Override
       public String getName() {

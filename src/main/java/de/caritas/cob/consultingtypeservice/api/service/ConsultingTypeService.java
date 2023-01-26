@@ -21,9 +21,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for consulting type operations.
- */
+/** Service for consulting type operations. */
 @Service
 @RequiredArgsConstructor
 public class ConsultingTypeService {
@@ -38,9 +36,11 @@ public class ConsultingTypeService {
    */
   public List<BasicConsultingTypeResponseDTO> fetchBasicConsultingTypesList() {
 
-    return consultingTypeRepositoryService.getListOfConsultingTypes()
-        .stream()
-        .map(c -> ConsultingTypeMapper.mapConsultingType(c, BasicConsultingTypeMapper::mapConsultingType))
+    return consultingTypeRepositoryService.getListOfConsultingTypes().stream()
+        .map(
+            c ->
+                ConsultingTypeMapper.mapConsultingType(
+                    c, BasicConsultingTypeMapper::mapConsultingType))
         .collect(Collectors.toList());
   }
 
@@ -52,7 +52,8 @@ public class ConsultingTypeService {
    */
   public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsById(
       Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
+    return ConsultingTypeMapper.mapConsultingType(
+        consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         FullConsultingTypeMapper::mapConsultingType);
   }
 
@@ -63,16 +64,19 @@ public class ConsultingTypeService {
    * @return a {@link FullConsultingTypeResponseDTO} instance
    */
   public FullConsultingTypeResponseDTO fetchFullConsultingTypeSettingsBySlug(String slug) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeBySlug(slug),
+    return ConsultingTypeMapper.mapConsultingType(
+        consultingTypeRepositoryService.getConsultingTypeBySlug(slug),
         FullConsultingTypeMapper::mapConsultingType);
   }
 
-  public Optional<FullConsultingTypeResponseDTO> fetchFullConsultingTypeSettingsByTenantId(Integer tenantId) {
-    ConsultingType consultingTypeByTenantId = consultingTypeRepositoryService.getConsultingTypeByTenantId(
-        tenantId);
+  public Optional<FullConsultingTypeResponseDTO> fetchFullConsultingTypeSettingsByTenantId(
+      Integer tenantId) {
+    ConsultingType consultingTypeByTenantId =
+        consultingTypeRepositoryService.getConsultingTypeByTenantId(tenantId);
     if (consultingTypeByTenantId != null) {
-      return Optional.of(ConsultingTypeMapper.mapConsultingType(consultingTypeByTenantId,
-          FullConsultingTypeMapper::mapConsultingType));
+      return Optional.of(
+          ConsultingTypeMapper.mapConsultingType(
+              consultingTypeByTenantId, FullConsultingTypeMapper::mapConsultingType));
     } else {
       return Optional.empty();
     }
@@ -86,7 +90,8 @@ public class ConsultingTypeService {
    */
   public ExtendedConsultingTypeResponseDTO fetchExtendedConsultingTypeSettingsById(
       Integer consultingTypeId) {
-    return ConsultingTypeMapper.mapConsultingType(consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
+    return ConsultingTypeMapper.mapConsultingType(
+        consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId),
         ExtendedConsultingTypeMapper::mapConsultingType);
   }
 
@@ -110,20 +115,22 @@ public class ConsultingTypeService {
     final Optional<ConsultingTypeEntity> createdConsultingType =
         consultingTypeRepositoryService.addConsultingType(consultingType);
     if (createdConsultingType.isPresent()) {
-      return ConsultingTypeMapper.mapConsultingType(createdConsultingType.get(),
-          FullConsultingTypeMapper::mapConsultingType);
+      return ConsultingTypeMapper.mapConsultingType(
+          createdConsultingType.get(), FullConsultingTypeMapper::mapConsultingType);
     } else {
       throw new InternalServerErrorException(
-          String.format("Could not create a new consulting type with slug %s",
-              consultingTypeDTO.getSlug()));
+          String.format(
+              "Could not create a new consulting type with slug %s", consultingTypeDTO.getSlug()));
     }
   }
 
-  public FullConsultingTypeResponseDTO updateConsultingType(Integer consultingTypeId,
-      ConsultingTypePatchDTO consultingTypePatchDTO) {
-    ConsultingType consultingType = consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
+  public FullConsultingTypeResponseDTO updateConsultingType(
+      Integer consultingTypeId, ConsultingTypePatchDTO consultingTypePatchDTO) {
+    ConsultingType consultingType =
+        consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
     consultingType = consultingTypeConverter.convert(consultingType, consultingTypePatchDTO);
     var updated = consultingTypeRepositoryService.update(consultingType);
-    return ConsultingTypeMapper.mapConsultingType(updated, FullConsultingTypeMapper::mapConsultingType);
+    return ConsultingTypeMapper.mapConsultingType(
+        updated, FullConsultingTypeMapper::mapConsultingType);
   }
 }

@@ -12,17 +12,14 @@ import de.caritas.cob.consultingtypeservice.api.model.PaginationLinks;
 import de.caritas.cob.consultingtypeservice.generated.api.admin.controller.ConsultingtypeadminApi;
 import org.springframework.beans.support.PagedListHolder;
 
-/**
- * Pagination link builder for consulting types.
- */
+/** Pagination link builder for consulting types. */
 public class ConsultingTypePaginationLinksBuilder implements HalLinkBuilder {
 
   private Integer page;
   private Integer perPage;
   private PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder;
 
-  private ConsultingTypePaginationLinksBuilder() {
-  }
+  private ConsultingTypePaginationLinksBuilder() {}
 
   /**
    * Creates a {@link ConsultingTypePaginationLinksBuilder} instance.
@@ -92,17 +89,19 @@ public class ConsultingTypePaginationLinksBuilder implements HalLinkBuilder {
   }
 
   private HalLink buildHalLinkForParams(Integer page, Integer perPage) {
-    return buildHalLink(methodOn(ConsultingtypeadminApi.class).getConsultingTypes(page, perPage),
-        MethodEnum.GET);
+    return buildHalLink(
+        methodOn(ConsultingtypeadminApi.class).getConsultingTypes(page, perPage), MethodEnum.GET);
   }
 
   private HalLink buildNextLink() {
-    return this.pagedListHolder.isLastPage() ? null
+    return this.pagedListHolder.isLastPage()
+        ? null
         : buildHalLinkForParams(this.page + 1, this.perPage);
   }
 
   private HalLink buildPreviousLink() {
-    return this.pagedListHolder.isFirstPage() ? null
+    return this.pagedListHolder.isFirstPage()
+        ? null
         : buildHalLinkForParams(this.page - 1, this.perPage);
   }
 }

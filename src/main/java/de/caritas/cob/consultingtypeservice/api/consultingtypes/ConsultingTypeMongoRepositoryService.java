@@ -13,9 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repository for {@link ConsultingType}.
- */
+/** Repository for {@link ConsultingType}. */
 @Repository("tenantUnaware")
 @RequiredArgsConstructor
 @Slf4j
@@ -29,6 +27,7 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
 
   /**
    * Get a complete list of all {@link ConsultingType}.
+   *
    * @return a {@link List} of {@link ConsultingType}
    */
   public List<ConsultingType> getListOfConsultingTypes() {
@@ -43,13 +42,12 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeById(Integer consultingTypeId) {
-    var byId = Optional.ofNullable(consultingTypeRepository.findByConsultingTypeId(
-        consultingTypeId));
+    var byId =
+        Optional.ofNullable(consultingTypeRepository.findByConsultingTypeId(consultingTypeId));
 
     if (byId.isEmpty()) {
       throw new NotFoundException(
-          String.format("Consulting type with id %s not found.", consultingTypeId)
-      );
+          String.format("Consulting type with id %s not found.", consultingTypeId));
     }
     return byId.get();
   }
@@ -61,20 +59,22 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    * @return the {@link ConsultingType} instance
    */
   public ConsultingType getConsultingTypeBySlug(String slug) {
-    return consultingTypeRepository.findBySlug(slug).stream().findFirst()
-        .orElseThrow(() -> new NotFoundException(
-            String.format("Consulting type with slug %s not found.", slug)));
+    return consultingTypeRepository.findBySlug(slug).stream()
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new NotFoundException(
+                    String.format("Consulting type with slug %s not found.", slug)));
   }
 
   @Override
   /*
-   This method implementation is required for single-domain-mode.
-   In this mode only consultingTypeService is deployed with multitenancyEnabled=false,
-   and this functionality is needed for super-admins in admin console.
-   */
+  This method implementation is required for single-domain-mode.
+  In this mode only consultingTypeService is deployed with multitenancyEnabled=false,
+  and this functionality is needed for super-admins in admin console.
+  */
   public ConsultingType getConsultingTypeByTenantId(Integer tenantId) {
     return consultingTypeRepository.findByTenantId(tenantId);
-
   }
 
   /**
@@ -84,10 +84,10 @@ public class ConsultingTypeMongoRepositoryService implements ConsultingTypeRepos
    */
   public Optional<ConsultingTypeEntity> addConsultingType(final ConsultingType consultingType) {
     log.debug("Using tenant unaware repository service to try to add a consulting type");
-    if (isConsultingTypeWithGivenIdPresent(consultingType)
-        || slugIsNotValid(consultingType)) {
-      LogService.logWarning(String
-          .format("Could not add consulting type. id %s or slug %s is not unique",
+    if (isConsultingTypeWithGivenIdPresent(consultingType) || slugIsNotValid(consultingType)) {
+      LogService.logWarning(
+          String.format(
+              "Could not add consulting type. id %s or slug %s is not unique",
               consultingType.getId(), consultingType.getSlug()));
       return Optional.empty();
     } else {

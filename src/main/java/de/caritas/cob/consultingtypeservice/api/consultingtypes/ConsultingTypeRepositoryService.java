@@ -20,6 +20,4 @@ public interface ConsultingTypeRepositoryService {
   Integer getNextId();
 
   ConsultingType getConsultingTypeByTenantId(Integer tenantId);
-
-
 }

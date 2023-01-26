@@ -29,35 +29,32 @@ import org.springframework.util.ReflectionUtils;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeLoaderTest {
 
-  private final static String INIT_METHOD_NAME = "init";
-  private final static String CONSULTING_TYPES_FILE_PATH_NAME = "consultingTypesFilePath";
+  private static final String INIT_METHOD_NAME = "init";
+  private static final String CONSULTING_TYPES_FILE_PATH_NAME = "consultingTypesFilePath";
 
-  @InjectMocks
-  ConsultingTypeLoader consultingTypeLoader;
+  @InjectMocks ConsultingTypeLoader consultingTypeLoader;
 
   @Mock(name = "tenantUnaware")
   ConsultingTypeRepositoryService consultingTypeRepositoryService;
-  @Mock
-  ConsultingTypeGroupRepository consultingTypeGroupRepository;
-  @Mock
-  ConsultingTypeValidator consultingTypeValidator;
-  @Mock
-  private Logger logger;
+
+  @Mock ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  @Mock ConsultingTypeValidator consultingTypeValidator;
+  @Mock private Logger logger;
 
   @Before
   public void setup() {
     setInternalState(LogService.class, "LOGGER", logger);
     // we need this as mockito does not properly inject @Qualifier marked beans
-    setInternalState(consultingTypeLoader, "consultingTypeRepositoryService",
-        consultingTypeRepositoryService);
+    setInternalState(
+        consultingTypeLoader, "consultingTypeRepositoryService", consultingTypeRepositoryService);
   }
 
   @Test
   public void test_Should_Fail_WhenMethodInitDoesNotHavePostConstructAnnotation()
       throws NoSuchMethodException, SecurityException {
 
-    PostConstruct annotation = getInitMethodFromConsultingTypeLoader()
-        .getAnnotation(PostConstruct.class);
+    PostConstruct annotation =
+        getInitMethodFromConsultingTypeLoader().getAnnotation(PostConstruct.class);
 
     assertNotNull(annotation);
   }
@@ -68,12 +65,11 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(BROKEN_FILE_PATH);
     Method initMethod = getInitMethodFromConsultingTypeLoader();
-    assertThrows(UnexpectedErrorException.class, () ->
-        ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader)
-    );
+    assertThrows(
+        UnexpectedErrorException.class,
+        () -> ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader));
 
-    verify(logger, times(1))
-        .error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
+    verify(logger, times(1)).error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
   }
 
   @Test
@@ -82,12 +78,11 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_BROKEN_CONSULTING_TYPE_SETTINGS);
     Method initMethod = getInitMethodFromConsultingTypeLoader();
-    assertThrows(UnexpectedErrorException.class, () ->
-        ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader)
-    );
+    assertThrows(
+        UnexpectedErrorException.class,
+        () -> ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader));
 
-    verify(logger, times(1))
-        .error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
+    verify(logger, times(1)).error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
   }
 
   @Test
@@ -95,7 +90,8 @@ public class ConsultingTypeLoaderTest {
 
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
-    verify(consultingTypeRepositoryService, times(5)).addConsultingType(Mockito.any(ConsultingType.class));
+    verify(consultingTypeRepositoryService, times(5))
+        .addConsultingType(Mockito.any(ConsultingType.class));
   }
 
   @Test
@@ -104,8 +100,7 @@ public class ConsultingTypeLoaderTest {
     setConsultingTypesFilePath(SRC_TEST_RESOURCES_CONSULTING_TYPE_SETTINGS);
     ReflectionUtils.invokeMethod(getInitMethodFromConsultingTypeLoader(), consultingTypeLoader);
     verify(consultingTypeValidator, times(5))
-        .validateConsultingTypeConfigurationJsonFile(Mockito.any(
-            File.class));
+        .validateConsultingTypeConfigurationJsonFile(Mockito.any(File.class));
   }
 
   private Method getInitMethodFromConsultingTypeLoader() throws NoSuchMethodException {
@@ -116,12 +111,12 @@ public class ConsultingTypeLoaderTest {
   }
 
   private void setConsultingTypesFilePath(String consultingTypesFilePath) {
-    Field fieldConsultingTypesFilePath = ReflectionUtils
-        .findField(ConsultingTypeLoader.class, CONSULTING_TYPES_FILE_PATH_NAME, String.class);
+    Field fieldConsultingTypesFilePath =
+        ReflectionUtils.findField(
+            ConsultingTypeLoader.class, CONSULTING_TYPES_FILE_PATH_NAME, String.class);
     assert fieldConsultingTypesFilePath != null;
     fieldConsultingTypesFilePath.setAccessible(true);
-    ReflectionUtils.setField(fieldConsultingTypesFilePath, consultingTypeLoader,
-        consultingTypesFilePath);
+    ReflectionUtils.setField(
+        fieldConsultingTypesFilePath, consultingTypeLoader, consultingTypesFilePath);
   }
-
 }

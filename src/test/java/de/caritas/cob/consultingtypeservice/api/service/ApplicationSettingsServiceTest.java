@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,11 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ApplicationSettingsServiceTest {
 
-  @Mock
-  ApplicationSettingsRepository applicationSettingsRepository;
+  @Mock ApplicationSettingsRepository applicationSettingsRepository;
 
-  @InjectMocks
-  ApplicationSettingsService applicationSettingsService;
+  @InjectMocks ApplicationSettingsService applicationSettingsService;
 
   @Test
   void getApplicationSettings_Should_ReturnSettingsFromDatabase() {
@@ -45,9 +42,10 @@ class ApplicationSettingsServiceTest {
   void getApplicationSettings_Should_ThrowException_When_MoreThanOneSettingsFoundInDatabase() {
     // given
     Mockito.when(applicationSettingsRepository.findAll())
-        .thenReturn(Lists.newArrayList(new ApplicationSettingsEntity(), new ApplicationSettingsEntity()));
+        .thenReturn(
+            Lists.newArrayList(new ApplicationSettingsEntity(), new ApplicationSettingsEntity()));
     // when, then
-    assertThrows(IllegalStateException.class, () ->
-        applicationSettingsService.getApplicationSettings());
+    assertThrows(
+        IllegalStateException.class, () -> applicationSettingsService.getApplicationSettings());
   }
 }

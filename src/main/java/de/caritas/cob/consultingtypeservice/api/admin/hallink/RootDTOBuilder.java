@@ -8,9 +8,7 @@ import de.caritas.cob.consultingtypeservice.api.model.HalLink.MethodEnum;
 import de.caritas.cob.consultingtypeservice.api.model.RootDTO;
 import de.caritas.cob.consultingtypeservice.api.model.RootLinks;
 
-/**
- * Builder to create the root navigation hal DTO.
- */
+/** Builder to create the root navigation hal DTO. */
 public class RootDTOBuilder implements HalLinkBuilder {
 
   public static final Integer DEFAULT_PAGE = 1;
@@ -23,9 +21,7 @@ public class RootDTOBuilder implements HalLinkBuilder {
    */
   public RootDTO buildRootDTO() {
     return new RootDTO()
-        .links(new RootLinks()
-            .self(buildSelfLink())
-            .consultingtypes(buildConsultingTypesLink()));
+        .links(new RootLinks().self(buildSelfLink()).consultingtypes(buildConsultingTypesLink()));
   }
 
   private HalLink buildSelfLink() {
@@ -33,8 +29,9 @@ public class RootDTOBuilder implements HalLinkBuilder {
   }
 
   private HalLink buildConsultingTypesLink() {
-    return buildHalLink(methodOn(ConsultingTypeAdminController.class)
-        .getConsultingTypes(DEFAULT_PAGE, DEFAULT_PER_PAGE), MethodEnum.GET);
+    return buildHalLink(
+        methodOn(ConsultingTypeAdminController.class)
+            .getConsultingTypes(DEFAULT_PAGE, DEFAULT_PER_PAGE),
+        MethodEnum.GET);
   }
-
 }

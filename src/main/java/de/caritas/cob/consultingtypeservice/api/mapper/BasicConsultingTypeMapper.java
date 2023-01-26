@@ -3,9 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 
-/**
- * Mapping from {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}.
- */
+/** Mapping from {@link ConsultingType} to {@link BasicConsultingTypeResponseDTO}. */
 public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
 
   /**
@@ -17,8 +15,7 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
   public static BasicConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new BasicConsultingTypeResponseDTO()
         .id(consultingType.getId())
-        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId()
-            : null)
+        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId() : null)
         .description(consultingType.getDescription())
         .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
@@ -32,5 +29,4 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
         .isVideoCallAllowed(consultingType.getIsVideoCallAllowed())
         .languageFormal(consultingType.getLanguageFormal());
   }
-
 }

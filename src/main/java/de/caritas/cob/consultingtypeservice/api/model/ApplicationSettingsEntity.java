@@ -19,5 +19,4 @@ public class ApplicationSettingsEntity extends ApplicationSettings {
   public Map<String, Object> getReleaseToggles() {
     return releaseToggles;
   }
-
 }

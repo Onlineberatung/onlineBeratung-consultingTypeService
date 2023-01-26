@@ -16,11 +16,9 @@ import org.slf4j.Logger;
 @RunWith(MockitoJUnitRunner.class)
 public class LogServiceTest {
 
-  @Mock
-  Exception exception;
+  @Mock Exception exception;
 
-  @Mock
-  private Logger logger;
+  @Mock private Logger logger;
 
   @Before
   public void setup() {
@@ -33,5 +31,4 @@ public class LogServiceTest {
     LogService.logWarning(exception);
     verify(exception, atLeastOnce()).printStackTrace(any(PrintWriter.class));
   }
-
 }

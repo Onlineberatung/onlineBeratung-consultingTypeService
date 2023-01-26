@@ -31,6 +31,7 @@ public class TranslationService {
 
   private Optional<Cookie> findLanguageCookie(final HttpServletRequest currentRequest) {
     return Arrays.stream(currentRequest.getCookies())
-        .filter(cookie -> LANGUAGE_COOKIE_NAME.equals(cookie.getName())).findFirst();
+        .filter(cookie -> LANGUAGE_COOKIE_NAME.equals(cookie.getName()))
+        .findFirst();
   }
 }

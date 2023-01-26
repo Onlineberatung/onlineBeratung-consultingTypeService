@@ -22,13 +22,13 @@ public class HelperMethods {
   }
 
   public static List<ConsultingType> getConsultingTypeList() throws IOException {
-    return Arrays.asList(loadConsultingType(FILE_VALID_COMPLETE_CONSULTING_TYPE),
+    return Arrays.asList(
+        loadConsultingType(FILE_VALID_COMPLETE_CONSULTING_TYPE),
         loadConsultingType(FILE_VALID_COMPLETE_CONSULTING_TYPE_2));
   }
 
   public static String getConsultingTypeSettingsAsJsonString() throws IOException {
-    return new String(
-        Files.readAllBytes(Paths.get(FILE_VALID_COMPLETE_CONSULTING_TYPE)));
+    return new String(Files.readAllBytes(Paths.get(FILE_VALID_COMPLETE_CONSULTING_TYPE)));
   }
 
   private static ConsultingType loadConsultingType(String filename) throws IOException {
@@ -36,14 +36,13 @@ public class HelperMethods {
     return new ObjectMapper().readValue(url, ConsultingType.class);
   }
 
-  public static List<ConsultingTypeGroupResponseDTO> loadConsultingTypeGroupResponse() throws IOException {
+  public static List<ConsultingTypeGroupResponseDTO> loadConsultingTypeGroupResponse()
+      throws IOException {
     URL url = new URL("file:" + FILE_CONSULTING_TYPE_GROUP_RESPONSE_JSON);
-    return new ObjectMapper().readValue(url,  new TypeReference<>(){});
+    return new ObjectMapper().readValue(url, new TypeReference<>() {});
   }
 
   public static String loadConsultingTypeGroupResponseAsJsonString() throws IOException {
-    return new String(
-        Files.readAllBytes(Paths.get(FILE_CONSULTING_TYPE_GROUP_RESPONSE_JSON)));
+    return new String(Files.readAllBytes(Paths.get(FILE_CONSULTING_TYPE_GROUP_RESPONSE_JSON)));
   }
-
 }

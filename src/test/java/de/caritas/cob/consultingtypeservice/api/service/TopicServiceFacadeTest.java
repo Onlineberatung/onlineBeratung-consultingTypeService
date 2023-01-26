@@ -23,20 +23,15 @@ class TopicServiceFacadeTest {
 
   private static final long TOPIC_ID = 1L;
 
-  @Mock
-  TopicService topicService;
+  @Mock TopicService topicService;
 
-  @Mock
-  TopicConverter topicConverter;
+  @Mock TopicConverter topicConverter;
 
-  @Mock
-  TopicInputSanitizer topicInputSanitizer;
+  @Mock TopicInputSanitizer topicInputSanitizer;
 
-  @Mock
-  TopicValidationService topicValidationService;
+  @Mock TopicValidationService topicValidationService;
 
-  @InjectMocks
-  TopicServiceFacade topicServiceFacade;
+  @InjectMocks TopicServiceFacade topicServiceFacade;
 
   @Test
   void getAllTopics_Should_CallServiceAndConvertResults() {

@@ -27,7 +27,9 @@ import org.hibernate.annotations.ParamDef;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "long")})
+@FilterDef(
+    name = "tenantFilter",
+    parameters = {@ParamDef(name = "tenantId", type = "long")})
 @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
 public class TopicEntity implements TenantAware {
 
@@ -43,7 +45,7 @@ public class TopicEntity implements TenantAware {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @Column(name = "status",  length = 11)
+  @Column(name = "status", length = 11)
   @Enumerated(EnumType.STRING)
   private TopicStatus status;
 
@@ -58,5 +60,4 @@ public class TopicEntity implements TenantAware {
 
   @Column(name = "update_date")
   private LocalDateTime updateDate;
-
 }

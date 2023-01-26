@@ -4,8 +4,8 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-import de.caritas.cob.consultingtypeservice.tenantservice.generated.ApiClient.CollectionFormat;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
+import de.caritas.cob.consultingtypeservice.tenantservice.generated.ApiClient.CollectionFormat;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -15,11 +15,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Extension of the generated UserService API client to adapt the handling of parameter values.
- */
-public class TenantServiceApiClient extends
-    de.caritas.cob.consultingtypeservice.tenantservice.generated.ApiClient {
+/** Extension of the generated UserService API client to adapt the handling of parameter values. */
+public class TenantServiceApiClient
+    extends de.caritas.cob.consultingtypeservice.tenantservice.generated.ApiClient {
 
   private static final String FILTER_NAME = "filter";
 
@@ -32,8 +30,8 @@ public class TenantServiceApiClient extends
    * which are not {@link Collection} for filter query params.
    *
    * @param collectionFormat The format to convert to
-   * @param name             The name of the parameter
-   * @param value            The parameter's value
+   * @param name The name of the parameter
+   * @param value The parameter's value
    * @return a Map containing non-null String value(s) of the input parameter
    */
   @Override
@@ -55,8 +53,9 @@ public class TenantServiceApiClient extends
     MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
 
     try {
-      Arrays.asList(Introspector.getBeanInfo(queryValue.getClass(), Object.class)
-          .getPropertyDescriptors())
+      Arrays.asList(
+              Introspector.getBeanInfo(queryValue.getClass(), Object.class)
+                  .getPropertyDescriptors())
           .stream()
           .filter(descriptor -> nonNull(descriptor.getReadMethod()))
           .forEach(descriptor -> setMethodKeyValuePairs(queryValue, paramMap, descriptor));
@@ -69,8 +68,8 @@ public class TenantServiceApiClient extends
     }
   }
 
-  private void setMethodKeyValuePairs(Object queryValue, MultiValueMap<String, String> map,
-      PropertyDescriptor descriptor) {
+  private void setMethodKeyValuePairs(
+      Object queryValue, MultiValueMap<String, String> map, PropertyDescriptor descriptor) {
     try {
       Object value = descriptor.getReadMethod().invoke(queryValue);
       if (nonNull(value)) {

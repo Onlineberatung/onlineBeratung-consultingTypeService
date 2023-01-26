@@ -5,9 +5,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeCoreDTOTitle
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import de.caritas.cob.consultingtypeservice.schemas.model.Titles;
 
-/**
- * Mapping from {@link ConsultingType} to {@link ConsultingTypeCoreDTO}.
- */
+/** Mapping from {@link ConsultingType} to {@link ConsultingTypeCoreDTO}. */
 public class ConsultingTypeCoreMapper extends ConsultingTypeMapper {
 
   /**
@@ -23,9 +21,6 @@ public class ConsultingTypeCoreMapper extends ConsultingTypeMapper {
   }
 
   private static ConsultingTypeCoreDTOTitles mapConsultingTypeCoreDtoTitles(Titles titles) {
-    return new ConsultingTypeCoreDTOTitles()
-        ._default(titles.getDefault())
-        ._long(titles.getLong());
+    return new ConsultingTypeCoreDTOTitles()._default(titles.getDefault())._long(titles.getLong());
   }
-
 }

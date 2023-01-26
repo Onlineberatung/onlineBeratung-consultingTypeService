@@ -15,14 +15,14 @@ public class FullConsultingTypeMapperTest {
   @Test
   public void mapConsultingType_Should_MapAllProperties() throws IOException {
 
-    FullConsultingTypeResponseDTO result = FullConsultingTypeMapper
-        .mapConsultingType(HelperMethods.getConsultingType());
+    FullConsultingTypeResponseDTO result =
+        FullConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType());
     String resultJson = new ObjectMapper().writeValueAsString(result);
 
     assertThat(result, notNullValue());
-    assertThat(resultJson,
+    assertThat(
+        resultJson,
         jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
             .whenIgnoringPaths("groups"));
   }
-
 }

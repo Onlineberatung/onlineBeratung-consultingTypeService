@@ -20,15 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/**
- * Loader for the consulting types from the file system.
- */
+/** Loader for the consulting types from the file system. */
 @Service
 @RequiredArgsConstructor
 public class ConsultingTypeLoader {
 
-  @Autowired
-  private ConsultingTypeRepositoryService consultingTypeRepositoryService;
+  @Autowired private ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeGroupRepository consultingTypeGroupRepository;
   private final @NonNull ConsultingTypeValidator consultingTypeValidator;
 

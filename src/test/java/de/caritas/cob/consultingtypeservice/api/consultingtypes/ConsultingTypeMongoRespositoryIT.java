@@ -26,16 +26,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "multitenancy.enabled=true")
-@TestPropertySource(properties = "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
+@TestPropertySource(
+    properties =
+        "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
 public class ConsultingTypeMongoRespositoryIT {
 
   private final String MONGO_COLLECTION_NAME = "consulting_types";
 
-  @Autowired
-  private ConsultingTypeRepository consultingTypeRepository;
+  @Autowired private ConsultingTypeRepository consultingTypeRepository;
 
-  @Autowired
-  MongoTemplate mongoTemplate;
+  @Autowired MongoTemplate mongoTemplate;
 
   @Before
   public void initializeMongoDbWithData() throws IOException {
@@ -51,8 +51,7 @@ public class ConsultingTypeMongoRespositoryIT {
     ConsultingType consultingType =
         objectMapper.readValue(
             new ClassPathResource("consulting-type-settings-tenant-specific/" + fileName).getFile(),
-            new TypeReference<>() {
-            });
+            new TypeReference<>() {});
     mongoTemplate.insert(consultingType, MONGO_COLLECTION_NAME);
   }
 
@@ -91,5 +90,4 @@ public class ConsultingTypeMongoRespositoryIT {
     // then
     assertThat(result).hasSize(3);
   }
-
 }

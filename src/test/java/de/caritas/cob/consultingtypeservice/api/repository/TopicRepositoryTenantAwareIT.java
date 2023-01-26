@@ -19,8 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DataJpaTest
 class TopicRepositoryTenantAwareIT {
 
-  @Autowired
-  private TopicRepository topicRepository;
+  @Autowired private TopicRepository topicRepository;
 
   @Test
   void findByIdForTenant_Should_findTopicByIdAndTenantId() {

@@ -24,9 +24,8 @@ public class JsonConverter {
     if (jsonString == null) {
       return Maps.newHashMap();
     }
-    final var result = deserializeMapFromJsonString(jsonString,
-        new TypeReference<Map<String, String>>() {
-        });
+    final var result =
+        deserializeMapFromJsonString(jsonString, new TypeReference<Map<String, String>>() {});
     if (result == null) {
       log.warn("Could not deserialize map from json.");
       return Maps.newHashMap();
@@ -34,12 +33,13 @@ public class JsonConverter {
     return result;
   }
 
-  private static <T, Y> Map<T, Y> deserializeMapFromJsonString(final String jsonString,
-      final TypeReference<Map<T, Y>> typeReference) {
+  private static <T, Y> Map<T, Y> deserializeMapFromJsonString(
+      final String jsonString, final TypeReference<Map<T, Y>> typeReference) {
     try {
-      final var objectMapper = new ObjectMapper()
-          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-          .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
+      final var objectMapper =
+          new ObjectMapper()
+              .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+              .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
       return objectMapper.readValue(jsonString, typeReference);
     } catch (final JsonProcessingException e) {
       throw new RuntimeJsonMappingException(e.getMessage());

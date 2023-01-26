@@ -13,26 +13,26 @@ class JsonConverterTest {
 
   @Test
   void convertToJson_Should_returnCorrectJson() {
-    //given
+    // given
     final Map<String, String> translations = new HashMap<>();
     translations.put("en", "en translation");
 
-    //when
+    // when
     final String json = JsonConverter.convertToJson(translations);
 
-    //then
+    // then
     assertThat(json, is("{\"en\":\"en translation\"}"));
   }
 
   @Test
   void convertMapFromJson_Should_returnCorrectMap() {
-    //given
+    // given
     final String json = "{\"en\":\"en translation\", \"de\":\"de translation\"}";
 
-    //when
+    // when
     final Map<String, String> translations = JsonConverter.convertMapFromJson(json);
 
-    //then
+    // then
     assertThat(translations.size(), is(2));
     assertThat(translations, hasEntry("en", "en translation"));
     assertThat(translations, hasEntry("de", "de translation"));
@@ -40,23 +40,23 @@ class JsonConverterTest {
 
   @Test
   void convertMapFromJson_Should_returnEmptyMap_When_jsonIsNull() {
-    //given
-    //when
+    // given
+    // when
     final Map<String, String> translations = JsonConverter.convertMapFromJson(null);
 
-    //then
+    // then
     assertThat(translations.size(), is(0));
   }
 
   @Test
   void convertMapFromJson_Should_returnResult_When_jsonContainsNewLineOrTabulation() {
-    //given
+    // given
     final String json = "{\"de\": \"test\n new line \t tabulation\"}";
 
-    //when
+    // when
     final Map<String, String> result = JsonConverter.convertMapFromJson(json);
 
-    //then
+    // then
     assertThat(result, notNullValue());
   }
 }
