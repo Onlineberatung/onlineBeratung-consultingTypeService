@@ -10,6 +10,7 @@ import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
@@ -119,9 +120,9 @@ public class ConsultingTypeService {
   }
 
   public FullConsultingTypeResponseDTO updateConsultingType(Integer consultingTypeId,
-      ConsultingTypeDTO consultingTypeDTO) {
+      ConsultingTypePatchDTO consultingTypePatchDTO) {
     ConsultingType consultingType = consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
-    consultingType = consultingTypeConverter.convert(consultingType, consultingTypeDTO);
+    consultingType = consultingTypeConverter.convert(consultingType, consultingTypePatchDTO);
     var updated = consultingTypeRepositoryService.update(consultingType);
     return ConsultingTypeMapper.mapConsultingType(updated, FullConsultingTypeMapper::mapConsultingType);
   }

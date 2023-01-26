@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -15,6 +16,8 @@ import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeCo
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
@@ -86,22 +90,20 @@ public class ConsultingTypeControllerE2EIT {
 
   @Test
   @WithMockUser(authorities = {"tenant-admin"})
-  public void updateConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
+  public void patchConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
-    ConsultingTypeDTO consultingTypeDTO =
-        easyRandom.nextObject(ConsultingTypeDTO.class)
-            .tenantId(4)
-            .slug("test-slug")
-            .voluntaryComponents(null);
-    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+    ConsultingTypePatchDTO consultingTypeDTO =
+        easyRandom.nextObject(ConsultingTypePatchDTO.class)
+            .isVideoCallAllowed(true)
+            .languageFormal(true)
+            .welcomeMessage(new ConsultingTypeDTOWelcomeMessage().sendWelcomeMessage(true).welcomeMessageText("welcome"));
 
-    FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO, EXISTING_ID);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     // when
-    this.mvc
+    MvcResult mvcResult = this.mvc
         .perform(
-            put(ROOT_PATH + "/" + EXISTING_ID)
+            patch(ROOT_PATH + "/" + EXISTING_ID)
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -109,14 +111,16 @@ public class ConsultingTypeControllerE2EIT {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("id").value(EXISTING_ID))
-        .andExpect(jsonPath("tenantId").value(4))
-        .andExpect(jsonPath("slug").value("test-slug"))
-        .andExpect(json().isEqualTo(objectMapper.writeValueAsString(expectedResponseDTO)));
+        .andExpect(jsonPath("isVideoCallAllowed").value(true))
+        .andExpect(jsonPath("languageFormal").value(true))
+        .andExpect(jsonPath("welcomeMessage.sendWelcomeMessage").value(true))
+        .andExpect(jsonPath("welcomeMessage.welcomeMessageText").value("welcome"))
+        .andReturn();
   }
 
   @Test
   @WithMockUser(authorities = {"single-tenant-admin"})
-  public void updateConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole()
+  public void patchConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole()
       throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
@@ -130,7 +134,7 @@ public class ConsultingTypeControllerE2EIT {
     // when
     this.mvc
         .perform(
-            put(ROOT_PATH + "/" + EXISTING_ID)
+            patch(ROOT_PATH + "/" + EXISTING_ID)
                 .cookie(CSRF_COOKIE)
                 .header(CSRF_HEADER, CSRF_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)

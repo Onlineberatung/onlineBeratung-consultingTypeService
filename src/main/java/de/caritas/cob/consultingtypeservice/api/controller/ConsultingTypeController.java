@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
@@ -139,7 +140,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   @Override
   @PreAuthorize("hasAuthority('tenant-admin')")
   public ResponseEntity<FullConsultingTypeResponseDTO> updateConsultingType(
-      Integer consultingTypeId, final ConsultingTypeDTO consultingTypeDTO) {
+      Integer consultingTypeId, final ConsultingTypePatchDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.updateConsultingType(consultingTypeId, consultingTypeDTO));
   }
 
