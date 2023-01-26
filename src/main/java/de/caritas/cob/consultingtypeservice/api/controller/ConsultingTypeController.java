@@ -139,7 +139,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
 
   @Override
   @PreAuthorize("hasAuthority('tenant-admin')")
-  public ResponseEntity<FullConsultingTypeResponseDTO> updateConsultingType(
+  public ResponseEntity<FullConsultingTypeResponseDTO> patchConsultingType(
       Integer consultingTypeId, final ConsultingTypePatchDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.updateConsultingType(consultingTypeId, consultingTypeDTO));
   }
