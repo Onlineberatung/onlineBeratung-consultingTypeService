@@ -13,6 +13,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.service.permission.SettingsPermissionsValidator;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ConsultingTypeService {
 
   private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
+  private final @NonNull SettingsPermissionsValidator settingsPermissionsValidator;
 
   /**
    * Fetch a list of all consulting types with basic properties.
@@ -126,6 +128,7 @@ public class ConsultingTypeService {
 
   public FullConsultingTypeResponseDTO updateConsultingType(
       Integer consultingTypeId, ConsultingTypePatchDTO consultingTypePatchDTO) {
+    settingsPermissionsValidator.assertUserHasPermissionToChangeSettings(consultingTypePatchDTO);
     ConsultingType consultingType =
         consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
     consultingType = consultingTypeConverter.convert(consultingType, consultingTypePatchDTO);

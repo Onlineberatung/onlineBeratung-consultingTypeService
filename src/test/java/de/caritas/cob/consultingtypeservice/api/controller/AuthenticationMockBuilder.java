@@ -12,10 +12,15 @@ import org.springframework.security.core.GrantedAuthority;
 public class AuthenticationMockBuilder {
 
   private String userRole;
-  private String tenantId;
+  private Integer tenantId;
 
   AuthenticationMockBuilder withUserRole(String userRole) {
     this.userRole = userRole;
+    return this;
+  }
+
+  public AuthenticationMockBuilder withTenantId(Integer tenantId) {
+    this.tenantId = tenantId;
     return this;
   }
 
@@ -41,6 +46,7 @@ public class AuthenticationMockBuilder {
       public Object getPrincipal() {
         AccessToken token = new AccessToken();
         token.setOtherClaims("tenantId", tenantId);
+        token.setRealmAccess(new AccessToken.Access().addRole(userRole));
         KeycloakSecurityContext keycloakSecurityContext =
             new KeycloakSecurityContext("", token, null, null);
         return new KeycloakPrincipal<>("name", keycloakSecurityContext);

@@ -18,13 +18,18 @@ import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeCo
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTONotifications;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTOTeamSessions;
+import de.caritas.cob.consultingtypeservice.api.model.TeamSessionsDTONewMessage;
+import de.caritas.cob.consultingtypeservice.api.service.permission.EffectivePermissionsDeterminationService;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
 import javax.servlet.http.Cookie;
 import org.jeasy.random.EasyRandom;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -33,6 +38,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -54,6 +60,15 @@ class ConsultingTypeControllerE2EIT {
   @Autowired private MockMvc mvc;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ConsultingTypeConverter consultingTypeConverter;
+
+  @Autowired
+  private EffectivePermissionsDeterminationService effectivePermissionsDeterminationService;
+
+  @AfterEach
+  void tearDown() {
+    ReflectionTestUtils.setField(
+        effectivePermissionsDeterminationService, "multitenancyEnabled", false);
+  }
 
   @Test
   void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
@@ -104,7 +119,10 @@ class ConsultingTypeControllerE2EIT {
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     Authentication authentication =
-        new AuthenticationMockBuilder().withUserRole(TENANT_ADMIN.getValue()).build();
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(0)
+            .build();
 
     // when
     MvcResult mvcResult =
@@ -152,6 +170,318 @@ class ConsultingTypeControllerE2EIT {
                 .content(objectMapper.writeValueAsString(consultingTypeDTO)))
         // then
         .andExpect(status().isForbidden());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnForbidden_When_multitenancyDisabledAndUserIsTenantAdminButTriesToEditLanguageFormal()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(true);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyDisabledAndUserIsTenantAdminAndTriesToEditWelcomeMessage()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(null)
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"));
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyDisabledAndUserIsTenantAdminAndTriesToEditSendFurtherStepMessage()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(null)
+            .sendFurtherStepsMessage(true);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyDisabledAndUserIsTenantAdminAndTriesToEditSaveSessionDataMessage()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(null)
+            .sendSaveSessionDataMessage(true);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyDisabledAndUserIsTenantAdminAndTriesToEditNotificationSettings()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(null)
+            .notifications(
+                new ConsultingTypeDTONotifications()
+                    .teamSessions(
+                        new NotificationsDTOTeamSessions()
+                            .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true))));
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyDisabledAndUserIsTenantAdminAndTriesToEditVideoCallAllowedSettings()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(null)
+            .isVideoCallAllowed(true);
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_multitenancyEnabledAndUserIsTenantAdminAndTriesToEditAnyConsultingTypeSetting()
+          throws Exception {
+    // given
+    ReflectionTestUtils.setField(
+        effectivePermissionsDeterminationService, "multitenancyEnabled", true);
+
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(true)
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"))
+            .sendSaveSessionDataMessage(true)
+            .sendFurtherStepsMessage(true)
+            .isVideoCallAllowed(true)
+            .notifications(
+                new ConsultingTypeDTONotifications()
+                    .teamSessions(
+                        new NotificationsDTOTeamSessions()
+                            .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true))));
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(1)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnOk_When_UserIsSuperAdminAndTriesToEditAnyConsultingTypeSettings()
+          throws Exception {
+    // given
+    ConsultingTypeDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
+            .tenantId(4)
+            .slug("test-slug")
+            .voluntaryComponents(null)
+            .languageFormal(true)
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"))
+            .sendSaveSessionDataMessage(true)
+            .sendFurtherStepsMessage(true)
+            .isVideoCallAllowed(true)
+            .notifications(
+                new ConsultingTypeDTONotifications()
+                    .teamSessions(
+                        new NotificationsDTOTeamSessions()
+                            .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true))));
+    consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    Authentication authentication =
+        new AuthenticationMockBuilder()
+            .withUserRole(TENANT_ADMIN.getValue())
+            .withTenantId(0)
+            .build();
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .with(authentication(authentication))
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk());
   }
 
   @Test

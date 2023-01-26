@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api;
 
+import de.caritas.cob.consultingtypeservice.api.exception.SettingsPermissionException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.BadRequestException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
@@ -187,5 +188,13 @@ public class ApiResponseEntityExceptionHandler extends ResponseEntityExceptionHa
 
     return handleExceptionInternal(
         EMPTY_EXCEPTION, null, new HttpHeaders(), ex.getStatusCode(), request);
+  }
+
+  @ExceptionHandler({SettingsPermissionException.class})
+  public ResponseEntity<Object> handleInternal(
+      final SettingsPermissionException ex, final WebRequest request) {
+    LogService.logError(ex);
+
+    return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
   }
 }
