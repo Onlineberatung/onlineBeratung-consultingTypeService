@@ -14,8 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TopicValidationServiceTest {
 
-  @InjectMocks
-  TopicValidationService topicValidationService;
+  @InjectMocks TopicValidationService topicValidationService;
 
   @Test
   void validate_Should_ThrowBadRequestException_IfStatusIsNotValid() {
@@ -43,26 +42,35 @@ class TopicValidationServiceTest {
 
   @Test
   void validate_Should_ThrowTopicValidationException_IfNameTranslationKeyIsInvalid() {
-    assertThrows(TopicValidationException.class,
-        () -> topicValidationService.validate(
-            new MultilingualTopicTestDataBuilder().topicDTO()
-                .withName("name", "invalidLanguage")
-                .withDescription("desc", "en").build()));
+    TopicMultilingualDTO topicMultilingualDTO =
+        new MultilingualTopicTestDataBuilder()
+            .topicDTO()
+            .withName("name", "invalidLanguage")
+            .withDescription("desc", "en")
+            .build();
+    assertThrows(
+        TopicValidationException.class,
+        () -> topicValidationService.validate(topicMultilingualDTO));
   }
 
   @Test
   void validate_Should_ThrowTopicValidationException_IfDescriptionTranslationKeyIsInvalid() {
-    assertThrows(TopicValidationException.class,
-        () -> topicValidationService.validate(
-            new MultilingualTopicTestDataBuilder().topicDTO()
-                .withName("name", "en")
-                .withDescription("desc", "invalidLanguage").build()));
+    TopicMultilingualDTO topicMultilingualDTO =
+        new MultilingualTopicTestDataBuilder()
+            .topicDTO()
+            .withName("name", "en")
+            .withDescription("desc", "invalidLanguage")
+            .build();
+    assertThrows(
+        TopicValidationException.class,
+        () -> topicValidationService.validate(topicMultilingualDTO));
   }
 
   @Test
   void validate_Should_NotThrowTopicValidationException_IfNameAndDescTranslationKeysAreValid() {
     topicValidationService.validate(
-        new MultilingualTopicTestDataBuilder().topicDTO()
+        new MultilingualTopicTestDataBuilder()
+            .topicDTO()
             .withName("name", "en")
             .withDescription("desc", "de")
             .build());

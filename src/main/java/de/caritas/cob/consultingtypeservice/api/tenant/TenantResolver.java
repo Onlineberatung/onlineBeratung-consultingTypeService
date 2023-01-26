@@ -7,7 +7,6 @@ import de.caritas.cob.consultingtypeservice.api.service.TenantHeaderSupplier;
 import de.caritas.cob.consultingtypeservice.api.service.TenantService;
 import de.caritas.cob.consultingtypeservice.filter.SubdomainExtractor;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +56,4 @@ public class TenantResolver {
   private Long getTenantIdBySubdomain(String currentSubdomain) {
     return tenantService.getRestrictedTenantDataBySubdomain(currentSubdomain).getId();
   }
-
 }
-

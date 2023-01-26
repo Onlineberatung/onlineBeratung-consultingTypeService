@@ -24,12 +24,9 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 
-/**
- * Provides the Security configuration.
- */
+/** Provides the Security configuration. */
 @Configuration
-@EnableGlobalMethodSecurity(
-    prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
@@ -45,19 +42,20 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
   @Autowired(required = false)
   private @Nullable HttpTenantFilter tenantFilter;
 
-  /**
-   * Configure spring security filter chain
-   */
+  /** Configure spring security filter chain */
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
-    var httpSecurity = http.csrf().disable()
-        .addFilterBefore(new StatelessCsrfFilter(csrfCookieProperty, csrfHeaderProperty),
-            CsrfFilter.class);
+    var httpSecurity =
+        http.csrf()
+            .disable()
+            .addFilterBefore(
+                new StatelessCsrfFilter(csrfCookieProperty, csrfHeaderProperty), CsrfFilter.class);
 
     httpSecurity = enableTenantFilterIfMultitenancyEnabled(httpSecurity);
 
     httpSecurity
-        .csrf().disable()
+        .csrf()
+        .disable()
         .authenticationProvider(keycloakAuthenticationProvider())
         .addFilterBefore(keycloakAuthenticationProcessingFilter(), BasicAuthenticationFilter.class)
         .sessionManagement()
@@ -65,16 +63,26 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
         .and()
         .authorizeRequests()
-            .requestMatchers(new AntPathRequestMatcher("/settings")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/settings/*")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/topic/public")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/topic/public/*")).permitAll()
-        .requestMatchers(new AntPathRequestMatcher("/topic")).authenticated()
-        .requestMatchers(new AntPathRequestMatcher("/topic/*")).authenticated()
-        .requestMatchers(new AntPathRequestMatcher("/topicadmin")).authenticated()
-        .requestMatchers(new AntPathRequestMatcher("/topicadmin/*")).authenticated()
-            .requestMatchers(new AntPathRequestMatcher("/settingsadmin")).authenticated()
-            .requestMatchers(new AntPathRequestMatcher("/settingsadmin/*")).authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/settings"))
+        .permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/settings/*"))
+        .permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/topic/public"))
+        .permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/topic/public/*"))
+        .permitAll()
+        .requestMatchers(new AntPathRequestMatcher("/topic"))
+        .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topic/*"))
+        .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topicadmin"))
+        .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topicadmin/*"))
+        .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/settingsadmin"))
+        .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/settingsadmin/*"))
+        .authenticated()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic")))
         .permitAll()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic/*")))
@@ -100,8 +108,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
    */
   private HttpSecurity enableTenantFilterIfMultitenancyEnabled(HttpSecurity httpSecurity) {
     if (multitenancy) {
-      httpSecurity = httpSecurity
-          .addFilterAfter(this.tenantFilter, StatelessCsrfFilter.class);
+      httpSecurity = httpSecurity.addFilterAfter(this.tenantFilter, StatelessCsrfFilter.class);
     }
     return httpSecurity;
   }
@@ -117,13 +124,15 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
   }
 
   @Autowired
-  public void configureGlobal(final AuthenticationManagerBuilder auth,
-      RoleAuthorizationAuthorityMapper authorityMapper) {
-    final KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+  public void configureGlobal(
+      final AuthenticationManagerBuilder auth, RoleAuthorizationAuthorityMapper authorityMapper) {
+    final KeycloakAuthenticationProvider keycloakAuthenticationProvider =
+        keycloakAuthenticationProvider();
     keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(authorityMapper);
     auth.authenticationProvider(keycloakAuthenticationProvider);
   }
 
+  @Override
   protected KeycloakAuthenticationProvider keycloakAuthenticationProvider() {
     var provider = new KeycloakAuthenticationProvider();
     provider.setGrantedAuthoritiesMapper(new RoleAuthorizationAuthorityMapper());

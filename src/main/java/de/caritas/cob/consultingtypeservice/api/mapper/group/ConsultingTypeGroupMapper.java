@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class ConsultingTypeGroupMapper {
 
-  protected ConsultingTypeGroupMapper() { }
+  protected ConsultingTypeGroupMapper() {}
 
   public static <R> R mapConsultingType(
       ImmutablePair<String, List<ConsultingType>> groupConsultingTypeListPair,
@@ -21,11 +21,11 @@ public class ConsultingTypeGroupMapper {
 
   protected static List<ConsultingTypeCoreDTO> mapConsultingTypeCoreDtoList(
       List<ConsultingType> consultingTypeList) {
-    return consultingTypeList
-        .stream()
-        .map(listOfConsultingTypes -> ConsultingTypeMapper
-            .mapConsultingType(listOfConsultingTypes, ConsultingTypeCoreMapper::mapConsultingType))
+    return consultingTypeList.stream()
+        .map(
+            listOfConsultingTypes ->
+                ConsultingTypeMapper.mapConsultingType(
+                    listOfConsultingTypes, ConsultingTypeCoreMapper::mapConsultingType))
         .collect(Collectors.toList());
   }
-
 }

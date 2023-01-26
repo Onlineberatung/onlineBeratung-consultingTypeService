@@ -18,11 +18,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "multitenancy.enabled=true")
-@TestPropertySource(properties = "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
+@TestPropertySource(
+    properties =
+        "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
 class TopicServiceTenantAwareIT {
 
-  @Autowired
-  TopicService topicService;
+  @Autowired TopicService topicService;
 
   @BeforeEach
   void setup() {
@@ -40,10 +41,7 @@ class TopicServiceTenantAwareIT {
     var topicEntities = topicService.getAllTopics();
 
     // then
-    assertThat(topicEntities)
-        .hasSize(2)
-        .extracting(TopicEntity::getId)
-        .contains(1L, 2L);
+    assertThat(topicEntities).hasSize(2).extracting(TopicEntity::getId).contains(1L, 2L);
   }
 
   @Test
@@ -52,10 +50,7 @@ class TopicServiceTenantAwareIT {
     var allActiveTopicEntities = topicService.getAllActiveTopics();
 
     // then
-    assertThat(allActiveTopicEntities)
-        .hasSize(1)
-        .extracting(TopicEntity::getId)
-        .contains(1L);
+    assertThat(allActiveTopicEntities).hasSize(1).extracting(TopicEntity::getId).contains(1L);
   }
 
   @Test
@@ -64,11 +59,7 @@ class TopicServiceTenantAwareIT {
     var topicById = topicService.findTopicById(1L);
 
     // then
-    assertThat(topicById)
-        .isPresent()
-        .get()
-        .extracting(TopicEntity::getId)
-        .isEqualTo(1L);
+    assertThat(topicById).isPresent().get().extracting(TopicEntity::getId).isEqualTo(1L);
   }
 
   @Test
@@ -77,8 +68,7 @@ class TopicServiceTenantAwareIT {
     var topicById = topicService.findTopicById(3L);
 
     // then
-    assertThat(topicById)
-        .isNotPresent();
+    assertThat(topicById).isNotPresent();
   }
 
   @Test
@@ -87,7 +77,6 @@ class TopicServiceTenantAwareIT {
     var topicById = topicService.findTopicById(4L);
 
     // then
-    assertThat(topicById)
-        .isNotPresent();
+    assertThat(topicById).isNotPresent();
   }
 }

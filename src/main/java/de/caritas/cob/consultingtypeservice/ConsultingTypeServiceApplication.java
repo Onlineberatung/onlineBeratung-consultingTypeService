@@ -9,5 +9,4 @@ public class ConsultingTypeServiceApplication {
   public static void main(String[] args) {
     SpringApplication.run(ConsultingTypeServiceApplication.class, args);
   }
-
 }

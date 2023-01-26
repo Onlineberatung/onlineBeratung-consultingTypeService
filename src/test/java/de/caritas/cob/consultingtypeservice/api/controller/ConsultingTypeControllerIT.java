@@ -51,49 +51,38 @@ import org.springframework.test.web.servlet.MockMvc;
 public class ConsultingTypeControllerIT {
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
-  @Autowired
-  private MockMvc mvc;
-  @MockBean
-  private ConsultingTypeService consultingTypeService;
-  @MockBean
-  private ConsultingTypeGroupService consultingTypeGroupService;
-  @MockBean
-  private LinkDiscoverers linkDiscoverers;
-  @MockBean
-  private TenantResolver tenantResolver;
+  @Autowired private MockMvc mvc;
+  @MockBean private ConsultingTypeService consultingTypeService;
+  @MockBean private ConsultingTypeGroupService consultingTypeGroupService;
+  @MockBean private LinkDiscoverers linkDiscoverers;
+  @MockBean private TenantResolver tenantResolver;
   private final ConsultingTypeConverter consultingTypeConverter = new ConsultingTypeConverter();
 
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()
       throws Exception {
 
-    when(consultingTypeService.fetchBasicConsultingTypesList())
-        .thenReturn(null);
+    when(consultingTypeService.fetchBasicConsultingTypesList()).thenReturn(null);
 
-    mvc.perform(
-            get(PATH_GET_BASIC_CONSULTING_TYPE_LIST)
-                .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(get(PATH_GET_BASIC_CONSULTING_TYPE_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
   }
 
   @Test
-  public void getBasicConsultingTypeList_Should_ReturnConsultingTypeBasicList()
-      throws Exception {
+  public void getBasicConsultingTypeList_Should_ReturnConsultingTypeBasicList() throws Exception {
 
-    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO = BasicConsultingTypeMapper
-        .mapConsultingType(HelperMethods.getConsultingType());
+    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO =
+        BasicConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType());
     BasicConsultingTypeResponseDTO[] basicConsultingTypeResponseDTOArray = {
-        basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO};
-    String basicConsultingTypeResponseDTOJson = new ObjectMapper()
-        .writeValueAsString(basicConsultingTypeResponseDTOArray);
+      basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO
+    };
+    String basicConsultingTypeResponseDTOJson =
+        new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTOArray);
 
     when(consultingTypeService.fetchBasicConsultingTypesList())
-        .thenReturn(Arrays.asList(basicConsultingTypeResponseDTO,
-            basicConsultingTypeResponseDTO));
+        .thenReturn(Arrays.asList(basicConsultingTypeResponseDTO, basicConsultingTypeResponseDTO));
 
-    mvc.perform(
-        get(PATH_GET_BASIC_CONSULTING_TYPE_LIST)
-            .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(get(PATH_GET_BASIC_CONSULTING_TYPE_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(json().isEqualTo(basicConsultingTypeResponseDTOJson));
   }
@@ -103,15 +92,16 @@ public class ConsultingTypeControllerIT {
 
     Integer consultingTypeId = 1;
     when(consultingTypeService.fetchFullConsultingTypeSettingsById(consultingTypeId))
-        .thenReturn(FullConsultingTypeMapper
-            .mapConsultingType(HelperMethods.getConsultingType()));
+        .thenReturn(FullConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType()));
 
     mvc.perform(
-        get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json()
-            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
+        .andExpect(
+            json()
+                .isEqualTo(
+                    removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -123,8 +113,8 @@ public class ConsultingTypeControllerIT {
         .thenThrow(new NotFoundException("Not found"));
 
     mvc.perform(
-        get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
   }
@@ -134,15 +124,16 @@ public class ConsultingTypeControllerIT {
 
     String consultingTypeSlug = "consultingtype0";
     when(consultingTypeService.fetchFullConsultingTypeSettingsBySlug(consultingTypeSlug))
-        .thenReturn(FullConsultingTypeMapper
-            .mapConsultingType(HelperMethods.getConsultingType()));
+        .thenReturn(FullConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType()));
 
     mvc.perform(
-        get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json()
-            .isEqualTo(removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
+        .andExpect(
+            json()
+                .isEqualTo(
+                    removeGroupsNode(HelperMethods.getConsultingTypeSettingsAsJsonString())));
   }
 
   @Test
@@ -154,8 +145,8 @@ public class ConsultingTypeControllerIT {
         .thenThrow(new NotFoundException("Not found"));
 
     mvc.perform(
-        get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_FULL_CONSULTING_TYPE_BY_SLUG, consultingTypeSlug))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
   }
@@ -164,17 +155,19 @@ public class ConsultingTypeControllerIT {
   public void getExtendedConsultingTypeById_Should_ReturnFullConsultingTypeDTO() throws Exception {
 
     Integer consultingTypeId = 1;
-    ExtendedConsultingTypeResponseDTO extendedConsultingTypeResponseDTO = ExtendedConsultingTypeMapper
-        .mapConsultingType(HelperMethods.getConsultingType());
+    ExtendedConsultingTypeResponseDTO extendedConsultingTypeResponseDTO =
+        ExtendedConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType());
     when(consultingTypeService.fetchExtendedConsultingTypeSettingsById(consultingTypeId))
         .thenReturn(extendedConsultingTypeResponseDTO);
 
     mvc.perform(
-        get(String.format(PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json()
-            .isEqualTo(new ObjectMapper().writeValueAsString(extendedConsultingTypeResponseDTO)));
+        .andExpect(
+            json()
+                .isEqualTo(
+                    new ObjectMapper().writeValueAsString(extendedConsultingTypeResponseDTO)));
   }
 
   @Test
@@ -186,28 +179,28 @@ public class ConsultingTypeControllerIT {
         .thenThrow(new NotFoundException("Not found"));
 
     mvc.perform(
-        get(String.format(PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_EXTENDED_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
-
   }
 
   @Test
   public void getBasicConsultingTypeById_Should_ReturnBasicConsultingTypeDTO() throws Exception {
 
     Integer consultingTypeId = 1;
-    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO = BasicConsultingTypeMapper
-        .mapConsultingType(HelperMethods.getConsultingType());
+    BasicConsultingTypeResponseDTO basicConsultingTypeResponseDTO =
+        BasicConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType());
     when(consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingTypeId))
         .thenReturn(basicConsultingTypeResponseDTO);
 
     mvc.perform(
-        get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(json()
-            .isEqualTo(new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTO)));
+        .andExpect(
+            json()
+                .isEqualTo(new ObjectMapper().writeValueAsString(basicConsultingTypeResponseDTO)));
   }
 
   @Test
@@ -219,11 +212,10 @@ public class ConsultingTypeControllerIT {
         .thenThrow(new NotFoundException("Not found"));
 
     mvc.perform(
-        get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
-            .accept(MediaType.APPLICATION_JSON))
+            get(String.format(PATH_GET_BASIC_CONSULTING_TYPE_BY_ID, consultingTypeId))
+                .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(json().isStringEqualTo(StringUtils.EMPTY));
-
   }
 
   @Test
@@ -233,9 +225,7 @@ public class ConsultingTypeControllerIT {
     when(consultingTypeGroupService.fetchConsultingTypeGroupList())
         .thenReturn(Collections.emptyList());
 
-    mvc.perform(
-        get(PATH_GET_CONSULTING_TYPE_GROUPS)
-            .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(get(PATH_GET_CONSULTING_TYPE_GROUPS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
   }
 
@@ -243,18 +233,15 @@ public class ConsultingTypeControllerIT {
   public void getConsultingTypeGroups_Should_ReturnListOfConsultingTypeGroupResponseDTO()
       throws Exception {
 
-    var consultingTypeGroupsReponseJson = HelperMethods
-        .loadConsultingTypeGroupResponseAsJsonString();
+    var consultingTypeGroupsReponseJson =
+        HelperMethods.loadConsultingTypeGroupResponseAsJsonString();
     var consultingTypeGroupsResponse = HelperMethods.loadConsultingTypeGroupResponse();
     when(consultingTypeGroupService.fetchConsultingTypeGroupList())
         .thenReturn(consultingTypeGroupsResponse);
 
-    mvc.perform(
-        get(PATH_GET_CONSULTING_TYPE_GROUPS)
-            .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(get(PATH_GET_CONSULTING_TYPE_GROUPS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(json().isEqualTo(consultingTypeGroupsReponseJson));
-
   }
 
   @Test
@@ -264,11 +251,8 @@ public class ConsultingTypeControllerIT {
     when(consultingTypeGroupService.fetchConsultingTypeGroupList())
         .thenThrow(new UnexpectedErrorException());
 
-    mvc.perform(
-            get(PATH_GET_CONSULTING_TYPE_GROUPS)
-                .accept(MediaType.APPLICATION_JSON))
+    mvc.perform(get(PATH_GET_CONSULTING_TYPE_GROUPS).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isInternalServerError());
-
   }
 
   @Test
@@ -276,9 +260,7 @@ public class ConsultingTypeControllerIT {
       throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
-        new EasyRandom().nextObject(ConsultingTypeDTO.class)
-            .voluntaryComponents(null)
-            .roles(null);
+        new EasyRandom().nextObject(ConsultingTypeDTO.class).voluntaryComponents(null).roles(null);
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     // when
@@ -298,5 +280,4 @@ public class ConsultingTypeControllerIT {
     jsonObject.remove("groups");
     return jsonObject.toString();
   }
-
 }

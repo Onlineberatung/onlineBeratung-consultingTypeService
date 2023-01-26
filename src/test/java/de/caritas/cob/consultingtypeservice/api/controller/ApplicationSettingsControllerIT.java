@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
-
 import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TENANT_ADMIN;
 import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TOPIC_ADMIN;
 import static org.mockito.Mockito.mock;
@@ -53,26 +52,21 @@ class ApplicationSettingsControllerIT {
 
   private MockMvc mockMvc;
 
-  @Autowired
-  private WebApplicationContext context;
+  @Autowired private WebApplicationContext context;
 
-  @Autowired
-  private ApplicationSettingsRepository applicationSettingsRepository;
+  @Autowired private ApplicationSettingsRepository applicationSettingsRepository;
 
   @BeforeEach
   public void setup() {
     TenantContext.clear();
-    mockMvc = MockMvcBuilders
-        .webAppContextSetup(context)
-        .apply(springSecurity())
-        .build();
+    mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
   }
 
   @Test
   void getApplicationSettings_Should_ReturnApplicationSettings_When_UserIsNotAuthenticated()
       throws Exception {
-    mockMvc.perform(
-                    MockMvcRequestBuilders.get("/settings").accept(APPLICATION_JSON))
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/settings").accept(APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.value").value(true))
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
@@ -85,7 +79,8 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.disableVideoAppointments.value").value(true))
         .andExpect(jsonPath("$.disableVideoAppointments.readOnly").value(false))
         .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.value").value("app"))
-        .andExpect(jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false))
+        .andExpect(
+            jsonPath("$.mainTenantSubdomainForSingleDomainMultitenancy.readOnly").value(false))
         .andExpect(jsonPath("$.budibaseAuthClientId.value").value("budibaseAuthClientId"))
         .andExpect(jsonPath("$.budibaseAuthClientId.readOnly").value(false))
         .andExpect(jsonPath("$.calcomUrl.value").value("calcomUrl"))
@@ -96,12 +91,14 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.calendarAppUrl.readOnly").value(false))
         .andExpect(jsonPath("$.useOverviewPage.value").value(false))
         .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false))
-            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(true))
-            .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false));
+        .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(true))
+        .andExpect(
+            jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false));
   }
 
   @Test
-  void patchApplicationSettings_Should_ReturnUpdatedApplicationSettings_When_PatchOperationSuccessful()
+  void
+      patchApplicationSettings_Should_ReturnUpdatedApplicationSettings_When_PatchOperationSuccessful()
           throws Exception {
     // given
     giveApplicationSettingEntityWithDynamicReleaseToggles();
@@ -109,19 +106,23 @@ class ApplicationSettingsControllerIT {
     Authentication authentication = builder.withUserRole(TENANT_ADMIN.getValue()).build();
     ApplicationSettingsPatchDTO patchDTO = new ApplicationSettingsPatchDTO();
     patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
-        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled().value(false)
+        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled()
+            .value(false)
             .readOnly(true));
     patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy(
-        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy().value("app2")
+        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy()
+            .value("app2")
             .readOnly(true));
     String jsonRequest = JsonConverter.convertToJson(patchDTO);
-    mockMvc.perform(patch("/settingsadmin")
-            .with(authentication(authentication))
-            .header("csrfHeader", "csrfToken")
-            .cookie(new Cookie("csrfCookie", "csrfToken"))
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-            .content(jsonRequest)
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            patch("/settingsadmin")
+                .with(authentication(authentication))
+                .header("csrfHeader", "csrfToken")
+                .cookie(new Cookie("csrfCookie", "csrfToken"))
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .content(jsonRequest)
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.value").value(true))
         .andExpect(jsonPath("$.multitenancyWithSingleDomainEnabled.readOnly").value(true))
@@ -160,37 +161,43 @@ class ApplicationSettingsControllerIT {
     patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
         new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled().value(true).readOnly(true));
     patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy(
-        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy().value("app")
+        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy()
+            .value("app")
             .readOnly(true));
     var jsonRequest = JsonConverter.convertToJson(patchDTO);
-    mockMvc.perform(patch("/settingsadmin")
-            .with(authentication(authentication))
-            .header("csrfHeader", "csrfToken")
-            .cookie(new Cookie("csrfCookie", "csrfToken"))
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-            .content(jsonRequest)
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            patch("/settingsadmin")
+                .with(authentication(authentication))
+                .header("csrfHeader", "csrfToken")
+                .cookie(new Cookie("csrfCookie", "csrfToken"))
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .content(jsonRequest)
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
   }
 
-
   @Test
-  void patchApplicationSettings_Should_ReturnForbidden_When_UserNameDoesNotHavePermissionToPatchSettings()
+  void
+      patchApplicationSettings_Should_ReturnForbidden_When_UserNameDoesNotHavePermissionToPatchSettings()
           throws Exception {
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
 
     ApplicationSettingsPatchDTO patchDTO = new ApplicationSettingsPatchDTO();
     patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
-        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled().value(false)
+        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled()
+            .value(false)
             .readOnly(true));
     String jsonRequest = JsonConverter.convertToJson(patchDTO);
-    mockMvc.perform(patch("/settingsadmin")
-            .with(authentication(builder.withUserRole(TOPIC_ADMIN.getValue()).build()))
-            .header("csrfHeader", "csrfToken")
-            .cookie(new Cookie("csrfCookie", "csrfToken"))
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-            .content(jsonRequest)
-            .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            patch("/settingsadmin")
+                .with(authentication(builder.withUserRole(TOPIC_ADMIN.getValue()).build()))
+                .header("csrfHeader", "csrfToken")
+                .cookie(new Cookie("csrfCookie", "csrfToken"))
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .content(jsonRequest)
+                .contentType(javax.ws.rs.core.MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden());
   }
 
@@ -207,10 +214,10 @@ class ApplicationSettingsControllerIT {
     final var token = mock(AccessToken.class, Mockito.RETURNS_DEEP_STUBS);
     when(securityContext.getToken()).thenReturn(token);
     givenOtherClaimsAreDefinedForToken(token);
-    final KeycloakAccount mockAccount = new SimpleKeycloakAccount(() -> "user", Sets.newHashSet(),
-        securityContext);
-    return new KeycloakAuthenticationToken(mockAccount, true,
-        Lists.newArrayList((GrantedAuthority) authority::getValue));
+    final KeycloakAccount mockAccount =
+        new SimpleKeycloakAccount(() -> "user", Sets.newHashSet(), securityContext);
+    return new KeycloakAuthenticationToken(
+        mockAccount, true, Lists.newArrayList((GrantedAuthority) authority::getValue));
   }
 
   private void givenOtherClaimsAreDefinedForToken(final AccessToken token) {

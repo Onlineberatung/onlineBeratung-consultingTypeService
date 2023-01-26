@@ -1,7 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsPatchDTO;
@@ -35,15 +33,19 @@ public class ApplicationSettingsServiceFacade {
     }
   }
 
-  private void convertPatchedValues(ApplicationSettingsPatchDTO settingsPatchDTO, ApplicationSettingsEntity entity) {
+  private void convertPatchedValues(
+      ApplicationSettingsPatchDTO settingsPatchDTO, ApplicationSettingsEntity entity) {
     if (settingsPatchDTO.getLegalContentChangesBySingleTenantAdminsAllowed() != null) {
-      entity.getLegalContentChangesBySingleTenantAdminsAllowed()
+      entity
+          .getLegalContentChangesBySingleTenantAdminsAllowed()
           .setValue(
               settingsPatchDTO.getLegalContentChangesBySingleTenantAdminsAllowed().getValue());
     }
     if (settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy() != null) {
-      entity.getMainTenantSubdomainForSingleDomainMultitenancy().setValue(
-          settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy().getValue());
+      entity
+          .getMainTenantSubdomainForSingleDomainMultitenancy()
+          .setValue(
+              settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy().getValue());
     }
   }
 }

@@ -13,8 +13,8 @@ public class CustomSwaggerUIPathWebMvcConfigurer implements WebMvcConfigurer {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler(docuPath + "/**")
+    registry
+        .addResourceHandler(docuPath + "/**")
         .addResourceLocations("classpath:/META-INF/resources/");
   }
-
 }

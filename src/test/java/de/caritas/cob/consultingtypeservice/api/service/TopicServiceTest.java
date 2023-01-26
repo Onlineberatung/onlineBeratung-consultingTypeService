@@ -7,7 +7,6 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
 import de.caritas.cob.consultingtypeservice.api.repository.TopicRepository;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TopicServiceTest {
 
-  @InjectMocks
-  TopicService topicService;
+  @InjectMocks TopicService topicService;
 
-  @Mock
-  TopicRepository topicRepository;
+  @Mock TopicRepository topicRepository;
 
   @AfterEach
   void tearDown() {
@@ -45,7 +42,6 @@ class TopicServiceTest {
     topicService.getAllActiveTopics();
     // Then
     verify(topicRepository).findAllActive();
-
   }
 
   @Test

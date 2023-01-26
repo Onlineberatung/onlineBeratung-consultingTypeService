@@ -25,26 +25,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 public class ConsultingTypeGroupRepositoryIT {
 
-  @Autowired
-  private ConsultingTypeLoader consultingTypeLoader;
+  @Autowired private ConsultingTypeLoader consultingTypeLoader;
 
-  @Autowired
-  private ConsultingTypeGroupRepository consultingTypeGroupRepository;
+  @Autowired private ConsultingTypeGroupRepository consultingTypeGroupRepository;
 
   @Test
   public void getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups() {
 
-    Map<String, List<ConsultingType>> result = consultingTypeGroupRepository
-        .getConsultingTypesGroupMap();
+    Map<String, List<ConsultingType>> result =
+        consultingTypeGroupRepository.getConsultingTypesGroupMap();
 
     assertThat(result, notNullValue());
     final String GROUP_1 = "group1";
     final int CONSULTING_TYPE_ID_0 = 0;
     assertThat(result.get(GROUP_1), hasSize(1));
     assertThat(result.get(GROUP_1).get(0).getId(), is(CONSULTING_TYPE_ID_0));
-    assertThat(
-        result.get(GROUP_1).get(0).getGroups().contains(GROUP_1),
-        is(true));
+    assertThat(result.get(GROUP_1).get(0).getGroups().contains(GROUP_1), is(true));
     final String GROUP_2 = "group2";
     final String GROUP_3 = "group3";
     final int CONSULTING_TYPE_ID_1 = 1;
@@ -54,9 +50,11 @@ public class ConsultingTypeGroupRepositoryIT {
     assertThat(result, IsMapContaining.hasKey(GROUP_3));
     assertThat(result, IsMapContaining.hasKey(GROUP_1));
     assertThat(result.get(GROUP_1).get(0).getId(), is(CONSULTING_TYPE_ID_0));
-    assertThat(result.get(GROUP_2), containsInAnyOrder(
-        hasProperty("id", is(CONSULTING_TYPE_ID_1)),
-        hasProperty("id", is(CONSULTING_TYPE_ID_2))));
+    assertThat(
+        result.get(GROUP_2),
+        containsInAnyOrder(
+            hasProperty("id", is(CONSULTING_TYPE_ID_1)),
+            hasProperty("id", is(CONSULTING_TYPE_ID_2))));
     assertThat(result.get(GROUP_3).get(0).getId(), is(CONSULTING_TYPE_ID_1));
   }
 }

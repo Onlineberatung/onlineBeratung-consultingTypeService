@@ -29,12 +29,13 @@ public class TopicConverter {
   public static final String DE = "de";
 
   public TopicDTO toDTO(final TopicEntity topic, final String lang) {
-    final var topicDTO = new TopicDTO()
-        .id(topic.getId())
-        .name(getTranslatedStringFromMap(topic.getName(), lang))
-        .description(getTranslatedStringFromMap(topic.getDescription(), lang))
-        .status(topic.getStatus().name())
-        .internalIdentifier(topic.getInternalIdentifier());
+    final var topicDTO =
+        new TopicDTO()
+            .id(topic.getId())
+            .name(getTranslatedStringFromMap(topic.getName(), lang))
+            .description(getTranslatedStringFromMap(topic.getDescription(), lang))
+            .status(topic.getStatus().name())
+            .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicDTO.setCreateDate(topic.getCreateDate().toString());
     }
@@ -50,12 +51,13 @@ public class TopicConverter {
   }
 
   public TopicMultilingualDTO toMultilingualDTO(final TopicEntity topic) {
-    final var topicMultilingualDTO = new TopicMultilingualDTO()
-        .id(topic.getId())
-        .name(convertMapFromJson(topic.getName()))
-        .description(convertMapFromJson(topic.getDescription()))
-        .status(topic.getStatus().name())
-        .internalIdentifier(topic.getInternalIdentifier());
+    final var topicMultilingualDTO =
+        new TopicMultilingualDTO()
+            .id(topic.getId())
+            .name(convertMapFromJson(topic.getName()))
+            .description(convertMapFromJson(topic.getDescription()))
+            .status(topic.getStatus().name())
+            .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicMultilingualDTO.setCreateDate(topic.getCreateDate().toString());
     }
@@ -67,16 +69,12 @@ public class TopicConverter {
 
   public List<TopicMultilingualDTO> toMultilingualDTOList(
       final Collection<TopicEntity> topicEntities) {
-    return topicEntities.stream()
-        .map(this::toMultilingualDTO)
-        .collect(Collectors.toList());
+    return topicEntities.stream().map(this::toMultilingualDTO).collect(Collectors.toList());
   }
 
   public List<TopicDTO> toDTOList(final Collection<TopicEntity> topicEntities) {
     final String lang = translationService.getCurrentLanguageContext();
-    return topicEntities.stream()
-        .map(topic -> toDTO(topic, lang))
-        .collect(Collectors.toList());
+    return topicEntities.stream().map(topic -> toDTO(topic, lang)).collect(Collectors.toList());
   }
 
   public TopicEntity toEntity(final TopicMultilingualDTO topicDTO) {

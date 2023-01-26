@@ -2,10 +2,8 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import java.util.List;
-import org.springframework.beans.PropertyValues;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-
 
 public interface ConsultingTypeRepository extends MongoRepository<ConsultingTypeEntity, String> {
 

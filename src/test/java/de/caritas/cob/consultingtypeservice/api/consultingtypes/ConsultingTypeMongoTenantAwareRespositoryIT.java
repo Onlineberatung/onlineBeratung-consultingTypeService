@@ -26,18 +26,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "multitenancy.enabled=true")
-@TestPropertySource(properties = "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
+@TestPropertySource(
+    properties =
+        "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
 public class ConsultingTypeMongoTenantAwareRespositoryIT {
 
   private static final long FIRST_TENANT = 1L;
   private static final long SECOND_TENANT = 2L;
   private final String MONGO_COLLECTION_NAME = "consulting_types";
 
-  @Autowired
-  private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  @Autowired private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
-  @Autowired
-  MongoTemplate mongoTemplate;
+  @Autowired MongoTemplate mongoTemplate;
 
   @Before
   public void initializeMongoDbWithData() throws IOException {
@@ -53,8 +53,7 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     ConsultingType consultingType =
         objectMapper.readValue(
             new ClassPathResource("consulting-type-settings-tenant-specific/" + fileName).getFile(),
-            new TypeReference<>() {
-            });
+            new TypeReference<>() {});
     mongoTemplate.insert(consultingType, MONGO_COLLECTION_NAME);
   }
 
@@ -65,11 +64,13 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    ConsultingType result = consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(consultingTypeId,
-        FIRST_TENANT);
+    ConsultingType result =
+        consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(
+            consultingTypeId, FIRST_TENANT);
 
-    ConsultingType resultForAnotherTenant = consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(consultingTypeId,
-        SECOND_TENANT);
+    ConsultingType resultForAnotherTenant =
+        consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(
+            consultingTypeId, SECOND_TENANT);
 
     // then
     assertThat(consultingTypeId).isEqualTo(result.getId());
@@ -84,8 +85,10 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    ConsultingTypeEntity result = consultingTypeMongoTenantAwareRepository.findByTenantId((int) FIRST_TENANT);
-    ConsultingTypeEntity resultForAnotherTenant = consultingTypeMongoTenantAwareRepository.findByTenantId(2);
+    ConsultingTypeEntity result =
+        consultingTypeMongoTenantAwareRepository.findByTenantId((int) FIRST_TENANT);
+    ConsultingTypeEntity resultForAnotherTenant =
+        consultingTypeMongoTenantAwareRepository.findByTenantId(2);
     // then
     assertThat(consultingTypeId).isEqualTo(result.getId());
     assertThat(slug).isEqualTo(result.getSlug());
@@ -102,7 +105,8 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    ConsultingType result = consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId);
+    ConsultingType result =
+        consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(consultingTypeId);
 
     // then
     assertThat(consultingTypeId).isEqualTo(result.getId());
@@ -116,11 +120,11 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     String slug = "consultingtype10";
 
     // when
-    List<ConsultingTypeEntity> result = consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug,
-        FIRST_TENANT);
+    List<ConsultingTypeEntity> result =
+        consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug, FIRST_TENANT);
 
-    List<ConsultingTypeEntity> resultForAnotherTenant = consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug,
-        SECOND_TENANT);
+    List<ConsultingTypeEntity> resultForAnotherTenant =
+        consultingTypeMongoTenantAwareRepository.findBySlugAndTenantId(slug, SECOND_TENANT);
 
     // then
     assertThat(consultingTypeId).isEqualTo(result.get(0).getId());
@@ -145,13 +149,13 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
   @Test
   public void findAllHavingTenantId_Should_ReturnFilteredListOfConsultingTypes() {
     // given
-    List<ConsultingTypeEntity> result1 = consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
-        FIRST_TENANT);
+    List<ConsultingTypeEntity> result1 =
+        consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(FIRST_TENANT);
     assertThat(result1).hasSize(1);
 
     // when
-    List<ConsultingTypeEntity> result2 = consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
-        SECOND_TENANT);
+    List<ConsultingTypeEntity> result2 =
+        consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(SECOND_TENANT);
 
     // then
     assertThat(result2).hasSize(1);
@@ -164,5 +168,4 @@ public class ConsultingTypeMongoTenantAwareRespositoryIT {
     // then
     assertThat(result).hasSize(3);
   }
-
 }

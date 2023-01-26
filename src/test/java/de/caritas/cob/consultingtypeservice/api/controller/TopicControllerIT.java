@@ -32,26 +32,21 @@ class TopicControllerIT {
 
   private MockMvc mockMvc;
 
-  @Autowired
-  private WebApplicationContext context;
+  @Autowired private WebApplicationContext context;
 
   @BeforeEach
   public void setup() {
     TenantContext.clear();
-    mockMvc = MockMvcBuilders
-        .webAppContextSetup(context)
-        .apply(springSecurity())
-        .build();
+    mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
   }
 
   @Test
-  void getTopicList_Should_ReturnTopicsList_When_UserIsAuthenticated()
-      throws Exception {
+  void getTopicList_Should_ReturnTopicsList_When_UserIsAuthenticated() throws Exception {
     final AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
-    mockMvc.perform(
+    mockMvc
+        .perform(
             get(TopicPathConstants.PATH_GET_TOPIC_LIST)
-                .with(
-                    authentication(builder.withUserRole(UserRole.TOPIC_ADMIN.getValue()).build()))
+                .with(authentication(builder.withUserRole(UserRole.TOPIC_ADMIN.getValue()).build()))
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(greaterThan(1))))
@@ -65,7 +60,8 @@ class TopicControllerIT {
   @Test
   void getAllActiveTopics_Should_returnActiveTopicsList() throws Exception {
     TenantContext.clear();
-    mockMvc.perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(2)))
         .andExpect(jsonPath("$[0].id").exists())
@@ -76,11 +72,9 @@ class TopicControllerIT {
   }
 
   @Test
-  void getTopicList_Should_ReturnForbidden_When_UserIsNotAuthenticated()
-      throws Exception {
-    mockMvc.perform(
-            get(TopicPathConstants.PATH_GET_TOPIC_LIST)
-                .accept(MediaType.APPLICATION_JSON))
+  void getTopicList_Should_ReturnForbidden_When_UserIsNotAuthenticated() throws Exception {
+    mockMvc
+        .perform(get(TopicPathConstants.PATH_GET_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden());
   }
 }

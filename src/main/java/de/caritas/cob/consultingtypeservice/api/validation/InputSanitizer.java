@@ -16,11 +16,7 @@ public class InputSanitizer {
 
   public Map<String, String> sanitize(final Map<String, String> inputByLanguage) {
     if (!isNull(inputByLanguage)) {
-      inputByLanguage
-          .entrySet()
-          .forEach(
-              entry ->
-                  entry.setValue(sanitize(entry.getValue())));
+      inputByLanguage.entrySet().forEach(entry -> entry.setValue(sanitize(entry.getValue())));
     }
     return inputByLanguage;
   }

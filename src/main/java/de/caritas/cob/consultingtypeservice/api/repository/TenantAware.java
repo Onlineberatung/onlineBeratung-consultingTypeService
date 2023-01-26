@@ -1,8 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api.repository;
 
-/**
- * Marker interface for entities that need to support tenant feature.
- */
+/** Marker interface for entities that need to support tenant feature. */
 public interface TenantAware {
 
   /**
@@ -12,8 +10,6 @@ public interface TenantAware {
    */
   void setTenantId(Long tenantId);
 
-  /**
-   * Returns tenantId from given entity.
-   */
+  /** Returns tenantId from given entity. */
   Long getTenantId();
 }

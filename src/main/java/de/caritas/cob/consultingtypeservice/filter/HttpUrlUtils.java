@@ -2,7 +2,6 @@ package de.caritas.cob.consultingtypeservice.filter;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-
 public class HttpUrlUtils {
 
   private HttpUrlUtils() {}

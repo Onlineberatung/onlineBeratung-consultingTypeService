@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.filter;
 
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,17 +29,13 @@ public class StatelessCsrfFilterTest {
 
   private final StatelessCsrfFilter csrfFilter = new StatelessCsrfFilter(CSRF_COOKIE, CSRF_HEADER);
 
-  @Mock
-  private HttpServletRequest request;
+  @Mock private HttpServletRequest request;
 
-  @Mock
-  private HttpServletResponse response;
+  @Mock private HttpServletResponse response;
 
-  @Mock
-  private FilterChain filterChain;
+  @Mock private FilterChain filterChain;
 
-  @Mock
-  private AccessDeniedHandler accessDeniedHandler;
+  @Mock private AccessDeniedHandler accessDeniedHandler;
 
   @Before
   public void setup() {
@@ -100,8 +95,9 @@ public class StatelessCsrfFilterTest {
   }
 
   @Test
-  public void doFilterInternal_Should_callAccessDeniedHandler_When_csrfHeaderIsNotEqualToCookieToken()
-      throws IOException, ServletException {
+  public void
+      doFilterInternal_Should_callAccessDeniedHandler_When_csrfHeaderIsNotEqualToCookieToken()
+          throws IOException, ServletException {
     when(request.getRequestURI()).thenReturn("uri");
     when(request.getMethod()).thenReturn("POST");
     when(request.getHeader(CSRF_HEADER)).thenReturn("csrfHeaderTokenValue");
@@ -113,5 +109,4 @@ public class StatelessCsrfFilterTest {
     verify(this.accessDeniedHandler, times(1)).handle(any(), any(), any());
     verifyNoMoreInteractions(this.filterChain);
   }
-
 }

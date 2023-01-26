@@ -16,9 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
-/**
- * Controller for consulting type API requests.
- */
+/** Controller for consulting type API requests. */
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "applicationsettings-controller")
@@ -40,16 +38,19 @@ public class ApplicationSettingsController implements SettingsApi, Settingsadmin
   @Override
   public ResponseEntity<ApplicationSettingsDTO> getApplicationSettings() {
     var settings = applicationSettingsServiceFacade.getApplicationSettings();
-    return settings.isPresent() ? new ResponseEntity<>(settings.get(), HttpStatus.OK) :
-        new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return settings.isPresent()
+        ? new ResponseEntity<>(settings.get(), HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @Override
   @PreAuthorize("hasAuthority('AUTHORIZATION_PATCH_APPLICATION_SETTINGS')")
-  public ResponseEntity<ApplicationSettingsDTO> patchApplicationSettings(ApplicationSettingsPatchDTO settingsPatchDTO) {
+  public ResponseEntity<ApplicationSettingsDTO> patchApplicationSettings(
+      ApplicationSettingsPatchDTO settingsPatchDTO) {
     applicationSettingsServiceFacade.patchApplicationSettings(settingsPatchDTO);
     var settings = applicationSettingsServiceFacade.getApplicationSettings();
-    return settings.isPresent() ? new ResponseEntity<>(settings.get(), HttpStatus.OK) :
-            new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return settings.isPresent()
+        ? new ResponseEntity<>(settings.get(), HttpStatus.OK)
+        : new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

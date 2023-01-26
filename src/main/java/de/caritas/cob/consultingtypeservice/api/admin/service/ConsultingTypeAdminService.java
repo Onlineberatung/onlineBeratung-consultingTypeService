@@ -17,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 
-/**
- * Service class to handle administrative operations on consulting types.
- */
+/** Service class to handle administrative operations on consulting types. */
 @Service
 @RequiredArgsConstructor
 public class ConsultingTypeAdminService {
@@ -29,41 +27,46 @@ public class ConsultingTypeAdminService {
   /**
    * Returns all dioceses within the given page and perPage offsets.
    *
-   * @param page    Number of page where to start in the query (1 = first page) (required) * @param
+   * @param page Number of page where to start in the query (1 = first page) (required) * @param
    * @param perPage Number of items which are being returned per page (required)
    * @return {@link ConsultingTypeAdminResultDTO}
    */
   public ConsultingTypeAdminResultDTO findConsultingTypes(Integer page, Integer perPage) {
-    PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder = new PagedListHolder<>(
-        fullSortedExtendedConsultingTypeResponseList());
+    PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder =
+        new PagedListHolder<>(fullSortedExtendedConsultingTypeResponseList());
     pagedListHolder.setPageSize(Math.max(perPage, 1));
     pagedListHolder.setPage(currentPage(page, pagedListHolder));
 
     return new ConsultingTypeAdminResultDTO()
-        .embedded(page > pagedListHolder.getPageCount() ? Collections.emptyList()
-            : pagedListHolder.getPageList())
+        .embedded(
+            page > pagedListHolder.getPageCount()
+                ? Collections.emptyList()
+                : pagedListHolder.getPageList())
         .links(buildPaginationLinks(page, perPage, pagedListHolder))
         .total(pagedListHolder.getNrOfElements());
   }
 
   private List<ExtendedConsultingTypeResponseDTO> fullSortedExtendedConsultingTypeResponseList() {
 
-    return consultingTypeRepositoryService.getListOfConsultingTypes()
-        .stream()
+    return consultingTypeRepositoryService.getListOfConsultingTypes().stream()
         .sorted(Comparator.comparing(ConsultingType::getSlug))
-        .map(ct -> ConsultingTypeMapper.mapConsultingType(ct, ExtendedConsultingTypeMapper::mapConsultingType))
+        .map(
+            ct ->
+                ConsultingTypeMapper.mapConsultingType(
+                    ct, ExtendedConsultingTypeMapper::mapConsultingType))
         .collect(Collectors.toList());
   }
 
-  private Integer currentPage(Integer page,
-      PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder) {
+  private Integer currentPage(
+      Integer page, PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder) {
     return Math.max(page < pagedListHolder.getPageCount() ? page - 1 : page, 0);
   }
 
-  private PaginationLinks buildPaginationLinks(Integer page, Integer perPage,
+  private PaginationLinks buildPaginationLinks(
+      Integer page,
+      Integer perPage,
       PagedListHolder<ExtendedConsultingTypeResponseDTO> pagedListHolder) {
-    return ConsultingTypePaginationLinksBuilder
-        .getInstance()
+    return ConsultingTypePaginationLinksBuilder.getInstance()
         .withPage(page)
         .withPerPage(perPage)
         .withPagedListHolder(pagedListHolder)

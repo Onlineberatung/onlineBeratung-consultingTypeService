@@ -8,7 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum UserRole {
-
   TOPIC_ADMIN("topic-admin"),
   TENANT_ADMIN("tenant-admin");
 

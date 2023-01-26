@@ -21,11 +21,9 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
   private static final long TECHNICAL_TENANT_CONTEXT = 0L;
   private static final long NON_TECHNICAL_TENANT_CONTEXT = 1L;
 
-  @Mock
-  private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  @Mock private ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
-  @Mock
-  private ConsultingTypeConverter consultingTypeConverter;
+  @Mock private ConsultingTypeConverter consultingTypeConverter;
 
   @InjectMocks
   ConsultingTypeMongoTenantAwareRepositoryService consultingTypeMongoTenantAwareRepositoryService;
@@ -51,54 +49,67 @@ class ConsultingTypeMongoTenantAwareRepositoryServiceTest {
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
     consultingTypeMongoTenantAwareRepositoryService.getListOfConsultingTypes();
     // then
-    verify(consultingTypeMongoTenantAwareRepository).findAllHavingTenantId(
-        NON_TECHNICAL_TENANT_CONTEXT);
+    verify(consultingTypeMongoTenantAwareRepository)
+        .findAllHavingTenantId(NON_TECHNICAL_TENANT_CONTEXT);
     verify(consultingTypeConverter).convertList(Mockito.anyList());
   }
 
   @Test
-  void getConsultingTypeById_Should_getConsultingTypeByIdAndNotFilterByTenantIdForTechnicalTenantContext() {
+  void
+      getConsultingTypeById_Should_getConsultingTypeByIdAndNotFilterByTenantIdForTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(TECHNICAL_TENANT_CONTEXT);
-    Mockito.when(consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(1)).thenReturn(new ConsultingTypeEntity());
+    Mockito.when(consultingTypeMongoTenantAwareRepository.findByConsultingTypeId(1))
+        .thenReturn(new ConsultingTypeEntity());
     consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1);
     // then
     verify(consultingTypeMongoTenantAwareRepository).findByConsultingTypeId(1);
   }
 
   @Test
-  void getConsultingTypeById_Should_getConsultingTypeByIdAndFilterByTenantIdForNonTechnicalTenantContext() {
+  void
+      getConsultingTypeById_Should_getConsultingTypeByIdAndFilterByTenantIdForNonTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
-    Mockito.when(consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(1, NON_TECHNICAL_TENANT_CONTEXT)).thenReturn(new ConsultingTypeEntity());
+    Mockito.when(
+            consultingTypeMongoTenantAwareRepository.findConsultingTypeByIdAndTenantId(
+                1, NON_TECHNICAL_TENANT_CONTEXT))
+        .thenReturn(new ConsultingTypeEntity());
 
     // when
     consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1);
 
     // then
-    verify(consultingTypeMongoTenantAwareRepository).findConsultingTypeByIdAndTenantId(1,
-        NON_TECHNICAL_TENANT_CONTEXT);
+    verify(consultingTypeMongoTenantAwareRepository)
+        .findConsultingTypeByIdAndTenantId(1, NON_TECHNICAL_TENANT_CONTEXT);
   }
 
   @Test
-  void getConsultingTypeById_Should_throwExceptionIfConsultingTypeNotFoundForTechnicalTenantContext() {
+  void
+      getConsultingTypeById_Should_throwExceptionIfConsultingTypeNotFoundForTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(TECHNICAL_TENANT_CONTEXT);
 
     // when, then
-    assertThrows(NotFoundException.class, () -> this.consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1));
+    assertThrows(
+        NotFoundException.class,
+        () -> this.consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1));
   }
 
   @Test
-  void getConsultingTypeById_Should_throwExceptionIfConsultingTypeNotFoundForNonTechnicalTenantContext() {
+  void
+      getConsultingTypeById_Should_throwExceptionIfConsultingTypeNotFoundForNonTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
     // when, then
-    assertThrows(NotFoundException.class, () -> this.consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1));
+    assertThrows(
+        NotFoundException.class,
+        () -> this.consultingTypeMongoTenantAwareRepositoryService.getConsultingTypeById(1));
   }
 
   @Test
-  void isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdFromProvidedConsultingType() {
+  void
+      isConsultingTypeWithGivenSlugPresent_Should_CallFindSlugByTenantIdFromProvidedConsultingType() {
     // given
     TenantContext.setCurrentTenant(NON_TECHNICAL_TENANT_CONTEXT);
     // when

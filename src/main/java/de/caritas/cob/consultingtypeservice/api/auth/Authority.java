@@ -12,12 +12,14 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Authority {
-  TENANT_ADMIN(UserRole.TENANT_ADMIN,
+  TENANT_ADMIN(
+      UserRole.TENANT_ADMIN,
       Lists.newArrayList(
           AuthorityValue.PATCH_APPLICATION_SETTINGS,
           AuthorityValue.CREATE_CONSULTING_TYPE,
           AuthorityValue.PATCH_CONSULTING_TYPE)),
-  TOPIC_ADMIN(UserRole.TOPIC_ADMIN,
+  TOPIC_ADMIN(
+      UserRole.TOPIC_ADMIN,
       Lists.newArrayList(
           AuthorityValue.CREATE_TOPIC,
           AuthorityValue.UPDATE_TOPIC,
@@ -38,9 +40,7 @@ public enum Authority {
 
   public static class AuthorityValue {
 
-    private AuthorityValue() {
-    }
-
+    private AuthorityValue() {}
 
     public static final String PREFIX = "AUTHORIZATION_";
     public static final String PATCH_APPLICATION_SETTINGS = PREFIX + "PATCH_APPLICATION_SETTINGS";
@@ -52,7 +52,5 @@ public enum Authority {
         PREFIX + "GET_ALL_TOPICS_WITH_TRANSLATION";
     public static final String GET_TOPICS_TRANSLATION_BY_ID =
         PREFIX + "GET_TOPICS_TRANSLATION_BY_ID";
-
-
   }
 }

@@ -41,7 +41,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 @ActiveProfiles("testing")
 @AutoConfigureTestDatabase
-public class ConsultingTypeControllerE2EIT {
+class ConsultingTypeControllerE2EIT {
 
   private static final EasyRandom easyRandom = new EasyRandom();
   private static final String CSRF_HEADER = "csrfHeader";
@@ -51,27 +51,23 @@ public class ConsultingTypeControllerE2EIT {
 
   private static final Integer EXISTING_ID = 1;
 
-  @Autowired
-  private MockMvc mvc;
-  @Autowired
-  private ObjectMapper objectMapper;
-  @Autowired
-  private ConsultingTypeConverter consultingTypeConverter;
-
+  @Autowired private MockMvc mvc;
+  @Autowired private ObjectMapper objectMapper;
+  @Autowired private ConsultingTypeConverter consultingTypeConverter;
 
   @Test
-  public void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
+  void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
 
     ConsultingTypeDTO consultingTypeDTO =
-        easyRandom.nextObject(ConsultingTypeDTO.class)
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
             .tenantId(4)
             .slug("test-slug")
             .voluntaryComponents(null);
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
-
 
     FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO, CREATE_ID);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
@@ -93,53 +89,57 @@ public class ConsultingTypeControllerE2EIT {
   }
 
   @Test
-  public void patchConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
+  void patchConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
       throws Exception {
     // given
     ConsultingTypePatchDTO consultingTypeDTO =
-        easyRandom.nextObject(ConsultingTypePatchDTO.class)
+        easyRandom
+            .nextObject(ConsultingTypePatchDTO.class)
             .isVideoCallAllowed(true)
             .languageFormal(true)
-            .welcomeMessage(new ConsultingTypeDTOWelcomeMessage().sendWelcomeMessage(true)
-                .welcomeMessageText("welcome"));
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"));
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-    Authentication authentication = new AuthenticationMockBuilder()
-        .withUserRole(TENANT_ADMIN.getValue()).build();
+    Authentication authentication =
+        new AuthenticationMockBuilder().withUserRole(TENANT_ADMIN.getValue()).build();
 
     // when
-    MvcResult mvcResult = this.mvc
-        .perform(
-            patch(ROOT_PATH + "/" + EXISTING_ID)
-                .with(authentication(authentication))
-                .cookie(CSRF_COOKIE)
-                .header(CSRF_HEADER, CSRF_VALUE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
-        // then
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("id").value(EXISTING_ID))
-        .andExpect(jsonPath("isVideoCallAllowed").value(true))
-        .andExpect(jsonPath("languageFormal").value(true))
-        .andExpect(jsonPath("welcomeMessage.sendWelcomeMessage").value(true))
-        .andExpect(jsonPath("welcomeMessage.welcomeMessageText").value("welcome"))
-        .andReturn();
+    MvcResult mvcResult =
+        this.mvc
+            .perform(
+                patch(ROOT_PATH + "/" + EXISTING_ID)
+                    .with(authentication(authentication))
+                    .cookie(CSRF_COOKIE)
+                    .header(CSRF_HEADER, CSRF_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+            // then
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("id").value(EXISTING_ID))
+            .andExpect(jsonPath("isVideoCallAllowed").value(true))
+            .andExpect(jsonPath("languageFormal").value(true))
+            .andExpect(jsonPath("welcomeMessage.sendWelcomeMessage").value(true))
+            .andExpect(jsonPath("welcomeMessage.welcomeMessageText").value("welcome"))
+            .andReturn();
   }
 
   @Test
-  public void patchConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole()
-      throws Exception {
+  void patchConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole() throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
-        easyRandom.nextObject(ConsultingTypeDTO.class)
+        easyRandom
+            .nextObject(ConsultingTypeDTO.class)
             .tenantId(4)
             .slug("test-slug")
             .voluntaryComponents(null);
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-    Authentication authentication = new AuthenticationMockBuilder()
-        .withUserRole(TOPIC_ADMIN.getValue()).build();
+    Authentication authentication =
+        new AuthenticationMockBuilder().withUserRole(TOPIC_ADMIN.getValue()).build();
 
     // when
     this.mvc
@@ -154,14 +154,14 @@ public class ConsultingTypeControllerE2EIT {
         .andExpect(status().isForbidden());
   }
 
-
   @Test
-  public void getConsultingTypeByTenantId_Should_returnNoContent_When_CalledAsTenantAdminButNoConsultingTypeIfFound()
-      throws Exception {
+  void
+      getConsultingTypeByTenantId_Should_returnNoContent_When_CalledAsTenantAdminButNoConsultingTypeIfFound()
+          throws Exception {
     // given
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-    Authentication authentication = new AuthenticationMockBuilder()
-        .withUserRole(TENANT_ADMIN.getValue()).build();
+    Authentication authentication =
+        new AuthenticationMockBuilder().withUserRole(TENANT_ADMIN.getValue()).build();
     // when
 
     mvc.perform(
@@ -174,15 +174,14 @@ public class ConsultingTypeControllerE2EIT {
   }
 
   @Test
-  public void createConsultingType_Should_return_forbidden_When_userNotHaveRequiredAuthority()
+  void createConsultingType_Should_return_forbidden_When_userNotHaveRequiredAuthority()
       throws Exception {
     // given
-    ConsultingTypeDTO consultingTypeDTO =
-        easyRandom.nextObject(ConsultingTypeDTO.class);
+    ConsultingTypeDTO consultingTypeDTO = easyRandom.nextObject(ConsultingTypeDTO.class);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
-    Authentication authentication = new AuthenticationMockBuilder()
-        .withUserRole(TOPIC_ADMIN.getValue()).build();
+    Authentication authentication =
+        new AuthenticationMockBuilder().withUserRole(TOPIC_ADMIN.getValue()).build();
     // when
     this.mvc
         .perform(
@@ -196,10 +195,11 @@ public class ConsultingTypeControllerE2EIT {
         .andExpect(status().isForbidden());
   }
 
-  private FullConsultingTypeResponseDTO createFrom(ConsultingTypeDTO consultingTypeDTO, Integer expectedId) {
+  private FullConsultingTypeResponseDTO createFrom(
+      ConsultingTypeDTO consultingTypeDTO, Integer expectedId) {
     final ConsultingType consultingType = consultingTypeConverter.convert(consultingTypeDTO);
     consultingType.setId(expectedId);
-    return ConsultingTypeMapper.mapConsultingType(consultingType,
-        FullConsultingTypeMapper::mapConsultingType);
+    return ConsultingTypeMapper.mapConsultingType(
+        consultingType, FullConsultingTypeMapper::mapConsultingType);
   }
 }

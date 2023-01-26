@@ -52,7 +52,6 @@ public class CacheManagerConfig {
     return net.sf.ehcache.CacheManager.newInstance(config);
   }
 
-
   private CacheConfiguration buildTenantCacheConfiguration() {
     var tenantCacheConfiguration = new CacheConfiguration();
     tenantCacheConfiguration.setName(TENANT_CACHE);
@@ -72,5 +71,4 @@ public class CacheManagerConfig {
     tenantCacheConfiguration.setTimeToLiveSeconds(groupsTimeToLiveSeconds);
     return tenantCacheConfiguration;
   }
-
 }

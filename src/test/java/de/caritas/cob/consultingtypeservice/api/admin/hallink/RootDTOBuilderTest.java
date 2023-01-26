@@ -19,7 +19,9 @@ public class RootDTOBuilderTest {
     RootLinks rootLinks = rootDTO.getLinks();
     assertThat(rootLinks, notNullValue());
     assertThat(rootLinks.getConsultingtypes(), notNullValue());
-    assertThat(rootLinks.getConsultingtypes().getHref(), is("/consultingtypeadmin/consultingtypes?page=1&perPage=20"));
+    assertThat(
+        rootLinks.getConsultingtypes().getHref(),
+        is("/consultingtypeadmin/consultingtypes?page=1&perPage=20"));
     assertThat(rootLinks.getConsultingtypes().getMethod(), is(MethodEnum.GET));
   }
 

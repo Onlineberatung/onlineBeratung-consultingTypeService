@@ -25,8 +25,7 @@ public class TopicAdminController implements TopicadminApi {
 
   private final @NonNull TopicServiceFacade topicServiceFacade;
 
-  @Autowired
-  private AuthenticatedUser authenticatedUser;
+  @Autowired private AuthenticatedUser authenticatedUser;
 
   @Override
   @PreAuthorize("hasAuthority('AUTHORIZATION_CREATE_TOPIC')")
@@ -42,8 +41,8 @@ public class TopicAdminController implements TopicadminApi {
   public ResponseEntity<TopicMultilingualDTO> updateTopic(
       final Long id, @Valid final TopicMultilingualDTO topicMultilingualDTO) {
     log.info("Updating topic with id {} by user {} ", id, authenticatedUser.getUsername());
-    final TopicMultilingualDTO savedTopic = topicServiceFacade.updateTopic(id,
-        topicMultilingualDTO);
+    final TopicMultilingualDTO savedTopic =
+        topicServiceFacade.updateTopic(id, topicMultilingualDTO);
     return new ResponseEntity<>(savedTopic, HttpStatus.OK);
   }
 

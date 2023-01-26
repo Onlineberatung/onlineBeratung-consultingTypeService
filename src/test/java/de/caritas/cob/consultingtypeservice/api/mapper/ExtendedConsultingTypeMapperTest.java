@@ -15,20 +15,15 @@ public class ExtendedConsultingTypeMapperTest {
   @Test
   public void mapConsultingType_Should_MapAllExtendedProperties() throws IOException {
 
-    ExtendedConsultingTypeResponseDTO result = ExtendedConsultingTypeMapper
-        .mapConsultingType(HelperMethods.getConsultingType());
+    ExtendedConsultingTypeResponseDTO result =
+        ExtendedConsultingTypeMapper.mapConsultingType(HelperMethods.getConsultingType());
     String resultJson = new ObjectMapper().writeValueAsString(result);
 
     assertThat(result, notNullValue());
-    assertThat(resultJson,
+    assertThat(
+        resultJson,
         jsonEquals(HelperMethods.getConsultingTypeSettingsAsJsonString())
             .whenIgnoringPaths(
-                "voluntaryComponents",
-                "requiredComponents",
-                "groups",
-                "welcomeScreen"
-            )
-    );
+                "voluntaryComponents", "requiredComponents", "groups", "welcomeScreen"));
   }
-
 }
