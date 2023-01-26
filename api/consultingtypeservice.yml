@@ -205,7 +205,7 @@ paths:
       tags:
         - consulting-type-controller
       summary: 'Updates a consulting type [Authorization: Role: tenant-admin]'
-      operationId: updateConsultingType
+      operationId: patchConsultingType
       parameters:
         - name: id
           in: path
