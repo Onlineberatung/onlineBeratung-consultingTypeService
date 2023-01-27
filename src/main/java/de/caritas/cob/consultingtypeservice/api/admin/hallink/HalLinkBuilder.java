@@ -16,5 +16,4 @@ public interface HalLinkBuilder {
     halLink.setTemplated(link.isTemplated());
     return halLink;
   }
-
 }

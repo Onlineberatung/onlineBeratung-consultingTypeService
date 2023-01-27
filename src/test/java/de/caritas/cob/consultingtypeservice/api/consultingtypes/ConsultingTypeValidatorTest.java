@@ -26,61 +26,71 @@ import org.slf4j.Logger;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeValidatorTest {
 
-  private static final String FIELD_NAME_CONSULTING_TYPE_JSON_SCHEMA_FILE = "consultingTypeJsonSchemaFile";
+  private static final String FIELD_NAME_CONSULTING_TYPE_JSON_SCHEMA_FILE =
+      "consultingTypeJsonSchemaFile";
 
   private ConsultingTypeValidator consultingTypeValidator;
 
-  @Mock
-  private Logger logger;
+  @Mock private Logger logger;
 
   @Before
   public void setup() {
     setInternalState(LogService.class, "LOGGER", logger);
     consultingTypeValidator = new ConsultingTypeValidator();
-    setField(consultingTypeValidator, FIELD_NAME_CONSULTING_TYPE_JSON_SCHEMA_FILE,
+    setField(
+        consultingTypeValidator,
+        FIELD_NAME_CONSULTING_TYPE_JSON_SCHEMA_FILE,
         FILE_CONSULTING_TYPE_JSON_SCHEMA);
   }
 
   @Test
-  public void validateConsultingTypeConfigurationJsonFile_Should_ThrowUnexpectedErrorException_WhenJsonViolatesSchema() {
+  public void
+      validateConsultingTypeConfigurationJsonFile_Should_ThrowUnexpectedErrorException_WhenJsonViolatesSchema() {
 
-    File invalidConsultingSettingsFile = new File(
-        Objects.requireNonNull(
-            ConsultingTypeValidatorTest.class.getResource(FILE_INVALID_CONSULTING_TYPE)).getFile());
+    File invalidConsultingSettingsFile =
+        new File(
+            Objects.requireNonNull(
+                    ConsultingTypeValidatorTest.class.getResource(FILE_INVALID_CONSULTING_TYPE))
+                .getFile());
 
-    assertThrows(UnexpectedErrorException.class, () ->
-        consultingTypeValidator
-            .validateConsultingTypeConfigurationJsonFile(invalidConsultingSettingsFile)
-    );
-    verify(logger, times(1))
-        .error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
-
+    assertThrows(
+        UnexpectedErrorException.class,
+        () ->
+            consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(
+                invalidConsultingSettingsFile));
+    verify(logger, times(1)).error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
   }
 
   @Test
-  public void validateConsultingTypeConfigurationJsonFile_Should_ThrowUnexpectedErrorException_WhenJsonFileCouldNotBeParsed() {
+  public void
+      validateConsultingTypeConfigurationJsonFile_Should_ThrowUnexpectedErrorException_WhenJsonFileCouldNotBeParsed() {
 
-    File invalidConsultingSettingsFile = new File(
-        Objects.requireNonNull(
-            ConsultingTypeValidatorTest.class.getResource(FILE_BROKEN_CONSULTING_TYPE)).getFile());
+    File invalidConsultingSettingsFile =
+        new File(
+            Objects.requireNonNull(
+                    ConsultingTypeValidatorTest.class.getResource(FILE_BROKEN_CONSULTING_TYPE))
+                .getFile());
 
-    assertThrows(UnexpectedErrorException.class, () ->
-        consultingTypeValidator
-            .validateConsultingTypeConfigurationJsonFile(invalidConsultingSettingsFile)
-    );
-    verify(logger, times(1))
-        .error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
-
+    assertThrows(
+        UnexpectedErrorException.class,
+        () ->
+            consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(
+                invalidConsultingSettingsFile));
+    verify(logger, times(1)).error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
   }
 
   @Test
-  public void validateConsultingTypeConfigurationJsonFile_ShouldNot_ThrowException_For_NullValues() {
+  public void
+      validateConsultingTypeConfigurationJsonFile_ShouldNot_ThrowException_For_NullValues() {
 
-    File invalidConsultingSettingsFile = new File(Objects.requireNonNull(
-        ConsultingTypeValidatorTest.class.getResource(FILE_NULL_VALUE_CONSULTING_TYPE)).getFile());
+    File invalidConsultingSettingsFile =
+        new File(
+            Objects.requireNonNull(
+                    ConsultingTypeValidatorTest.class.getResource(FILE_NULL_VALUE_CONSULTING_TYPE))
+                .getFile());
 
-    consultingTypeValidator
-        .validateConsultingTypeConfigurationJsonFile(invalidConsultingSettingsFile);
+    consultingTypeValidator.validateConsultingTypeConfigurationJsonFile(
+        invalidConsultingSettingsFile);
 
     verifyNoInteractions(logger);
   }

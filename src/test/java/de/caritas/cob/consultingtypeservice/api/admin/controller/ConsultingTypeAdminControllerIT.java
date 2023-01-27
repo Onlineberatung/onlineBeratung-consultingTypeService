@@ -24,48 +24,42 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 public class ConsultingTypeAdminControllerIT {
 
-  @Autowired
-  private ConsultingTypeAdminService consultingTypeAdminService;
+  @Autowired private ConsultingTypeAdminService consultingTypeAdminService;
 
-  @Autowired
-  private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
+  @Autowired private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 
   @Test
   public void findConsultingTypes_Should_returnOneResult_When_perPageIsSetToOneAndPageIsSetToOne() {
 
-    List<ExtendedConsultingTypeResponseDTO> consultingTypes = this.consultingTypeAdminService
-        .findConsultingTypes(1, 1)
-        .getEmbedded();
+    List<ExtendedConsultingTypeResponseDTO> consultingTypes =
+        this.consultingTypeAdminService.findConsultingTypes(1, 1).getEmbedded();
 
     assertThat(consultingTypes, hasSize(1));
   }
 
   @Test
   public void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreZero() {
-    List<ExtendedConsultingTypeResponseDTO> consultingTypes = this.consultingTypeAdminService
-        .findConsultingTypes(0, 0)
-        .getEmbedded();
+    List<ExtendedConsultingTypeResponseDTO> consultingTypes =
+        this.consultingTypeAdminService.findConsultingTypes(0, 0).getEmbedded();
 
     assertThat(consultingTypes, hasSize(1));
   }
 
   @Test
   public void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreNegative() {
-    List<ExtendedConsultingTypeResponseDTO> consultingTypes = this.consultingTypeAdminService
-        .findConsultingTypes(-100, -1000)
-        .getEmbedded();
+    List<ExtendedConsultingTypeResponseDTO> consultingTypes =
+        this.consultingTypeAdminService.findConsultingTypes(-100, -1000).getEmbedded();
 
     assertThat(consultingTypes, hasSize(1));
   }
 
   @Test
-  public void findConsultingTypes_Should_returnPaginatedEntities_When_paginationParamsAreSplitted() {
-    List<ExtendedConsultingTypeResponseDTO> firstPage = this.consultingTypeAdminService
-        .findConsultingTypes(0, 2)
-        .getEmbedded();
-    List<ExtendedConsultingTypeResponseDTO> secondPage = this.consultingTypeAdminService
-        .findConsultingTypes(2, 2)
-        .getEmbedded();
+  public void
+      findConsultingTypes_Should_returnPaginatedEntities_When_paginationParamsAreSplitted() {
+    List<ExtendedConsultingTypeResponseDTO> firstPage =
+        this.consultingTypeAdminService.findConsultingTypes(0, 2).getEmbedded();
+    List<ExtendedConsultingTypeResponseDTO> secondPage =
+        this.consultingTypeAdminService.findConsultingTypes(2, 2).getEmbedded();
 
     assertThat(firstPage, hasSize(2));
     assertThat(secondPage, hasSize(2));
@@ -73,25 +67,26 @@ public class ConsultingTypeAdminControllerIT {
 
   @Test
   public void findConsultingTypes_Should_haveExpectedLinks_When_AllParamsAreProvided() {
-    PaginationLinks paginationLinks = this.consultingTypeAdminService
-        .findConsultingTypes(1, 2).getLinks();
+    PaginationLinks paginationLinks =
+        this.consultingTypeAdminService.findConsultingTypes(1, 2).getLinks();
 
     assertThat(paginationLinks.getSelf(), notNullValue());
-    assertThat(paginationLinks.getSelf().getHref(),
+    assertThat(
+        paginationLinks.getSelf().getHref(),
         endsWith("/consultingtypeadmin/consultingtypes?page=1&perPage=2"));
     assertThat(paginationLinks.getPrevious(), nullValue());
     assertThat(paginationLinks.getNext(), notNullValue());
-    assertThat(paginationLinks.getNext().getHref(),
+    assertThat(
+        paginationLinks.getNext().getHref(),
         endsWith("/consultingtypeadmin/consultingtypes?page=2&perPage=2"));
   }
 
   @Test
-  public void findConsultingTypes_Should_returnAllConsultingTypes_When_ProvidedWithMaxPerPagesParam() {
-    List<ExtendedConsultingTypeResponseDTO> page = this.consultingTypeAdminService
-        .findConsultingTypes(0, Integer.MAX_VALUE)
-        .getEmbedded();
+  public void
+      findConsultingTypes_Should_returnAllConsultingTypes_When_ProvidedWithMaxPerPagesParam() {
+    List<ExtendedConsultingTypeResponseDTO> page =
+        this.consultingTypeAdminService.findConsultingTypes(0, Integer.MAX_VALUE).getEmbedded();
 
     assertThat(page, hasSize(5));
   }
-
 }

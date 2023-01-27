@@ -3,7 +3,6 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import static java.util.Objects.nonNull;
 
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.roles.Consultant;
-
 import de.caritas.cob.consultingtypeservice.api.model.AnonymousScreenDTO;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOFurtherInformation;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOGroupChat;
@@ -42,14 +41,14 @@ import java.util.function.Function;
 
 public class ConsultingTypeMapper {
 
-  protected ConsultingTypeMapper() {
-  }
+  protected ConsultingTypeMapper() {}
 
   protected static BasicConsultingTypeResponseDTOFurtherInformation mapFurtherInformation(
       FurtherInformation furtherInformation) {
-    return nonNull(furtherInformation) ? new BasicConsultingTypeResponseDTOFurtherInformation()
-        .label(furtherInformation.getLabel())
-        .url(furtherInformation.getUrl())
+    return nonNull(furtherInformation)
+        ? new BasicConsultingTypeResponseDTOFurtherInformation()
+            .label(furtherInformation.getLabel())
+            .url(furtherInformation.getUrl())
         : null;
   }
 
@@ -66,11 +65,10 @@ public class ConsultingTypeMapper {
     return new BasicConsultingTypeResponseDTOUrls()
         .registrationPostcodeFallbackUrl(urls.getRegistrationPostcodeFallbackUrl())
         .requiredAidMissingRedirectUrl(urls.getRequiredAidMissingRedirectUrl());
-
-
   }
 
-  protected static BasicConsultingTypeResponseDTORegistration mapRegistration(Registration registration) {
+  protected static BasicConsultingTypeResponseDTORegistration mapRegistration(
+      Registration registration) {
     return new BasicConsultingTypeResponseDTORegistration()
         .minPostcodeSize(registration.getMinPostcodeSize())
         .autoSelectAgency(registration.getAutoSelectAgency())
@@ -94,33 +92,29 @@ public class ConsultingTypeMapper {
   protected static WhiteSpotDTO mapWhiteSpot(WhiteSpot whiteSpot) {
     return nonNull(whiteSpot)
         ? new WhiteSpotDTO()
-        .whiteSpotAgencyAssigned(whiteSpot.getWhiteSpotAgencyAssigned())
-        .whiteSpotAgencyId(getWhiteSpotAgencyIdNullSafe(whiteSpot))
-        : new WhiteSpotDTO()
-            .whiteSpotAgencyAssigned(false);
+            .whiteSpotAgencyAssigned(whiteSpot.getWhiteSpotAgencyAssigned())
+            .whiteSpotAgencyId(getWhiteSpotAgencyIdNullSafe(whiteSpot))
+        : new WhiteSpotDTO().whiteSpotAgencyAssigned(false);
   }
 
   private static Integer getWhiteSpotAgencyIdNullSafe(WhiteSpot whiteSpot) {
-    return nonNull(whiteSpot.getWhiteSpotAgencyId()) ? whiteSpot.getWhiteSpotAgencyId()
-        : null;
+    return nonNull(whiteSpot.getWhiteSpotAgencyId()) ? whiteSpot.getWhiteSpotAgencyId() : null;
   }
 
   protected static BasicConsultingTypeResponseDTOGroupChat mapGroupChat(GroupChat groupChat) {
     return nonNull(groupChat)
         ? new BasicConsultingTypeResponseDTOGroupChat()
-        .isGroupChat(groupChat.getIsGroupChat())
-        .groupChatRules(groupChat.getGroupChatRules())
-        : new BasicConsultingTypeResponseDTOGroupChat()
-            .isGroupChat(false);
+            .isGroupChat(groupChat.getIsGroupChat())
+            .groupChatRules(groupChat.getGroupChatRules())
+        : new BasicConsultingTypeResponseDTOGroupChat().isGroupChat(false);
   }
 
   protected static WelcomeMessageDTO mapWelcomeMessage(WelcomeMessage welcomeMessage) {
     return nonNull(welcomeMessage)
         ? new WelcomeMessageDTO()
-        .sendWelcomeMessage(welcomeMessage.getSendWelcomeMessage())
-        .welcomeMessageText(welcomeMessage.getWelcomeMessageText())
-        : new WelcomeMessageDTO()
-            .sendWelcomeMessage(false);
+            .sendWelcomeMessage(welcomeMessage.getSendWelcomeMessage())
+            .welcomeMessageText(welcomeMessage.getWelcomeMessageText())
+        : new WelcomeMessageDTO().sendWelcomeMessage(false);
   }
 
   protected static SessionDataInitializingDTO mapSessionDataInitializing(
@@ -145,10 +139,9 @@ public class ConsultingTypeMapper {
   protected static MonitoringDTO mapMonitoring(Monitoring monitoring) {
     return nonNull(monitoring)
         ? new MonitoringDTO()
-        .initializeMonitoring(monitoring.getInitializeMonitoring())
-        .monitoringTemplateFile(monitoring.getMonitoringTemplateFile())
-        : new MonitoringDTO()
-            .initializeMonitoring(false);
+            .initializeMonitoring(monitoring.getInitializeMonitoring())
+            .monitoringTemplateFile(monitoring.getMonitoringTemplateFile())
+        : new MonitoringDTO().initializeMonitoring(false);
   }
 
   protected static RolesDTO mapRoles(Roles roles) {
@@ -159,15 +152,15 @@ public class ConsultingTypeMapper {
 
   protected static NotificationsDTO mapNotifications(Notifications notifications) {
     return nonNull(notifications)
-        ? new NotificationsDTO()
-        .teamSessions(mapTeamSessions(notifications.getTeamSessions()))
+        ? new NotificationsDTO().teamSessions(mapTeamSessions(notifications.getTeamSessions()))
         : createDefaultNotifications();
   }
 
   private static NotificationsDTO createDefaultNotifications() {
     return new NotificationsDTO()
-        .teamSessions(new NotificationsDTOTeamSessions()
-            .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true)));
+        .teamSessions(
+            new NotificationsDTOTeamSessions()
+                .newMessage(new TeamSessionsDTONewMessage().allTeamConsultants(true)));
   }
 
   protected static NotificationsDTOTeamSessions mapTeamSessions(TeamSessions teamSessions) {
@@ -176,26 +169,21 @@ public class ConsultingTypeMapper {
   }
 
   protected static TeamSessionsDTONewMessage mapNewMessage(NewMessage newMessage) {
-    return new TeamSessionsDTONewMessage()
-        .allTeamConsultants(newMessage.getAllTeamConsultants());
+    return new TeamSessionsDTONewMessage().allTeamConsultants(newMessage.getAllTeamConsultants());
   }
 
   protected static WelcomeScreenDTO mapWelcomeScreen(WelcomeScreen welcomeScreen) {
     return nonNull(welcomeScreen)
-        ? new WelcomeScreenDTO()
-        .anonymous(mapAnonymousScreen(welcomeScreen.getAnonymous()))
+        ? new WelcomeScreenDTO().anonymous(mapAnonymousScreen(welcomeScreen.getAnonymous()))
         : null;
   }
 
   protected static AnonymousScreenDTO mapAnonymousScreen(Anonymous anonymous) {
-    return new AnonymousScreenDTO()
-        .title(anonymous.getTitle())
-        .text(anonymous.getText());
+    return new AnonymousScreenDTO().title(anonymous.getTitle()).text(anonymous.getText());
   }
 
-  public static <R> R mapConsultingType(ConsultingType consultingType,
-      Function<ConsultingType, R> mapper) {
+  public static <R> R mapConsultingType(
+      ConsultingType consultingType, Function<ConsultingType, R> mapper) {
     return mapper.apply(consultingType);
   }
-
 }

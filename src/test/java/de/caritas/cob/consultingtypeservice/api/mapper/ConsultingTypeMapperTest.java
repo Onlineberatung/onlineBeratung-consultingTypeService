@@ -1,11 +1,9 @@
 package de.caritas.cob.consultingtypeservice.api.mapper;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOGroupChat;
 import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
@@ -74,5 +72,4 @@ public class ConsultingTypeMapperTest {
     assertThat(result.getGender(), is(false));
     assertThat(result.getRelation(), is(false));
   }
-
 }

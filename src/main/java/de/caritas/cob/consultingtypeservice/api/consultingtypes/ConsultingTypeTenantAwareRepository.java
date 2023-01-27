@@ -17,5 +17,4 @@ public interface ConsultingTypeTenantAwareRepository extends ConsultingTypeRepos
 
   @Query(value = "{'_id': ?0, 'tenantId': ?1 }")
   ConsultingTypeEntity findConsultingTypeByIdAndTenantId(Integer consultingtypeId, Long tenantId);
-
 }

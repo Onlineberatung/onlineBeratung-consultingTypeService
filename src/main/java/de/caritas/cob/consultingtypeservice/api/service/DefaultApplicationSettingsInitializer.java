@@ -21,16 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/**
- * Loader for the consulting types from the file system.
- */
+/** Loader for the consulting types from the file system. */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class DefaultApplicationSettingsInitializer {
 
-  @Autowired
-  private ApplicationSettingsRepository applicationSettingsRepository;
+  @Autowired private ApplicationSettingsRepository applicationSettingsRepository;
 
   @Value("${multitenancy.enabled}")
   private boolean multitenancy;
@@ -51,22 +48,31 @@ public class DefaultApplicationSettingsInitializer {
 
   private ApplicationSettingsEntity createDefaultApplicationSettings() {
     ApplicationSettingsEntity entity = new ApplicationSettingsEntity();
-    entity.setDisableVideoAppointments(new DisableVideoAppointments().withValue(true).withReadOnly(false));
+    entity.setDisableVideoAppointments(
+        new DisableVideoAppointments().withValue(true).withReadOnly(false));
     entity.setEnableWalkthrough(new EnableWalkthrough().withValue(false).withReadOnly(false));
-    entity.setUseTenantService(new UseTenantService().withValue(multitenancyWithSingleDomainEnabled || multitenancy).withReadOnly(false));
-    entity.setMultitenancyEnabled(new MultitenancyEnabled().withValue(multitenancy).withReadOnly(true));
-    entity.setMultitenancyWithSingleDomainEnabled(new MultitenancyWithSingleDomainEnabled().withReadOnly(true)
-        .withValue(multitenancyWithSingleDomainEnabled));
+    entity.setUseTenantService(
+        new UseTenantService()
+            .withValue(multitenancyWithSingleDomainEnabled || multitenancy)
+            .withReadOnly(false));
+    entity.setMultitenancyEnabled(
+        new MultitenancyEnabled().withValue(multitenancy).withReadOnly(true));
+    entity.setMultitenancyWithSingleDomainEnabled(
+        new MultitenancyWithSingleDomainEnabled()
+            .withReadOnly(true)
+            .withValue(multitenancyWithSingleDomainEnabled));
     entity.setMainTenantSubdomainForSingleDomainMultitenancy(
         new MainTenantSubdomainForSingleDomainMultitenancy()
-        .withReadOnly(false)
-        .withValue(mainTenantSubdomainForSingleDomainMultitenancy));
+            .withReadOnly(false)
+            .withValue(mainTenantSubdomainForSingleDomainMultitenancy));
     entity.setUseOverviewPage(new UseOverviewPage().withValue(false).withReadOnly(false));
     entity.setCalcomUrl(new CalcomUrl().withValue("calcomUrl").withReadOnly(false));
-    entity.setBudibaseAuthClientId(new BudibaseAuthClientId().withValue("budibaseAuthClientId").withReadOnly(false));
+    entity.setBudibaseAuthClientId(
+        new BudibaseAuthClientId().withValue("budibaseAuthClientId").withReadOnly(false));
     entity.setBudibaseUrl(new BudibaseUrl().withValue("budibaseUrl").withReadOnly(false));
     entity.setCalendarAppUrl(new CalendarAppUrl().withValue("calendarAppUrl").withReadOnly(false));
-    entity.setLegalContentChangesBySingleTenantAdminsAllowed(new LegalContentChangesBySingleTenantAdminsAllowed().withValue(true).withReadOnly(false));
+    entity.setLegalContentChangesBySingleTenantAdminsAllowed(
+        new LegalContentChangesBySingleTenantAdminsAllowed().withValue(true).withReadOnly(false));
     return entity;
   }
 }

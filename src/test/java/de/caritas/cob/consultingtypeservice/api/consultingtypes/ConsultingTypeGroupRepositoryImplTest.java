@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -29,11 +28,9 @@ class ConsultingTypeGroupRepositoryImplTest {
   private final String GROUP_2 = "group2";
   private final String GROUP_3 = "group3";
 
-  @InjectMocks
-  ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
+  @InjectMocks ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
 
-  @Mock
-  ConsultingTypeRepository consultingTypeRepository;
+  @Mock ConsultingTypeRepository consultingTypeRepository;
 
   @BeforeEach
   void setup() {
@@ -51,10 +48,12 @@ class ConsultingTypeGroupRepositoryImplTest {
   @Test
   void getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups() {
     // given
-    when(consultingTypeRepository.findAll()).thenReturn(Lists.newArrayList(consultingType1, consultingType2, consultingType3));
+    when(consultingTypeRepository.findAll())
+        .thenReturn(Lists.newArrayList(consultingType1, consultingType2, consultingType3));
 
     // when
-    Map<String, List<ConsultingType>> result = consultingTypeGroupRepository.getConsultingTypesGroupMap();
+    Map<String, List<ConsultingType>> result =
+        consultingTypeGroupRepository.getConsultingTypesGroupMap();
 
     // then
     assertThat(result).isNotNull();
@@ -66,5 +65,4 @@ class ConsultingTypeGroupRepositoryImplTest {
     assertThat(result.get(GROUP_3)).hasSize(1);
     assertThat(result.get(GROUP_3)).contains(consultingType1);
   }
-
 }

@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller to handle all consulting types admin requests.
- */
+/** Controller to handle all consulting types admin requests. */
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "consulting-type-admin-controller")
@@ -37,15 +35,15 @@ public class ConsultingTypeAdminController implements ConsultingtypeadminApi {
   /**
    * Entry point to retrieve all consulting types.
    *
-   * @param page    Number of page where to start in the query (1 = first page) (required)
+   * @param page Number of page where to start in the query (1 = first page) (required)
    * @param perPage Number of items which are being returned per page (required)
    * @return an entity containing the consulting types as {@link ConsultingTypeAdminResultDTO}
    */
   @Override
   public ResponseEntity<ConsultingTypeAdminResultDTO> getConsultingTypes(
       @NotNull @Valid Integer page, @NotNull @Valid Integer perPage) {
-    var consultingTypeAdminResultDTO = this.consultingTypeAdminService
-        .findConsultingTypes(page, perPage);
+    var consultingTypeAdminResultDTO =
+        this.consultingTypeAdminService.findConsultingTypes(page, perPage);
 
     return ResponseEntity.ok(consultingTypeAdminResultDTO);
   }

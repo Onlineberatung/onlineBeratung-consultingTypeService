@@ -12,6 +12,7 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOSessionDa
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWhiteSpot;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.RequiredComponentsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.RolesDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeScreenDTO;
@@ -47,8 +48,9 @@ import org.springframework.stereotype.Component;
 public class ConsultingTypeConverter {
 
   public List<ConsultingType> convertList(List<ConsultingTypeEntity> consultingTypeEntities) {
-    return consultingTypeEntities.stream().map(this::copyToConsultingType).collect(
-        Collectors.toList());
+    return consultingTypeEntities.stream()
+        .map(this::copyToConsultingType)
+        .collect(Collectors.toList());
   }
 
   private ConsultingType copyToConsultingType(ConsultingTypeEntity entity) {
@@ -58,7 +60,13 @@ public class ConsultingTypeConverter {
   }
 
   public ConsultingType convert(final ConsultingTypeDTO consultingTypeDTO) {
-    return new ConsultingType()
+
+    return this.convert(new ConsultingType(), consultingTypeDTO);
+  }
+
+  public ConsultingType convert(
+      ConsultingType consultingTypeEntity, final ConsultingTypeDTO consultingTypeDTO) {
+    return consultingTypeEntity
         .withTenantId(consultingTypeDTO.getTenantId())
         .withDescription(consultingTypeDTO.getDescription())
         .withGroups(consultingTypeDTO.getGroups())
@@ -92,7 +100,17 @@ public class ConsultingTypeConverter {
         .withVoluntaryComponents(consultingTypeDTO.getVoluntaryComponents())
         .withRequiredComponents(convert(consultingTypeDTO.getRequiredComponents()))
         .withWelcomeScreen(convert(consultingTypeDTO.getWelcomeScreen()));
+  }
 
+  public ConsultingType convert(
+      ConsultingType consultingTypeEntity, final ConsultingTypePatchDTO consultingTypeDTO) {
+    return consultingTypeEntity
+        .withWelcomeMessage(convert(consultingTypeDTO.getWelcomeMessage()))
+        .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
+        .withSendSaveSessionDataMessage(consultingTypeDTO.getSendSaveSessionDataMessage())
+        .withLanguageFormal(consultingTypeDTO.getLanguageFormal())
+        .withNotifications(convert(consultingTypeDTO.getNotifications()))
+        .withIsVideoCallAllowed(consultingTypeDTO.getIsVideoCallAllowed());
   }
 
   private WelcomeScreen convert(WelcomeScreenDTO welcomeScreen) {
@@ -100,17 +118,17 @@ public class ConsultingTypeConverter {
       return null;
     }
     return new WelcomeScreen()
-        .withAnonymous(new Anonymous(welcomeScreen.getAnonymous().getTitle(),
-            welcomeScreen.getAnonymous().getText()));
+        .withAnonymous(
+            new Anonymous(
+                welcomeScreen.getAnonymous().getTitle(), welcomeScreen.getAnonymous().getText()));
   }
-
 
   private Urls convert(BasicConsultingTypeResponseDTOUrls urls) {
     if (urls == null) {
       return null;
     }
-    return new Urls(urls.getRequiredAidMissingRedirectUrl(),
-        urls.getRegistrationPostcodeFallbackUrl());
+    return new Urls(
+        urls.getRequiredAidMissingRedirectUrl(), urls.getRegistrationPostcodeFallbackUrl());
   }
 
   private Titles convert(BasicConsultingTypeResponseDTOTitles titles) {
@@ -129,10 +147,14 @@ public class ConsultingTypeConverter {
     return new Registration()
         .withAutoSelectAgency(registration.getAutoSelectAgency())
         .withAutoSelectPostcode(registration.getAutoSelectPostcode())
-        .withNotes(new Notes(registration.getNotes().getAgencySelection(),
-            registration.getNotes().getPassword()))
-        .withMandatoryFields(new MandatoryFields(registration.getMandatoryFields().getAge(),
-            registration.getMandatoryFields().getState()));
+        .withNotes(
+            new Notes(
+                registration.getNotes().getAgencySelection(),
+                registration.getNotes().getPassword()))
+        .withMandatoryFields(
+            new MandatoryFields(
+                registration.getMandatoryFields().getAge(),
+                registration.getMandatoryFields().getState()));
   }
 
   private Notifications convert(ConsultingTypeDTONotifications notifications) {
@@ -141,9 +163,10 @@ public class ConsultingTypeConverter {
     }
     return new Notifications()
         .withTeamSessions(
-            new TeamSessions().withNewMessage(
-                new NewMessage(
-                    notifications.getTeamSessions().getNewMessage().getAllTeamConsultants())));
+            new TeamSessions()
+                .withNewMessage(
+                    new NewMessage(
+                        notifications.getTeamSessions().getNewMessage().getAllTeamConsultants())));
   }
 
   private Roles convert(RolesDTO roles) {
@@ -154,8 +177,8 @@ public class ConsultingTypeConverter {
   }
 
   private Monitoring convert(ConsultingTypeDTOMonitoring monitoring) {
-    return new Monitoring(monitoring.getInitializeMonitoring(),
-        monitoring.getMonitoringTemplateFile());
+    return new Monitoring(
+        monitoring.getInitializeMonitoring(), monitoring.getMonitoringTemplateFile());
   }
 
   private SessionDataInitializing convert(
@@ -175,9 +198,8 @@ public class ConsultingTypeConverter {
     if (welcomeMessage == null) {
       return null;
     }
-    return new WelcomeMessage(welcomeMessage.getSendWelcomeMessage(),
-        welcomeMessage.getWelcomeMessageText());
-
+    return new WelcomeMessage(
+        welcomeMessage.getSendWelcomeMessage(), welcomeMessage.getWelcomeMessageText());
   }
 
   private GroupChat convert(BasicConsultingTypeResponseDTOGroupChat groupChat) {
@@ -199,13 +221,16 @@ public class ConsultingTypeConverter {
       return null;
     }
     List<Option> options = new ArrayList<>();
-    requiredComponents.getAge().getOptions()
+    requiredComponents
+        .getAge()
+        .getOptions()
         .forEach(optionDTO -> options.add(new Option(optionDTO.getValue(), optionDTO.getLabel())));
 
     return new RequiredComponents()
-        .withAge(new Age()
-            .withIsEnabled(requiredComponents.getAge().getIsEnabled())
-            .withOptions(options))
+        .withAge(
+            new Age()
+                .withIsEnabled(requiredComponents.getAge().getIsEnabled())
+                .withOptions(options))
         .withState(new State(requiredComponents.getState().getIsEnabled()));
   }
 

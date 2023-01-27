@@ -16,8 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 class TopicServiceIT {
 
-  @Autowired
-  TopicService topicService;
+  @Autowired TopicService topicService;
 
   @Test
   void getAllTopics_Should_returnAllTopics() {
@@ -25,10 +24,7 @@ class TopicServiceIT {
     var topicEntities = topicService.getAllTopics();
 
     // then
-    assertThat(topicEntities)
-        .hasSize(3)
-        .extracting(TopicEntity::getId)
-        .contains(1L, 2L, 3L);
+    assertThat(topicEntities).hasSize(3).extracting(TopicEntity::getId).contains(1L, 2L, 3L);
   }
 
   @Test
@@ -37,10 +33,7 @@ class TopicServiceIT {
     var allActiveTopicEntities = topicService.getAllActiveTopics();
 
     // then
-    assertThat(allActiveTopicEntities)
-        .hasSize(2)
-        .extracting(TopicEntity::getId)
-        .contains(1L, 3L);
+    assertThat(allActiveTopicEntities).hasSize(2).extracting(TopicEntity::getId).contains(1L, 3L);
   }
 
   @Test
@@ -49,11 +42,7 @@ class TopicServiceIT {
     var topicById = topicService.findTopicById(1L);
 
     // then
-    assertThat(topicById)
-        .isPresent()
-        .get()
-        .extracting(TopicEntity::getId)
-        .isEqualTo(1L);
+    assertThat(topicById).isPresent().get().extracting(TopicEntity::getId).isEqualTo(1L);
   }
 
   @Test
@@ -62,7 +51,6 @@ class TopicServiceIT {
     var topicById = topicService.findTopicById(4L);
 
     // then
-    assertThat(topicById)
-        .isNotPresent();
+    assertThat(topicById).isNotPresent();
   }
 }

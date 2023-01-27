@@ -3,9 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.mapper;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 
-/**
- * Mapping from {@link ConsultingType} to {@link ExtendedConsultingTypeResponseDTO}.
- */
+/** Mapping from {@link ConsultingType} to {@link ExtendedConsultingTypeResponseDTO}. */
 public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
 
   /**
@@ -17,8 +15,7 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
   public static ExtendedConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new ExtendedConsultingTypeResponseDTO()
         .id(consultingType.getId())
-        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId()
-            : null)
+        .tenantId(consultingType.getTenantId() != null ? consultingType.getTenantId() : null)
         .description(consultingType.getDescription())
         .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .slug(consultingType.getSlug())

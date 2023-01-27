@@ -200,6 +200,37 @@ paths:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
       security:
         - Bearer: [ ]
+  /consultingtypes/{id}:
+    patch:
+      tags:
+        - consulting-type-controller
+      summary: 'Updates a consulting type [Authorization: Role: tenant-admin]'
+      operationId: patchConsultingType
+      parameters:
+        - name: id
+          in: path
+          description: ConsultingType ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ConsultingTypePatchDTO'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FullConsultingTypeResponseDTO'
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        409:
+          description: CONFLICT - unique constraint validation fails
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
 
 components:
   schemas:
@@ -661,3 +692,25 @@ components:
             long:
               type: string
               example: "Lorem ipsum"
+
+    ConsultingTypePatchDTO:
+      type: object
+      properties:
+        isVideoCallAllowed:
+          type: boolean
+          example: true
+        languageFormal:
+          type: boolean
+          example: true
+        sendFurtherStepsMessage:
+          type: boolean
+          example: true
+        sendSaveSessionDataMessage:
+          type: boolean
+          example: false
+        welcomeMessage:
+          allOf:
+            - $ref: '#/components/schemas/WelcomeMessageDTO'
+        notifications:
+          allOf:
+            - $ref: '#/components/schemas/NotificationsDTO'

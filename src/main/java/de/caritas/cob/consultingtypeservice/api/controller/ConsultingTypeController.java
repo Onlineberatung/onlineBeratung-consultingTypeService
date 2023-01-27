@@ -3,6 +3,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeGroupResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.service.ConsultingTypeGroupService;
@@ -19,9 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller for consulting type API requests.
- */
+/** Controller for consulting type API requests. */
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "consulting-type-controller")
@@ -33,7 +32,8 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   /**
    * Returns a list of all consulting types with basic properties.
    *
-   * @return {@link ResponseEntity} containing {@link List} of {@link BasicConsultingTypeResponseDTO}
+   * @return {@link ResponseEntity} containing {@link List} of {@link
+   *     BasicConsultingTypeResponseDTO}
    */
   @Override
   public ResponseEntity<List<BasicConsultingTypeResponseDTO>> getBasicConsultingTypeList() {
@@ -56,8 +56,7 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<FullConsultingTypeResponseDTO> getFullConsultingTypeById(
       @PathVariable Integer consultingTypeId) {
     return new ResponseEntity<>(
-        consultingTypeService.fetchFullConsultingTypeSettingsById(consultingTypeId),
-        HttpStatus.OK);
+        consultingTypeService.fetchFullConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
   }
 
   /**
@@ -77,8 +76,8 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<FullConsultingTypeResponseDTO> getFullConsultingTypeByTenantId(
       @PathVariable Integer tenantId) {
 
-    var fullConsultingTypeResponseDTO = consultingTypeService.fetchFullConsultingTypeSettingsByTenantId(
-        tenantId);
+    var fullConsultingTypeResponseDTO =
+        consultingTypeService.fetchFullConsultingTypeSettingsByTenantId(tenantId);
     return fullConsultingTypeResponseDTO.isPresent()
         ? new ResponseEntity<>(fullConsultingTypeResponseDTO.get(), HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -94,8 +93,8 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<ExtendedConsultingTypeResponseDTO> getExtendedConsultingTypeById(
       @PathVariable Integer consultingTypeId) {
     return new ResponseEntity<>(
-        consultingTypeService
-            .fetchExtendedConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
+        consultingTypeService.fetchExtendedConsultingTypeSettingsById(consultingTypeId),
+        HttpStatus.OK);
   }
 
   /**
@@ -108,14 +107,15 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   public ResponseEntity<BasicConsultingTypeResponseDTO> getBasicConsultingTypeById(
       @PathVariable Integer consultingTypeId) {
     return new ResponseEntity<>(
-        consultingTypeService
-            .fetchBasicConsultingTypeSettingsById(consultingTypeId), HttpStatus.OK);
+        consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingTypeId),
+        HttpStatus.OK);
   }
 
   /**
    * Returns the consulting type groups with the assigned consulting types.
    *
-   * @return {@link ResponseEntity} containing a {@link List} of {@link ConsultingTypeGroupResponseDTO}
+   * @return {@link ResponseEntity} containing a {@link List} of {@link
+   *     ConsultingTypeGroupResponseDTO}
    */
   @Override
   public ResponseEntity<List<ConsultingTypeGroupResponseDTO>> getConsultingTypeGroups() {
@@ -126,13 +126,20 @@ public class ConsultingTypeController implements ConsultingtypesApi {
     return !CollectionUtils.isEmpty(consultingTypeGroupResponseDtoList)
         ? new ResponseEntity<>(consultingTypeGroupResponseDtoList, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
   }
 
   @Override
-  @PreAuthorize("hasAuthority('tenant-admin')")
+  @PreAuthorize("hasAuthority('AUTHORIZATION_CREATE_CONSULTING_TYPE')")
   public ResponseEntity<FullConsultingTypeResponseDTO> createConsultingType(
       final ConsultingTypeDTO consultingTypeDTO) {
     return ResponseEntity.ok(consultingTypeService.createConsultingType(consultingTypeDTO));
+  }
+
+  @Override
+  @PreAuthorize("hasAuthority('AUTHORIZATION_PATCH_CONSULTING_TYPE')")
+  public ResponseEntity<FullConsultingTypeResponseDTO> patchConsultingType(
+      Integer consultingTypeId, final ConsultingTypePatchDTO consultingTypeDTO) {
+    return ResponseEntity.ok(
+        consultingTypeService.updateConsultingType(consultingTypeId, consultingTypeDTO));
   }
 }

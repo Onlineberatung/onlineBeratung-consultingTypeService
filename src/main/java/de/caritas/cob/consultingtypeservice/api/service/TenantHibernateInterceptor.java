@@ -30,8 +30,8 @@ public class TenantHibernateInterceptor extends EmptyInterceptor {
         entity = entities.next();
         if (entity instanceof TenantAware) {
           var tenantAware = (TenantAware) entity;
-          if (tenantAware.getTenantId() == null && !TECHNICAL_TENANT_ID
-              .equals(TenantContext.getCurrentTenant())) {
+          if (tenantAware.getTenantId() == null
+              && !TECHNICAL_TENANT_ID.equals(TenantContext.getCurrentTenant())) {
             ((TenantAware) entity).setTenantId(TenantContext.getCurrentTenant());
           }
         }
@@ -54,8 +54,10 @@ public class TenantHibernateInterceptor extends EmptyInterceptor {
   private String getParamFromPropertyFile() {
     try {
       Properties prop = new Properties();
-      prop.load(TenantHibernateInterceptor.class.getClassLoader()
-          .getResourceAsStream("application-local.properties"));
+      prop.load(
+          TenantHibernateInterceptor.class
+              .getClassLoader()
+              .getResourceAsStream("application-local.properties"));
       return prop.getProperty("multitenancy.enabled");
 
     } catch (IOException ex) {
@@ -66,5 +68,4 @@ public class TenantHibernateInterceptor extends EmptyInterceptor {
   private String getParamFromEnvVariable() {
     return System.getenv().get("MULTITENANCY_ENABLED");
   }
-
 }

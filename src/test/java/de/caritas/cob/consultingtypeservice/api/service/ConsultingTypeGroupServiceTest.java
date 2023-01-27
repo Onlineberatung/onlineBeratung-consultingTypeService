@@ -24,10 +24,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeGroupServiceTest {
 
-  @InjectMocks
-  ConsultingTypeGroupService consultingTypeGroupService;
-  @Mock
-  ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
+  @InjectMocks ConsultingTypeGroupService consultingTypeGroupService;
+  @Mock ConsultingTypeGroupRepositoryImpl consultingTypeGroupRepository;
 
   @Test
   public void fetchConsultingTypeGroupList_Should_ReturnListOfConsultingTypeGroupResponseDTO() {
@@ -49,26 +47,42 @@ public class ConsultingTypeGroupServiceTest {
     when(consultingTypeGroupRepository.getConsultingTypesGroupMap())
         .thenReturn(consultingTypeGroupMap);
 
-    List<ConsultingTypeGroupResponseDTO> result = consultingTypeGroupService
-        .fetchConsultingTypeGroupList();
+    List<ConsultingTypeGroupResponseDTO> result =
+        consultingTypeGroupService.fetchConsultingTypeGroupList();
 
     assertThat(result, notNullValue());
     assertThat(result, hasSize(2));
     assertThat(result.get(0).getTitle(), is(GROUP_1));
     assertThat(result.get(0).getConsultingTypes(), hasSize(2));
-    assertThat(result.get(0).getConsultingTypes().get(0).getTitles().getDefault(), is(consultingType1.getTitles().getDefault()));
-    assertThat(result.get(0).getConsultingTypes().get(0).getTitles().getLong(), is(consultingType1.getTitles().getLong()));
+    assertThat(
+        result.get(0).getConsultingTypes().get(0).getTitles().getDefault(),
+        is(consultingType1.getTitles().getDefault()));
+    assertThat(
+        result.get(0).getConsultingTypes().get(0).getTitles().getLong(),
+        is(consultingType1.getTitles().getLong()));
     assertThat(result.get(0).getConsultingTypes().get(0).getId(), is(consultingType1.getId()));
-    assertThat(result.get(0).getConsultingTypes().get(1).getTitles().getDefault(), is(consultingType2.getTitles().getDefault()));
-    assertThat(result.get(0).getConsultingTypes().get(1).getTitles().getLong(), is(consultingType2.getTitles().getLong()));
+    assertThat(
+        result.get(0).getConsultingTypes().get(1).getTitles().getDefault(),
+        is(consultingType2.getTitles().getDefault()));
+    assertThat(
+        result.get(0).getConsultingTypes().get(1).getTitles().getLong(),
+        is(consultingType2.getTitles().getLong()));
     assertThat(result.get(0).getConsultingTypes().get(1).getId(), is(consultingType2.getId()));
     assertThat(result.get(1).getTitle(), is(GROUP_2));
     assertThat(result.get(1).getConsultingTypes(), hasSize(2));
-    assertThat(result.get(1).getConsultingTypes().get(0).getTitles().getDefault(), is(consultingType1.getTitles().getDefault()));
-    assertThat(result.get(1).getConsultingTypes().get(0).getTitles().getLong(), is(consultingType1.getTitles().getLong()));
+    assertThat(
+        result.get(1).getConsultingTypes().get(0).getTitles().getDefault(),
+        is(consultingType1.getTitles().getDefault()));
+    assertThat(
+        result.get(1).getConsultingTypes().get(0).getTitles().getLong(),
+        is(consultingType1.getTitles().getLong()));
     assertThat(result.get(1).getConsultingTypes().get(0).getId(), is(consultingType1.getId()));
-    assertThat(result.get(1).getConsultingTypes().get(1).getTitles().getDefault(), is(consultingType3.getTitles().getDefault()));
-    assertThat(result.get(1).getConsultingTypes().get(1).getTitles().getLong(), is(consultingType3.getTitles().getLong()));
+    assertThat(
+        result.get(1).getConsultingTypes().get(1).getTitles().getDefault(),
+        is(consultingType3.getTitles().getDefault()));
+    assertThat(
+        result.get(1).getConsultingTypes().get(1).getTitles().getLong(),
+        is(consultingType3.getTitles().getLong()));
     assertThat(result.get(1).getConsultingTypes().get(1).getId(), is(consultingType3.getId()));
   }
 }

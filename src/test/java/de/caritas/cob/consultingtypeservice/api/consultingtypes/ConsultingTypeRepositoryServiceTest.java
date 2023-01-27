@@ -18,14 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ConsultingTypeRepositoryServiceTest {
 
-  @Mock
-  private ConsultingTypeRepository consultingTypeRepository;
+  @Mock private ConsultingTypeRepository consultingTypeRepository;
 
-  @Mock
-  private ConsultingTypeConverter consultingTypeConverter;
+  @Mock private ConsultingTypeConverter consultingTypeConverter;
 
-  @InjectMocks
-  ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
+  @InjectMocks ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 
   @AfterEach
   public void cleanUp() {
@@ -44,7 +41,8 @@ class ConsultingTypeRepositoryServiceTest {
   @Test
   void getConsultingTypeById_Should_getConsultingTypeById() {
     // given
-    Mockito.when(consultingTypeRepository.findByConsultingTypeId(1)).thenReturn(new ConsultingTypeEntity());
+    Mockito.when(consultingTypeRepository.findByConsultingTypeId(1))
+        .thenReturn(new ConsultingTypeEntity());
     // when
     consultingTypeMongoRepositoryService.getConsultingTypeById(1);
     // then
@@ -54,13 +52,16 @@ class ConsultingTypeRepositoryServiceTest {
   @Test
   void getConsultingTypeById_Should_throwExceptionIfConsultingTypeNotFoundFor() {
     // when, then
-    assertThrows(NotFoundException.class, () -> this.consultingTypeMongoRepositoryService.getConsultingTypeById(1));
+    assertThrows(
+        NotFoundException.class,
+        () -> this.consultingTypeMongoRepositoryService.getConsultingTypeById(1));
   }
 
   @Test
   void getConsultingTypeBySlug_Should_CallFindBySlugInTheRepository() {
     // given
-    Mockito.when(consultingTypeRepository.findBySlug("slug")).thenReturn(Lists.newArrayList(new ConsultingTypeEntity()));
+    Mockito.when(consultingTypeRepository.findBySlug("slug"))
+        .thenReturn(Lists.newArrayList(new ConsultingTypeEntity()));
     consultingTypeMongoRepositoryService.getConsultingTypeBySlug("slug");
     // then
     verify(consultingTypeRepository).findBySlug("slug");

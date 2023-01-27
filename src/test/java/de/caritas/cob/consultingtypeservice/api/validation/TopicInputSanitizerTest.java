@@ -17,12 +17,14 @@ class TopicInputSanitizerTest {
   @Test
   void sanitize_Should_sanitizeTopicDTO() {
     // given
-    final TopicMultilingualDTO topicMultilingualDTO = new MultilingualTopicTestDataBuilder().topicDTO()
-        .withName("name" + SCRIPT_MALICIOUS_CONTENT)
-        .withDescription("desc" + SCRIPT_MALICIOUS_CONTENT)
-        .withInternalIdentifier(SCRIPT_MALICIOUS_CONTENT + "internalIdent")
-        .withStatus(TopicStatus.ACTIVE.toString())
-        .build();
+    final TopicMultilingualDTO topicMultilingualDTO =
+        new MultilingualTopicTestDataBuilder()
+            .topicDTO()
+            .withName("name" + SCRIPT_MALICIOUS_CONTENT)
+            .withDescription("desc" + SCRIPT_MALICIOUS_CONTENT)
+            .withInternalIdentifier(SCRIPT_MALICIOUS_CONTENT + "internalIdent")
+            .withStatus(TopicStatus.ACTIVE.toString())
+            .build();
     // when
     final TopicMultilingualDTO sanitized = topicInputSanitizer.sanitize(topicMultilingualDTO);
 

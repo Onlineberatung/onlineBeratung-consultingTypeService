@@ -13,14 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repository for {@link ConsultingType} groups.
- */
+/** Repository for {@link ConsultingType} groups. */
 @Repository
 @RequiredArgsConstructor
 public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRepository {
 
-  private final @NonNull  ConsultingTypeRepository consultingTypeRepository;
+  private final @NonNull ConsultingTypeRepository consultingTypeRepository;
 
   /**
    * Get a map with all grouped consulting types.
@@ -31,9 +29,8 @@ public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRep
   public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
     var consultingTypeEntities = consultingTypeRepository.findAll();
     var consultingTypesGroupMap = new HashMap<String, List<ConsultingType>>();
-    consultingTypeEntities.forEach(consultingTypeEntity ->
-        addConsultingType(consultingTypesGroupMap, consultingTypeEntity)
-    );
+    consultingTypeEntities.forEach(
+        consultingTypeEntity -> addConsultingType(consultingTypesGroupMap, consultingTypeEntity));
     return consultingTypesGroupMap;
   }
 
@@ -42,15 +39,16 @@ public class ConsultingTypeGroupRepositoryImpl implements ConsultingTypeGroupRep
    *
    * @param consultingType the {@link ConsultingType} to add
    */
-  void addConsultingType(Map<String, List<ConsultingType>> consultingTypesGroupMap,
-      ConsultingType consultingType) {
+  void addConsultingType(
+      Map<String, List<ConsultingType>> consultingTypesGroupMap, ConsultingType consultingType) {
     if (nonNull(consultingType.getGroups())) {
       consultingType
           .getGroups()
-          .forEach(group -> {
-            consultingTypesGroupMap.computeIfAbsent(group, newGroup -> new ArrayList<>());
-            consultingTypesGroupMap.get(group).add(consultingType);
-          });
+          .forEach(
+              group -> {
+                consultingTypesGroupMap.computeIfAbsent(group, newGroup -> new ArrayList<>());
+                consultingTypesGroupMap.get(group).add(consultingType);
+              });
     }
   }
 }

@@ -1,6 +1,5 @@
 package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -34,8 +33,7 @@ class ConsultingTypeGroupTenantAwareRepositoryImplTest {
   @InjectMocks
   ConsultingTypeGroupTenantAwareRepositoryImpl consultingTypeGroupTenantAwareRepository;
 
-  @Mock
-  ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+  @Mock ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
 
   @BeforeEach
   void setup() {
@@ -56,13 +54,16 @@ class ConsultingTypeGroupTenantAwareRepositoryImplTest {
   }
 
   @Test
-  void getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups_ForTechnicalTenantContext() {
+  void
+      getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups_ForTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(0L);
-    when(consultingTypeMongoTenantAwareRepository.findAll()).thenReturn(Lists.newArrayList(consultingType1, consultingType2, consultingType3));
+    when(consultingTypeMongoTenantAwareRepository.findAll())
+        .thenReturn(Lists.newArrayList(consultingType1, consultingType2, consultingType3));
 
     // when
-    Map<String, List<ConsultingType>> result = consultingTypeGroupTenantAwareRepository.getConsultingTypesGroupMap();
+    Map<String, List<ConsultingType>> result =
+        consultingTypeGroupTenantAwareRepository.getConsultingTypesGroupMap();
 
     // then
     assertThat(result).isNotNull();
@@ -75,13 +76,16 @@ class ConsultingTypeGroupTenantAwareRepositoryImplTest {
   }
 
   @Test
-  void getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups_ForNonTechnicalTenantContext() {
+  void
+      getConsultingTypesGroupMap_Should_ReturnMapWithConsultingTypeGroups_ForNonTechnicalTenantContext() {
     // given
     TenantContext.setCurrentTenant(1L);
-    when(consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(1L)).thenReturn(Lists.newArrayList(consultingType1, consultingType2));
+    when(consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(1L))
+        .thenReturn(Lists.newArrayList(consultingType1, consultingType2));
 
     // when
-    Map<String, List<ConsultingType>> result = consultingTypeGroupTenantAwareRepository.getConsultingTypesGroupMap();
+    Map<String, List<ConsultingType>> result =
+        consultingTypeGroupTenantAwareRepository.getConsultingTypesGroupMap();
 
     // then
     assertThat(result).isNotNull();
@@ -91,5 +95,4 @@ class ConsultingTypeGroupTenantAwareRepositoryImplTest {
     assertThat(result.get(GROUP_3)).hasSize(1);
     assertThat(result.get(GROUP_3)).contains(consultingType1);
   }
-
 }

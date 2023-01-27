@@ -12,8 +12,7 @@ public class TenantServiceApiControllerFactory {
   @Value("${tenant.service.api.url}")
   private String tenantServiceApiUrl;
 
-  @Autowired
-  private RestTemplate restTemplate;
+  @Autowired private RestTemplate restTemplate;
 
   public TenantControllerApi createControllerApi() {
     var apiClient = new TenantServiceApiClient(restTemplate).setBasePath(this.tenantServiceApiUrl);

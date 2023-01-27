@@ -33,7 +33,5 @@ public class CustomResponseErrorHandlerTest {
       assertThat(e.getStatus(), is(HttpStatus.I_AM_A_TEAPOT));
       assertThat(e.getMessage(), is("418 I_AM_A_TEAPOT \"GET /access/endpoint\""));
     }
-
   }
-
 }

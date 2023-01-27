@@ -16,9 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-/**
- * Repository for {@link ConsultingType} groups.
- */
+/** Repository for {@link ConsultingType} groups. */
 @Repository
 @Primary
 @ConditionalOnExpression("${multitenancy.enabled:true}")
@@ -27,15 +25,17 @@ import org.springframework.stereotype.Repository;
 public class ConsultingTypeGroupTenantAwareRepositoryImpl implements ConsultingTypeGroupRepository {
 
   private static final Long TECHNICAL_TENANT_ID = 0L;
-  
-  private final @NonNull ConsultingTypeTenantAwareRepository consultingTypeMongoTenantAwareRepository;
+
+  private final @NonNull ConsultingTypeTenantAwareRepository
+      consultingTypeMongoTenantAwareRepository;
 
   /* it may not be cached, as the result is different for each tenant */
   public Map<String, List<ConsultingType>> getConsultingTypesGroupMap() {
     var consultingTypesGroupMap = new HashMap<String, List<ConsultingType>>();
-    findAllConsultingTypes().forEach(consultingTypeEntity ->
-        addConsultingType(consultingTypesGroupMap, consultingTypeEntity)
-    );
+    findAllConsultingTypes()
+        .forEach(
+            consultingTypeEntity ->
+                addConsultingType(consultingTypesGroupMap, consultingTypeEntity));
     return consultingTypesGroupMap;
   }
 
@@ -43,25 +43,28 @@ public class ConsultingTypeGroupTenantAwareRepositoryImpl implements ConsultingT
     if (isTechnicalTenantContext()) {
       return consultingTypeMongoTenantAwareRepository.findAll();
     } else {
-      log.info("Finding all consulting types with tenantId equal to {}", TenantContext.getCurrentTenant());
-      return consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(TenantContext.getCurrentTenant());
+      log.info(
+          "Finding all consulting types with tenantId equal to {}",
+          TenantContext.getCurrentTenant());
+      return consultingTypeMongoTenantAwareRepository.findAllHavingTenantId(
+          TenantContext.getCurrentTenant());
     }
   }
 
   private boolean isTechnicalTenantContext() {
-    return TECHNICAL_TENANT_ID
-        .equals(TenantContext.getCurrentTenant());
+    return TECHNICAL_TENANT_ID.equals(TenantContext.getCurrentTenant());
   }
 
-  private void addConsultingType(Map<String, List<ConsultingType>> consultingTypesGroupMap,
-      ConsultingType consultingType) {
+  private void addConsultingType(
+      Map<String, List<ConsultingType>> consultingTypesGroupMap, ConsultingType consultingType) {
     if (nonNull(consultingType.getGroups())) {
       consultingType
           .getGroups()
-          .forEach(group -> {
-            consultingTypesGroupMap.computeIfAbsent(group, newGroup -> new ArrayList<>());
-            consultingTypesGroupMap.get(group).add(consultingType);
-          });
+          .forEach(
+              group -> {
+                consultingTypesGroupMap.computeIfAbsent(group, newGroup -> new ArrayList<>());
+                consultingTypesGroupMap.get(group).add(consultingType);
+              });
     }
   }
 }

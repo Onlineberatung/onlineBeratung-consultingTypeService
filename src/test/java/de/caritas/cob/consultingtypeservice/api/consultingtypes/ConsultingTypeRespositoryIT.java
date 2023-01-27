@@ -18,10 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 public class ConsultingTypeRespositoryIT {
 
-  @Autowired
-  private ConsultingTypeLoader consultingTypeLoader;
-  @Autowired
-  private ConsultingTypeRepositoryService consultingTypeRepositoryService;
+  @Autowired private ConsultingTypeLoader consultingTypeLoader;
+  @Autowired private ConsultingTypeRepositoryService consultingTypeRepositoryService;
 
   @Test
   public void getConsultingTypeById_Should_ReturnCorrectConsultingType() {
@@ -48,7 +46,5 @@ public class ConsultingTypeRespositoryIT {
 
     List<ConsultingType> result = consultingTypeRepositoryService.getListOfConsultingTypes();
     assertEquals(5, result.size());
-
   }
-
 }

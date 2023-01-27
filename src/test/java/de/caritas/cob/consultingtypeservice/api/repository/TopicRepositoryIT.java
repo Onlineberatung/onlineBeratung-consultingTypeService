@@ -21,8 +21,7 @@ class TopicRepositoryIT {
 
   public static final String NEW_TOPIC_NAME = "a new topic";
 
-  @Autowired
-  private TopicRepository topicRepository;
+  @Autowired private TopicRepository topicRepository;
 
   @Test
   void findById_Should_findTopicById() {
@@ -51,13 +50,16 @@ class TopicRepositoryIT {
   @Test
   void save_Should_saveNewTopic() {
     // given
-    TopicEntity topicEntity = TopicEntity.builder().name(NEW_TOPIC_NAME).description("desc").createDate(
-        LocalDateTime.now()).build();
+    TopicEntity topicEntity =
+        TopicEntity.builder()
+            .name(NEW_TOPIC_NAME)
+            .description("desc")
+            .createDate(LocalDateTime.now())
+            .build();
     var savedTopicEntity = topicRepository.save(topicEntity);
     // then
     assertThat(savedTopicEntity).isNotNull();
     assertThat(topicRepository.findByName(NEW_TOPIC_NAME)).isPresent();
     assertThat(topicRepository.findAll()).hasSize(4);
   }
-
 }
