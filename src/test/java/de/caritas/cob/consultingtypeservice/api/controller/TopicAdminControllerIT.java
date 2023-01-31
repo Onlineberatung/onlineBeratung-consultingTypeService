@@ -18,9 +18,12 @@ import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
+import de.caritas.cob.consultingtypeservice.api.service.TenantService;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.util.JsonConverter;
 import de.caritas.cob.consultingtypeservice.api.util.MultilingualTopicTestDataBuilder;
+import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.RestrictedTenantDTO;
+import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.Settings;
 import de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants;
 import java.util.Map;
 import org.assertj.core.util.Maps;
@@ -37,6 +40,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.TestPropertySource;
@@ -47,16 +51,27 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @AutoConfigureMockMvc(addFilters = false)
+@TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 class TopicAdminControllerIT {
 
   private MockMvc mockMvc;
 
   @Autowired private WebApplicationContext context;
 
+  @MockBean TenantService tenantService;
+
   @BeforeEach
   public void setup() {
     TenantContext.clear();
     mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    givenTopicFeatureEnabled(true);
+  }
+
+  private void givenTopicFeatureEnabled(boolean topicFeatureEnabled) {
+    Mockito.when(tenantService.getRestrictedTenantDataBySubdomain("app"))
+        .thenReturn(
+            new RestrictedTenantDTO()
+                .settings(new Settings().featureTopicsEnabled(topicFeatureEnabled)));
   }
 
   @Test
@@ -107,6 +122,29 @@ class TopicAdminControllerIT {
         .andExpect(jsonPath("$.status").value(TopicStatus.INACTIVE.toString()))
         .andExpect(jsonPath("$.updateDate").exists())
         .andExpect(jsonPath("$.createDate").exists());
+  }
+
+  @Test
+  void updateTopic_Should_returnStatusOk_When_featureToggleIsDisabled() throws Exception {
+    givenTopicFeatureEnabled(false);
+    final String payload =
+        new MultilingualTopicTestDataBuilder()
+            .topicDTO()
+            .withName("new name")
+            .withDescription("new desc")
+            .withInternalIdentifier("new ident")
+            .withStatus(TopicStatus.INACTIVE.toString())
+            .jsonify();
+
+    final Authentication authentication = givenMockAuthentication(UserRole.TOPIC_ADMIN);
+    mockMvc
+        .perform(
+            put(String.format(TopicPathConstants.PATH_PUT_TOPIC_BY_ID, "1"))
+                .with(authentication(authentication))
+                .contentType(APPLICATION_JSON)
+                .content(payload)
+                .contentType(APPLICATION_JSON))
+        .andExpect(status().isForbidden());
   }
 
   @Test
@@ -182,6 +220,24 @@ class TopicAdminControllerIT {
   }
 
   @Test
+  void createTopic_Should_returnStatusForbidden_When_topicToggleIsDisabled() throws Exception {
+    givenTopicFeatureEnabled(false);
+    final EasyRandom easyRandom = new EasyRandom();
+    final TopicMultilingualDTO topicDTO = easyRandom.nextObject(TopicMultilingualDTO.class);
+    topicDTO.setStatus(TopicStatus.INACTIVE.toString());
+    final String payload = JsonConverter.convertToJson(topicDTO);
+    final Authentication authentication = givenMockAuthentication(UserRole.TOPIC_ADMIN);
+    mockMvc
+        .perform(
+            post(TopicPathConstants.ADMIN_ROOT_PATH)
+                .with(authentication(authentication))
+                .contentType(APPLICATION_JSON)
+                .content(payload)
+                .contentType(APPLICATION_JSON))
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
   void save_Should_ReturnForbidden_IfUserIsAuthenticatedButDoesNotHavePermission()
       throws Exception {
     mockMvc
@@ -205,6 +261,19 @@ class TopicAdminControllerIT {
         .andExpect(jsonPath("$[0].description").exists())
         .andExpect(jsonPath("$[0].status").exists())
         .andExpect(jsonPath("$[0].createDate").exists());
+  }
+
+  @Test
+  void getAllTopicsWithTranslation_Should_ReturnForbiddenIfTopicFeatureIsDisabled()
+      throws Exception {
+    givenTopicFeatureEnabled(false);
+    final AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
+    mockMvc
+        .perform(
+            get(TopicPathConstants.ADMIN_PATH_GET_TOPIC_LIST)
+                .with(authentication(builder.withUserRole(TOPIC_ADMIN.getValue()).build()))
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden());
   }
 
   @Test
