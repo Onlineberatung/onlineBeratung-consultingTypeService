@@ -1,4 +1,4 @@
-package de.caritas.cob.consultingtypeservice.api.tenant;
+package de.caritas.cob.consultingtypeservice.api.admin.controller;
 
 import de.caritas.cob.consultingtypeservice.api.service.TopicFeatureAuthorisationService;
 import lombok.NonNull;
