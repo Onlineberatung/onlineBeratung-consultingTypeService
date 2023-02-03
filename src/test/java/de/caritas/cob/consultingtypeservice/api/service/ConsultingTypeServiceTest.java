@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 
+import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
@@ -26,6 +28,10 @@ public class ConsultingTypeServiceTest {
 
   @InjectMocks ConsultingTypeService consultingTypeService;
   @Mock ConsultingTypeRepositoryService consultingTypeRepository;
+
+  @Mock ConsultingTypeConverter consultingTypeConverter;
+
+  @Mock AuthenticatedUser authenticatedUser;
 
   private ConsultingType consultingType1;
   private ConsultingType consultingType2;

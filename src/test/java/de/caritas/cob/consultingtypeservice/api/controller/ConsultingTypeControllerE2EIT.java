@@ -5,6 +5,7 @@ import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TOPIC_ADMIN
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.PATH_GET_FULL_CONSULTING_TYPE_BY_TENANT;
 import static de.caritas.cob.consultingtypeservice.testHelper.PathConstants.ROOT_PATH;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,24 +15,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
+import de.caritas.cob.consultingtypeservice.api.auth.Authority.AuthorityValue;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
+import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepository;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.FullConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
+import java.util.HashSet;
 import javax.servlet.http.Cookie;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
+import org.keycloak.admin.client.Keycloak;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -54,6 +63,12 @@ class ConsultingTypeControllerE2EIT {
   @Autowired private MockMvc mvc;
   @Autowired private ObjectMapper objectMapper;
   @Autowired private ConsultingTypeConverter consultingTypeConverter;
+
+  @Autowired private ConsultingTypeRepository consultingTypeRepository;
+
+  @MockBean private Keycloak keycloak;
+
+  @MockBean AuthenticatedUser authenticatedUser;
 
   @Test
   void createConsultingType_Should_returnOk_When_requiredConsultingTypeDTOIsGiven()
@@ -127,7 +142,93 @@ class ConsultingTypeControllerE2EIT {
   }
 
   @Test
-  void patchConsultingType_Should_returnForbidden_When_userNotInTenantAdminRole() throws Exception {
+  @WithMockUser(authorities = {AuthorityValue.LIMITED_PATCH_CONSULTING_TYPE})
+  void patchConsultingType_Should_returnOk_When_singleTenantAdminTriesToPatchLimitedSettings()
+      throws Exception {
+    // given
+
+    HashSet<String> permissions = new HashSet<>();
+    permissions.add(AuthorityValue.LIMITED_PATCH_CONSULTING_TYPE);
+    when(authenticatedUser.getGrantedAuthorities()).thenReturn(permissions);
+    ConsultingTypeEntity byConsultingTypeId =
+        consultingTypeRepository.findByConsultingTypeId(EXISTING_ID);
+    boolean existingVideoCallSetting = byConsultingTypeId.getIsVideoCallAllowed();
+    boolean existingLanguageFormal = byConsultingTypeId.getLanguageFormal();
+
+    ConsultingTypePatchDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypePatchDTO.class)
+            .isVideoCallAllowed(existingVideoCallSetting)
+            .languageFormal(existingLanguageFormal)
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+
+    // when
+    this.mvc
+        .perform(
+            patch(ROOT_PATH + "/" + EXISTING_ID)
+                .cookie(CSRF_COOKIE)
+                .header(CSRF_HEADER, CSRF_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+        // then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("id").value(EXISTING_ID))
+        .andExpect(jsonPath("isVideoCallAllowed").value(existingVideoCallSetting))
+        .andExpect(jsonPath("languageFormal").value(existingLanguageFormal))
+        .andExpect(jsonPath("welcomeMessage.sendWelcomeMessage").value(true))
+        .andExpect(jsonPath("welcomeMessage.welcomeMessageText").value("welcome"))
+        .andReturn();
+  }
+
+  @Test
+  @WithMockUser(authorities = {AuthorityValue.LIMITED_PATCH_CONSULTING_TYPE})
+  void
+      patchConsultingType_Should_returnForbidden_When_singleTenantAdminTriesToPatchSettingsThatHeIsNotAllowedTo()
+          throws Exception {
+    // given
+
+    HashSet<String> permissions = new HashSet<>();
+    permissions.add(AuthorityValue.LIMITED_PATCH_CONSULTING_TYPE);
+    when(authenticatedUser.getGrantedAuthorities()).thenReturn(permissions);
+    ConsultingTypeEntity byConsultingTypeId =
+        consultingTypeRepository.findByConsultingTypeId(EXISTING_ID);
+    boolean existingVideoCallSetting = byConsultingTypeId.getIsVideoCallAllowed();
+    boolean existingLanguageFormal = byConsultingTypeId.getLanguageFormal();
+    ConsultingTypePatchDTO consultingTypeDTO =
+        easyRandom
+            .nextObject(ConsultingTypePatchDTO.class)
+            .isVideoCallAllowed(!existingVideoCallSetting)
+            .languageFormal(!existingLanguageFormal)
+            .welcomeMessage(
+                new ConsultingTypeDTOWelcomeMessage()
+                    .sendWelcomeMessage(true)
+                    .welcomeMessageText("welcome"));
+
+    objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+
+    // when
+    MvcResult mvcResult =
+        this.mvc
+            .perform(
+                patch(ROOT_PATH + "/" + EXISTING_ID)
+                    .cookie(CSRF_COOKIE)
+                    .header(CSRF_HEADER, CSRF_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(consultingTypeDTO)))
+            // then
+            .andExpect(status().isForbidden())
+            .andReturn();
+  }
+
+  @Test
+  void
+      patchConsultingType_Should_returnForbidden_When_userInDifferentRoleThanTenantAdminOrTenantSuperadmin()
+          throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
         easyRandom
