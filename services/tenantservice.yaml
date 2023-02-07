@@ -6,7 +6,7 @@ info:
   version: 0.0.1
 
 paths:
-  /tenant:
+  /tenantadmin:
     post:
       tags:
         - tenant-controller
@@ -16,16 +16,184 @@ paths:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/TenantDTO'
+              $ref: '#/components/schemas/MultilingualTenantDTO'
       responses:
         200:
           description: OK - successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TenantDTO'
+                $ref: '#/components/schemas/MultilingualTenantDTO'
         400:
           description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Get all tenants with admin data [Authorization: Role: tenant-admin]'
+      operationId: getAllTenantsWithAdminData
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminTenantDTO'
+        204:
+          description: NO CONTENT - no content found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+
+  /tenantadmin/search:
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Get tenants matching the given query [Auth: tenant-admin]'
+      operationId: searchTenants
+      parameters:
+        - name: query
+          in: query
+          description: URL-encoded infix to search for name or id.
+            A non-encoded star symbol searches for all.
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: page
+          in: query
+          description: Page number (first page = 1)
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: perPage
+          in: query
+          description: Number of items returned per page
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+        - name: field
+          in: query
+          description: field to sort by
+          schema:
+            type: string
+            enum: [ NAME, ID ]
+            default: NAME
+            pattern: '^(NAME|ID)$'
+        - name: order
+          in: query
+          description: sort order
+          schema:
+            type: string
+            enum: [ ASC, DESC ]
+            default: ASC
+            pattern: '^(ASC|DESC)$'
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            'application/hal+json':
+              schema:
+                $ref: '#/components/schemas/TenantsSearchResultDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid role/authorization
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+      security:
+        - Bearer: [ ]
+  /tenantadmin/{id}:
+    put:
+      tags:
+        - tenant-controller
+      summary: 'Updates a tenant [Authorization: Role: tenant-admin or single-tenant-admin]'
+      operationId: updateTenant
+      parameters:
+        - name: id
+          in: path
+          description: Tenant ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/MultilingualTenantDTO'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualTenantDTO'
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        409:
+          description: CONFLICT - unique constraint validation fails
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Gets a tenant by its id [Authorization: Role: tenant-admin or single-tenant-admin]'
+      operationId: getMultilingualTenantById
+      parameters:
+        - name: id
+          in: path
+          description: Tenant ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualTenantDTO'
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        404:
+          description: Not found
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /tenant:
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Get all tenants'
+      operationId: getAllTenants
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BasicTenantLicensingDTO'
+        204:
+          description: NO CONTENT - no content found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
   /tenant/{id}:
@@ -51,39 +219,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TenantDTO'
-        404:
-          description: Not found
         400:
           description: BAD REQUEST - invalid/incomplete request or body object
-        500:
-          description: INTERNAL SERVER ERROR - server encountered unexpected condition
-    put:
-      tags:
-        - tenant-controller
-      summary: 'Updates a tenant [Authorization: Role: tenant-admin or single-tenant-admin]'
-      operationId: updateTenant
-      parameters:
-        - name: id
-          in: path
-          description: Tenant ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/TenantDTO'
-      responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TenantDTO'
-        409:
-          description: CONFLICT - unique constraint validation fails
+        401:
+          description: UNAUTHORIZED - no/invalid Keycloak token
+        404:
+          description: Not found
         500:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
   /tenant/public/{subdomain}:
@@ -101,6 +242,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: tenantId
+          in: query
+          description: Tenant Id
+          required: false
+          schema:
+            type: long
       responses:
         200:
           description: Successful operation
@@ -108,6 +255,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestrictedTenantDTO'
+        404:
+          description: Not found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /tenant/public/id/{tenantId}:
+    summary: 'Represents a publicly allowed tenant data'
+    description: This resource represents an individual tenant in a system.
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Gets a tenant public information [Authorization: no-auth]'
+      operationId: getRestrictedTenantDataByTenantId
+      parameters:
+        - name: tenantId
+          in: path
+          description: Tenant ID
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestrictedTenantDTO'
+        404:
+          description: Not found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /tenant/public/single:
+    summary: 'Represents a publicly allowed tenant data'
+    description: This resource represents the tenant in a single-tenant system.
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Gets a tenant public information [Authorization: no-auth]'
+      operationId: getRestrictedSingleTenantData
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestrictedTenantDTO'
+        404:
+          description: Not found
+        400:
+          description: BAD REQUEST - invalid/incomplete request or body object
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
+  /tenant/access:
+    summary: 'Validate if user can access tenant'
+    description: This resource represents the access status for the given user to current tenant.
+    get:
+      tags:
+        - tenant-controller
+      summary: 'Validate if user can access tenant [Authorization: no-auth]'
+      operationId: canAccessTenant
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: UNAUTHORIZED - no/invalid permission for current tenant
         404:
           description: Not found
         400:
@@ -129,7 +344,7 @@ components:
         name:
           type: string
           example: "Company name AG"
-          maxLength: 100
+          maxLength: 40
         subdomain:
           type: string
           example: "companyname"
@@ -146,6 +361,71 @@ components:
         content:
           $ref:
             '#/components/schemas/Content'
+        settings:
+          $ref:
+            '#/components/schemas/Settings'
+
+    MultilingualTenantDTO:
+          type: object
+          required:
+            - id
+            - name
+          properties:
+            id:
+              type: long
+              example: 12132
+            name:
+              type: string
+              example: "Company name AG"
+              maxLength: 40
+            subdomain:
+              type: string
+              example: "companyname"
+              maxLength: 100
+            adminEmails:
+              type: array
+              items:
+                type: string
+              example: "[admin1@ob.de, admin2@ob.de]"
+            createDate:
+              type: string
+            updateDate:
+              type: string
+            licensing:
+              $ref: '#/components/schemas/Licensing'
+            theming:
+              $ref:
+                '#/components/schemas/Theming'
+            content:
+              $ref:
+                '#/components/schemas/MultilingualContent'
+            settings:
+              $ref:
+                '#/components/schemas/Settings'
+    BasicTenantLicensingDTO:
+      type: object
+      required:
+        - id
+        - name
+        - subdomain
+      properties:
+        id:
+          type: long
+          example: 12132
+        name:
+          type: string
+          example: "Company name AG"
+          maxLength: 40
+        subdomain:
+          type: string
+          example: "companyname"
+          maxLength: 100
+        createDate:
+          type: string
+        updateDate:
+          type: string
+        licensing:
+          $ref: '#/components/schemas/Licensing'
     RestrictedTenantDTO:
       type: object
       required:
@@ -158,6 +438,10 @@ components:
         name:
           type: string
           example: "Company name AG"
+          maxLength: 40
+        subdomain:
+          type: string
+          example: "subdomain"
           maxLength: 100
         theming:
           $ref:
@@ -165,6 +449,9 @@ components:
         content:
           $ref:
             '#/components/schemas/Content'
+        settings:
+          $ref:
+            '#/components/schemas/Settings'
     Licensing:
       type: object
       required:
@@ -199,3 +486,152 @@ components:
         claim:
           type: string
           example: "Llorem ipsum..."
+          maxLength: 40
+        privacy:
+          type: string
+          example: "Llorem ipsum..."
+        termsAndConditions:
+          type: string
+          example: "Llorem ipsum..."
+        termsAndConditionsConfirmation:
+          type: string
+          format: date-time
+          example: 2022-12-07T11:51:01
+          description: "Datetime stamp when new terms and condition defined"
+        dataPrivacyConfirmation:
+          type: string
+          format: date-time
+          example: 2022-12-07T11:51:01
+          description: "Datetime stamp when new privacy defined"
+
+    Settings:
+      type: object
+      properties:
+        featureStatisticsEnabled:
+          type: boolean
+          example: "false"
+        featureTopicsEnabled:
+          type: boolean
+          example: "false"
+        topicsInRegistrationEnabled:
+          type: boolean
+          example: "false"
+        featureDemographicsEnabled:
+          type: boolean
+          example: "false"
+        featureAppointmentsEnabled:
+          type: boolean
+          example: "false"
+        featureGroupChatV2Enabled:
+          type: boolean
+          example: "false"
+        featureToolsEnabled:
+          type: boolean
+          example: "false"
+        featureAttachmentUploadDisabled:
+          type: boolean
+          example: "false"
+        featureToolsOICDToken:
+          type: string
+          example: "1234-1234-1234-1234"
+        activeLanguages:
+          type: array
+          items:
+            type: string
+          example: "[en, de, fr]"
+        extendedSettings:
+          $ref: './../api/consultingtypeservice.yml#/components/schemas/ConsultingTypePatchDTO'
+
+    MultilingualContent:
+      type: object
+      required:
+        - impressum
+      properties:
+        impressum:
+          type: object
+          additionalProperties:
+            type: string
+        claim:
+          type: object
+          additionalProperties:
+            type: string
+        privacy:
+          type: object
+          additionalProperties:
+            type: string
+        confirmPrivacy:
+          type: boolean
+        termsAndConditions:
+          type: object
+          additionalProperties:
+            type: string
+        confirmTermsAndConditions:
+          type: boolean
+
+    AdminTenantDTO:
+      type: object
+      required:
+        - id
+        - name
+        - subdomain
+      properties:
+        id:
+          type: long
+          example: 12132
+        name:
+          type: string
+          example: "Company name AG"
+          maxLength: 40
+        subdomain:
+          type: string
+          example: "companyname"
+          maxLength: 100
+        beraterCount:
+          type: integer
+          example: 10
+        adminEmails:
+          type: array
+          items:
+            type: string
+          example: "[admin1@ob.de, admin2@ob.de]"
+        createDate:
+          type: string
+        updateDate:
+          type: string
+
+    TenantsSearchResultDTO:
+      type: object
+      properties:
+        _embedded:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminTenantDTO'
+        _links:
+          $ref: '#/components/schemas/PaginationLinks'
+        total:
+          type: integer
+
+    PaginationLinks:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          $ref: '#/components/schemas/HalLink'
+        next:
+          $ref: '#/components/schemas/HalLink'
+        previous:
+          $ref: '#/components/schemas/HalLink'
+
+    HalLink:
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          type: string
+        method:
+          type: string
+          enum: [ GET, POST, DELETE, PUT ]
+        templated:
+          type: boolean
