@@ -48,13 +48,14 @@ public class TopicFeatureAuthorisationService {
     String mainTenantSubdomain =
         entity.getMainTenantSubdomainForSingleDomainMultitenancy().getValue();
     RestrictedTenantDTO restrictedTenantDataBySubdomain =
-        tenantService.getRestrictedTenantDataBySubdomain(mainTenantSubdomain);
+        tenantService.getRestrictedTenantDataBySubdomainNoCache(mainTenantSubdomain);
     return isTopicFeatureEnabled(restrictedTenantDataBySubdomain);
   }
 
   private boolean isTopicFeatureEnabledForMultitenancy() {
     Long currentTenant = TenantContext.getCurrentTenant();
-    RestrictedTenantDTO restrictedTenantData = tenantService.getRestrictedTenantData(currentTenant);
+    RestrictedTenantDTO restrictedTenantData =
+        tenantService.getRestrictedTenantDataNoCache(currentTenant);
     return isTopicFeatureEnabled(restrictedTenantData);
   }
 

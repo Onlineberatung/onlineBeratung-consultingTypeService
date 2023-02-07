@@ -18,6 +18,14 @@ public class TenantService {
 
   @Cacheable(cacheNames = CacheManagerConfig.TENANT_CACHE, key = "#subdomain")
   public RestrictedTenantDTO getRestrictedTenantDataBySubdomain(String subdomain) {
+    return getRestrictedTenantDTO(subdomain);
+  }
+
+  public RestrictedTenantDTO getRestrictedTenantDataBySubdomainNoCache(String subdomain) {
+    return getRestrictedTenantDTO(subdomain);
+  }
+
+  private RestrictedTenantDTO getRestrictedTenantDTO(String subdomain) {
     Long tenantIdToOverride = null;
     return tenantServiceApiControllerFactory
         .createControllerApi()
@@ -27,6 +35,14 @@ public class TenantService {
 
   @Cacheable(cacheNames = CacheManagerConfig.TENANT_CACHE, key = "#tenantId")
   public RestrictedTenantDTO getRestrictedTenantData(Long tenantId) {
+    return getRestrictedTenantDTO(tenantId);
+  }
+
+  public RestrictedTenantDTO getRestrictedTenantDataNoCache(Long tenantId) {
+    return getRestrictedTenantDTO(tenantId);
+  }
+
+  private RestrictedTenantDTO getRestrictedTenantDTO(Long tenantId) {
     log.info("Calling tenant service to get tenant data for tenantId {}", tenantId);
     return tenantServiceApiControllerFactory
         .createControllerApi()

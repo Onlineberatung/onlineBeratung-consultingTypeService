@@ -68,7 +68,7 @@ class TopicAdminControllerIT {
   }
 
   private void givenTopicFeatureEnabled(boolean topicFeatureEnabled) {
-    Mockito.when(tenantService.getRestrictedTenantDataBySubdomain("app"))
+    Mockito.when(tenantService.getRestrictedTenantDataBySubdomainNoCache("app"))
         .thenReturn(
             new RestrictedTenantDTO()
                 .settings(new Settings().featureTopicsEnabled(topicFeatureEnabled)));
