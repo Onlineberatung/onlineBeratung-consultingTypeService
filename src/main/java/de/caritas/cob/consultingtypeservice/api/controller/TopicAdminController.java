@@ -2,6 +2,7 @@ package de.caritas.cob.consultingtypeservice.api.controller;
 
 import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
 import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
+import de.caritas.cob.consultingtypeservice.api.service.TopicFeatureAuthorisationService;
 import de.caritas.cob.consultingtypeservice.api.service.TopicServiceFacade;
 import de.caritas.cob.consultingtypeservice.generated.api.controller.TopicadminApi;
 import io.swagger.annotations.Api;
@@ -26,6 +27,8 @@ public class TopicAdminController implements TopicadminApi {
   private final @NonNull TopicServiceFacade topicServiceFacade;
 
   @Autowired private AuthenticatedUser authenticatedUser;
+
+  @Autowired private TopicFeatureAuthorisationService topicFeatureAuthorisationService;
 
   @Override
   @PreAuthorize("hasAuthority('AUTHORIZATION_CREATE_TOPIC')")
