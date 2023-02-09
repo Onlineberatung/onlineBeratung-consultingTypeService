@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
+import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import de.caritas.cob.consultingtypeservice.api.service.TopicFeatureAuthorisationService;
 import de.caritas.cob.consultingtypeservice.api.service.TopicServiceFacade;
@@ -50,9 +51,9 @@ public class TopicAdminController implements TopicadminApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('AUTHORIZATION_GET_ALL_TOPICS_WITH_TRANSLATION')")
-  public ResponseEntity<List<TopicMultilingualDTO>> getAllTopicsWithTranslation() {
-    final var topics = topicServiceFacade.getAllTopicsMultilingual();
+  @PreAuthorize("hasAuthority('AUTHORIZATION_GET_ALL_TOPICS')")
+  public ResponseEntity<List<TopicDTO>> getAllTopicsAsAdmin() {
+    final var topics = topicServiceFacade.getAllTopics();
     return !CollectionUtils.isEmpty(topics)
         ? new ResponseEntity<>(topics, HttpStatus.OK)
         : new ResponseEntity<>(HttpStatus.NO_CONTENT);
