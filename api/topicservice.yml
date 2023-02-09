@@ -86,7 +86,7 @@ paths:
   /topicadmin:
     post:
       tags:
-        - topic-controller
+        - topic-admin-controller
       summary: 'Creates a new topic [Authorization: Role: topic-admin]'
       operationId: createTopic
       requestBody:
@@ -109,9 +109,9 @@ paths:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
     get:
       tags:
-        - topic-controller
-      summary: 'Get all topics with translation'
-      operationId: getAllTopicsWithTranslation
+        - topic-admin-controller
+      summary: 'Get all topics'
+      operationId: getAllTopicsAsAdmin
       responses:
         200:
           description: OK - successful operation
@@ -120,7 +120,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TopicMultilingualDTO'
+                  $ref: '#/components/schemas/TopicDTO'
         204:
           description: NO CONTENT - no content found
         400:
@@ -134,7 +134,7 @@ paths:
     description: This resource represents an individual topic in a system.
     get:
       tags:
-        - topic-controller
+        - topic-admin-controller
       summary: 'Gets a topic with translation by its id [Not yet implemented]'
       operationId: getTopicWithTranslationById
       parameters:
@@ -162,7 +162,7 @@ paths:
           description: INTERNAL SERVER ERROR - server encountered unexpected condition
     put:
       tags:
-        - topic-controller
+        - topic-admin-controller
       summary: 'Updates a topic [Authorization: Role: topic-admin] [Not yet implemented]'
       operationId: updateTopic
       parameters:
