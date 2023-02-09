@@ -27,7 +27,7 @@ public enum Authority {
       Lists.newArrayList(
           AuthorityValue.CREATE_TOPIC,
           AuthorityValue.UPDATE_TOPIC,
-          AuthorityValue.GET_ALL_TOPICS_WITH_TRANSLATION,
+          AuthorityValue.GET_ALL_TOPICS,
           AuthorityValue.GET_TOPICS_TRANSLATION_BY_ID));
 
   private final UserRole userRole;
@@ -55,8 +55,7 @@ public enum Authority {
         PREFIX + "LIMITED_PATCH_CONSULTING_TYPE";
     public static final String CREATE_TOPIC = PREFIX + "CREATE_TOPIC";
     public static final String UPDATE_TOPIC = PREFIX + "UPDATE_TOPIC";
-    public static final String GET_ALL_TOPICS_WITH_TRANSLATION =
-        PREFIX + "GET_ALL_TOPICS_WITH_TRANSLATION";
+    public static final String GET_ALL_TOPICS = PREFIX + "GET_ALL_TOPICS";
     public static final String GET_TOPICS_TRANSLATION_BY_ID =
         PREFIX + "GET_TOPICS_TRANSLATION_BY_ID";
   }
