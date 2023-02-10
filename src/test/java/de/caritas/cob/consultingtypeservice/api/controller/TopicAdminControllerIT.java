@@ -246,8 +246,7 @@ class TopicAdminControllerIT {
   }
 
   @Test
-  void getAllTopics_Should_ReturnTopicsList_When_UserIsAuthenticated()
-      throws Exception {
+  void getAllTopics_Should_ReturnTopicsList_When_UserIsAuthenticated() throws Exception {
     final AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
     mockMvc
         .perform(
@@ -264,8 +263,7 @@ class TopicAdminControllerIT {
   }
 
   @Test
-  void getAllTopics_Should_ReturnForbiddenIfTopicFeatureIsDisabled()
-      throws Exception {
+  void getAllTopics_Should_ReturnForbiddenIfTopicFeatureIsDisabled() throws Exception {
     givenTopicFeatureEnabled(false);
     final AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
     mockMvc
