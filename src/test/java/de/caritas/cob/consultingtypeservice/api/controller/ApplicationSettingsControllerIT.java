@@ -13,8 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
-import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy;
-import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsPatchDTO;
 import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRepository;
@@ -105,14 +103,8 @@ class ApplicationSettingsControllerIT {
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
     Authentication authentication = builder.withUserRole(TENANT_ADMIN.getValue()).build();
     ApplicationSettingsPatchDTO patchDTO = new ApplicationSettingsPatchDTO();
-    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
-        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled()
-            .value(false)
-            .readOnly(true));
-    patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy(
-        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy()
-            .value("app2")
-            .readOnly(true));
+    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(false);
+    patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy("app2");
     String jsonRequest = JsonConverter.convertToJson(patchDTO);
     mockMvc
         .perform(
@@ -158,12 +150,8 @@ class ApplicationSettingsControllerIT {
 
   private void resetSettingsToPreviousState(Authentication authentication) throws Exception {
     var patchDTO = new ApplicationSettingsPatchDTO();
-    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
-        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled().value(true).readOnly(true));
-    patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy(
-        new ApplicationSettingsDTOMainTenantSubdomainForSingleDomainMultitenancy()
-            .value("app")
-            .readOnly(true));
+    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(true);
+    patchDTO.setMainTenantSubdomainForSingleDomainMultitenancy("app");
     var jsonRequest = JsonConverter.convertToJson(patchDTO);
     mockMvc
         .perform(
@@ -184,10 +172,7 @@ class ApplicationSettingsControllerIT {
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
 
     ApplicationSettingsPatchDTO patchDTO = new ApplicationSettingsPatchDTO();
-    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(
-        new ApplicationSettingsDTOMultitenancyWithSingleDomainEnabled()
-            .value(false)
-            .readOnly(true));
+    patchDTO.setLegalContentChangesBySingleTenantAdminsAllowed(false);
     String jsonRequest = JsonConverter.convertToJson(patchDTO);
     mockMvc
         .perform(

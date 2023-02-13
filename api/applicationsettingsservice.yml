@@ -109,11 +109,9 @@ components:
       type: object
       properties:
         legalContentChangesBySingleTenantAdminsAllowed:
-          allOf:
-            - $ref: '#/components/schemas/FeatureToggleDTO'
+          type: boolean
         mainTenantSubdomainForSingleDomainMultitenancy:
-          allOf:
-            - $ref: '#/components/schemas/SettingDTO'
+          type: string
     
     FeatureToggleDTO:
       type: object
