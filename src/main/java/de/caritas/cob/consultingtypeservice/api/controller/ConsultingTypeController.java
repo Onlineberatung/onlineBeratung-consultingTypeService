@@ -136,7 +136,9 @@ public class ConsultingTypeController implements ConsultingtypesApi {
   }
 
   @Override
-  @PreAuthorize("hasAuthority('AUTHORIZATION_PATCH_CONSULTING_TYPE')")
+  @PreAuthorize(
+      "hasAnyAuthority('AUTHORIZATION_PATCH_CONSULTING_TYPE', "
+          + "'AUTHORIZATION_LIMITED_PATCH_CONSULTING_TYPE')")
   public ResponseEntity<FullConsultingTypeResponseDTO> patchConsultingType(
       Integer consultingTypeId, final ConsultingTypePatchDTO consultingTypeDTO) {
     return ResponseEntity.ok(

@@ -1,5 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.service;
 
+import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
+import de.caritas.cob.consultingtypeservice.api.auth.Authority.AuthorityValue;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 /** Service for consulting type operations. */
@@ -30,6 +33,8 @@ public class ConsultingTypeService {
   private final @NonNull ConsultingTypeRepositoryService consultingTypeRepositoryService;
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
   private final @NonNull SettingsPermissionsValidator settingsPermissionsValidator;
+
+  private final @NonNull AuthenticatedUser authenticatedUser;
 
   /**
    * Fetch a list of all consulting types with basic properties.
@@ -131,9 +136,43 @@ public class ConsultingTypeService {
     settingsPermissionsValidator.assertUserHasPermissionToChangeSettings(consultingTypePatchDTO);
     ConsultingType consultingType =
         consultingTypeRepositoryService.getConsultingTypeById(consultingTypeId);
+
+    if (hasOnlyLimitedPatchPriviliges()) {
+      assertChangesAreAllowedForUsersWithLimitedPatchPermission(
+          consultingTypePatchDTO, consultingType);
+    }
+
     consultingType = consultingTypeConverter.convert(consultingType, consultingTypePatchDTO);
     var updated = consultingTypeRepositoryService.update(consultingType);
     return ConsultingTypeMapper.mapConsultingType(
         updated, FullConsultingTypeMapper::mapConsultingType);
+  }
+
+  private void assertChangesAreAllowedForUsersWithLimitedPatchPermission(
+      ConsultingTypePatchDTO consultingTypePatchDTO, ConsultingType consultingType) {
+    if (isChanged(consultingTypePatchDTO.getLanguageFormal(), consultingType.getLanguageFormal())) {
+      throw new AccessDeniedException("Not allowed to change language formal");
+    }
+    if (isChanged(
+        consultingTypePatchDTO.getIsVideoCallAllowed(), consultingType.getIsVideoCallAllowed())) {
+      throw new AccessDeniedException("Not allowed to change vide call settings");
+    }
+  }
+
+  private boolean isChanged(Boolean inputSettings, boolean existingSettingsToCompare) {
+    return nullAsFalse(inputSettings) != existingSettingsToCompare;
+  }
+
+  boolean nullAsFalse(Boolean value) {
+    return value != null && value;
+  }
+
+  private boolean hasOnlyLimitedPatchPriviliges() {
+    return authenticatedUser
+            .getGrantedAuthorities()
+            .contains(AuthorityValue.LIMITED_PATCH_CONSULTING_TYPE)
+        && !authenticatedUser
+            .getGrantedAuthorities()
+            .contains(AuthorityValue.PATCH_CONSULTING_TYPE);
   }
 }

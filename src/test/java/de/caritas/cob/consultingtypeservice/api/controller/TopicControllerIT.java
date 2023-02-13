@@ -11,13 +11,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
+import de.caritas.cob.consultingtypeservice.api.service.TenantService;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
+import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.RestrictedTenantDTO;
+import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.Settings;
 import de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "multitenancy.enabled=false")
+@TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 @AutoConfigureMockMvc(addFilters = false)
 class TopicControllerIT {
 
@@ -34,10 +40,20 @@ class TopicControllerIT {
 
   @Autowired private WebApplicationContext context;
 
+  @MockBean TenantService tenantService;
+
   @BeforeEach
   public void setup() {
     TenantContext.clear();
     mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    givenTopicFeatureEnabled(false);
+  }
+
+  private void givenTopicFeatureEnabled(boolean topicFeatureEnabled) {
+    Mockito.when(tenantService.getRestrictedTenantDataBySubdomain("app"))
+        .thenReturn(
+            new RestrictedTenantDTO()
+                .settings(new Settings().featureTopicsEnabled(topicFeatureEnabled)));
   }
 
   @Test
