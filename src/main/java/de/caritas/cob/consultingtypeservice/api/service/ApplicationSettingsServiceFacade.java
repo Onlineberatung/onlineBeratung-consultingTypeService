@@ -38,14 +38,12 @@ public class ApplicationSettingsServiceFacade {
     if (settingsPatchDTO.getLegalContentChangesBySingleTenantAdminsAllowed() != null) {
       entity
           .getLegalContentChangesBySingleTenantAdminsAllowed()
-          .setValue(
-              settingsPatchDTO.getLegalContentChangesBySingleTenantAdminsAllowed().getValue());
+          .setValue(settingsPatchDTO.getLegalContentChangesBySingleTenantAdminsAllowed());
     }
     if (settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy() != null) {
       entity
           .getMainTenantSubdomainForSingleDomainMultitenancy()
-          .setValue(
-              settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy().getValue());
+          .setValue(settingsPatchDTO.getMainTenantSubdomainForSingleDomainMultitenancy());
     }
   }
 }
