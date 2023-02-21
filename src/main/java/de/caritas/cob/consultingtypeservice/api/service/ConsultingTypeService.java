@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,9 @@ public class ConsultingTypeService {
   private final @NonNull ConsultingTypeConverter consultingTypeConverter;
 
   private final @NonNull AuthenticatedUser authenticatedUser;
+
+  @Value("${feature.multitenancy.with.single.domain.enabled}")
+  private boolean multitenancyWithSingleDomainEnabled;
 
   /**
    * Fetch a list of all consulting types with basic properties.
@@ -146,11 +150,15 @@ public class ConsultingTypeService {
         updated, FullConsultingTypeMapper::mapConsultingType);
   }
 
-  private void assertChangesAreAllowedForUsersWithLimitedPatchPermission(
+  void assertChangesAreAllowedForUsersWithLimitedPatchPermission(
       ConsultingTypePatchDTO consultingTypePatchDTO, ConsultingType consultingType) {
-    if (isChanged(consultingTypePatchDTO.getLanguageFormal(), consultingType.getLanguageFormal())) {
+
+    if (multitenancyWithSingleDomainEnabled
+        && isChanged(
+            consultingTypePatchDTO.getLanguageFormal(), consultingType.getLanguageFormal())) {
       throw new AccessDeniedException("Not allowed to change language formal");
     }
+
     if (isChanged(
         consultingTypePatchDTO.getIsVideoCallAllowed(), consultingType.getIsVideoCallAllowed())) {
       throw new AccessDeniedException("Not allowed to change vide call settings");

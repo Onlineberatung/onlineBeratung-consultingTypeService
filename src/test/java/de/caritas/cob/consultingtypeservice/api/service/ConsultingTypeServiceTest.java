@@ -4,17 +4,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTO;
+import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypePatchDTO;
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
 import java.util.List;
+import org.assertj.core.api.Fail;
 import org.jeasy.random.EasyRandom;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +25,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsultingTypeServiceTest {
@@ -51,6 +56,8 @@ public class ConsultingTypeServiceTest {
         .thenReturn(consultingType2);
     when(consultingTypeRepository.getConsultingTypeBySlug(consultingType3.getSlug()))
         .thenReturn(consultingType3);
+    ReflectionTestUtils.setField(
+        consultingTypeService, "multitenancyWithSingleDomainEnabled", false);
   }
 
   @Test
@@ -101,5 +108,42 @@ public class ConsultingTypeServiceTest {
         consultingTypeService.fetchBasicConsultingTypeSettingsById(consultingType2.getId());
     assertThat(result, notNullValue());
     assertThat(result.getId(), is(consultingType2.getId()));
+  }
+
+  @Test
+  public void
+      assertChangesAreAllowedForUsersWithLimitedPatchPermission_Should_ThrowExceptionIfSingleDomainMultitenancyAndSingleTenantAdminTriesToChangeLanguage() {
+    // given
+    ReflectionTestUtils.setField(
+        consultingTypeService, "multitenancyWithSingleDomainEnabled", true);
+    ConsultingTypePatchDTO patchDTO = new ConsultingTypePatchDTO();
+    patchDTO.setLanguageFormal(false);
+    ConsultingType existing = new ConsultingType().withLanguageFormal(true);
+
+    // when, then
+    assertThrows(
+        AccessDeniedException.class,
+        () ->
+            consultingTypeService.assertChangesAreAllowedForUsersWithLimitedPatchPermission(
+                patchDTO, existing));
+  }
+
+  @Test
+  public void
+      assertChangesAreAllowedForUsersWithLimitedPatchPermission_Should_NotThrowExceptionIfMultidomainMultitenancyAndSingleTenantAdminTriesToChangeLanguage() {
+    // given
+    ReflectionTestUtils.setField(
+        consultingTypeService, "multitenancyWithSingleDomainEnabled", false);
+    ConsultingTypePatchDTO patchDTO = new ConsultingTypePatchDTO();
+    patchDTO.setLanguageFormal(false);
+    ConsultingType existing = new ConsultingType().withLanguageFormal(true);
+
+    // when, then
+    try {
+      consultingTypeService.assertChangesAreAllowedForUsersWithLimitedPatchPermission(
+          patchDTO, existing);
+    } catch (Exception e) {
+      Fail.fail("Expected no exception");
+    }
   }
 }
