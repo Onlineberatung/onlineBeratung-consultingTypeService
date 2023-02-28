@@ -14,7 +14,6 @@
   "consultantBoundedToConsultingType": false,
   "isSubsequentRegistrationAllowed": true,
   "isAnonymousConversationAllowed": false,
-  "lockedAgencies": true,
   "showAskerProfile": false,
   "isVideoCallAllowed": false,
   "welcomeMessage": {
@@ -22,7 +21,6 @@
     "welcomeMessageText": "Lorem ipsum"
   },
   "sendFurtherStepsMessage": true,
-  "sendSaveSessionDataMessage": true,
   "isSetEmailAllowed": false,
   "sessionDataInitializing": {
     "addictiveDrugs": true,
