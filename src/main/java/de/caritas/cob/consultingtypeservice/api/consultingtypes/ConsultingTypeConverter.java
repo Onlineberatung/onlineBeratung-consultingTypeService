@@ -74,14 +74,12 @@ public class ConsultingTypeConverter {
         .withSlug(consultingTypeDTO.getSlug())
         .withExcludeNonMainConsultantsFromTeamSessions(
             consultingTypeDTO.getExcludeNonMainConsultantsFromTeamSessions())
-        .withLockedAgencies(consultingTypeDTO.getLockedAgencies())
         .withWhiteSpot(convert(consultingTypeDTO.getWhiteSpot()))
         .withGroupChat(convert(consultingTypeDTO.getGroupChat()))
         .withConsultantBoundedToConsultingType(
             consultingTypeDTO.getConsultantBoundedToConsultingType())
         .withWelcomeMessage(convert(consultingTypeDTO.getWelcomeMessage()))
         .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
-        .withSendSaveSessionDataMessage(consultingTypeDTO.getSendSaveSessionDataMessage())
         .withIsSetEmailAllowed(consultingTypeDTO.getIsSetEmailAllowed())
         .withSessionDataInitializing(convert(consultingTypeDTO.getSessionDataInitializing()))
         .withMonitoring(convert(consultingTypeDTO.getMonitoring()))
@@ -107,7 +105,6 @@ public class ConsultingTypeConverter {
     return consultingTypeEntity
         .withWelcomeMessage(convert(consultingTypeDTO.getWelcomeMessage()))
         .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
-        .withSendSaveSessionDataMessage(consultingTypeDTO.getSendSaveSessionDataMessage())
         .withLanguageFormal(consultingTypeDTO.getLanguageFormal())
         .withNotifications(convert(consultingTypeDTO.getNotifications()))
         .withIsVideoCallAllowed(consultingTypeDTO.getIsVideoCallAllowed());

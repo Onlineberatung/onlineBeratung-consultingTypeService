@@ -24,13 +24,11 @@ public class ExtendedConsultingTypeMapper extends ConsultingTypeMapper {
         .registration(mapRegistration(consultingType.getRegistration()))
         .excludeNonMainConsultantsFromTeamSessions(
             consultingType.getExcludeNonMainConsultantsFromTeamSessions())
-        .lockedAgencies(consultingType.getLockedAgencies())
         .whiteSpot(mapWhiteSpot(consultingType.getWhiteSpot()))
         .groupChat(mapGroupChat(consultingType.getGroupChat()))
         .consultantBoundedToConsultingType(consultingType.getConsultantBoundedToConsultingType())
         .welcomeMessage(mapWelcomeMessage(consultingType.getWelcomeMessage()))
         .sendFurtherStepsMessage(consultingType.getSendFurtherStepsMessage())
-        .sendSaveSessionDataMessage(consultingType.getSendSaveSessionDataMessage())
         .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
         .isAnonymousConversationAllowed(consultingType.getIsAnonymousConversationAllowed())
         .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())

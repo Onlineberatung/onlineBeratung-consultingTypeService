@@ -18,7 +18,6 @@
     "welcomeMessageText": "Lorem ipsum"
   },
   "sendFurtherStepsMessage": true,
-  "sendSaveSessionDataMessage": true,
   "isSetEmailAllowed": false,
   "isVideoCallAllowed": false,
   "sessionDataInitializing": {

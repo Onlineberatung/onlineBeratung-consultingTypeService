@@ -3,14 +3,12 @@
   "tenantId": null,
   "slug": "null-values",
   "excludeNonMainConsultantsFromTeamSessions": false,
-  "lockedAgencies": false,
   "consultantBoundedToConsultingType": false,
   "welcomeMessage": {
     "sendWelcomeMessage": false,
     "welcomeMessageText": null
   },
   "sendFurtherStepsMessage": true,
-  "sendSaveSessionDataMessage": false,
   "isSetEmailAllowed": true,
   "showAskerProfile": true,
   "isVideoCallAllowed": true,
