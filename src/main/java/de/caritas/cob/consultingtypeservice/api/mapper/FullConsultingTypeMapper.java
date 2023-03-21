@@ -38,7 +38,6 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .isPeerChat(consultingType.getIsPeerChat())
         .languageFormal(consultingType.getLanguageFormal())
         .showAskerProfile(consultingType.getShowAskerProfile())
-        .monitoring(mapMonitoring(consultingType.getMonitoring()))
         .roles(mapRoles(consultingType.getRoles()))
         .notifications(mapNotifications(consultingType.getNotifications()))
         .voluntaryComponents(consultingType.getVoluntaryComponents())

@@ -339,25 +339,6 @@
         }
       }
     },
-    "monitoring": {
-      "description": "Settings for the initializing of the monitoring",
-      "type": "object",
-      "properties": {
-        "initializeMonitoring": {
-          "description": "Indicates whether the monitoring should be initialized for this consulting type",
-          "type": "boolean",
-          "default": false
-        },
-        "monitoringTemplateFile": {
-          "description": "The path to the template file for the initialization of the monitoring for this consulting type",
-          "type": ["string", "null"],
-          "default": null
-        }
-      },
-      "required": [
-        "initializeMonitoring"
-      ]
-    },
     "initializeFeedbackChat": {
       "description": "Indicates whether the feedback chat should be initialized for every session of this consulting type",
       "type": "boolean",
