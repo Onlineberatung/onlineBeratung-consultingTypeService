@@ -35,6 +35,7 @@ public class ApplicationSettingsConverter {
             .legalContentChangesBySingleTenantAdminsAllowed(
                 toFeatureToggleDTO(
                     applicationSettings.getLegalContentChangesBySingleTenantAdminsAllowed()))
+            .documentationEnabled(toFeatureToggleDTO(applicationSettings.getDocumentationEnabled()))
             .releaseToggles(Maps.newHashMap());
 
     settingsDTO.getReleaseToggles().putAll(applicationSettings.getReleaseToggles());

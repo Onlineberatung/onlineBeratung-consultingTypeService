@@ -9,6 +9,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalcomUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalendarAppUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
+import de.caritas.cob.consultingtypeservice.schemas.model.DocumentationEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
 import de.caritas.cob.consultingtypeservice.schemas.model.LegalContentChangesBySingleTenantAdminsAllowed;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
@@ -37,6 +38,7 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getCalcomUrl()).isNull();
     assertThat(applicationSettingsDTO.getUseOverviewPage()).isNull();
     assertThat(applicationSettingsDTO.getLegalContentChangesBySingleTenantAdminsAllowed()).isNull();
+    assertThat(applicationSettingsDTO.getDocumentationEnabled()).isNull();
   }
 
   @Test
@@ -67,13 +69,13 @@ class ApplicationSettingsConverterTest {
                 .getMainTenantSubdomainForSingleDomainMultitenancy()
                 .getReadOnly())
         .isFalse();
-    assertThat(applicationSettingsDTO.getBudibaseAuthClientId().getReadOnly()).isEqualTo(false);
+    assertThat(applicationSettingsDTO.getBudibaseAuthClientId().getReadOnly()).isFalse();
     assertThat(applicationSettingsDTO.getBudibaseAuthClientId().getValue())
         .isEqualTo("budibaseAuthClientId");
     assertThat(applicationSettingsDTO.getCalcomUrl().getValue()).isEqualTo("calcomUrl");
     assertThat(applicationSettingsDTO.getBudibaseUrl().getValue()).isEqualTo("budibaseUrl");
     assertThat(applicationSettingsDTO.getCalendarAppUrl().getValue()).isEqualTo("calendarAppUrl");
-    assertThat(applicationSettingsDTO.getCalcomUrl().getReadOnly()).isEqualTo(false);
+    assertThat(applicationSettingsDTO.getCalcomUrl().getReadOnly()).isFalse();
     assertThat(applicationSettingsDTO.getUseOverviewPage().getValue()).isFalse();
     assertThat(applicationSettingsDTO.getUseOverviewPage().getReadOnly()).isFalse();
     assertThat(
@@ -106,6 +108,7 @@ class ApplicationSettingsConverterTest {
     settings.setUseOverviewPage(new UseOverviewPage().withReadOnly(false).withValue(false));
     settings.setLegalContentChangesBySingleTenantAdminsAllowed(
         new LegalContentChangesBySingleTenantAdminsAllowed().withReadOnly(false).withValue(true));
+    settings.setDocumentationEnabled(new DocumentationEnabled().withReadOnly(true).withValue(true));
     return settings;
   }
 }

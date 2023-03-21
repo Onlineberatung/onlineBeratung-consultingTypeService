@@ -91,7 +91,9 @@ class ApplicationSettingsControllerIT {
         .andExpect(jsonPath("$.useOverviewPage.readOnly").value(false))
         .andExpect(jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.value").value(true))
         .andExpect(
-            jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false));
+            jsonPath("$.legalContentChangesBySingleTenantAdminsAllowed.readOnly").value(false))
+        .andExpect(jsonPath("$.documentationEnabled.value").value(false))
+        .andExpect(jsonPath("$.documentationEnabled.readOnly").value(true));
   }
 
   @Test
