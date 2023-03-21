@@ -7,6 +7,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.BudibaseUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalcomUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.CalendarAppUrl;
 import de.caritas.cob.consultingtypeservice.schemas.model.DisableVideoAppointments;
+import de.caritas.cob.consultingtypeservice.schemas.model.DocumentationEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.EnableWalkthrough;
 import de.caritas.cob.consultingtypeservice.schemas.model.LegalContentChangesBySingleTenantAdminsAllowed;
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
@@ -73,6 +74,7 @@ public class DefaultApplicationSettingsInitializer {
     entity.setCalendarAppUrl(new CalendarAppUrl().withValue("calendarAppUrl").withReadOnly(false));
     entity.setLegalContentChangesBySingleTenantAdminsAllowed(
         new LegalContentChangesBySingleTenantAdminsAllowed().withValue(true).withReadOnly(false));
+    entity.setDocumentationEnabled(new DocumentationEnabled().withValue(false).withReadOnly(true));
     return entity;
   }
 }

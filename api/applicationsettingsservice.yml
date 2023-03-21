@@ -99,6 +99,9 @@ components:
         legalContentChangesBySingleTenantAdminsAllowed:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
+        documentationEnabled:
+          allOf:
+            - $ref: '#/components/schemas/FeatureToggleDTO'
         releaseToggles:
           type: object
           additionalProperties:
