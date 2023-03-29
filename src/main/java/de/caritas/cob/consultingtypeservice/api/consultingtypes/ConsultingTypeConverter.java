@@ -6,7 +6,6 @@ import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeRespons
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOTitles;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOUrls;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTO;
-import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOMonitoring;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTONotifications;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOSessionDataInitializing;
 import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeDTOWelcomeMessage;
@@ -22,7 +21,6 @@ import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import de.caritas.cob.consultingtypeservice.schemas.model.FurtherInformation;
 import de.caritas.cob.consultingtypeservice.schemas.model.GroupChat;
 import de.caritas.cob.consultingtypeservice.schemas.model.MandatoryFields;
-import de.caritas.cob.consultingtypeservice.schemas.model.Monitoring;
 import de.caritas.cob.consultingtypeservice.schemas.model.NewMessage;
 import de.caritas.cob.consultingtypeservice.schemas.model.Notes;
 import de.caritas.cob.consultingtypeservice.schemas.model.Notifications;
@@ -82,7 +80,6 @@ public class ConsultingTypeConverter {
         .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
         .withIsSetEmailAllowed(consultingTypeDTO.getIsSetEmailAllowed())
         .withSessionDataInitializing(convert(consultingTypeDTO.getSessionDataInitializing()))
-        .withMonitoring(convert(consultingTypeDTO.getMonitoring()))
         .withInitializeFeedbackChat(consultingTypeDTO.getInitializeFeedbackChat())
         .withIsPeerChat(consultingTypeDTO.getIsPeerChat())
         .withLanguageFormal(consultingTypeDTO.getLanguageFormal())
@@ -171,11 +168,6 @@ public class ConsultingTypeConverter {
       return null;
     }
     return new Roles(roles.getConsultant().getRoleNames());
-  }
-
-  private Monitoring convert(ConsultingTypeDTOMonitoring monitoring) {
-    return new Monitoring(
-        monitoring.getInitializeMonitoring(), monitoring.getMonitoringTemplateFile());
   }
 
   private SessionDataInitializing convert(

@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOGroupChat;
-import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.SessionDataInitializingDTO;
 import de.caritas.cob.consultingtypeservice.api.model.WelcomeMessageDTO;
@@ -40,15 +39,6 @@ public class ConsultingTypeMapperTest {
     assertThat(result, notNullValue());
     assertThat(result.getSendWelcomeMessage(), is(false));
     assertThat(result.getWelcomeMessageText(), nullValue());
-  }
-
-  @Test
-  public void mapMonitoring_Should_InitializeDefaultObjectIfNull() {
-
-    MonitoringDTO result = ConsultingTypeMapper.mapMonitoring(null);
-    assertThat(result, notNullValue());
-    assertThat(result.getInitializeMonitoring(), is(false));
-    assertThat(result.getMonitoringTemplateFile(), nullValue());
   }
 
   @Test

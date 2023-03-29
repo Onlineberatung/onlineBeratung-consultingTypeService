@@ -9,7 +9,6 @@ import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeRespons
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTORegistration;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOTitles;
 import de.caritas.cob.consultingtypeservice.api.model.BasicConsultingTypeResponseDTOUrls;
-import de.caritas.cob.consultingtypeservice.api.model.MonitoringDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.NotificationsDTOTeamSessions;
 import de.caritas.cob.consultingtypeservice.api.model.RegistrationDTOMandatoryFields;
@@ -24,7 +23,6 @@ import de.caritas.cob.consultingtypeservice.schemas.model.Anonymous;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import de.caritas.cob.consultingtypeservice.schemas.model.FurtherInformation;
 import de.caritas.cob.consultingtypeservice.schemas.model.GroupChat;
-import de.caritas.cob.consultingtypeservice.schemas.model.Monitoring;
 import de.caritas.cob.consultingtypeservice.schemas.model.NewMessage;
 import de.caritas.cob.consultingtypeservice.schemas.model.Notifications;
 import de.caritas.cob.consultingtypeservice.schemas.model.Registration;
@@ -134,14 +132,6 @@ public class ConsultingTypeMapper {
     return nonNull(sessionDataInitializing)
         ? sessionDataInitializing
         : new SessionDataInitializing();
-  }
-
-  protected static MonitoringDTO mapMonitoring(Monitoring monitoring) {
-    return nonNull(monitoring)
-        ? new MonitoringDTO()
-            .initializeMonitoring(monitoring.getInitializeMonitoring())
-            .monitoringTemplateFile(monitoring.getMonitoringTemplateFile())
-        : new MonitoringDTO().initializeMonitoring(false);
   }
 
   protected static RolesDTO mapRoles(Roles roles) {
