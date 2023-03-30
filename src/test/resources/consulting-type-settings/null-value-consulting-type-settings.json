@@ -9,7 +9,6 @@
     "welcomeMessageText": null
   },
   "sendFurtherStepsMessage": true,
-  "isSetEmailAllowed": true,
   "showAskerProfile": true,
   "isVideoCallAllowed": true,
   "isSubsequentRegistrationAllowed": true,

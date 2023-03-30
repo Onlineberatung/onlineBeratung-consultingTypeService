@@ -80,7 +80,6 @@ public class ConsultingTypeConverter {
             consultingTypeDTO.getConsultantBoundedToConsultingType())
         .withWelcomeMessage(convert(consultingTypeDTO.getWelcomeMessage()))
         .withSendFurtherStepsMessage(consultingTypeDTO.getSendFurtherStepsMessage())
-        .withIsSetEmailAllowed(consultingTypeDTO.getIsSetEmailAllowed())
         .withSessionDataInitializing(convert(consultingTypeDTO.getSessionDataInitializing()))
         .withMonitoring(convert(consultingTypeDTO.getMonitoring()))
         .withInitializeFeedbackChat(consultingTypeDTO.getInitializeFeedbackChat())
