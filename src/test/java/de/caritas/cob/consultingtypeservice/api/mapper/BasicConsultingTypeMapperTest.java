@@ -38,7 +38,6 @@ public class BasicConsultingTypeMapperTest {
                 "roles",
                 "notifications",
                 "registration",
-                "voluntaryComponents",
                 "requiredComponents",
                 "groups",
                 "welcomeScreen",

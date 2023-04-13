@@ -527,26 +527,6 @@
       "type": "boolean",
       "default": false
     },
-    "voluntaryComponents": {
-      "description": "Can be provided to display additional fields in the asker profile.",
-      "type": ["array", "null"],
-      "items": {
-        "anyOf": [
-          {
-            "type": "object",
-            "$ref": "#/definitions/RadioButton"
-          },
-          {
-            "type": "object",
-            "$ref": "#/definitions/SelectDropdown"
-          },
-          {
-            "type": "object",
-            "$ref": "#/definitions/TagSelect"
-          }
-        ]
-      }
-    },
     "requiredComponents": {
       "description:": "Can be provided if additional data is required for registration.",
       "type": ["object", "null"],
