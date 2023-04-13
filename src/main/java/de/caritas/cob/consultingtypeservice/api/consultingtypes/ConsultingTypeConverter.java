@@ -92,7 +92,6 @@ public class ConsultingTypeConverter {
         .withIsVideoCallAllowed(consultingTypeDTO.getIsVideoCallAllowed())
         .withIsSubsequentRegistrationAllowed(consultingTypeDTO.getIsSubsequentRegistrationAllowed())
         .withIsAnonymousConversationAllowed(consultingTypeDTO.getIsAnonymousConversationAllowed())
-        .withVoluntaryComponents(consultingTypeDTO.getVoluntaryComponents())
         .withRequiredComponents(convert(consultingTypeDTO.getRequiredComponents()))
         .withWelcomeScreen(convert(consultingTypeDTO.getWelcomeScreen()));
   }

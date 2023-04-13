@@ -331,10 +331,6 @@ components:
         - $ref: '#/components/schemas/ExtendedConsultingTypeResponseDTO'
         - type: object
           properties:
-            voluntaryComponents:
-              type: array
-              items:
-                type: object
             requiredComponents:
               type: object
             welcomeScreen:
@@ -418,10 +414,6 @@ components:
         notifications:
           allOf:
             - $ref: '#/components/schemas/NotificationsDTO'
-        voluntaryComponents:
-          type: array
-          items:
-            type: object
         requiredComponents:
           $ref: '#/components/schemas/RequiredComponentsDTO'
         welcomeScreen:

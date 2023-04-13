@@ -77,11 +77,7 @@ class ConsultingTypeControllerE2EIT {
     AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
 
     ConsultingTypeDTO consultingTypeDTO =
-        easyRandom
-            .nextObject(ConsultingTypeDTO.class)
-            .tenantId(4)
-            .slug("test-slug")
-            .voluntaryComponents(null);
+        easyRandom.nextObject(ConsultingTypeDTO.class).tenantId(4).slug("test-slug");
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
     FullConsultingTypeResponseDTO expectedResponseDTO = createFrom(consultingTypeDTO, CREATE_ID);
@@ -231,11 +227,7 @@ class ConsultingTypeControllerE2EIT {
           throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
-        easyRandom
-            .nextObject(ConsultingTypeDTO.class)
-            .tenantId(4)
-            .slug("test-slug")
-            .voluntaryComponents(null);
+        easyRandom.nextObject(ConsultingTypeDTO.class).tenantId(4).slug("test-slug");
     consultingTypeDTO.getRoles().getConsultant().addRoleNames("test", Arrays.asList("test"));
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
