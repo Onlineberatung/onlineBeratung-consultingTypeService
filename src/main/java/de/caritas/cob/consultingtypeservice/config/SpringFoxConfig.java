@@ -65,7 +65,9 @@ public class SpringFoxConfig {
         "/swagger-resources/**",
         "/configuration/security",
         "/swagger-ui.html",
-        "/webjars/**"
+        "/webjars/**",
+        "/actuator/health",
+        "/actuator/health/**"
       };
 
   @Bean
