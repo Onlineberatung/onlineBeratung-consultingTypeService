@@ -25,7 +25,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class HttpTenantFilter extends OncePerRequestFilter {
 
   private static final String[] TENANCY_FILTER_WHITELIST =
-      new String[] {"/actuator/health", "/actuator/health/**", "/swagger-ui.html",  "/favicon.ico"};
+      new String[] {"/actuator/health", "/actuator/health/**", "/swagger-ui.html", "/favicon.ico"};
   private final TenantResolver tenantResolver;
 
   private final DefaultRequiresTenantFilterMatcher requiresTenantFilterMatcher =
@@ -44,7 +44,9 @@ public class HttpTenantFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
       TenantContext.clear();
     } else {
-      log.info("Skipping tenant filter for request: {} as it belongs to a tenancy whitelist.", request.getRequestURI());
+      log.info(
+          "Skipping tenant filter for request: {} as it belongs to a tenancy whitelist.",
+          request.getRequestURI());
       filterChain.doFilter(request, response);
     }
   }
