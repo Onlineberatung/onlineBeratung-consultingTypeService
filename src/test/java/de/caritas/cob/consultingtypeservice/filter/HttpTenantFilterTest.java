@@ -16,23 +16,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class HttpTenantFilterTest {
 
-  @InjectMocks
-  HttpTenantFilter httpTenantFilter;
+  @InjectMocks HttpTenantFilter httpTenantFilter;
 
-  @Mock
-  private TenantResolver tenantResolver;
+  @Mock private TenantResolver tenantResolver;
 
-  @Mock
-  HttpServletRequest request;
+  @Mock HttpServletRequest request;
 
-  @Mock
-  HttpServletResponse response;
+  @Mock HttpServletResponse response;
 
-  @Mock
-  FilterChain filterChain;
+  @Mock FilterChain filterChain;
 
   @Test
-  void doFilterInternal_Should_NotApply_When_RequestBelongsToTenancyWhiteList() throws ServletException, IOException {
+  void doFilterInternal_Should_NotApply_When_RequestBelongsToTenancyWhiteList()
+      throws ServletException, IOException {
     // given
     Mockito.when(request.getRequestURI()).thenReturn("/actuator/health/liveness");
 
@@ -44,7 +40,8 @@ class HttpTenantFilterTest {
   }
 
   @Test
-  void doFilterInternal_Should_Apply_When_DoesNotBelongBelongsToTenancyWhiteList() throws ServletException, IOException {
+  void doFilterInternal_Should_Apply_When_DoesNotBelongBelongsToTenancyWhiteList()
+      throws ServletException, IOException {
 
     // given
     Mockito.when(request.getRequestURI()).thenReturn("/consultingtypes/1");
@@ -55,8 +52,4 @@ class HttpTenantFilterTest {
     // then
     Mockito.verify(tenantResolver).resolve();
   }
-
-
-
-
 }

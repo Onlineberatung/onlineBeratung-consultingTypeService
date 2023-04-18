@@ -2,7 +2,6 @@ package de.caritas.cob.consultingtypeservice.filter;
 
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantResolver;
-import de.caritas.cob.consultingtypeservice.config.SpringFoxConfig;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,11 +24,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 public class HttpTenantFilter extends OncePerRequestFilter {
 
-  private static final String[] TENANCY_FILTER_WHITELIST = new String[] { "/actuator/health",
-      "/actuator/health/**", "/swagger-ui.html"};
+  private static final String[] TENANCY_FILTER_WHITELIST =
+      new String[] {"/actuator/health", "/actuator/health/**", "/swagger-ui.html"};
   private final TenantResolver tenantResolver;
 
-  private final DefaultRequiresTenantFilterMatcher requiresTenantFilterMatcher = new DefaultRequiresTenantFilterMatcher();
+  private final DefaultRequiresTenantFilterMatcher requiresTenantFilterMatcher =
+      new DefaultRequiresTenantFilterMatcher();
 
   @Override
   protected void doFilterInternal(
