@@ -40,10 +40,6 @@
       "Lorem ipsum"
     ]
   },
-  "monitoring": {
-    "initializeMonitoring": true,
-    "monitoringTemplateFile": "consultingtype0.json"
-  },
   "initializeFeedbackChat": false,
   "isPeerChat": false,
   "languageFormal": true,

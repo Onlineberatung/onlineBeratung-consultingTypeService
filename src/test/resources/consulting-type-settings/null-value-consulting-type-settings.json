@@ -29,10 +29,6 @@
     "isGroupChat": false,
     "groupChatRules": null
   },
-  "monitoring": {
-    "initializeMonitoring": false,
-    "monitoringTemplateFile": null
-  },
   "initializeFeedbackChat": false,
   "isPeerChat": false,
   "languageFormal": true,
