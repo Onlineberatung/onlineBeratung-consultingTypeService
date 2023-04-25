@@ -72,6 +72,9 @@ components:
         useTenantService:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
+        useConsultingTypesForAgencies:
+          allOf:
+            - $ref: '#/components/schemas/FeatureToggleDTO'
         enableWalkthrough:
           allOf:
             - $ref: '#/components/schemas/FeatureToggleDTO'
