@@ -24,6 +24,8 @@ public class ApplicationSettingsConverter {
             .disableVideoAppointments(
                 toFeatureToggleDTO(applicationSettings.getDisableVideoAppointments()))
             .useTenantService(toFeatureToggleDTO(applicationSettings.getUseTenantService()))
+            .useConsultingTypesForAgencies(
+                toFeatureToggleDTO(applicationSettings.getUseConsultingTypesForAgencies()))
             .mainTenantSubdomainForSingleDomainMultitenancy(
                 toSettingDTO(
                     applicationSettings.getMainTenantSubdomainForSingleDomainMultitenancy()))

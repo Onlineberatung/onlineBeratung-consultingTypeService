@@ -15,6 +15,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.LegalContentChangesByS
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
+import de.caritas.cob.consultingtypeservice.schemas.model.UseConsultingTypesForAgencies;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseOverviewPage;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseTenantService;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ class ApplicationSettingsConverterTest {
     assertThat(applicationSettingsDTO.getMultitenancyEnabled()).isNull();
     assertThat(applicationSettingsDTO.getEnableWalkthrough()).isNull();
     assertThat(applicationSettingsDTO.getUseTenantService()).isNull();
+    assertThat(applicationSettingsDTO.getUseConsultingTypesForAgencies()).isNull();
     assertThat(applicationSettingsDTO.getBudibaseAuthClientId()).isNull();
     assertThat(applicationSettingsDTO.getCalcomUrl()).isNull();
     assertThat(applicationSettingsDTO.getUseOverviewPage()).isNull();
@@ -57,6 +59,8 @@ class ApplicationSettingsConverterTest {
         .isTrue();
     assertThat(applicationSettingsDTO.getUseTenantService().getValue()).isTrue();
     assertThat(applicationSettingsDTO.getUseTenantService().getReadOnly()).isFalse();
+    assertThat(applicationSettingsDTO.getUseConsultingTypesForAgencies().getValue()).isFalse();
+    assertThat(applicationSettingsDTO.getUseConsultingTypesForAgencies().getReadOnly()).isFalse();
     assertThat(applicationSettingsDTO.getEnableWalkthrough().getValue()).isTrue();
     assertThat(applicationSettingsDTO.getEnableWalkthrough().getReadOnly()).isFalse();
     assertThat(applicationSettingsDTO.getDisableVideoAppointments().getValue()).isTrue();
@@ -94,6 +98,8 @@ class ApplicationSettingsConverterTest {
         new MultitenancyWithSingleDomainEnabled().withReadOnly(true).withValue(true));
     settings.setMultitenancyEnabled(new MultitenancyEnabled().withReadOnly(true).withValue(true));
     settings.setUseTenantService(new UseTenantService().withReadOnly(false).withValue(true));
+    settings.setUseConsultingTypesForAgencies(
+        new UseConsultingTypesForAgencies().withReadOnly(false).withValue(false));
     settings.setEnableWalkthrough(new EnableWalkthrough().withReadOnly(false).withValue(true));
     settings.setDisableVideoAppointments(
         new DisableVideoAppointments().withReadOnly(false).withValue(true));

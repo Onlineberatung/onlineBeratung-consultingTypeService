@@ -13,6 +13,7 @@ import de.caritas.cob.consultingtypeservice.schemas.model.LegalContentChangesByS
 import de.caritas.cob.consultingtypeservice.schemas.model.MainTenantSubdomainForSingleDomainMultitenancy;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyEnabled;
 import de.caritas.cob.consultingtypeservice.schemas.model.MultitenancyWithSingleDomainEnabled;
+import de.caritas.cob.consultingtypeservice.schemas.model.UseConsultingTypesForAgencies;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseOverviewPage;
 import de.caritas.cob.consultingtypeservice.schemas.model.UseTenantService;
 import javax.annotation.PostConstruct;
@@ -52,6 +53,8 @@ public class DefaultApplicationSettingsInitializer {
     entity.setDisableVideoAppointments(
         new DisableVideoAppointments().withValue(true).withReadOnly(false));
     entity.setEnableWalkthrough(new EnableWalkthrough().withValue(false).withReadOnly(false));
+    entity.setUseConsultingTypesForAgencies(
+        new UseConsultingTypesForAgencies().withValue(false).withReadOnly(false));
     entity.setUseTenantService(
         new UseTenantService()
             .withValue(multitenancyWithSingleDomainEnabled || multitenancy)
