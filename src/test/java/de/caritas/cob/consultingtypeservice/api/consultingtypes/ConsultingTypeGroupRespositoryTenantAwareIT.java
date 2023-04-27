@@ -54,12 +54,12 @@ public class ConsultingTypeGroupRespositoryTenantAwareIT {
     final int CONSULTING_TYPE_ID_1 = 11;
     final int CONSULTING_TYPE_ID_2 = 12;
     assertThat(result.get(GROUP_2)).hasSize(1);
-    assertThat(result.get(GROUP_3)).hasSize(2);
+    assertThat(result.get(GROUP_3)).hasSize(1);
     assertThat(result).containsKey(GROUP_2);
     assertThat(result).containsKey(GROUP_3);
     assertThat(result.get(GROUP_2).get(0).getId()).isEqualTo(CONSULTING_TYPE_ID_1);
     assertThat(result.get(GROUP_3))
-        .extracting(group -> group.getId())
-        .contains(CONSULTING_TYPE_ID_1, CONSULTING_TYPE_ID_2);
+        .extracting(ConsultingType::getId)
+        .contains(CONSULTING_TYPE_ID_1);
   }
 }

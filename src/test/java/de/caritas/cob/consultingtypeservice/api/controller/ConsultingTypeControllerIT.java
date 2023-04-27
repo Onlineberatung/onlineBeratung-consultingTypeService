@@ -260,7 +260,7 @@ public class ConsultingTypeControllerIT {
       throws Exception {
     // given
     ConsultingTypeDTO consultingTypeDTO =
-        new EasyRandom().nextObject(ConsultingTypeDTO.class).voluntaryComponents(null).roles(null);
+        new EasyRandom().nextObject(ConsultingTypeDTO.class).roles(null);
 
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     // when

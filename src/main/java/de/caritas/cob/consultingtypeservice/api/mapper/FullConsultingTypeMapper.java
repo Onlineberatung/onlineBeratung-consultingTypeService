@@ -10,7 +10,7 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
    * Mapper for {@link ConsultingType} to {@link FullConsultingTypeResponseDTO}.
    *
    * @param consultingType the {@link ConsultingType}
-   * @return a instance of an {@link FullConsultingTypeResponseDTO}
+   * @return an instance of an {@link FullConsultingTypeResponseDTO}
    */
   public static FullConsultingTypeResponseDTO mapConsultingType(ConsultingType consultingType) {
     return new FullConsultingTypeResponseDTO()
@@ -40,7 +40,6 @@ public class FullConsultingTypeMapper extends ConsultingTypeMapper {
         .showAskerProfile(consultingType.getShowAskerProfile())
         .roles(mapRoles(consultingType.getRoles()))
         .notifications(mapNotifications(consultingType.getNotifications()))
-        .voluntaryComponents(consultingType.getVoluntaryComponents())
         .requiredComponents(consultingType.getRequiredComponents())
         .welcomeScreen(mapWelcomeScreen(consultingType.getWelcomeScreen()))
         .isVideoCallAllowed(consultingType.getIsVideoCallAllowed());
