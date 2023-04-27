@@ -82,7 +82,8 @@ public class ConsultingTypeLoaderTest {
         UnexpectedErrorException.class,
         () -> ReflectionUtils.invokeMethod(initMethod, consultingTypeLoader));
 
-    verify(logger, times(1)).error(Mockito.anyString(), Mockito.anyString(), Mockito.any());
+    verify(logger, times(1))
+        .error(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
   }
 
   @Test
