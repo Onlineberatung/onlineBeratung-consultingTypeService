@@ -43,7 +43,10 @@ public class ConsultingTypeLoader {
     try {
       addConsultingTypeToRepositories(new ObjectMapper().readValue(file, ConsultingType.class));
     } catch (IOException ioException) {
-      LogService.logError(ioException);
+      LogService.logError(
+          ioException,
+          "Could not deserialize to ConsultingType from consulting type configuration file: "
+              + file.getName());
       throw new UnexpectedErrorException();
     }
   }

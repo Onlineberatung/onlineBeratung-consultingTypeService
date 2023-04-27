@@ -76,8 +76,9 @@ public class LogService {
    *
    * @param message the exception to be logged to be logged
    */
-  public static void logError(String message) {
-    LOGGER.error("{}{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message);
+  public static void logError(Exception exception, String message) {
+    LOGGER.error(
+        "{}:{}:{}", MESSAGE_CONSULTING_TYPE_SERVICE_API, message, getStackTrace(exception));
   }
 
   /**
