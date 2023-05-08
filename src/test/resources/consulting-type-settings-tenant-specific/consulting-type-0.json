@@ -22,7 +22,6 @@
     "welcomeMessageText": "Lorem ipsum"
   },
   "sendFurtherStepsMessage": true,
-  "isSetEmailAllowed": false,
   "sessionDataInitializing": {
     "addictiveDrugs": true,
     "age": true,

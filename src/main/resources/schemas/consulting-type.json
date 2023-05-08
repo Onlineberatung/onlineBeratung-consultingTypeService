@@ -303,11 +303,6 @@
       "type": "boolean",
       "default": true
     },
-    "isSetEmailAllowed": {
-      "description": "Asker is allowed to set his email when he is registered for at least one consultingType with this setting 'true'",
-      "type": "boolean",
-      "default": true
-    },
     "sessionDataInitializing": {
       "description": "Settings to control which optional fields for consultation should be initialized for this consultation type.",
       "type": "object",

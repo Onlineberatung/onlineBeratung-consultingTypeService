@@ -20,7 +20,6 @@ public class BasicConsultingTypeMapper extends ConsultingTypeMapper {
         .furtherInformation(mapFurtherInformation(consultingType.getFurtherInformation()))
         .isSubsequentRegistrationAllowed(consultingType.getIsSubsequentRegistrationAllowed())
         .isAnonymousConversationAllowed(consultingType.getIsAnonymousConversationAllowed())
-        .isSetEmailAllowed(consultingType.getIsSetEmailAllowed())
         .titles(mapTitles(consultingType.getTitles()))
         .urls(mapUrls(consultingType.getUrls()))
         .registration(mapRegistration(consultingType.getRegistration()))
