@@ -1,6 +1,4 @@
-/* group */
-
-CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`group`
+CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`topic_group`
 (
     `id`          bigint(21)                           NOT NULL,
     `name`        varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -11,16 +9,14 @@ CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`group`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE SEQUENCE consultingtypeservice.sequence_group
+CREATE SEQUENCE consultingtypeservice.sequence_topic_group
     INCREMENT BY 1
     MINVALUE = 0
     NOMAXVALUE
     START WITH 0
     CACHE 0;
 
-/* group_topic */
-
-CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`group_topic`
+CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`topic_group_x_topic`
 (
     `id`          bigint(21) NOT NULL,
     `group_id`    bigint(21) NOT NULL,
@@ -29,14 +25,14 @@ CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`group_topic`
     `update_date` datetime   NOT NULL DEFAULT (UTC_TIMESTAMP),
     PRIMARY KEY (`id`),
     KEY `group_id` (`group_id`),
-    CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON UPDATE CASCADE,
+    CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `topic_group` (`id`) ON UPDATE CASCADE,
     KEY `topic_id` (`topic_id`),
     CONSTRAINT `fk_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON UPDATE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE SEQUENCE `consultingtypeservice`.`sequence_group_topic`
+CREATE SEQUENCE `consultingtypeservice`.`sequence_topic_group_x_topic`
     INCREMENT BY 1
     MINVALUE = 0
     NOMAXVALUE
