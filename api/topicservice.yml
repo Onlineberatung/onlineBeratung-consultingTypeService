@@ -6,6 +6,25 @@ info:
   version: 0.0.1
 
 paths:
+  /topic-groups:
+    get:
+      tags:
+        - topic-groups
+      summary: 'Get all topic groups'
+      operationId: getAllTopicGroups
+      responses:
+        200:
+          description: OK - successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicGroupsDTO'
+        204:
+          description: NO CONTENT - no content found
+        401:
+          description: UNAUTHORIZED - no/invalid token
+        500:
+          description: INTERNAL SERVER ERROR - server encountered unexpected condition
   /topic:
     get:
       tags:
@@ -195,6 +214,33 @@ paths:
 
 components:
   schemas:
+    TopicGroupsDTO:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                required: [ id, name, topicIds ]
+                properties:
+                  id:
+                    type: integer
+                    example: 12132
+                  name:
+                    type: string
+                    example: "Topic group name"
+                    maxLength: 100
+                  topicIds:
+                    type: array
+                    items:
+                      type: integer
     TopicDTO:
       type: object
       required:
