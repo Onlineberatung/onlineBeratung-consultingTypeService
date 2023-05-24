@@ -10,4 +10,5 @@
   <include file="db/changelog/changeset/0002_topic_internal_identifier/topic_internal_identifier_column.xml"/>
   <include
     file="db/changelog/changeset/0003_migrate_topic_to_multilingual_structure/0003-changeSet.xml"/>
+  <include file="/db/changelog/changeset/0004_topic_groups/0004-changeSet.xml"/>
 </databaseChangeLog>
