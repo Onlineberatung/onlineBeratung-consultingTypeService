@@ -18,12 +18,10 @@ CREATE SEQUENCE consultingtypeservice.sequence_topic_group
 
 CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`topic_group_x_topic`
 (
-    `id`          bigint(21) NOT NULL,
     `group_id`    bigint(21) NOT NULL,
     `topic_id`    bigint(21) NOT NULL,
     `create_date` datetime   NOT NULL DEFAULT (UTC_TIMESTAMP),
     `update_date` datetime   NOT NULL DEFAULT (UTC_TIMESTAMP),
-    PRIMARY KEY (`id`),
     KEY `group_id` (`group_id`),
     CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `topic_group` (`id`) ON UPDATE CASCADE,
     KEY `topic_id` (`topic_id`),

@@ -1,4 +1,8 @@
+DROP TABLE IF EXISTS topic_group_x_topic;
 DROP TABLE IF EXISTS `topic`;
+DROP TABLE IF EXISTS `topic_group`;
+DROP SEQUENCE IF EXISTS sequence_topic_group_x_topic;
+DROP SEQUENCE IF EXISTS sequence_topic_group;
 
 CREATE TABLE IF NOT EXISTS `topic`
 (
@@ -10,15 +14,13 @@ CREATE TABLE IF NOT EXISTS `topic`
     `create_date`         datetime     NOT NULL,
     `update_date`         datetime     NULL,
     `internal_identifier` varchar(50)  NULL,
-    PRIMARY KEY
-        (
-         `id`
-            )
+    PRIMARY KEY (`id`)
 );
 
-
 ALTER TABLE `topic`
-    ADD CONSTRAINT IF NOT EXISTS unique_name_per_tenant UNIQUE (name, tenant_id);
+    ALTER COLUMN `create_date` SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `topic`
+    ALTER COLUMN `update_date` SET DEFAULT CURRENT_TIMESTAMP;
 
 CREATE SEQUENCE IF NOT EXISTS sequence_topic
     INCREMENT BY 1
@@ -36,7 +38,6 @@ VALUES (2, '1', '{"de" : "de not an active topic", "en": "en not an active topic
 INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`)
 VALUES (3, '2', '{"de" : "de another topic"}', '{"de" : "de description"}', 'ACTIVE', '2022-06-02');
 
-DROP TABLE IF EXISTS `topic_group`;
 CREATE TABLE IF NOT EXISTS topic_group
 (
     `id`          bigint(21)   NOT NULL,
@@ -51,15 +52,10 @@ CREATE SEQUENCE sequence_topic_group
     INCREMENT BY 1
     START WITH 1;
 
-DROP TABLE IF EXISTS topic_group_x_topic;
 CREATE TABLE IF NOT EXISTS topic_group_x_topic
 (
-    id       bigint(21) NOT NULL,
     group_id bigint(21) NOT NULL,
     topic_id bigint(21) NOT NULL,
-    create_date datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_date datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
     foreign key (group_id) references topic_group (id),
     foreign key (topic_id) references topic (id)
 );

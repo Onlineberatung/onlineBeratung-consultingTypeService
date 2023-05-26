@@ -1,7 +1,8 @@
 package de.caritas.cob.consultingtypeservice.api.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,10 @@ public class TopicGroupEntity {
   @Column(name = "update_date")
   private LocalDateTime updateDate;
 
-  @OneToMany(targetEntity = TopicEntity.class, fetch = FetchType.LAZY)
-  private List<TopicEntity> topicEntities;
+  @ManyToMany
+  @JoinTable(
+      name = "topic_group_x_topic",
+      joinColumns = @JoinColumn(name = "group_id"),
+      inverseJoinColumns = @JoinColumn(name = "topic_id"))
+  private Set<TopicEntity> topicEntities = new HashSet<>();
 }

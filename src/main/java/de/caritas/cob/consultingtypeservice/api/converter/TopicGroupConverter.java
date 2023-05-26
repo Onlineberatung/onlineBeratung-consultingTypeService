@@ -5,7 +5,6 @@ import de.caritas.cob.consultingtypeservice.api.model.TopicGroupsDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicGroupsDTOData;
 import de.caritas.cob.consultingtypeservice.api.model.TopicGroupsDTODataItemsInner;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,7 @@ public class TopicGroupConverter {
 
   public TopicGroupsDTO toTopicGroupsDTO(Collection<TopicGroupEntity> topicGroups) {
     val tg = new TopicGroupsDTO();
-    List<TopicGroupsDTODataItemsInner> items =
+    val items =
         topicGroups.stream()
             .map(
                 topicGroup ->
