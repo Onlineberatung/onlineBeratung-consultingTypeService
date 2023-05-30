@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.caritas.cob.consultingtypeservice.api.model.TopicGroupEntity;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ class TopicGroupRepositoryIT {
 
   @Test
   void topicGroupRepositoryReturnsEmptyListForNoTopicGroups() {
+    // when
     val topicGroups = topicGroupRepository.findAll();
     // then
     assertThat(topicGroups).isEmpty();
@@ -32,41 +34,51 @@ class TopicGroupRepositoryIT {
 
   @Test
   void topicGroupRepositoryReturnsSomeMeaningfulData() {
+    // given
     val topics = topicRepository.findAll();
     val now = LocalDateTime.now();
-    val tg1 =
-        topicGroupRepository.saveAndFlush(
+    topicGroupRepository.saveAllAndFlush(
+        List.of(
             TopicGroupEntity.builder()
                 .name("tg1")
                 .topicEntities(Set.of(topics.get(0), topics.get(1)))
                 .createDate(now)
                 .updateDate(now)
-                .build());
-    val tg2 =
-        topicGroupRepository.saveAndFlush(
+                .build(),
             TopicGroupEntity.builder()
                 .name("tg2")
                 .topicEntities(Set.of(topics.get(2)))
                 .createDate(now)
                 .updateDate(now)
-                .build());
-    assertThat(tg1)
-        .satisfies(
-            tge -> {
-              assertThat(tge.getId()).isNotNull();
-              assertThat(tge.getName()).isEqualTo("tg1");
-              assertThat(tge.getCreateDate()).isEqualTo(now);
-              assertThat(tge.getUpdateDate()).isEqualTo(now);
-              assertThat(tge.getTopicEntities()).hasSize(2).contains(topics.get(0), topics.get(1));
-            });
-    assertThat(tg2)
-        .satisfies(
-            tge -> {
-              assertThat(tge.getId()).isNotNull();
-              assertThat(tge.getName()).isEqualTo("tg2");
-              assertThat(tge.getCreateDate()).isEqualTo(now);
-              assertThat(tge.getUpdateDate()).isEqualTo(now);
-              assertThat(tge.getTopicEntities()).hasSize(1).contains(topics.get(2));
-            });
+                .build()));
+
+    /* when */
+    val topicGroups = topicGroupRepository.findAll();
+
+    /* then */
+
+    val tg1 = getTopicGroupEntityByName(topicGroups, "tg1");
+
+    assertThat(tg1.getId()).isNotNull();
+    assertThat(tg1.getName()).isEqualTo("tg1");
+    assertThat(tg1.getCreateDate()).isEqualTo(now);
+    assertThat(tg1.getUpdateDate()).isEqualTo(now);
+    assertThat(tg1.getTopicEntities()).hasSize(2).contains(topics.get(0), topics.get(1));
+
+    val tg2 = getTopicGroupEntityByName(topicGroups, "tg2");
+
+    assertThat(tg2.getId()).isNotNull();
+    assertThat(tg2.getName()).isEqualTo("tg2");
+    assertThat(tg2.getCreateDate()).isEqualTo(now);
+    assertThat(tg2.getUpdateDate()).isEqualTo(now);
+    assertThat(tg2.getTopicEntities()).hasSize(1).contains(topics.get(2));
+  }
+
+  private static TopicGroupEntity getTopicGroupEntityByName(
+      List<TopicGroupEntity> topicGroups, String topicGroupName) {
+    return topicGroups.stream()
+        .filter(topicGroupEntity -> topicGroupEntity.getName().equals(topicGroupName))
+        .findFirst()
+        .orElseThrow();
   }
 }

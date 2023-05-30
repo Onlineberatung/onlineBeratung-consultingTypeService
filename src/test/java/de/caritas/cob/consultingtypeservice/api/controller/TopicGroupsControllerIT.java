@@ -15,6 +15,7 @@ import de.caritas.cob.consultingtypeservice.api.service.TopicGroupService;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import java.util.List;
 import java.util.Set;
+import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,34 +49,32 @@ class TopicGroupsControllerIT {
 
   @Test
   void getAllTopicGroups_Should_ReturnTopicGroupsDTO_When_UserIsAuthenticated() throws Exception {
-    /* arrange */
-    var tge1 = new TopicGroupEntity();
-    tge1.setId(1L);
-    tge1.setName("1");
-    var te1 = new TopicEntity();
-    te1.setId(1L);
-    var te2 = new TopicEntity();
-    te2.setId(2L);
-    tge1.setTopicEntities(Set.of(te1, te2));
+    /* given */
+    val tge1 =
+        TopicGroupEntity.builder()
+            .id(1L)
+            .name("1")
+            .topicEntities(
+                Set.of(TopicEntity.builder().id(1L).build(), TopicEntity.builder().id(2L).build()))
+            .build();
+    val tge2 =
+        TopicGroupEntity.builder()
+            .id(2L)
+            .name("2")
+            .topicEntities(
+                Set.of(TopicEntity.builder().id(3L).build(), TopicEntity.builder().id(4L).build()))
+            .build();
 
-    var tge2 = new TopicGroupEntity();
-    tge2.setId(2L);
-    tge2.setName("2");
-    var te3 = new TopicEntity();
-    te3.setId(3L);
-    var te4 = new TopicEntity();
-    te4.setId(4L);
-    tge2.setTopicEntities(Set.of(te3, te4));
     when(topicGroupService.getAllTopicGroups()).thenReturn(List.of(tge1, tge2));
 
     final AuthenticationMockBuilder builder = new AuthenticationMockBuilder();
-    /* act */
+    /* when */
     mockMvc
         .perform(
             get("/topic-groups")
                 .with(authentication(builder.withUserRole(UserRole.TOPIC_ADMIN.getValue()).build()))
                 .accept(MediaType.APPLICATION_JSON))
-        /* assert */
+        /* then */
         .andExpect(status().isOk())
         .andExpect(
             content()
@@ -85,10 +84,10 @@ class TopicGroupsControllerIT {
 
   @Test
   void getTopicList_Should_ReturnForbidden_When_UserIsNotAuthenticated() throws Exception {
-    /* arrange, act */
+    /* when */
     mockMvc
         .perform(get("/topic-groups").accept(MediaType.APPLICATION_JSON))
-        /* assert */
+        /* then */
         .andExpect(status().isForbidden());
   }
 }
