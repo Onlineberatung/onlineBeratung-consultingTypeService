@@ -75,6 +75,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topic/*"))
         .authenticated()
+        .requestMatchers(new AntPathRequestMatcher("/topic-groups"))
+        .authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topicadmin"))
         .authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topicadmin/*"))
