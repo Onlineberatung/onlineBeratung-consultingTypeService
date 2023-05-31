@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS topic_group_x_topic
 (
     group_id bigint(21) NOT NULL,
     topic_id bigint(21) NOT NULL,
-    foreign key (group_id) references topic_group (id),
-    foreign key (topic_id) references topic (id)
+    foreign key (group_id) references topic_group (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    foreign key (topic_id) references topic (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE SEQUENCE sequence_topic_group_x_topic

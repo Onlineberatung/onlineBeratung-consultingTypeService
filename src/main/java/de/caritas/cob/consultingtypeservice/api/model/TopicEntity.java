@@ -55,5 +55,5 @@ public class TopicEntity implements TenantAware {
   private LocalDateTime updateDate;
 
   @ManyToMany(mappedBy = "topicEntities")
-  Set<TopicGroupEntity> topicEntities;
+  Set<TopicGroupEntity> topicGroupEntities;
 }

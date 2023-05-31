@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS `consultingtypeservice`.`topic_group_x_topic`
     `create_date` datetime   NOT NULL DEFAULT (UTC_TIMESTAMP),
     `update_date` datetime   NOT NULL DEFAULT (UTC_TIMESTAMP),
     KEY `group_id` (`group_id`),
-    CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `topic_group` (`id`) ON UPDATE CASCADE,
+    CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `topic_group` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     KEY `topic_id` (`topic_id`),
-    CONSTRAINT `fk_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON UPDATE CASCADE
+    CONSTRAINT `fk_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
