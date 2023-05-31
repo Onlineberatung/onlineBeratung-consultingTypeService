@@ -2,15 +2,8 @@ package de.caritas.cob.consultingtypeservice.api.model;
 
 import de.caritas.cob.consultingtypeservice.api.repository.TenantAware;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,4 +53,7 @@ public class TopicEntity implements TenantAware {
 
   @Column(name = "update_date")
   private LocalDateTime updateDate;
+
+  @ManyToMany(mappedBy = "topicEntities")
+  Set<TopicGroupEntity> topicGroupEntities;
 }
