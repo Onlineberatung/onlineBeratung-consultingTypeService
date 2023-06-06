@@ -30,6 +30,7 @@ public class TopicGroupEntity {
   @Column(name = "update_date")
   private LocalDateTime updateDate;
 
+  @ManyToMany(targetEntity = TopicEntity.class)
   @JoinTable(
       name = "topic_group_x_topic",
       joinColumns = @JoinColumn(name = "group_id"),

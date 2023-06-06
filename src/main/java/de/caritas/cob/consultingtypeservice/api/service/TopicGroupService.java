@@ -15,7 +15,6 @@ public class TopicGroupService {
 
   private @NonNull TopicGroupRepository topicGroupRepository;
 
-  @Transactional(readOnly = true)
   public Collection<TopicGroupEntity> getAllTopicGroups() {
     return topicGroupRepository.findAll();
   }
