@@ -89,6 +89,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .permitAll()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic/*")))
         .permitAll()
+        .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topic-groups")))
+        .permitAll()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topicadmin")))
         .permitAll()
         .requestMatchers(new NegatedRequestMatcher(new AntPathRequestMatcher("/topicadmin/*")))

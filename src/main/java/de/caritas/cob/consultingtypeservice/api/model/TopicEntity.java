@@ -54,6 +54,6 @@ public class TopicEntity implements TenantAware {
   @Column(name = "update_date")
   private LocalDateTime updateDate;
 
-  @ManyToMany(mappedBy = "topicEntities")
+  @ManyToMany(mappedBy = "topicEntities", fetch = FetchType.EAGER)
   Set<TopicGroupEntity> topicGroupEntities;
 }
