@@ -4,11 +4,7 @@ import de.caritas.cob.consultingtypeservice.api.repository.TenantAware;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -54,6 +50,6 @@ public class TopicEntity implements TenantAware {
   @Column(name = "update_date")
   private LocalDateTime updateDate;
 
-  @ManyToMany(mappedBy = "topicEntities", fetch = FetchType.EAGER)
+  @ManyToMany(mappedBy = "topicEntities")
   Set<TopicGroupEntity> topicGroupEntities;
 }
