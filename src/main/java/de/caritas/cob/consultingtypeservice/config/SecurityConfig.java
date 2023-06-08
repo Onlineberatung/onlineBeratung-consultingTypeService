@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -75,8 +76,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         .authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topic/*"))
         .authenticated()
-        .requestMatchers(new AntPathRequestMatcher("/topic-groups"))
-        .authenticated()
+        .antMatchers(HttpMethod.GET, "/topic-groups")
+        .permitAll()
         .requestMatchers(new AntPathRequestMatcher("/topicadmin"))
         .authenticated()
         .requestMatchers(new AntPathRequestMatcher("/topicadmin/*"))

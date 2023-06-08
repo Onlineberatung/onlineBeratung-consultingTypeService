@@ -6,11 +6,9 @@ import java.util.Collection;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class TopicGroupService {
 
   private @NonNull TopicGroupRepository topicGroupRepository;

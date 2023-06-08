@@ -81,13 +81,4 @@ class TopicGroupsControllerIT {
                 .json(
                     "{\"data\":{\"items\":[{\"id\":1,\"name\":\"1\",\"topicIds\":[2,1]},{\"id\":2,\"name\":\"2\",\"topicIds\":[4,3]}]}}"));
   }
-
-  @Test
-  void getTopicList_Should_ReturnForbidden_When_UserIsNotAuthenticated() throws Exception {
-    /* when */
-    mockMvc
-        .perform(get("/topic-groups").accept(MediaType.APPLICATION_JSON))
-        /* then */
-        .andExpect(status().isForbidden());
-  }
 }

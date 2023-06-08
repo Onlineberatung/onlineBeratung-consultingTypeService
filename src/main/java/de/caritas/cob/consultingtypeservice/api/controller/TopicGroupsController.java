@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,6 +22,7 @@ public class TopicGroupsController implements TopicGroupsApi {
   private final @NonNull TopicGroupService topicGroupService;
 
   @Override
+  @Transactional
   public ResponseEntity<TopicGroupsDTO> getAllTopicGroups() {
     return ResponseEntity.ok(
         topicGroupConverter.toTopicGroupsDTO(topicGroupService.getAllTopicGroups()));

@@ -11,11 +11,12 @@ import org.hibernate.annotations.ParamDef;
 
 @Entity
 @Table(name = "topic")
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@Access(AccessType.FIELD)
 @FilterDef(
     name = "tenantFilter",
     parameters = {@ParamDef(name = "tenantId", type = "long")})
