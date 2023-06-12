@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `topic`
     `create_date`         datetime     NOT NULL,
     `update_date`         datetime     NULL,
     `internal_identifier` varchar(50)  NULL,
+    `fallback_agency_id`  bigint(21)   NULL,
     PRIMARY KEY (`id`)
 );
 

@@ -1,0 +1,1 @@
+ALTER TABLE consultingtypeservice.`topic` ADD fallback_agency_id bigint(21) default null;
