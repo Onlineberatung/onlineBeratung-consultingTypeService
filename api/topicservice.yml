@@ -270,6 +270,9 @@ components:
           type: string
         updateDate:
           type: string
+        fallbackAgencyId:
+          type: integer
+          format: int32
 
     TopicMultilingualDTO:
       type: object
@@ -300,6 +303,9 @@ components:
           type: string
         updateDate:
           type: string
+        fallbackAgencyId:
+          type: integer
+          format: int32
 
     Translation:
       type: object

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `topic`
     `create_date`         datetime     NOT NULL,
     `update_date`         datetime     NULL,
     `internal_identifier` varchar(50)  NULL,
+    `fallback_agency_id`  bigint(21)   NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -26,10 +27,10 @@ CREATE SEQUENCE IF NOT EXISTS sequence_topic
     INCREMENT BY 1
     START WITH 100000;
 
-INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`)
+INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`, `fallback_agency_id`)
 VALUES (1, '1', '{"de" : "de an active topic", "en": "en an active topic"}',
         '{"de" : "de description", "en": "en description"}', 'ACTIVE',
-        '2022-06-02');
+        '2022-06-02', 1);
 
 INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`)
 VALUES (2, '1', '{"de" : "de not an active topic", "en": "en not an active topic"}',

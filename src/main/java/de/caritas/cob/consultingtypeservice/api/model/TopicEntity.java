@@ -53,4 +53,7 @@ public class TopicEntity implements TenantAware {
 
   @ManyToMany(mappedBy = "topicEntities")
   Set<TopicGroupEntity> topicGroupEntities;
+
+  @Column(name = "fallback_agency_id")
+  private Integer fallbackAgencyId;
 }
