@@ -1,6 +1,7 @@
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import static de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants.PATH_GET_PUBLIC_TOPIC_LIST;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
@@ -9,13 +10,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
+import de.caritas.cob.consultingtypeservice.api.model.TopicDTO;
 import de.caritas.cob.consultingtypeservice.api.service.TenantService;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.RestrictedTenantDTO;
 import de.caritas.cob.consultingtypeservice.tenantservice.generated.web.model.Settings;
 import de.caritas.cob.consultingtypeservice.testHelper.TopicPathConstants;
+import java.util.List;
+import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,6 +47,8 @@ class TopicControllerIT {
   @Autowired private WebApplicationContext context;
 
   @MockBean TenantService tenantService;
+
+  @Autowired private ObjectMapper objectMapper;
 
   @BeforeEach
   public void setup() {
@@ -85,6 +93,34 @@ class TopicControllerIT {
         .andExpect(jsonPath("$[0].description").exists())
         .andExpect(jsonPath("$[0].status").exists())
         .andExpect(jsonPath("$[0].createDate").exists());
+  }
+
+  @Test
+  void getAllActiveTopics_Should_returnActiveTopicsListWithOrWithoutFallbackAgencyId()
+      throws Exception {
+    TenantContext.clear();
+    val result =
+        mockMvc
+            .perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    val topics =
+        objectMapper.readValue(
+            result.andReturn().getResponse().getContentAsString(),
+            new TypeReference<List<TopicDTO>>() {});
+    assertThat(
+            topics.stream()
+                .filter(t -> t.getId() == 1)
+                .findFirst()
+                .orElseThrow()
+                .getFallbackAgencyId())
+        .isEqualTo(1);
+    assertThat(
+            topics.stream()
+                .filter(t -> t.getId() == 3)
+                .findFirst()
+                .orElseThrow()
+                .getFallbackAgencyId())
+        .isNull();
   }
 
   @Test
