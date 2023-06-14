@@ -241,6 +241,13 @@ components:
                     type: array
                     items:
                       type: integer
+    FallbackAgencyId:
+      type: integer
+      format: int32
+    FallBackUrl:
+      type: string
+      format: url
+      maxLength: 200
     TopicDTO:
       type: object
       required:
@@ -271,8 +278,9 @@ components:
         updateDate:
           type: string
         fallbackAgencyId:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/FallbackAgencyId'
+        fallbackUrl:
+          $ref: '#/components/schemas/FallBackUrl'
 
     TopicMultilingualDTO:
       type: object
@@ -304,8 +312,9 @@ components:
         updateDate:
           type: string
         fallbackAgencyId:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/FallbackAgencyId'
+        fallbackUrl:
+          $ref: '#/components/schemas/FallBackUrl'
 
     Translation:
       type: object

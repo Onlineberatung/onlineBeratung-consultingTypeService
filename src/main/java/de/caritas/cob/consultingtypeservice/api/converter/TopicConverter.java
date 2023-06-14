@@ -36,6 +36,7 @@ public class TopicConverter {
             .description(getTranslatedStringFromMap(topic.getDescription(), lang))
             .status(topic.getStatus().name())
             .fallbackAgencyId(topic.getFallbackAgencyId())
+            .fallbackUrl(topic.getFallbackUrl())
             .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicDTO.setCreateDate(topic.getCreateDate().toString());
@@ -59,6 +60,7 @@ public class TopicConverter {
             .description(convertMapFromJson(topic.getDescription()))
             .status(topic.getStatus().name())
             .fallbackAgencyId(topic.getFallbackAgencyId())
+            .fallbackUrl(topic.getFallbackUrl())
             .internalIdentifier(topic.getInternalIdentifier());
     if (topic.getCreateDate() != null) {
       topicMultilingualDTO.setCreateDate(topic.getCreateDate().toString());
@@ -87,6 +89,7 @@ public class TopicConverter {
     topicEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
     topicEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     topicEntity.setFallbackAgencyId(topicDTO.getFallbackAgencyId());
+    topicEntity.setFallbackUrl(topicDTO.getFallbackUrl());
     return topicEntity;
   }
 
@@ -97,6 +100,7 @@ public class TopicConverter {
     targetEntity.setInternalIdentifier(topicDTO.getInternalIdentifier());
     targetEntity.setUpdateDate(LocalDateTime.now(ZoneOffset.UTC));
     targetEntity.setFallbackAgencyId(topicDTO.getFallbackAgencyId());
+    targetEntity.setFallbackUrl(topicDTO.getFallbackUrl());
     return targetEntity;
   }
 
