@@ -9,4 +9,5 @@
 	<include file="db/changelog/changeset/0001_initsql/initSql.xml"/>
   <include file="db/changelog/changeset/0002_topic_internal_identifier/topic_internal_identifier_column.xml"/>
   <include file="/db/changelog/changeset/0004_topic_groups/0004-changeSet.xml"/>
+  <include file="/db/changelog/changeset/0005_topic_fallback_agency_id/topic_fallback_agency_id.xml"/>
 </databaseChangeLog>
