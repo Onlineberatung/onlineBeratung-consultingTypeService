@@ -12,4 +12,5 @@
     file="db/changelog/changeset/0003_migrate_topic_to_multilingual_structure/0003-changeSet.xml"/>
   <include file="/db/changelog/changeset/0004_topic_groups/0004-changeSet.xml"/>
   <include file="/db/changelog/changeset/0005_topic_fallback_agency_id/topic_fallback_agency_id.xml"/>
+    <include file="db/changelog/changeset/0006_topic_fallback_url/topic_fallback_url.xml"/>
 </databaseChangeLog>

@@ -102,4 +102,43 @@ class TopicRepositoryIT {
       assertThat(topicRepository.findAll()).hasSize(4);
     }
   }
+
+  @Nested
+  class FallbackUrlTests {
+    @Test
+    void save_Should_saveNewTopic_withFallbackUrl() {
+      // given
+      val fallbackUrl = "https://www.caritas.de";
+      val topicEntity =
+          TopicEntity.builder()
+              .name(NEW_TOPIC_NAME)
+              .description("desc")
+              .createDate(LocalDateTime.now())
+              .fallbackUrl(fallbackUrl)
+              .build();
+      var savedTopicEntity = topicRepository.save(topicEntity);
+      // then
+      assertThat(savedTopicEntity).isNotNull();
+      val newTopic = topicRepository.findByName(NEW_TOPIC_NAME).orElseThrow();
+      assertThat(newTopic.getFallbackUrl()).isEqualTo(fallbackUrl);
+      assertThat(topicRepository.findAll()).hasSize(4);
+    }
+
+    @Test
+    void save_Should_saveNewTopic_withoutFallbackUrl() {
+      // given
+      TopicEntity topicEntity =
+          TopicEntity.builder()
+              .name(NEW_TOPIC_NAME)
+              .description("desc")
+              .createDate(LocalDateTime.now())
+              .build();
+      var savedTopicEntity = topicRepository.save(topicEntity);
+      // then
+      assertThat(savedTopicEntity).isNotNull();
+      val newTopic = topicRepository.findByName(NEW_TOPIC_NAME).orElseThrow();
+      assertThat(newTopic.getFallbackUrl()).isNull();
+      assertThat(topicRepository.findAll()).hasSize(4);
+    }
+  }
 }
