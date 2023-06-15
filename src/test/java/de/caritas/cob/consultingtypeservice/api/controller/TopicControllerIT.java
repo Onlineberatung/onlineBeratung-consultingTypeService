@@ -150,4 +150,24 @@ class TopicControllerIT {
     assertThat(topicWithoutOptionalFieldsPresent.getFallbackAgencyId()).isNull();
     assertThat(topicWithoutOptionalFieldsPresent.getFallbackUrl()).isNull();
   }
+
+  @Test
+  void getAllActiveTopics_Should_returnActiveTopicsListWithOrWithoutWelcomeMessage()
+      throws Exception {
+    TenantContext.clear();
+    val result =
+        mockMvc
+            .perform(get(PATH_GET_PUBLIC_TOPIC_LIST).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    val topics =
+        objectMapper.readValue(
+            result.andReturn().getResponse().getContentAsString(),
+            new TypeReference<List<TopicDTO>>() {});
+    val topicWithWelcomeMessage =
+        topics.stream().filter(t -> t.getId() == 1).findFirst().orElseThrow();
+    assertThat(topicWithWelcomeMessage.getWelcomeMessage()).isEqualTo("Welcome");
+    val topicWithoutWelcomeMessage =
+        topics.stream().filter(t -> t.getId() == 3).findFirst().orElseThrow();
+    assertThat(topicWithoutWelcomeMessage.getWelcomeMessage()).isNull();
+  }
 }

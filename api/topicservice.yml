@@ -244,6 +244,10 @@ components:
     FallbackAgencyId:
       type: integer
       format: int32
+    WelcomeMessage:
+      type: string
+      format: int32
+      maxLength: 200
     FallBackUrl:
       type: string
       format: url
@@ -281,6 +285,8 @@ components:
           $ref: '#/components/schemas/FallbackAgencyId'
         fallbackUrl:
           $ref: '#/components/schemas/FallBackUrl'
+        welcomeMessage:
+          $ref: '#/components/schemas/WelcomeMessage'
 
     TopicMultilingualDTO:
       type: object
@@ -315,6 +321,8 @@ components:
           $ref: '#/components/schemas/FallbackAgencyId'
         fallbackUrl:
           $ref: '#/components/schemas/FallBackUrl'
+        welcomeMessage:
+          $ref: '#/components/schemas/WelcomeMessage'
 
     Translation:
       type: object
