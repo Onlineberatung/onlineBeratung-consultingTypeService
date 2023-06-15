@@ -59,4 +59,7 @@ public class TopicEntity implements TenantAware {
 
   @Column(name = "fallback_url")
   private String fallbackUrl;
+
+  @Column(name = "welcome_message")
+  private String welcomeMessage;
 }
