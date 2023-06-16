@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `topic`
     `fallback_agency_id`  bigint(21)   NULL,
     `fallback_url`  varchar(200)   NULL,
     `welcome_message`  varchar(200)   NULL,
+    `send_next_step_message`  boolean DEFAULT FALSE,
     PRIMARY KEY (`id`)
 );
 
@@ -29,10 +30,10 @@ CREATE SEQUENCE IF NOT EXISTS sequence_topic
     INCREMENT BY 1
     START WITH 100000;
 
-INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`, `fallback_agency_id`, `fallback_url`, `welcome_message`)
+INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`, `fallback_agency_id`, `fallback_url`, `welcome_message`, `send_next_step_message`)
 VALUES (1, '1', '{"de" : "de an active topic", "en": "en an active topic"}',
         '{"de" : "de description", "en": "en description"}', 'ACTIVE',
-        '2022-06-02', 1, 'https://www.google.com', 'Welcome');
+        '2022-06-02', 1, 'https://www.google.com', 'Welcome', TRUE);
 
 INSERT INTO TOPIC (`id`, `tenant_id`, `name`, `description`, `status`, `create_date`)
 VALUES (2, '1', '{"de" : "de not an active topic", "en": "en not an active topic"}',

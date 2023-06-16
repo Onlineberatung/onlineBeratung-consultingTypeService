@@ -11,4 +11,5 @@
   <include file="/db/changelog/changeset/0004_topic_groups/0004-changeSet.xml"/>
   <include file="/db/changelog/changeset/0005_topic_fallback_agency_id/topic_fallback_agency_id.xml"/>
   <include file="db/changelog/changeset/0007_topic_welcome_message/topic_welcome_message.xml"/>
+  <include file="db/changelog/changeset/0008_topic_send_next_step_message/topic_send_next_step_message.xml"/>
 </databaseChangeLog>

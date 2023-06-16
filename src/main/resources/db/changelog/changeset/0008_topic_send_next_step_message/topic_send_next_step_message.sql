@@ -1,0 +1,1 @@
+ALTER TABLE consultingtypeservice.`topic` ADD send_next_step_message BOOLEAN not null default false;
