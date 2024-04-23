@@ -114,8 +114,8 @@ public class ConsultingTypeMongoTenantAwareRepositoryService
         || isConsultingTypeWithGivenSlugPresent(consultingType)) {
       LogService.logWarning(
           String.format(
-              "Could not add consulting type. id %s or slug %s is not unique",
-              consultingType.getId(), consultingType.getSlug()));
+              "Could not add consulting type. id %s or slug %s for tenant %s is not unique",
+              consultingType.getId(), consultingType.getSlug(), consultingType.getTenantId()));
       return Optional.empty();
     } else {
       final ConsultingTypeEntity consultingTypeEntity = new ConsultingTypeEntity();

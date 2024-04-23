@@ -1,5 +1,6 @@
 package de.caritas.cob.consultingtypeservice.api;
 
+import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.ConflictException;
 import de.caritas.cob.consultingtypeservice.api.service.LogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,13 @@ public class ApiDefaultResponseEntityExceptionHandler {
       final RuntimeException ex, final WebRequest request) {
     LogService.logInternalServerError(ex);
     return new ResponseEntity<>(EMPTY_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler({ConflictException.class})
+  public ResponseEntity<Object> handleInternal(
+      final ConflictException ex, final WebRequest request) {
+    LogService.logInternalServerError(ex);
+    return new ResponseEntity<>(EMPTY_HEADERS, HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler({AccessDeniedException.class})

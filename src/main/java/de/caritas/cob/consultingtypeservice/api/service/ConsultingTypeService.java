@@ -4,7 +4,7 @@ import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
 import de.caritas.cob.consultingtypeservice.api.auth.Authority.AuthorityValue;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeRepositoryService;
-import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.InternalServerErrorException;
+import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.ConflictException;
 import de.caritas.cob.consultingtypeservice.api.mapper.BasicConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ConsultingTypeMapper;
 import de.caritas.cob.consultingtypeservice.api.mapper.ExtendedConsultingTypeMapper;
@@ -127,9 +127,10 @@ public class ConsultingTypeService {
       return ConsultingTypeMapper.mapConsultingType(
           createdConsultingType.get(), FullConsultingTypeMapper::mapConsultingType);
     } else {
-      throw new InternalServerErrorException(
+      throw new ConflictException(
           String.format(
-              "Could not create a new consulting type with slug %s", consultingTypeDTO.getSlug()));
+              "Could not create a new consulting type with slug %s for tenant id %s",
+              consultingTypeDTO.getSlug(), consultingType.getTenantId()));
     }
   }
 

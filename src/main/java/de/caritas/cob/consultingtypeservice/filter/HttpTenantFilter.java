@@ -44,7 +44,7 @@ public class HttpTenantFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
       TenantContext.clear();
     } else {
-      log.info(
+      log.debug(
           "Skipping tenant filter for request: {} as it belongs to a tenancy whitelist.",
           request.getRequestURI());
       filterChain.doFilter(request, response);
