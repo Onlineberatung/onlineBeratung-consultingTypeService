@@ -16,18 +16,18 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.14</version>
+    <version>3.0.6</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <!-- force at least version 2.16 due to https://logging.apache.org/log4j/2.x/security.html -->
 
-    <log4j.version>2.16.0</log4j.version>
-    <openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
+    <log4j.version>2.19.0</log4j.version>
+    <openapi.generator.maven.version>6.2.1</openapi.generator.maven.version>
     <jackson-databind-nullable.version>0.2.3</jackson-databind-nullable.version>
     <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
     <springfox-bean-validators.version>3.0.0</springfox-bean-validators.version>
@@ -36,23 +36,27 @@
     <keycloak-spring-security-adapter.version>16.0.0</keycloak-spring-security-adapter.version>
     <keycloak-spring-boot-starter.version>16.0.0</keycloak-spring-boot-starter.version>
     <keycloak-admin-client.version>16.0.0</keycloak-admin-client.version>
-    <powermock-module-junit4.version>2.0.2</powermock-module-junit4.version>
-    <powermock-api-mockito2.version>2.0.2</powermock-api-mockito2.version>
     <easy-random-core.version>4.3.0</easy-random-core.version>
     <org.everit.json.schema.version>1.12.2</org.everit.json.schema.version>
     <json.version>20201115</json.version>
     <json-unit.version>2.25.0</json-unit.version>
     <json-unit-spring.version>2.25.0</json-unit-spring.version>
     <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-    <liquibase-maven-plugin.version>4.1.1</liquibase-maven-plugin.version>
+    <liquibase-maven-plugin.version>4.23.2</liquibase-maven-plugin.version>
     <owasp-java-html-sanitizer.version>20211018.2</owasp-java-html-sanitizer.version>
-    <liquibase-core.version>4.9.1</liquibase-core.version>
-    <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
-    <spring-security-test.version>5.5.7</spring-security-test.version>
-    <spring-boot-starter-data-mongodb.version>2.7.5</spring-boot-starter-data-mongodb.version>
-    <spring-boot-starter.version>2.5.14</spring-boot-starter.version>
+    <liquibase-core.version>4.23.2</liquibase-core.version>
+    <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+    <spring-security.version>6.0.5</spring-security.version>
+    <spring-security-test.version>6.0.5</spring-security-test.version>
+    <spring-boot-starter-data-mongodb.version>3.0.6</spring-boot-starter-data-mongodb.version>
+    <spring-boot-starter.version>3.0.6</spring-boot-starter.version>
     <spring-data-mongodb.version>3.3.5</spring-data-mongodb.version>
     <ehcache.version>2.10.9.2</ehcache.version>
+    <swagger-annotations.version>2.2.15</swagger-annotations.version>
+    <springdoc-openapi-starter-webmvc-ui.version>2.4.0</springdoc-openapi-starter-webmvc-ui.version>
+    <handlebars.version>4.3.1</handlebars.version>
+    <openapi-generator-maven-plugin.version>6.2.1</openapi-generator-maven-plugin.version>
+    <de.flapdoodle.embed.mongo.version>4.12.6</de.flapdoodle.embed.mongo.version>
   </properties>
 
   <dependencies>
@@ -81,6 +85,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
@@ -116,20 +124,18 @@
       <version>${jackson-databind-nullable.version}</version>
     </dependency>
     <!-- SpringFox: generate YAML file from POJOs and generate documentation -->
+
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>${springfox-swagger2.version}</version>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations.version}</version>
     </dependency>
+    <!-- SpringFox: generate YAML file from POJOs and generate documentation -->
+
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-bean-validators</artifactId>
-      <version>${springfox-bean-validators.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>${springfox-swagger-ui.version}</version>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
     </dependency>
 
     <!-- Lombok dependencies -->
@@ -149,7 +155,7 @@
     <dependency>
       <groupId>com.github.jknack</groupId>
       <artifactId>handlebars</artifactId>
-      <version>4.3.1</version>
+      <version>${handlebars.version}</version>
     </dependency>
 
     <!-- Keycloak dependencies -->
@@ -202,21 +208,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <artifactId>powermock-module-junit4</artifactId>
-      <groupId>org.powermock</groupId>
-      <scope>test</scope>
-      <version>${powermock-module-junit4.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>powermock-api-mockito2</artifactId>
-      <groupId>org.powermock</groupId>
-      <scope>test</scope>
-      <version>${powermock-api-mockito2.version}</version>
-    </dependency>
-    <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <version>${de.flapdoodle.embed.mongo.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
     </dependency>
 
     <!-- EasyRandom -->
@@ -397,6 +397,7 @@
               <configOptions>
                 <interfaceOnly>true</interfaceOnly>
                 <sourceFolder>/</sourceFolder>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/api/consultingtypeservice.yml</inputSpec>
               <generatorName>spring</generatorName>
@@ -421,6 +422,7 @@
               <configOptions>
                 <interfaceOnly>true</interfaceOnly>
                 <sourceFolder>/</sourceFolder>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
               <generatorName>spring</generatorName>
@@ -445,6 +447,7 @@
               <configOptions>
                 <interfaceOnly>true</interfaceOnly>
                 <sourceFolder>/</sourceFolder>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/api/topicservice.yml</inputSpec>
               <generatorName>spring</generatorName>
@@ -464,6 +467,7 @@
               <configOptions>
                 <interfaceOnly>true</interfaceOnly>
                 <sourceFolder>/</sourceFolder>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/api/applicationsettingsservice.yml</inputSpec>
               <generatorName>spring</generatorName>
@@ -482,6 +486,7 @@
             </goals>
             <configuration>
               <configOptions>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/api/consultingtypeadminservice.yml</inputSpec>
               <generatorName>markdown</generatorName>
@@ -504,6 +509,7 @@
                 <sourceFolder>/</sourceFolder>
                 <library>resttemplate</library>
                 <dateLibrary>java8</dateLibrary>
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <inputSpec>${project.basedir}/services/tenantservice.yaml</inputSpec>
               <generatorName>java</generatorName>

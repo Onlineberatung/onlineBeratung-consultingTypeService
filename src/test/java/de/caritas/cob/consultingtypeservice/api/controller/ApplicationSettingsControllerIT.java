@@ -19,7 +19,7 @@ import de.caritas.cob.consultingtypeservice.api.repository.ApplicationSettingsRe
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
 import de.caritas.cob.consultingtypeservice.api.util.JsonConverter;
 import java.util.Map;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Maps;
 import org.assertj.core.util.Sets;

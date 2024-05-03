@@ -1,19 +1,19 @@
 package de.caritas.cob.consultingtypeservice.filter;
 
+import static de.caritas.cob.consultingtypeservice.config.SecurityConfig.WHITE_LIST;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-import de.caritas.cob.consultingtypeservice.config.SpringFoxConfig;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -73,7 +73,7 @@ public class StatelessCsrfFilter extends OncePerRequestFilter {
     public boolean matches(HttpServletRequest request) {
 
       // Allow specific whitelist items to disable CSRF protection for Swagger UI documentation
-      List<String> csrfWhitelist = new ArrayList<>(Arrays.asList(SpringFoxConfig.WHITE_LIST));
+      List<String> csrfWhitelist = new ArrayList<>(Arrays.asList(WHITE_LIST));
       csrfWhitelist.add("/topic");
       if (csrfWhitelist.parallelStream()
           .anyMatch(request.getRequestURI().toLowerCase()::contains)) {

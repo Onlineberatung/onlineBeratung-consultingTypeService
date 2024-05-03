@@ -5,6 +5,7 @@ import static java.util.Collections.emptyList;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,15 +32,22 @@ public enum Authority {
           AuthorityValue.GET_TOPICS_TRANSLATION_BY_ID));
 
   private final UserRole userRole;
-  private final List<String> grantedAuthorities;
+  private final List<String> authorities;
 
   public static List<String> getAuthoritiesByUserRole(UserRole userRole) {
     Optional<Authority> authorityByUserRole =
         Stream.of(values()).filter(authority -> authority.userRole.equals(userRole)).findFirst();
 
     return authorityByUserRole.isPresent()
-        ? authorityByUserRole.get().getGrantedAuthorities()
+        ? authorityByUserRole.get().getAuthorities()
         : emptyList();
+  }
+
+  public static Authority fromRoleName(String roleName) {
+    return Stream.of(values())
+        .filter(authority -> authority.userRole.name().equals(roleName))
+        .findFirst()
+        .orElse(null);
   }
 
   public static class AuthorityValue {

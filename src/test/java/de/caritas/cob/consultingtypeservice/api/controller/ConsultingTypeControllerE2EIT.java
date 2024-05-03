@@ -29,7 +29,7 @@ import de.caritas.cob.consultingtypeservice.api.model.FullConsultingTypeResponse
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.Arrays;
 import java.util.HashSet;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
 import org.keycloak.admin.client.Keycloak;
