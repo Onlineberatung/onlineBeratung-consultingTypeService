@@ -4,13 +4,10 @@ import de.caritas.cob.consultingtypeservice.api.auth.RoleAuthorizationAuthorityM
 import de.caritas.cob.consultingtypeservice.filter.HttpTenantFilter;
 import de.caritas.cob.consultingtypeservice.filter.StatelessCsrfFilter;
 import javax.annotation.Nullable;
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,6 +26,20 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+
+  public static final String[] WHITE_LIST =
+      new String[] {
+        "/consultingtypes/docs",
+        "/consultingtypes/docs/**",
+        "/v2/api-docs",
+        "/configuration/ui",
+        "/swagger-resources/**",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",
+        "/actuator/health",
+        "/actuator/health/**"
+      };
 
   @Value("${csrf.cookie.property}")
   private String csrfCookieProperty;
@@ -111,11 +122,6 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       httpSecurity = httpSecurity.addFilterAfter(this.tenantFilter, StatelessCsrfFilter.class);
     }
     return httpSecurity;
-  }
-
-  @Bean
-  public KeycloakConfigResolver keycloakConfigResolver() {
-    return new KeycloakSpringBootConfigResolver();
   }
 
   @Override

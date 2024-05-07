@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import de.caritas.cob.consultingtypeservice.api.auth.RoleAuthorizationAuthorityMapper;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
 import de.caritas.cob.consultingtypeservice.api.exception.httpresponses.NotFoundException;
@@ -36,14 +37,21 @@ import org.jeasy.random.EasyRandom;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.keycloak.adapters.AdapterDeploymentContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.client.LinkDiscoverers;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ConsultingTypeController.class)
@@ -56,8 +64,23 @@ public class ConsultingTypeControllerIT {
   @MockBean private ConsultingTypeGroupService consultingTypeGroupService;
   @MockBean private LinkDiscoverers linkDiscoverers;
   @MockBean private TenantResolver tenantResolver;
+
+  @MockBean private RoleAuthorizationAuthorityMapper roleAuthorizationAuthorityMapper;
+
+  @MockBean
+  private AdapterDeploymentContext adapterDeploymentContext;
+
   private final ConsultingTypeConverter consultingTypeConverter = new ConsultingTypeConverter();
 
+
+  @Container
+  static MongoDBContainer mongoDBContainer =
+      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  @DynamicPropertySource
+  static void setProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+  }
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()
       throws Exception {

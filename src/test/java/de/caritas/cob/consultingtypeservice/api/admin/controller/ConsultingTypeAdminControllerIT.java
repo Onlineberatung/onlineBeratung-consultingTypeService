@@ -12,24 +12,38 @@ import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeMo
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.PaginationLinks;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
-public class ConsultingTypeAdminControllerIT {
+@Testcontainers
+class ConsultingTypeAdminControllerIT {
 
+
+  @Container
+  static MongoDBContainer mongoDBContainer =
+      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  @DynamicPropertySource
+  static void setProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+  }
   @Autowired private ConsultingTypeAdminService consultingTypeAdminService;
 
   @Autowired private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
 
   @Test
-  public void findConsultingTypes_Should_returnOneResult_When_perPageIsSetToOneAndPageIsSetToOne() {
+  void findConsultingTypes_Should_returnOneResult_When_perPageIsSetToOneAndPageIsSetToOne() {
 
     List<ExtendedConsultingTypeResponseDTO> consultingTypes =
         this.consultingTypeAdminService.findConsultingTypes(1, 1).getEmbedded();
@@ -38,7 +52,7 @@ public class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  public void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreZero() {
+  void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreZero() {
     List<ExtendedConsultingTypeResponseDTO> consultingTypes =
         this.consultingTypeAdminService.findConsultingTypes(0, 0).getEmbedded();
 
@@ -46,7 +60,7 @@ public class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  public void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreNegative() {
+  void findConsultingTypes_Should_returnOneResult_When_paginationParamsAreNegative() {
     List<ExtendedConsultingTypeResponseDTO> consultingTypes =
         this.consultingTypeAdminService.findConsultingTypes(-100, -1000).getEmbedded();
 
@@ -54,7 +68,7 @@ public class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  public void
+  void
       findConsultingTypes_Should_returnPaginatedEntities_When_paginationParamsAreSplitted() {
     List<ExtendedConsultingTypeResponseDTO> firstPage =
         this.consultingTypeAdminService.findConsultingTypes(0, 2).getEmbedded();
@@ -66,7 +80,7 @@ public class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  public void findConsultingTypes_Should_haveExpectedLinks_When_AllParamsAreProvided() {
+  void findConsultingTypes_Should_haveExpectedLinks_When_AllParamsAreProvided() {
     PaginationLinks paginationLinks =
         this.consultingTypeAdminService.findConsultingTypes(1, 2).getLinks();
 
@@ -82,7 +96,7 @@ public class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  public void
+  void
       findConsultingTypes_Should_returnAllConsultingTypes_When_ProvidedWithMaxPerPagesParam() {
     List<ExtendedConsultingTypeResponseDTO> page =
         this.consultingTypeAdminService.findConsultingTypes(0, Integer.MAX_VALUE).getEmbedded();

@@ -10,26 +10,39 @@ import de.caritas.cob.consultingtypeservice.api.model.ConsultingTypeEntity;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.io.IOException;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@DataMongoTest()
-@ContextConfiguration(classes = ConsultingTypeServiceApplication.class)
-@TestPropertySource(properties = "spring.profiles.active=testing")
-@TestPropertySource(properties = "multitenancy.enabled=true")
-@TestPropertySource(
-    properties =
-        "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
-public class ConsultingTypeMongoRespositoryIT {
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+
+@TestPropertySource("classpath:application-testing.properties")
+@SpringBootTest(
+    classes = ConsultingTypeServiceApplication.class,
+    webEnvironment = WebEnvironment.RANDOM_PORT)
+@Testcontainers
+class ConsultingTypeMongoRepositoryIT {
+
+
+  @Container
+  static MongoDBContainer mongoDBContainer =
+      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  @DynamicPropertySource
+  static void setProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+  }
 
   private final String MONGO_COLLECTION_NAME = "consulting_types";
 
@@ -37,7 +50,9 @@ public class ConsultingTypeMongoRespositoryIT {
 
   @Autowired MongoTemplate mongoTemplate;
 
-  @Before
+
+
+  @BeforeEach
   public void initializeMongoDbWithData() throws IOException {
     mongoTemplate.dropCollection(MONGO_COLLECTION_NAME);
     insertJsonFromFilename("consulting-type-0.json");
@@ -56,7 +71,7 @@ public class ConsultingTypeMongoRespositoryIT {
   }
 
   @Test
-  public void findByConsultingTypeId_Should_ReturnCorrectConsultingType() {
+  void findByConsultingTypeId_Should_ReturnCorrectConsultingType() {
     // given
     Integer consultingTypeId = 10;
     String slug = "consultingtype10";
@@ -70,7 +85,7 @@ public class ConsultingTypeMongoRespositoryIT {
   }
 
   @Test
-  public void findBySlug_Should_ReturnCorrectConsultingTyp() {
+  void findBySlug_Should_ReturnCorrectConsultingType() {
     // given
     Integer consultingTypeId = 10;
     String slug = "consultingtype10";
@@ -84,7 +99,7 @@ public class ConsultingTypeMongoRespositoryIT {
   }
 
   @Test
-  public void findAll_Should_ReturnAllConsultingTypes() {
+  void findAll_Should_ReturnAllConsultingTypes() {
     // when
     List<ConsultingTypeEntity> result = consultingTypeRepository.findAll();
     // then

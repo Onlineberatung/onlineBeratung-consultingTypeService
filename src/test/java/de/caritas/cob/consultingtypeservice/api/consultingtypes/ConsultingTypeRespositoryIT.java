@@ -2,27 +2,45 @@ package de.caritas.cob.consultingtypeservice.api.consultingtypes;
 
 import static org.junit.Assert.assertEquals;
 
+import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.schemas.model.ConsultingType;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = "spring.profiles.active=testing")
-public class ConsultingTypeRespositoryIT {
+@TestPropertySource("classpath:application-testing.properties")
+@SpringBootTest(
+    classes = ConsultingTypeServiceApplication.class,
+    webEnvironment = WebEnvironment.RANDOM_PORT)
+@Testcontainers
+class ConsultingTypeRespositoryIT {
 
   @Autowired private ConsultingTypeLoader consultingTypeLoader;
   @Autowired private ConsultingTypeRepositoryService consultingTypeRepositoryService;
 
+  @Container
+  static MongoDBContainer mongoDBContainer =
+      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
+
+  @DynamicPropertySource
+  static void setProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+  }
+
   @Test
-  public void getConsultingTypeById_Should_ReturnCorrectConsultingType() {
+  void getConsultingTypeById_Should_ReturnCorrectConsultingType() {
 
     Integer consultingTypeId = 0;
     String slug = "consultingtype0";
@@ -32,7 +50,7 @@ public class ConsultingTypeRespositoryIT {
   }
 
   @Test
-  public void getConsultingTypeBySlug_Should_ReturnCorrectConsultingType() {
+  void getConsultingTypeBySlug_Should_ReturnCorrectConsultingType() {
 
     Integer consultingTypeId = 0;
     String slug = "consultingtype0";
@@ -42,7 +60,7 @@ public class ConsultingTypeRespositoryIT {
   }
 
   @Test
-  public void getListOfConsultingTypes_Should_ReturnCompleteListOfConsultingTypes() {
+  void getListOfConsultingTypes_Should_ReturnCompleteListOfConsultingTypes() {
 
     List<ConsultingType> result = consultingTypeRepositoryService.getListOfConsultingTypes();
     assertEquals(5, result.size());

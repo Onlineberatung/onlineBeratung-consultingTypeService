@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -62,6 +64,11 @@ public class KeycloakConfig {
     }
 
     return authenticatedUser;
+  }
+
+  @Bean
+  public KeycloakConfigResolver keycloakConfigResolver() {
+    return new KeycloakSpringBootConfigResolver();
   }
 
   @URL private String authServerUrl;
