@@ -18,7 +18,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource("classpath:application-testing.properties")
 @SpringBootTest(

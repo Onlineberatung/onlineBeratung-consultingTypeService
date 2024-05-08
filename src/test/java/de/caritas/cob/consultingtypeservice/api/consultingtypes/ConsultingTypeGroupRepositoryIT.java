@@ -37,6 +37,7 @@ class ConsultingTypeGroupRepositoryIT {
   static void setProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
+
   @Autowired private ConsultingTypeLoader consultingTypeLoader;
 
   @Autowired private ConsultingTypeGroupRepository consultingTypeGroupRepository;

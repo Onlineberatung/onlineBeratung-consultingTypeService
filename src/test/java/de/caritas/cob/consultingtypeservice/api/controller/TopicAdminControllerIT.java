@@ -61,9 +61,10 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 @Testcontainers
-@Sql(scripts = "classpath:database/TopicDatabase.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(
+    scripts = "classpath:database/TopicDatabase.sql",
+    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class TopicAdminControllerIT {
-
 
   @Container
   static MongoDBContainer mongoDBContainer =
@@ -73,6 +74,7 @@ class TopicAdminControllerIT {
   static void setProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
+
   private MockMvc mockMvc;
 
   @Autowired private WebApplicationContext context;

@@ -50,7 +50,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @RunWith(SpringRunner.class)
@@ -67,11 +66,9 @@ public class ConsultingTypeControllerIT {
 
   @MockBean private RoleAuthorizationAuthorityMapper roleAuthorizationAuthorityMapper;
 
-  @MockBean
-  private AdapterDeploymentContext adapterDeploymentContext;
+  @MockBean private AdapterDeploymentContext adapterDeploymentContext;
 
   private final ConsultingTypeConverter consultingTypeConverter = new ConsultingTypeConverter();
-
 
   @Container
   static MongoDBContainer mongoDBContainer =
@@ -81,6 +78,7 @@ public class ConsultingTypeControllerIT {
   static void setProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
+
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()
       throws Exception {

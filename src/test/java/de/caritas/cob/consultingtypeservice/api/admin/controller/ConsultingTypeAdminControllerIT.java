@@ -12,7 +12,6 @@ import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeMo
 import de.caritas.cob.consultingtypeservice.api.model.ExtendedConsultingTypeResponseDTO;
 import de.caritas.cob.consultingtypeservice.api.model.PaginationLinks;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +28,6 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 class ConsultingTypeAdminControllerIT {
 
-
   @Container
   static MongoDBContainer mongoDBContainer =
       new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
@@ -38,6 +36,7 @@ class ConsultingTypeAdminControllerIT {
   static void setProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
+
   @Autowired private ConsultingTypeAdminService consultingTypeAdminService;
 
   @Autowired private ConsultingTypeMongoRepositoryService consultingTypeMongoRepositoryService;
@@ -68,8 +67,7 @@ class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  void
-      findConsultingTypes_Should_returnPaginatedEntities_When_paginationParamsAreSplitted() {
+  void findConsultingTypes_Should_returnPaginatedEntities_When_paginationParamsAreSplitted() {
     List<ExtendedConsultingTypeResponseDTO> firstPage =
         this.consultingTypeAdminService.findConsultingTypes(0, 2).getEmbedded();
     List<ExtendedConsultingTypeResponseDTO> secondPage =
@@ -96,8 +94,7 @@ class ConsultingTypeAdminControllerIT {
   }
 
   @Test
-  void
-      findConsultingTypes_Should_returnAllConsultingTypes_When_ProvidedWithMaxPerPagesParam() {
+  void findConsultingTypes_Should_returnAllConsultingTypes_When_ProvidedWithMaxPerPagesParam() {
     List<ExtendedConsultingTypeResponseDTO> page =
         this.consultingTypeAdminService.findConsultingTypes(0, Integer.MAX_VALUE).getEmbedded();
 

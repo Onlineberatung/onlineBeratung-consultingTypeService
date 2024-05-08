@@ -47,9 +47,10 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource("classpath:application-testing.properties")
 @Testcontainers
-@Sql(scripts = "classpath:database/TopicDatabase.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(
+    scripts = "classpath:database/TopicDatabase.sql",
+    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class TopicControllerIT {
-
 
   @Container
   static MongoDBContainer mongoDBContainer =
@@ -59,6 +60,7 @@ class TopicControllerIT {
   static void setProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
   }
+
   private MockMvc mockMvc;
 
   @Autowired private WebApplicationContext context;

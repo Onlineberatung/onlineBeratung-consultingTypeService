@@ -20,7 +20,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "multitenancy.enabled=true")
@@ -28,9 +27,10 @@ import org.testcontainers.utility.DockerImageName;
     properties =
         "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
 @Testcontainers
-@Sql(scripts = "classpath:database/TopicDatabase.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(
+    scripts = "classpath:database/TopicDatabase.sql",
+    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class TopicServiceTenantAwareIT {
-
 
   @Container
   static MongoDBContainer mongoDBContainer =

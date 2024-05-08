@@ -20,12 +20,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
-
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-
 
 @TestPropertySource("classpath:application-testing.properties")
 @SpringBootTest(
@@ -33,7 +31,6 @@ import org.testcontainers.utility.DockerImageName;
     webEnvironment = WebEnvironment.RANDOM_PORT)
 @Testcontainers
 class ConsultingTypeMongoRepositoryIT {
-
 
   @Container
   static MongoDBContainer mongoDBContainer =
@@ -49,8 +46,6 @@ class ConsultingTypeMongoRepositoryIT {
   @Autowired private ConsultingTypeRepository consultingTypeRepository;
 
   @Autowired MongoTemplate mongoTemplate;
-
-
 
   @BeforeEach
   public void initializeMongoDbWithData() throws IOException {

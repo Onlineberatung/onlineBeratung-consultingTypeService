@@ -30,7 +30,6 @@ import org.testcontainers.utility.DockerImageName;
 @TestPropertySource(
     properties =
         "consulting.types.json.path=src/test/resources/consulting-type-settings-tenant-specific")
-
 @TestPropertySource("classpath:application-testing.properties")
 @SpringBootTest(
     classes = ConsultingTypeServiceApplication.class,
