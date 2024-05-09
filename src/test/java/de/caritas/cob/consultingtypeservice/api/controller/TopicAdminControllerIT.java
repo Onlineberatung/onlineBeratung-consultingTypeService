@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
@@ -60,20 +61,12 @@ import org.testcontainers.utility.DockerImageName;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
-@Testcontainers
 @Sql(
     scripts = "classpath:database/TopicDatabase.sql",
     executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-class TopicAdminControllerIT {
+class TopicAdminControllerIT extends AbstractIntegrationTest {
 
-  @Container
-  static MongoDBContainer mongoDBContainer =
-      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
 
-  @DynamicPropertySource
-  static void setProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-  }
 
   private MockMvc mockMvc;
 

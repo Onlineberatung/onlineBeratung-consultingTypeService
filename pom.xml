@@ -182,7 +182,7 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>mongodb</artifactId>
-      <version>1.19.7</version>
+      <version>1.18.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -563,7 +563,7 @@
         <artifactId>maven-surefire-plugin
         </artifactId> <!-- surefire plugin version managed by Spring Boot -->
         <configuration>
-          <skipTests>true</skipTests>
+          <skipTests>false</skipTests>
         </configuration>
         <executions>
           <execution>
@@ -588,7 +588,7 @@
             <configuration>
               <skipTests>false</skipTests>
               <includes>
-                <include>**/*IT.*</include>
+                <include>**/*IT.java</include>
               </includes>
             </configuration>
           </execution>

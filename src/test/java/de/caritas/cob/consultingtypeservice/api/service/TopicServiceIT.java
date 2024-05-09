@@ -3,19 +3,15 @@ package de.caritas.cob.consultingtypeservice.api.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.model.TopicEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
@@ -23,18 +19,9 @@ import org.testcontainers.utility.DockerImageName;
 @Sql(
     scripts = "classpath:database/TopicDatabase.sql",
     executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-class TopicServiceIT {
+class TopicServiceIT extends AbstractIntegrationTest {
 
   @Autowired TopicService topicService;
-
-  @Container
-  static MongoDBContainer mongoDBContainer =
-      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
-
-  @DynamicPropertySource
-  static void setProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-  }
 
   @Test
   void getAllTopics_Should_returnAllTopics() {

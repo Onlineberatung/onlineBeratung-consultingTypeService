@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +32,8 @@ import org.testcontainers.utility.DockerImageName;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @AutoConfigureMockMvc(addFilters = false)
 @Testcontainers
-class ActuatorControllerIT {
+class ActuatorControllerIT extends AbstractIntegrationTest {
 
-  @Container
-  static MongoDBContainer mongoDBContainer =
-      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
-
-  @DynamicPropertySource
-  static void setProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-  }
 
   @Autowired private WebApplicationContext context;
 

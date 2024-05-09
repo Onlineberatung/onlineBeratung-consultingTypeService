@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.auth.AuthenticatedUser;
 import de.caritas.cob.consultingtypeservice.api.auth.Authority.AuthorityValue;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
@@ -42,15 +43,22 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(classes = ConsultingTypeServiceApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("testing")
 @AutoConfigureTestDatabase
-class ConsultingTypeControllerE2EIT {
+@Testcontainers
+class ConsultingTypeControllerE2EIT extends AbstractIntegrationTest {
 
   private static final EasyRandom easyRandom = new EasyRandom();
   private static final String CSRF_HEADER = "csrfHeader";

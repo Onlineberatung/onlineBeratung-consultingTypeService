@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.service.TenantService;
 import de.caritas.cob.consultingtypeservice.api.tenant.TenantContext;
@@ -46,11 +47,10 @@ import org.testcontainers.utility.DockerImageName;
 @TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource("classpath:application-testing.properties")
-@Testcontainers
 @Sql(
     scripts = "classpath:database/TopicDatabase.sql",
     executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-class TopicControllerIT {
+class TopicControllerIT extends AbstractIntegrationTest {
 
   @Container
   static MongoDBContainer mongoDBContainer =

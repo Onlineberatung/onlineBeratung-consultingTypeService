@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsEntity;
 import de.caritas.cob.consultingtypeservice.api.model.ApplicationSettingsPatchDTO;
@@ -46,7 +47,7 @@ import org.springframework.web.context.WebApplicationContext;
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
 @AutoConfigureMockMvc(addFilters = false)
-class ApplicationSettingsControllerIT {
+class ApplicationSettingsControllerIT extends AbstractIntegrationTest {
 
   private MockMvc mockMvc;
 

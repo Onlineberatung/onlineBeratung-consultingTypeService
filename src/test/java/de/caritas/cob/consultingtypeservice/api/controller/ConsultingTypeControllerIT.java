@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import de.caritas.cob.consultingtypeservice.api.AbstractIntegrationTest;
 import de.caritas.cob.consultingtypeservice.api.auth.RoleAuthorizationAuthorityMapper;
 import de.caritas.cob.consultingtypeservice.api.consultingtypes.ConsultingTypeConverter;
 import de.caritas.cob.consultingtypeservice.api.exception.UnexpectedErrorException;
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jeasy.random.EasyRandom;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.keycloak.adapters.AdapterDeploymentContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,7 @@ import org.testcontainers.utility.DockerImageName;
 @RunWith(SpringRunner.class)
 @WebMvcTest(ConsultingTypeController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ConsultingTypeControllerIT {
+public class ConsultingTypeControllerIT extends AbstractIntegrationTest {
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
   @Autowired private MockMvc mvc;
@@ -69,15 +71,6 @@ public class ConsultingTypeControllerIT {
   @MockBean private AdapterDeploymentContext adapterDeploymentContext;
 
   private final ConsultingTypeConverter consultingTypeConverter = new ConsultingTypeConverter();
-
-  @Container
-  static MongoDBContainer mongoDBContainer =
-      new MongoDBContainer(DockerImageName.parse("mongo:6.0"));
-
-  @DynamicPropertySource
-  static void setProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
-  }
 
   @Test
   public void getBasicConsultingTypeList_Should_ReturnNoContent_When_ServiceReturnsEmptyList()
