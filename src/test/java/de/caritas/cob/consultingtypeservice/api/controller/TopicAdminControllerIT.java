@@ -1,3 +1,4 @@
+
 package de.caritas.cob.consultingtypeservice.api.controller;
 
 import static de.caritas.cob.consultingtypeservice.api.auth.UserRole.TOPIC_ADMIN;
@@ -14,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import de.caritas.cob.consultingtypeservice.ConsultingTypeServiceApplication;
 import de.caritas.cob.consultingtypeservice.api.auth.UserRole;
 import de.caritas.cob.consultingtypeservice.api.model.TopicMultilingualDTO;
 import de.caritas.cob.consultingtypeservice.api.model.TopicStatus;
@@ -43,17 +43,32 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest(classes = ConsultingTypeServiceApplication.class)
+@SpringBootTest
 @TestPropertySource(properties = "spring.profiles.active=testing")
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
+@Testcontainers
 class TopicAdminControllerIT {
 
+  @Container
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0").withExposedPorts(27017);
+
+  @DynamicPropertySource
+  static void containersProperties(DynamicPropertyRegistry registry) {
+    mongoDBContainer.start();
+    registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+
+  }
   private MockMvc mockMvc;
 
   @Autowired private WebApplicationContext context;
@@ -65,6 +80,7 @@ class TopicAdminControllerIT {
     TenantContext.clear();
     mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     givenTopicFeatureEnabled(true);
+    System.setProperty("spring.data.mongodb.uri", mongoDBContainer.getReplicaSetUrl());
   }
 
   private void givenTopicFeatureEnabled(boolean topicFeatureEnabled) {
@@ -76,8 +92,8 @@ class TopicAdminControllerIT {
 
   @Test
   void
-      createTopic_Should_returnStatusBadRequest_When_calledWithInvalidCreateParamsButValidAuthority()
-          throws Exception {
+  createTopic_Should_returnStatusBadRequest_When_calledWithInvalidCreateParamsButValidAuthority()
+      throws Exception {
     final EasyRandom easyRandom = new EasyRandom();
     final TopicMultilingualDTO topicDTO = easyRandom.nextObject(TopicMultilingualDTO.class);
     topicDTO.setStatus("invalid status");
@@ -149,8 +165,8 @@ class TopicAdminControllerIT {
 
   @Test
   void
-      createTopic_Should_returnBadRequest_When_calledWithValidCreateParamsAndValidAuthorityButContentNotValid()
-          throws Exception {
+  createTopic_Should_returnBadRequest_When_calledWithValidCreateParamsAndValidAuthorityButContentNotValid()
+      throws Exception {
     final EasyRandom easyRandom = new EasyRandom();
     final TopicMultilingualDTO topicDTO = easyRandom.nextObject(TopicMultilingualDTO.class);
     topicDTO.setStatus("a very very long status");
