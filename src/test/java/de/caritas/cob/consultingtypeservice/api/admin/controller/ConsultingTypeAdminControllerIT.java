@@ -24,6 +24,8 @@ import org.springframework.test.context.TestPropertySource;
     classes = ConsultingTypeServiceApplication.class,
     initializers = MongoTestInitializer.class)
 @TestPropertySource(properties = "spring.profiles.active=testing")
+@TestPropertySource(properties = "feature.multitenancy.with.single.domain.enabled=true")
+@TestPropertySource(properties = "multitenancy.enabled=false")
 class ConsultingTypeAdminControllerIT {
 
   @Autowired private ConsultingTypeAdminService consultingTypeAdminService;
